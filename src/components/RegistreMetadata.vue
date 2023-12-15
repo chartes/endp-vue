@@ -6,7 +6,7 @@
           <span class="metadata-header-entry">Métadonnées</span>
           <span class="metadata-header-title">{{ metadata.title }}</span>
         </a>
-        <a href="#" class="toggle-btn" :class="{ 'is-opened': isOpened }"></a>
+        <span href="#" class="toggle-btn" :class="{ 'is-opened': isOpened }"></span>
       </div>
       <aside v-if="isOpened" class="content">
         <div class="columns is-multiline">

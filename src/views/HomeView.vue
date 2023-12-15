@@ -13,7 +13,7 @@
       <div class="container">
         <div class="columns is-flex">
           <div class="column text-center has-text-justified">
-            <p class="block lettrine">Le projet e-NDP est consacré à la publication numérique et à l'exploitation des 27 premiers registres du chapitre de l'Église de Paris, rédigés par ses notaires entre 1326 et 1504. Ces registres contiennent les décisions prises collectivement par les chanoines pour l’administration du culte, des biens, des droits, des personnes et collectivités dont le doyen et le chapitre de l'Église de Paris sont seigneurs, employeurs ou propriétaires. Ces propriétés et biens concernent le territoire du cloître, ses bâtiments et ses églises ― Notre-Dame et ses tours, Saint-Denis-du-Pas, Saint-Jean-le-Rond, Saint-Aignan ―, le parvis et l'Hôtel-Dieu, les très nombreuses maisons, terres, bois, vignes, étangs et autres possessions hors du cloître, hors de la Cité et hors de Paris.</p>
+            <p class="block lettrine justified-text">Le projet e-NDP est consacré à la publication numérique et à l'exploitation des 27 premiers registres du chapitre de l'Église de Paris, rédigés par ses notaires entre 1326 et 1504. Ces registres contiennent les décisions prises collectivement par les chanoines pour l’administration du culte, des biens, des droits, des personnes et collectivités dont le doyen et le chapitre de l'Église de Paris sont seigneurs, employeurs ou propriétaires. Ces propriétés et biens concernent le territoire du cloître, ses bâtiments et ses églises ― Notre-Dame et ses tours, Saint-Denis-du-Pas, Saint-Jean-le-Rond, Saint-Aignan ―, le parvis et l'Hôtel-Dieu, les très nombreuses maisons, terres, bois, vignes, étangs et autres possessions hors du cloître, hors de la Cité et hors de Paris.</p>
             <p class="block">Le menu <router-link to="/registres">registres</router-link> donne accès aux 14605 pages numérisées des registres et à une transcription obtenue par processus de reconnaissance de l'écriture manuscrite (« HTR » Handwritten Text Recognition). L’exploitation du contenu des registres et de la transcription par « HTR » vise à la connaissance du cloître, de sa topographie et de son bâti, de sa population, de son économie et de sa vie, des usages que l’on y fait du livre et de l’écrit.</p>
           </div>
           <div class="column">
@@ -57,17 +57,18 @@
   width: 70%
 }
 
+.lettrine:first-child::first-letter {
+  float: left; /* Alignez la lettrine à gauche du texte */
+  font-size: 100px; /* Taille de police de la lettrine */
+  color: black; /* Couleur de la lettrine */
+  padding: 10px 10px 10px 0; /* Ajustez les marges pour aligner correctement la lettrine */
+  margin-right: 5px; /* Marge à droite de la lettrine */
+  font-family: 'MedievalSharp', Times New Roman, Times, serif; /* Police de la lettrine */
+  -webkit-text-stroke: 1px #833e0e; /* Ajoutez un contour blanc à la lettrine */
+}
 
-.lettrine:first-letter {
-  border-style: solid none none solid;
-  border-color: #833e0e;
-  font-family : 'MedievalSharp', Times New Roman, Times, serif;
-  font-size : 100px;
-  color : black;
-  padding:13px 10px 10px 0;
-  margin-right:5px;
-  float : Left;
-  -webkit-text-stroke: 1px #833e0e;
+.justified-text {
+  text-align: justify;
 }
 </style>
 

@@ -1,0 +1,340 @@
+{
+  "LL105": {
+    "start": 1326,
+    "end": 1353,
+    "label": "Registre de conclusions capitulaires LL105 de Notre-Dame de Paris (1326-1353)",
+    "NoSketch_volume_parm": "LL105",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_001"
+    },
+    "params": {
+      "isEdited": true,
+      "facSimile": true
+    }
+  },
+  "LL106A": {
+    "start": 1356,
+    "end": 1361,
+    "label": "Registre de conclusions capitulaires LL106A de Notre-Dame de Paris (1356-1361)",
+    "NoSketch_volume_parm": "LL106A",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_129"
+    },
+    "params": {
+      "isEdited": false,
+      "facSimile": true
+    }
+  },
+  "LL106B": {
+    "start": 1362,
+    "end": 1365,
+    "label": "Registre de conclusions capitulaires LL106B de Notre-Dame de Paris (1362-1365)",
+    "NoSketch_volume_parm": "LL106B",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_185"
+    },
+    "params": {
+      "isEdited": false,
+      "facSimile": true
+    }
+  },
+  "LL107": {
+    "start": 1367,
+    "end": 1371,
+    "label": "Registre de conclusions capitulaires LL107 de Notre-Dame de Paris (1367-1371)",
+    "NoSketch_volume_parm": "LL107",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_213"
+    },
+    "params": {
+      "isEdited": false,
+      "facSimile": true
+    }
+  },
+  "LL108A": {
+    "start": 1392,
+    "end": 1394,
+    "label": "Registre de conclusions capitulaires LL108A de Notre-Dame de Paris (1392-1394)",
+    "NoSketch_volume_parm": "LL108A",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_259"
+    },
+    "params": {
+      "isEdited": true,
+      "facSimile": true
+    }
+  },
+  "LL108B": {
+    "start": 1397,
+    "end": 1399,
+    "label": "Registre de conclusions capitulaires LL108B de Notre-Dame de Paris (1397-1399)",
+    "NoSketch_volume_parm": "LL108B",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_289"
+    },
+    "params": {
+      "isEdited": true,
+      "facSimile": true
+    }
+  },
+  "LL109A": {
+    "start": 1399,
+    "end": 1402,
+    "label": "Registre de conclusions capitulaires LL109A de Notre-Dame de Paris (1399-1402)",
+    "NoSketch_volume_parm": "LL109A",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_313"
+    },
+    "params": {
+      "isEdited": false,
+      "facSimile": true
+    }
+  },
+  "LL109B": {
+    "start": 1402,
+    "end": 1405,
+    "label": "Registre de conclusions capitulaires LL109B de Notre-Dame de Paris (1402-1405)",
+    "NoSketch_volume_parm": "LL109B",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_346"
+    },
+    "params": {
+      "isEdited": false,
+      "facSimile": true
+    }
+  },
+  "LL109C": {
+    "start": 1405,
+    "end": 1407,
+    "label": "Registre de conclusions capitulaires LL109C de Notre-Dame de Paris (1405-1407)",
+    "NoSketch_volume_parm": "LL109C",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_391"
+    },
+    "params": {
+      "isEdited": false,
+      "facSimile": true
+    }
+  },
+  "LL110": {
+    "start": 1407,
+    "end": 1412,
+    "label": "Registre de conclusions capitulaires LL110 de Notre-Dame de Paris (1407-1412)",
+    "NoSketch_volume_parm": "LL110",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_416"
+    },
+    "params": {
+      "isEdited": false,
+      "facSimile": true
+    }
+  },
+  "LL111": {
+    "start": 1412,
+    "end": 1414,
+    "label": "Registre de conclusions capitulaires LL111 de Notre-Dame de Paris (1412-1414)",
+    "NoSketch_volume_parm": "LL111",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_473"
+    },
+    "params": {
+      "isEdited": false,
+      "facSimile": true
+    }
+  },
+  "LL112": {
+    "start": 1414,
+    "end": 1425,
+    "label": "Registre de conclusions capitulaires LL112 de Notre-Dame de Paris (1414-1425)",
+    "NoSketch_volume_parm": "LL112",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_503"
+    },
+    "params": {
+      "isEdited": false,
+      "facSimile": true
+    }
+  },
+  "LL113": {
+    "start": 1425,
+    "end": 1433,
+    "label": "Registre de conclusions capitulaires LL113 de Notre-Dame de Paris (1425-1433)",
+    "NoSketch_volume_parm": "LL113",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_633"
+    },
+    "params": {
+      "isEdited": false,
+      "facSimile": true
+    }
+  },
+  "LL114": {
+    "start": 1433,
+    "end": 1437,
+    "label": "Registre de conclusions capitulaires LL114 de Notre-Dame de Paris (1433-1437)",
+    "NoSketch_volume_parm": "LL114",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_731"
+    },
+    "params": {
+      "isEdited": false,
+      "facSimile": true
+    }
+  },
+  "LL115": {
+    "start": 1440,
+    "end": 1445,
+    "label": "Registre de conclusions capitulaires LL115 de Notre-Dame de Paris (1440-1445)",
+    "NoSketch_volume_parm": "LL115",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_788"
+    },
+    "params": {
+      "isEdited": false,
+      "facSimile": true
+    }
+  },
+  "LL116": {
+    "start": 1445,
+    "end": 1451,
+    "label": "Registre de conclusions capitulaires LL116 de Notre-Dame de Paris (1445-1451)",
+    "NoSketch_volume_parm": "LL116",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_842"
+    },
+    "params": {
+      "isEdited": false,
+      "facSimile": true
+    }
+  },
+  "LL117": {
+    "start": 1451,
+    "end": 1454,
+    "label": "Registre de conclusions capitulaires LL117 de Notre-Dame de Paris (1451-1454)",
+    "NoSketch_volume_parm": "LL117",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_914"
+    },
+    "params": {
+      "isEdited": true,
+      "facSimile": true
+    }
+  },
+  "LL118": {
+    "start": 1453,
+    "end": 1456,
+    "label": "Registre de conclusions capitulaires LL118 de Notre-Dame de Paris (1453-1456)",
+    "NoSketch_volume_parm": "LL118",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_956"
+    },
+    "params": {
+      "isEdited": false,
+      "facSimile": true
+    }
+  },
+  "LL119": {
+    "start": 1456,
+    "end": 1460,
+    "label": "Registre de conclusions capitulaires LL119 de Notre-Dame de Paris (1456-1460)",
+    "NoSketch_volume_parm": "LL119",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_998"
+    },
+    "params": {
+      "isEdited": false,
+      "facSimile": true
+    }
+  },
+  "LL120": {
+    "start": 1460,
+    "end": 1465,
+    "label": "Registre de conclusions capitulaires LL120 de Notre-Dame de Paris (1460-1465)",
+    "NoSketch_volume_parm": "LL120",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_1046"
+    },
+    "params": {
+      "isEdited": false,
+      "facSimile": true
+    }
+  },
+  "LL121": {
+    "start": 1465,
+    "end": 1475,
+    "label": "Registre de conclusions capitulaires LL121 de Notre-Dame de Paris (1465-1475)",
+    "NoSketch_volume_parm": "LL121",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_1110"
+    },
+    "params": {
+      "isEdited": false,
+      "facSimile": true
+    }
+  },
+  "LL122": {
+    "start": 1475,
+    "end": 1481,
+    "label": "Registre de conclusions capitulaires LL122 de Notre-Dame de Paris (1475-1481)",
+    "NoSketch_volume_parm": "LL122",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_1225"
+    },
+    "params": {
+      "isEdited": false,
+      "facSimile": true
+    }
+  },
+  "LL123-LL124": {
+    "start": 1481,
+    "end": 1489,
+    "label": "Registre de conclusions capitulaires LL123-LL124 de Notre-Dame de Paris (1481-1489)",
+    "NoSketch_volume_parm": "LL123_124",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_1303"
+    },
+    "params": {
+      "isEdited": false,
+      "facSimile": true
+    }
+  },
+  "LL125": {
+    "start": 1489,
+    "end": 1493,
+    "label": "Registre de conclusions capitulaires LL125 de Notre-Dame de Paris (1489-1493)",
+    "NoSketch_volume_parm": "LL125",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_1406"
+    },
+    "params": {
+      "isEdited": false,
+      "facSimile": true
+    }
+  },
+  "LL126": {
+    "start": 1493,
+    "end": 1498,
+    "label": "Registre de conclusions capitulaires LL126 de Notre-Dame de Paris (1493-1498)",
+    "NoSketch_volume_parm": "LL126",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_1454"
+    },
+    "params": {
+      "isEdited": false,
+      "facSimile": true
+    }
+  },
+  "LL127-LL128": {
+    "start": 1497,
+    "end": 1504,
+    "label": "Registre de conclusions capitulaires LL127-LL128 de Notre-Dame de Paris (1497-1504)",
+    "NoSketch_volume_parm": "LL127_128",
+    "links": {
+      "siv_url": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_1507"
+    },
+    "params": {
+      "isEdited": false,
+      "facSimile": true
+    }
+  }
+}

@@ -4,6 +4,9 @@ import RegisterView from "@/views/RegisterView.vue";
 import EditionView from "@/views/EditionView.vue";
 import PersonView from "@/views/PersonView.vue";
 import RessourcesView from "@/views/RessourcesView.vue";
+import PersonDataView from "@/views/PersonDataView.vue";
+import RangeRegisterPrototype from "@/views/RangeRegisterPrototype.vue";
+import FacSimileView from "@/views/FacSimileView.vue";
 
 const rootURL = `${process.env.VUE_APP_APP_ROOT_URL}`
 
@@ -29,6 +32,11 @@ const routes = [
     component:PersonView,
   },
   {
+    path:'/persons/person/:id',
+    name: 'person',
+    component: PersonDataView
+    },
+  {
     path: '/ressources',
     name: 'ressources',
     component: RessourcesView,
@@ -40,7 +48,17 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+  },
+  {
+    path:'/prototype-range',
+    name: 'prototype-range',
+    component: RangeRegisterPrototype,
+  },
+    {
+      path: '/facsimile/:register/:canvas',
+      name: 'facsimile',
+      component: FacSimileView,
+    },
 ]
 
 const router = createRouter({

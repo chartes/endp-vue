@@ -1,7 +1,7 @@
 <template>
   <app-nav-bar/>
   <div class="columns">
-    <div class="column is-2">
+    <div class="column-is-1">
       <app-menu-aside/>
     </div>
     <div class="column">
@@ -24,11 +24,9 @@ body,
   text-align: center;
   color: #2c3e50;
   height: 100%;
+  width: 100%;
 }
 
-#app {
-  min-height: 100%;
-}
 
 body {
   background-color: #ffffff;
