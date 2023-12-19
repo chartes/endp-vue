@@ -56,8 +56,8 @@
       <div>
         <div class="field is-horizontal">
           <div class="field-label is-normal" style="flex-grow: 0; display: flex; align-items: center;">
-            <p class="control" style="margin-right: 10px; margin-bottom: 25px">
-              <img src="path_to_your_logo.png" alt="Logo" class="image is-24x24">
+            <p class="control" style="margin-right: 10px; margin-bottom: 30px">
+              <img src="@/assets/no-sketch-engine-logo.png" alt="Logo" class="image is-24x24">
             </p>
             <label class="label" style="white-space: nowrap; margin-bottom: 30px">NoSketch Engine</label>
           </div>
@@ -302,9 +302,9 @@ export default {
   },
   methods: {
     goNoSketchResults() {
-      let cqlQuery = encodeURIComponent(`[word="${this.NoSketchTermSearch}"] within <doc date>="${this.yearRange[0]}" & date<="${this.yearRange[1]}"/>`);
+      let cqlQuery = encodeURIComponent(`[word="${this.NoSketchTermSearch}"] within <doc (date >="${this.yearRange[0]}") & (date<="${this.yearRange[1]}") />`);
       let baseNoSketchUrl = "https://nosketch-engine.lamop.fr/#concordance";
-      let queryParams = `corpname=endp&tab=advanced&queryselector=cql&attrs=word&viewmode=kwic&attr_allpos=all&refs_up=0&shorten_refs=1&glue=1&gdexcnt=300&show_gdex_scores=0&itemsPerPage=20&structs=s%2Cg&refs=%3Ddoc.id&default_attr=lemma&cql=${cqlQuery}&showresults=1&showTBL=0&tbl_template=&gdexconf=&f_tab=basic&f_showrelfrq=1&f_showperc=0&f_showreldens=0&f_showreltt=0&c_customrange=0`;
+      let queryParams = `corpname=endp&tab=advanced&queryselector=cql&attrs=word&viewmode=kwic&attr_allpos=all&refs_up=0&shorten_refs=1&glue=1&gdexcnt=300&show_gdex_scores=0&itemsPerPage=20&structs=s%2Cg&refs=%3Ddoc.id&default_attr=word&cql=${cqlQuery}&showresults=1&showTBL=0&tbl_template=&gdexconf=&f_tab=basic&f_showrelfrq=1&f_showperc=0&f_showreldens=0&f_showreltt=0&c_customrange=0`;
       window.open(`${baseNoSketchUrl}?${queryParams}`);
     },
     onYearInputChange() {

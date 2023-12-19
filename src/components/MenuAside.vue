@@ -8,9 +8,9 @@
         <router-link class="nav-link active" to="/prototype-range"><span class="icon"><i class="fa fa-book"></i></span> Registres</router-link>
         <ul class="">
           <li>
-            <router-link :to="`/facsimile/0/0`">
+            <a href="/facsimile/0/0">
               <span class="icon is-small"><i class="fa fa-list"></i></span> fac-similés
-            </router-link>
+            </a>
             <a href="#">
               <span class="icon is-small"><i class="fa fa-list"></i></span> Éditions
             </a>
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+
 export default {
   name: "AppMenuAside",
   data() {
@@ -38,6 +39,7 @@ export default {
       dbAdminPath: process.env.VUE_APP_DB_ADMIN
     };
   },
+
 }
 
 </script>
