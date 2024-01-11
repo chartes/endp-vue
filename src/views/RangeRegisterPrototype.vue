@@ -1,111 +1,91 @@
 <template>
-  <div class="container">
-    <br>
-    <br>
-    <br>
-    <div class="slider-container">
-      <p>PÉRIODE DU CONTENU</p>
-      <br>
-      <br>
-      <vue-slider
-          v-model="yearRange"
-          @change="getDateInput"
-          :min="minYear"
-          :max="maxYear"
-          :tooltip="'always'"
-          :enable-cross="false"
-          :process="true"
-          :lazy="true"
-      ></vue-slider>
-      <br>
-      <div class="input-date-description-container flex-container">
+  <!-- banner (TODO: convert to component) -->
+  <div id="banner-image" class="container is-fluid">
+    <h1 class="title">Accéder aux Registres</h1>
+  </div>
+  <!-- end banner -->
+  <div class="slider-container container">
+    <div class="columns">
+      <div class="column is-8">
+        <p>PÉRIODE DU CONTENU</p>
         <br>
-        <p>ENTRE</p>
-        <div class="control has-icons-left">
-          <div class="select">
-            <select v-model="startMonthCode" class="uppercase" id="StartMonthSelect">
-              <option v-for="month in months" :key="month.iso_code" :value="month.iso_code">
-                {{ month.name }}
-              </option>
-            </select>
-            <span class="icon is-left"><i class="fas fa-calendar-alt"></i></span>
-          </div>
-        </div>
-        <div class="control">
-          <input class="input" type="text" @change="onYearInputChange" v-model="inputStartYear">
-        </div>
-        <p>ET</p>
-        <div class="control has-icons-left">
-          <div class="select">
-            <select v-model="endMonthCode" class="uppercase" id="EndMonthSelect">>
-              <option v-for="month in months" :key="month.iso_code" :value="month.iso_code"
-                      :disabled="shouldDisableEndMonthOption(month.iso_code)">
-                {{ month.name }}
-              </option>
-            </select>
-            <span class="icon is-left"><i class="fas fa-calendar-alt"></i></span>
-          </div>
-        </div>
-        <div class="control">
-          <input class="input" type="text" @change="onYearInputChange" v-model="inputEndYear">
-        </div>
-
+        <br>
+        <vue-slider
+            class="slider-component"
+            v-model="yearRange"
+            @change="getDateInput"
+            :min="minYear"
+            :max="maxYear"
+            :tooltip="'always'"
+            :enable-cross="false"
+            :process="true"
+            :lazy="true"
+        ></vue-slider>
       </div>
+    </div>
+    <br>
+    <div class="input-date-description-container flex-container">
       <br>
-      <br>
-      <div>
-        <div class="field is-horizontal">
-          <div class="field-label is-normal" style="flex-grow: 0; display: flex; align-items: center;">
-            <p class="control" style="margin-right: 10px; margin-bottom: 30px">
-              <img src="@/assets/no-sketch-engine-logo.png" alt="Logo" class="image is-24x24">
-            </p>
-            <label class="label" style="white-space: nowrap; margin-bottom: 30px">NoSketch Engine</label>
-          </div>
-          <div class="field-body">
-            <div class="field">
-              <div class="field has-addons" style="margin-bottom: 1px;">
-                <p class="control" style="margin-right: 2px;">
-                  <input class="input" type="text" placeholder="Entrez un terme" style="width: 250px" v-model="NoSketchTermSearch">
-                </p>
-                <p class="control">
-                  <button class="button is-info" @click="goNoSketchResults">Rechercher</button>
-                </p>
-              </div>
-              <p class="help">Recherche dans le corpus du terme : <i>"{{NoSketchTermSearch}}"</i> entre {{yearRange[0]}} et {{yearRange[1]}}</p>
-            </div>
-          </div>
+      <p>ENTRE</p>
+      <div class="control has-icons-left">
+        <div class="select">
+          <select v-model="startMonthCode" class="uppercase" id="StartMonthSelect">
+            <option v-for="month in months" :key="month.iso_code" :value="month.iso_code">
+              {{ month.name }}
+            </option>
+          </select>
+          <span class="icon is-left"><i class="fas fa-calendar-alt"></i></span>
         </div>
-
-
       </div>
-      <br>
-      <br>
-      <div class="data-viz-content">
-        <div class="sidebar">
-          <!-- Section du nombre de registres -->
-          <div class="result-container">
-            <p class="resultCanvas">
-              <span class="totalFounded">{{ numberOfRegistries }}</span> registre<span v-if="isPlural">s</span>
-              disponible<span v-if="isPlural">s</span>
+      <div class="control">
+        <input class="input" type="text" @change="onYearInputChange" v-model="inputStartYear">
+      </div>
+      <p>ET</p>
+      <div class="control has-icons-left">
+        <div class="select">
+          <select v-model="endMonthCode" class="uppercase" id="EndMonthSelect">>
+            <option v-for="month in months" :key="month.iso_code" :value="month.iso_code"
+                    :disabled="shouldDisableEndMonthOption(month.iso_code)">
+              {{ month.name }}
+            </option>
+          </select>
+          <span class="icon is-left"><i class="fas fa-calendar-alt"></i></span>
+        </div>
+      </div>
+      <div class="control">
+        <input class="input" type="text" @change="onYearInputChange" v-model="inputEndYear">
+      </div>
 
-            </p>
-          </div>
-
-          <!-- Légende -->
-          <div class="legend-container">
-            <p class="legend-title">Légende</p>
-            <div class="legend-item">
-              <span class="icon book-icon"><i class="fas fa-book-open"></i></span>
-              <span class="legend-text">fac-similé intéractif</span>
+    </div>
+    <br>
+    <br>
+    <div>
+      <div class="field is-horizontal">
+        <div class="field-label is-normal" style="flex-grow: 0; display: flex; align-items: center;">
+          <p class="control" style="margin-right: 10px; margin-bottom: 30px">
+            <img src="@/assets/no-sketch-engine-logo.png" alt="Logo" class="image is-24x24">
+          </p>
+          <label class="label" style="white-space: nowrap; margin-bottom: 30px">NoSketch Engine</label>
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <div class="field has-addons" style="margin-bottom: 1px;">
+              <p class="control" style="margin-right: 2px;">
+                <input class="input" type="text" placeholder="Entrez un terme" style="width: 250px"
+                       v-model="NoSketchTermSearch">
+              </p>
+              <p class="control">
+                <button class="button is-info" @click="goNoSketchResults">Rechercher</button>
+              </p>
             </div>
-            <div class="legend-item">
-              <span class="icon book-icon"><i class="fas fa-book"></i></span>
-              <span class="legend-text">édition TEI</span>
-            </div>
+            <p class="help">Recherche dans le corpus du terme : <i>"{{ NoSketchTermSearch }}"</i> entre
+              {{ yearRange[0] }} et {{ yearRange[1] }}</p>
           </div>
         </div>
-
-        <!-- Histogramme -->
+      </div>
+    </div>
+    <div class="data-viz-content">
+      <div class="sidebar">
         <div class="histogram-container">
           <registerHistChart
               :startYearProp="yearRange[0]"
@@ -115,8 +95,35 @@
 
           ></registerHistChart>
         </div>
+        <!-- Section du nombre de registres -->
+        <div class="result-container">
+          <p class="resultCanvas">
+            <span class="totalFounded">{{ numberOfRegistries }}</span> registre<span v-if="isPlural">s</span>
+            disponible<span v-if="isPlural">s</span>
+
+          </p>
+        </div>
+
+        <!-- Légende -->
+        <div class="legend-container">
+          <p class="legend-title">Légende</p>
+          <div class="legend-item">
+            <span class="icon book-icon"><i class="fas fa-book-open"></i></span>
+            <span class="legend-text">fac-similé intéractif</span>
+          </div>
+          <div class="legend-item">
+            <span class="icon book-icon"><i class="fas fa-book"></i></span>
+            <span class="legend-text">édition TEI</span>
+          </div>
+
+        </div>
       </div>
-      <br>
+
+      <!-- Histogramme -->
+
+    </div>
+    <br>
+    <div class="container is-fluid card-navigation-container">
       <card-navigation
           class="card-navigation-container"
           v-for="(cardData, index) in updatedCardData"
@@ -134,8 +141,6 @@
           :firstCanvasID="cardData.firstPageCanvasID"
           :lastCanvasID="cardData.lastPageCanvasID"
       />
-      <br>
-      <br>
     </div>
     <br>
     <br>
@@ -145,7 +150,7 @@
 <script>
 import VueSlider from 'vue-slider-component';
 import 'vue-slider-component/theme/default.css';
-import endpData from '../data/endp_data_range.json';
+import endpData from '../data/endp_data_range_new.json';
 import endpVolumesData from '../data/endp_register_volumes.json';
 import CardNavigation from "@/components/CardNavigation.vue";
 import RegisterHistChart from "@/components/RegisterHistChart.vue";
@@ -161,7 +166,7 @@ export default {
   data() {
     return {
       yearRange: [1326, 1504],
-      NoSketchTermSearch:'',
+      NoSketchTermSearch: '',
       minYear: 1326,
       maxYear: 1504,
       startMonthCode: '01',
@@ -223,10 +228,12 @@ export default {
     filteredData() {
       const start = `${this.yearRange[0]}-${this.startMonthCode}`;
       const end = `${this.yearRange[1]}-${this.endMonthCode}`;
-      return Object.fromEntries(
-          Object.entries(this.endpData)
-              .filter(([date]) => date >= start && date <= end)
-      );
+      return Object.entries(this.endpData)
+          .filter(([date]) => date >= start && date <= end)
+          .reduce((acc, [date, entries]) => {
+            acc[date] = entries; // Ajoutez chaque tableau d'entrées au résultat
+            return acc;
+          }, {});
     },
     filteredAndGroupedData() {
       const start = `${this.yearRange[0]}-${this.startMonthCode}`;
@@ -234,10 +241,16 @@ export default {
       const filtered = Object.entries(this.endpData)
           .filter(([date]) => date >= start && date <= end);
 
-      const groupedByVolume = filtered.reduce((acc, [date, data]) => {
-        (acc[data.volume] = acc[data.volume] || []).push({date, ...data});
-        return acc;
-      }, {});
+      const groupedByVolume = {};
+      filtered.forEach(([date, dataEntries]) => {
+        dataEntries.forEach(dataEntry => {
+          const volume = dataEntry.volume;
+          if (!groupedByVolume[volume]) {
+            groupedByVolume[volume] = [];
+          }
+          groupedByVolume[volume].push({date, ...dataEntry});
+        });
+      });
 
       const result = {};
       Object.keys(groupedByVolume).forEach(volume => {
@@ -384,6 +397,45 @@ export default {
 };
 </script>
 <style>
+/* TODO: Styles banner A enlever a terme */
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
+
+#banner-image {
+  position: relative; /* Pour le positionnement absolu du titre */
+  height: 250px; /* Ajustez selon vos besoins */
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  animation: fadeImageIn 1s ease-out 0s;
+  margin-bottom: 50px;
+}
+
+
+#banner-image::before {
+  border-radius: 0px 0px 0px 10px;
+  content: "";
+  background-image: url("@/assets/banners/banner_registers_page.png");
+  background-size: cover;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 0.5;
+}
+
+.title {
+  font-family: MedievalSharp, sans-serif;
+  font-size: 3rem;
+  position: relative;
+  align-items: flex-start;
+  text-align: left;
+  color: #031531;
+  animation: fadeTitleIn 2s ease-out 0s;
+}
+
+/***********/
+
 .vue-slider-process {
   color: #8d1919 !important;
   background-color: #8d1919 !important;
@@ -415,6 +467,11 @@ export default {
 </style>
 <style scoped>
 
+.slider-component {
+  margin-right: 20px;
+}
+
+
 .data-viz-content {
   display: flex;
   flex-wrap: wrap;
@@ -434,6 +491,9 @@ export default {
 
 .card-navigation-container {
   margin-top: 10px;
+  margin-left: -90px;
+  width: 100%;
+  position: relative;
 }
 
 

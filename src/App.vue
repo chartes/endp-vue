@@ -1,15 +1,14 @@
 <template>
-  <app-nav-bar/>
+
+  <!-- main content -->
   <div class="columns">
-    <div class="column-is-1">
-      <app-menu-aside/>
+    <!-- sidebar menu -->
+    <div class="column is-2">
+      <app-menu-aside class="sidebar__menu"/>
     </div>
-    <div class="column">
-      <div class="container">
-        <div class="section">
-          <router-view/>
-        </div>
-      </div>
+    <!-- main content area -->
+    <div class="column is-full">
+      <router-view/>
     </div>
   </div>
 </template>
@@ -27,14 +26,11 @@ body,
   width: 100%;
 }
 
-
 body {
   background-color: #ffffff;
 }
 
-
 </style>
 <script setup>
-import AppNavBar from "@/components/Navbar.vue";
 import AppMenuAside from "@/components/MenuAside.vue";
 </script>

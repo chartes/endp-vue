@@ -1,21 +1,21 @@
 <template>
-  <div class='container'>
-    <br>
-    <br>
-    <div class='columns'>
-      <div class='column is-4 navfac'>
-        <fac-simile-nav @update-mirador="handleMiradorUpdate"></fac-simile-nav>
+    <div class="container">
+      <br>
+      <br>
+      <div class="header">
+        <p class="title" v-if="state">{{ capitalizeFirstLetter(state) }}</p>
+        <p v-if="imageNakalaSrc !== 'undefined'"><a target="_blank" :href="imageNakalaSrc">{{ imageNakalaSrc }}</a></p>
+        <button @click="toggleNav">Toggle Nav</button>
       </div>
-      <div class='column is-10 wrapper-mirador'>
-        <br>
-        <p class="title" v-if="state">Date : {{ state }}</p>
-        <p v-if="state">Citer l'image sur Nakala : <a target="_blank" :href="imageNakalaSrc">{{ imageNakalaSrc }}</a></p>
-        <div id='mirador'></div>
+      <div class="columns">
+        <div class='column' v-if="isNavOpen">
+          <fac-simile-nav @update-mirador="handleMiradorUpdate"></fac-simile-nav>
+        </div>
+        <div class='column' :class="{ 'is-full': !isNavOpen, 'is-8': isNavOpen }">
+          <div id='mirador'></div>
+        </div>
       </div>
     </div>
-    <div>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -24,6 +24,7 @@ import FacSimileNav from "@/components/FacSimileNav.vue";
 import textOverlayPlugin from 'mirador-textoverlay/es';
 import endpManifestMapping from '../data/endp_manifest_mapping.json';
 import mapSha1Dates from '../data/mapping_image_sha1_dates.json';
+import capitalizeFirstLetter from "@/utils/_string_formater";
 
 export default {
   name: 'FacSimileView',
@@ -37,6 +38,7 @@ export default {
       endpVolume: this.$route.params.register,
       state: "",
       canvasId: this.$route.params.canvas,
+      isNavOpen: true,
       endpVolumeManifest: function () {
         if (parseInt(this.endpVolume) === 0) {
           return `https://iiif.chartes.psl.eu/endp/collection/top`
@@ -47,6 +49,11 @@ export default {
     };
   },
   methods: {
+    capitalizeFirstLetter,
+    toggleNav(event) {
+      event.preventDefault();
+      this.isNavOpen = !this.isNavOpen;
+    },
     // create a method to resize the font of all tspan elements
     // in the text overlay on attribute font-size
     resizeTextOverlay() {
@@ -55,43 +62,43 @@ export default {
         tspan.setAttribute('font-size', '1px');
       });
     },
-    handleMiradorUpdate (canvasID, registre) {
+    handleMiradorUpdate(canvasID, registre) {
       console.log("ici", canvasID, registre)
-     this.viewer = Mirador.viewer({
-  id: 'mirador',
-       window: {
-        defaultView: 'single',
-        views: [
-          {key: 'single', behaviors: ['individuals']},
-          //{key: 'book', behaviors: ['paged']},
-        ],
-        textOverlay: {
-          enabled: true,
-          selectable: true,
-          visible: false,
-          useAutoColors: true,
+      this.viewer = Mirador.viewer({
+        id: 'mirador',
+        window: {
+          defaultView: 'single',
+          views: [
+            {key: 'single', behaviors: ['individuals']},
+            //{key: 'book', behaviors: ['paged']},
+          ],
+          textOverlay: {
+            enabled: true,
+            selectable: true,
+            visible: false,
+            useAutoColors: true,
+          },
         },
-      },
-  windows: [{
-    id: this.windowID,
-    canvasIndex: canvasID,
-    loadedManifest: `https://iiif.chartes.psl.eu/endp/${registre}/manifest`,
-  }],
-}, [...textOverlayPlugin]);
-       this.viewer.store.subscribe(() => {
-      this.windowID = Object.keys(this.viewer.store.getState().windows)[0]; // Cela prend le premier, ajustez selon vos besoins
-      let canvasIDUrl = String(this.viewer.store.getState().windows[this.windowID].canvasId);
-      /* canvas IDUrl store "https://api.nakala.fr/iiif/10.34847/nkl.c33f4e1n/Canvas/b4653c428ae208e6492c180a095f9aa8d93d4a66"
-      I want to transform it to "https://nakala.fr/10.34847/nkl.c33f4e1n#b4653c428ae208e6492c180a095f9aa8d93d4a66"
-       */
-      console.log(canvasIDUrl);
-      canvasIDUrl = canvasIDUrl.replace("https://api.nakala.fr/iiif/", "https://nakala.fr/");
-      canvasIDUrl = canvasIDUrl.replace("/Canvas/", "#");
-      this.imageNakalaSrc = canvasIDUrl;
-      const windowState = String(this.viewer.store.getState().windows[this.windowID].canvasId);
-      // get last part of the string
-      this.state = Object(mapSha1Dates[windowState.split("/")[(windowState.split("/").length - 1)]])['date_full'];
-    });
+        windows: [{
+          id: this.windowID,
+          canvasIndex: canvasID,
+          loadedManifest: `https://iiif.chartes.psl.eu/endp/${registre}/manifest`,
+        }],
+      }, [...textOverlayPlugin]);
+      this.viewer.store.subscribe(() => {
+        this.windowID = Object.keys(this.viewer.store.getState().windows)[0]; // Cela prend le premier, ajustez selon vos besoins
+        let canvasIDUrl = String(this.viewer.store.getState().windows[this.windowID].canvasId);
+        /* canvas IDUrl store "https://api.nakala.fr/iiif/10.34847/nkl.c33f4e1n/Canvas/b4653c428ae208e6492c180a095f9aa8d93d4a66"
+        I want to transform it to "https://nakala.fr/10.34847/nkl.c33f4e1n#b4653c428ae208e6492c180a095f9aa8d93d4a66"
+         */
+        console.log(canvasIDUrl);
+        canvasIDUrl = canvasIDUrl.replace("https://api.nakala.fr/iiif/", "https://nakala.fr/");
+        canvasIDUrl = canvasIDUrl.replace("/Canvas/", "#");
+        this.imageNakalaSrc = canvasIDUrl;
+        const windowState = String(this.viewer.store.getState().windows[this.windowID].canvasId);
+        // get last part of the string
+        this.state = Object(mapSha1Dates[windowState.split("/")[(windowState.split("/").length - 1)]])['date_full'];
+      });
     },
   },
   mounted() {
@@ -168,10 +175,12 @@ export default {
 }
 
 .navfac {
-  /* fixed on scroll */
-  position: sticky !important;
-  top: 0 !important;
-  margin-top: 0 !important;
+  flex: 0 0 25%; /* do not grow, do not shrink, start at 25% of the parent's width */
+}
+
+.wrapper-mirador {
+  flex: 1; /* grow to fill the remaining space */
+  height: 900px; /* or 'auto' to fill the height */
 }
 
 #mirador {
@@ -189,6 +198,34 @@ tspan {
   font-size: 1px !important;
 
   font-weight: normal !important;
+}
+
+
+.is-full {
+  width: 100%;
+}
+
+.is-8 {
+  width: 75%; /* ou la largeur que vous souhaitez pour cette colonne */
+}
+.column {
+  transition: width 0.5s;
+}
+
+.is-hidden {
+  display: none;
+}
+
+.is-3 {
+  width: 25%;
+}
+
+.is-9 {
+  width: 75%;
+}
+
+.is-12 {
+  width: 100%;
 }
 
 /*rect {

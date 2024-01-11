@@ -1,7 +1,7 @@
 <template>
-  <aside class="section is-fullheight">
-    <br>
-    <p class="menu-label is-hidden-touch">Navigation</p>
+  <!-- navbar -->
+  <AppNavBar/>
+  <aside class="menu">
     <ul class="menu-list has-text-left">
       <li>
 
@@ -31,9 +31,10 @@
 </template>
 
 <script>
-
+import AppNavBar from "@/components/Navbar.vue";
 export default {
   name: "AppMenuAside",
+  components: {AppNavBar},
   data() {
     return {
       dbAdminPath: process.env.VUE_APP_DB_ADMIN
@@ -43,10 +44,3 @@ export default {
 }
 
 </script>
-
-<style scoped>
-aside {
-  position: fixed;
-  height: 100vh;
-}
-</style>
