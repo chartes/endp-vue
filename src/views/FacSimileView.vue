@@ -1,26 +1,28 @@
 <template>
-    <div class="container">
-      <br>
-      <br>
-      <div class="header">
-        <p class="title" v-if="state">{{ capitalizeFirstLetter(state) }}</p>
-        <p v-if="imageNakalaSrc !== 'undefined'"><a target="_blank" :href="imageNakalaSrc">{{ imageNakalaSrc }}</a></p>
-        <button @click="toggleNav">Toggle Nav</button>
+  <p>{{ endpVolume }}</p>
+  <div class="container">
+    <br>
+    <br>
+    <div class="header">
+      <p class="title" v-if="state">{{ capitalizeFirstLetter(state) }}</p>
+      <p v-if="imageNakalaSrc !== 'undefined'"><a target="_blank" :href="imageNakalaSrc">{{ imageNakalaSrc }}</a></p>
+      <button @click="toggleNav">Toggle Nav</button>
+    </div>
+    <div class="columns">
+      <div class='column' v-if="isNavOpen">
+        <fac-simile-navigation @update-mirador="handleMiradorUpdate"></fac-simile-navigation>
       </div>
-      <div class="columns">
-        <div class='column' v-if="isNavOpen">
-          <fac-simile-nav @update-mirador="handleMiradorUpdate"></fac-simile-nav>
-        </div>
-        <div class='column' :class="{ 'is-full': !isNavOpen, 'is-8': isNavOpen }">
-          <div id='mirador'></div>
-        </div>
+      <div class='column' :class="{ 'is-full': !isNavOpen, 'is-8': isNavOpen }">
+        <div id='mirador'></div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import Mirador from 'mirador/dist/es/src/index';
-import FacSimileNav from "@/components/FacSimileNav.vue";
+import FacSimileNavigation from "@/components/FacSimileNavigation.vue";
 import textOverlayPlugin from 'mirador-textoverlay/es';
 import endpManifestMapping from '../data/endp_manifest_mapping.json';
 import mapSha1Dates from '../data/mapping_image_sha1_dates.json';
@@ -28,32 +30,64 @@ import capitalizeFirstLetter from "@/utils/_string_formater";
 
 export default {
   name: 'FacSimileView',
-  components: {FacSimileNav},
+  components: {FacSimileNavigation},
   data() {
     return {
       endpManifestMapping,
       viewer: null,
       windowID: null,
       imageNakalaSrc: "",
-      endpVolume: this.$route.params.register,
       state: "",
-      canvasId: this.$route.params.canvas,
       isNavOpen: true,
       endpVolumeManifest: function () {
-        if (parseInt(this.endpVolume) === 0) {
+        if (this.endpVolume === null) {
           return `https://iiif.chartes.psl.eu/endp/collection/top`
         } else {
           return `https://iiif.chartes.psl.eu/endp/${this.endpVolume}/manifest`
         }
-      }
+      },
+
     };
+  },
+  watch: {
+    endpVolume: function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        if (newVal === null) {
+          Mirador.viewer({
+            id: 'mirador',
+            window: {
+              defaultView: 'single',
+              views: [
+                {key: 'single', behaviors: ['individuals']},
+                //{key: 'book', behaviors: ['paged']},
+              ],
+              textOverlay: {
+                enabled: true,
+                selectable: true,
+                visible: false,
+                useAutoColors: true,
+              },
+            },
+            windows: [{
+              id: this.windowID,
+              canvasIndex: 0,
+              loadedManifest: `https://iiif.chartes.psl.eu/endp/collection/top`,
+            }],
+          }, [...textOverlayPlugin]);
+        }
+      }
+    },
+  },
+  computed: {
+    ...mapState(['canvasId','endpVolume']),
   },
   methods: {
     capitalizeFirstLetter,
     toggleNav(event) {
       event.preventDefault();
       this.isNavOpen = !this.isNavOpen;
-    },
+    }
+    ,
     // create a method to resize the font of all tspan elements
     // in the text overlay on attribute font-size
     resizeTextOverlay() {
@@ -61,7 +95,8 @@ export default {
       tspanElements.forEach((tspan) => {
         tspan.setAttribute('font-size', '1px');
       });
-    },
+    }
+    ,
     handleMiradorUpdate(canvasID, registre) {
       console.log("ici", canvasID, registre)
       this.viewer = Mirador.viewer({
@@ -98,9 +133,15 @@ export default {
         const windowState = String(this.viewer.store.getState().windows[this.windowID].canvasId);
         // get last part of the string
         this.state = Object(mapSha1Dates[windowState.split("/")[(windowState.split("/").length - 1)]])['date_full'];
+        this.$store.commit('setCanvasId', canvasID);
+        this.$store.commit('setEndpVolume', registre);
+        console.log(this.$store.state.canvasId);
+
       });
-    },
-  },
+    }
+    ,
+  }
+  ,
   mounted() {
     this.resizeTextOverlay();
     this.viewer = Mirador.viewer({
@@ -154,9 +195,11 @@ export default {
       // get last part of the string
       this.state = Object(mapSha1Dates[windowState.split("/")[(windowState.split("/").length - 1)]])['date_full'];
     });
-  },
+  }
+  ,
 
-};
+}
+;
 
 </script>
 
@@ -208,6 +251,7 @@ tspan {
 .is-8 {
   width: 75%; /* ou la largeur que vous souhaitez pour cette colonne */
 }
+
 .column {
   transition: width 0.5s;
 }

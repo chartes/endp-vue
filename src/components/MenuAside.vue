@@ -5,10 +5,10 @@
     <ul class="menu-list has-text-left">
       <li>
 
-        <router-link class="nav-link active" to="/prototype-range"><span class="icon"><i class="fa fa-book"></i></span> Registres</router-link>
+        <router-link class="nav-link active" to="/registres"><span class="icon"><i class="fa fa-book"></i></span> Registres</router-link>
         <ul class="">
           <li>
-            <a href="/facsimile/0/0">
+            <a @click="navigateToFacSimile">
               <span class="icon is-small"><i class="fa fa-list"></i></span> fac-similés
             </a>
             <a href="#">
@@ -39,6 +39,13 @@ export default {
     return {
       dbAdminPath: process.env.VUE_APP_DB_ADMIN
     };
+  },
+  methods: {
+    navigateToFacSimile() {
+      this.$store.commit('setCanvasId', 0);
+      this.$store.commit('setEndpVolume', null);
+      this.$router.push(`/facsimile`);
+    },
   },
 
 }

@@ -123,7 +123,7 @@
                         <p><b>Dates extrêmes d'apparition dans les registres</b> :
                           {{ person.first_mention_date ? person.first_mention_date : "Non renseigné" }} -
                           {{ person.last_mention_date ? person.last_mention_date : "Non renseigné" }}</p>
-                        <p><router-link class="button is-primary is-outlined" :to="`/persons/person/${person._id_endp}`">
+                        <p><router-link class="button is-primary is-outlined" :to="`/persons/${person._id_endp}`">
                           <span class="icon is-small">
                             <i class="fas fa-external-link-alt"></i>
                           </span>
