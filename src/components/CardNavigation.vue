@@ -27,7 +27,7 @@
         <p class="ressource-title">Accéder aux ressources</p>
         <p>Lien vers la salle de lecture virtuelle des AN : <a :href="AnSivLink" target="_blank">ici</a>
         </p>
-        <p>Lien vers facsimile : <a @click="navigateToFacSimile">ici</a></p>
+        <p>Lien vers facsimile : <router-link :to="`/facsimile/${volume}/0`" @click="navigateToFacSimile">ici</router-link></p>
       </div>
       <div>
         <table class="table-available-ressources">
@@ -41,8 +41,8 @@
           <tbody>
           <tr v-if="facSimile">
             <td><span class="icon book-icon-card"><i class="fas fa-book-open"></i></span></td>
-            <!--<td><router-link :to="`/facsimile/${volume}/${firstCanvasID}`">{{ firstPage }}</router-link></td>
-            <td><router-link :to="`/facsimile/${volume}/${lastCanvasID}`">{{ lastPage }}</router-link></td>-->
+            <td><router-link :to="`/facsimile/${volume}/${firstCanvasID}`" @click="navigateToFacSimile">{{ firstPage }}</router-link></td>
+            <td><router-link :to="`/facsimile/${volume}/${lastCanvasID}`" @click="navigateToFacSimile">{{ lastPage }}</router-link></td>
           </tr>
           <tr v-if="isEdited">
             <td><span class="icon book-icon-card"><i class="fas fa-book"></i></span></td>
@@ -82,7 +82,7 @@ export default {
     navigateToFacSimile() {
     this.$store.commit('setCanvasId', this.firstCanvasID);
     this.$store.commit('setEndpVolume', this.volume);
-    this.$router.push(`/facsimile`);
+    //this.$router.push(`/facsimile/${this.volume}/${this.firstCanvasID}`);
   },
     toggleContent() {
       this.isOpened = !this.isOpened;

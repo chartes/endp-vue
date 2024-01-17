@@ -3,7 +3,7 @@ import { createStore } from 'vuex';
 export default createStore({
   state: {
     canvasId: 0,
-    endpVolume: null,
+    endpVolume: "collection",
   },
   mutations: {
     setCanvasId(state, id) {

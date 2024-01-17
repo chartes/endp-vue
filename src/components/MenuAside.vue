@@ -42,9 +42,9 @@ export default {
   },
   methods: {
     navigateToFacSimile() {
-      this.$store.commit('setCanvasId', 0);
-      this.$store.commit('setEndpVolume', null);
-      this.$router.push(`/facsimile`);
+      this.$store.commit('setEndpVolume', "collection");
+      this.$store.commit('setCanvasId', "top");
+      this.$router.push(`/facsimile/collection/top`);
     },
   },
 

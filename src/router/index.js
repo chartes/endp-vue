@@ -35,7 +35,8 @@ const routes = [
     component: RessourcesView,
   },
     {
-      path: '/facsimile',
+      path: '/facsimile/:volumeIndex/:canvasIndex',
+      params: true,
       name: 'facsimile',
       component: FacSimileView,
     },

@@ -1,11 +1,14 @@
 <template>
-  <p>{{ endpVolume }}</p>
   <div class="container">
     <br>
     <br>
     <div class="header">
       <p class="title" v-if="state">{{ capitalizeFirstLetter(state) }}</p>
-      <p v-if="imageNakalaSrc !== 'undefined'"><a target="_blank" :href="imageNakalaSrc">{{ imageNakalaSrc }}</a></p>
+      <p v-if="endpVolume !== 'collection'">Citation url du fac simile courant : <a :href="citationUrl">{{ citationUrl }}</a></p>
+      <p v-if="endpVolume !== 'collection'"><a target="_blank" :href="imageNakalaSrc">{{ imageNakalaSrc }}</a></p>
+      <br>
+      <p style="color: red" v-if="endpVolume !== 'collection'">Le taux de reconnaissance du texte estimé pour ce fac-simile est de X%.
+(Le texte affiché peut comporter un certain nombre d'erreurs. En effet, la couche texte de ce facsimile a été généré automatiquement par un programme de reconnaissance des écritures manuscrites (HTR).)</p>
       <button @click="toggleNav">Toggle Nav</button>
     </div>
     <div class="columns">
@@ -34,13 +37,14 @@ export default {
   data() {
     return {
       endpManifestMapping,
+      citationUrl: window.location,
       viewer: null,
       windowID: null,
       imageNakalaSrc: "",
       state: "",
       isNavOpen: true,
       endpVolumeManifest: function () {
-        if (this.endpVolume === null) {
+        if (this.endpVolume === "collection" && this.canvasId === "top") {
           return `https://iiif.chartes.psl.eu/endp/collection/top`
         } else {
           return `https://iiif.chartes.psl.eu/endp/${this.endpVolume}/manifest`
@@ -50,30 +54,83 @@ export default {
     };
   },
   watch: {
+    citationUrl: function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.citationUrl = newVal;
+      }
+    },
+    canvasId: function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.updateUrlParams();
+        if (newVal === "top") {
+          this.state = "";
+          this.$store.commit('setEndpVolume', "collection");
+          this.viewer = Mirador.viewer({
+        id: 'mirador',
+        window: {
+          defaultView: 'single',
+          views: [
+            {key: 'single', behaviors: ['individuals']},
+            //{key: 'book', behaviors: ['paged']},
+          ],
+          textOverlay: {
+            enabled: true,
+            selectable: true,
+            visible: false,
+            useAutoColors: true,
+          },
+        },
+            workspaceControlPanel: {
+            enabled: false,
+          },
+            workspace: {
+            showZoomControls: true,
+            type: "mosaic", // Which workspace type to load by default. Other possible values are "elastic"
+          },
+        windows: [{
+          id: this.windowID,
+          canvasIndex: this.canvasId,
+          loadedManifest: `https://iiif.chartes.psl.eu/endp/collection/top`,
+        }],
+      }, [...textOverlayPlugin]);
+        }
+      }
+    },
     endpVolume: function (newVal, oldVal) {
       if (newVal !== oldVal) {
-        if (newVal === null) {
-          Mirador.viewer({
-            id: 'mirador',
-            window: {
-              defaultView: 'single',
-              views: [
-                {key: 'single', behaviors: ['individuals']},
-                //{key: 'book', behaviors: ['paged']},
-              ],
-              textOverlay: {
-                enabled: true,
-                selectable: true,
-                visible: false,
-                useAutoColors: true,
-              },
-            },
-            windows: [{
-              id: this.windowID,
-              canvasIndex: 0,
-              loadedManifest: `https://iiif.chartes.psl.eu/endp/collection/top`,
-            }],
-          }, [...textOverlayPlugin]);
+        this.updateUrlParams();
+        if (newVal === "collection") {
+          this.state = "";
+          this.$store.commit('setCanvasId', "top");
+          this.viewer = Mirador.viewer({
+        id: 'mirador',
+        window: {
+          sideBarOpenByDefault: false,
+          defaultView: 'single',
+          views: [
+            {key: 'single', behaviors: ['individuals']},
+            //{key: 'book', behaviors: ['paged']},
+          ],
+          textOverlay: {
+            enabled: true,
+            selectable: true,
+            visible: false,
+            useAutoColors: true,
+          },
+        },
+            workspaceControlPanel: {
+            enabled: false,
+          },
+            workspace: {
+            showZoomControls: true,
+            type: "mosaic", // Which workspace type to load by default. Other possible values are "elastic"
+          },
+        windows: [{
+          id: this.windowID,
+          canvasIndex: this.canvasId,
+          loadedManifest: `https://iiif.chartes.psl.eu/endp/collection/top`,
+        }],
+      }, [...textOverlayPlugin]);
         }
       }
     },
@@ -82,6 +139,15 @@ export default {
     ...mapState(['canvasId','endpVolume']),
   },
   methods: {
+     updateUrlParams() {
+      this.$router.push({
+        name: 'facsimile',
+        params: {
+          volumeIndex: this.endpVolume,
+          canvasIndex: this.canvasId,
+        },
+      });
+  },
     capitalizeFirstLetter,
     toggleNav(event) {
       event.preventDefault();
@@ -98,10 +164,12 @@ export default {
     }
     ,
     handleMiradorUpdate(canvasID, registre) {
+
       console.log("ici", canvasID, registre)
       this.viewer = Mirador.viewer({
         id: 'mirador',
         window: {
+          sideBarOpenByDefault: false,
           defaultView: 'single',
           views: [
             {key: 'single', behaviors: ['individuals']},
@@ -114,6 +182,13 @@ export default {
             useAutoColors: true,
           },
         },
+        workspace: {
+            showZoomControls: true,
+            type: "mosaic", // Which workspace type to load by default. Other possible values are "elastic"
+          },
+        workspaceControlPanel: {
+            enabled: false,
+          },
         windows: [{
           id: this.windowID,
           canvasIndex: canvasID,
@@ -122,20 +197,23 @@ export default {
       }, [...textOverlayPlugin]);
       this.viewer.store.subscribe(() => {
         this.windowID = Object.keys(this.viewer.store.getState().windows)[0]; // Cela prend le premier, ajustez selon vos besoins
-        let canvasIDUrl = String(this.viewer.store.getState().windows[this.windowID].canvasId);
-        /* canvas IDUrl store "https://api.nakala.fr/iiif/10.34847/nkl.c33f4e1n/Canvas/b4653c428ae208e6492c180a095f9aa8d93d4a66"
-        I want to transform it to "https://nakala.fr/10.34847/nkl.c33f4e1n#b4653c428ae208e6492c180a095f9aa8d93d4a66"
-         */
-        console.log(canvasIDUrl);
-        canvasIDUrl = canvasIDUrl.replace("https://api.nakala.fr/iiif/", "https://nakala.fr/");
-        canvasIDUrl = canvasIDUrl.replace("/Canvas/", "#");
-        this.imageNakalaSrc = canvasIDUrl;
-        const windowState = String(this.viewer.store.getState().windows[this.windowID].canvasId);
-        // get last part of the string
-        this.state = Object(mapSha1Dates[windowState.split("/")[(windowState.split("/").length - 1)]])['date_full'];
-        this.$store.commit('setCanvasId', canvasID);
-        this.$store.commit('setEndpVolume', registre);
-        console.log(this.$store.state.canvasId);
+      let canvasIDUrl = String(this.viewer.store.getState().windows[this.windowID].canvasId);
+      /* canvas IDUrl store "https://api.nakala.fr/iiif/10.34847/nkl.c33f4e1n/Canvas/b4653c428ae208e6492c180a095f9aa8d93d4a66"
+      I want to transform it to "https://nakala.fr/10.34847/nkl.c33f4e1n#b4653c428ae208e6492c180a095f9aa8d93d4a66"
+       */
+      canvasIDUrl = canvasIDUrl.replace("https://api.nakala.fr/iiif/", "https://nakala.fr/");
+      canvasIDUrl = canvasIDUrl.replace("/Canvas/", "#");
+      this.imageNakalaSrc = canvasIDUrl;
+      const windowState = String(this.viewer.store.getState().windows[this.windowID].canvasId);
+      const sha1 = windowState.split("/")[(windowState.split("/").length - 1)];
+      const canvasObject = Object(mapSha1Dates[sha1]);
+      //console.log("on change de canvas", canvasObject['canvas_index']);
+      // get last part of the string
+        this.endpVolume = registre;
+      this.canvasId = canvasObject['canvas_index'];
+      this.$store.commit('setEndpVolume', registre);
+      this.$store.commit('setCanvasId', canvasObject['canvas_index']);
+      this.state = canvasObject['date_full'];
 
       });
     }
@@ -144,6 +222,11 @@ export default {
   ,
   mounted() {
     this.resizeTextOverlay();
+    const routeParams = this.$route.params;
+    if (routeParams.volumeIndex && routeParams.canvasIndex) {
+      this.$store.commit('setCanvasId', routeParams.canvasIndex);
+      this.$store.commit('setEndpVolume', routeParams.volumeIndex);
+    }
     this.viewer = Mirador.viewer({
       id: 'mirador',
       themes: {
@@ -160,6 +243,7 @@ export default {
         },
       },
       window: {
+            sideBarOpenByDefault: false,
         defaultView: 'single',
         views: [
           {key: 'single', behaviors: ['individuals']},
@@ -187,13 +271,17 @@ export default {
       /* canvas IDUrl store "https://api.nakala.fr/iiif/10.34847/nkl.c33f4e1n/Canvas/b4653c428ae208e6492c180a095f9aa8d93d4a66"
       I want to transform it to "https://nakala.fr/10.34847/nkl.c33f4e1n#b4653c428ae208e6492c180a095f9aa8d93d4a66"
        */
-      console.log(canvasIDUrl);
       canvasIDUrl = canvasIDUrl.replace("https://api.nakala.fr/iiif/", "https://nakala.fr/");
       canvasIDUrl = canvasIDUrl.replace("/Canvas/", "#");
       this.imageNakalaSrc = canvasIDUrl;
       const windowState = String(this.viewer.store.getState().windows[this.windowID].canvasId);
+      const sha1 = windowState.split("/")[(windowState.split("/").length - 1)];
+      const canvasObject = Object(mapSha1Dates[sha1]);
+      //console.log("on change de canvas", canvasObject['canvas_index']);
       // get last part of the string
-      this.state = Object(mapSha1Dates[windowState.split("/")[(windowState.split("/").length - 1)]])['date_full'];
+      this.canvasId = canvasObject['canvas_index'];
+      this.$store.commit('setCanvasId', canvasObject['canvas_index']);
+      this.state = canvasObject['date_full'];
     });
   }
   ,
