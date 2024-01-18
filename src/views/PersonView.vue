@@ -1,6 +1,4 @@
 <template>
-  <div class="container">
-
     <div class="section section-with-image">
       <img src="@/assets/icons/medieval-priest.svg" alt="Illustration de personnes" class="illustration-1">
       <h1 class="title">Personnes</h1>
@@ -186,7 +184,6 @@
       </div>
       -->
     </div>
-  </div>
 </template>
 
 <script>

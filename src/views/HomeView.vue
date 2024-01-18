@@ -21,44 +21,8 @@
       de sa population, de son économie et de sa vie, des usages que l’on y fait du livre et de l’écrit.
     </p>
   </div>
-  <!--
-  <div class="container is-flex is-centered institution__brand__logos__container">
-    <div class="columns is-multiline is-centered">
-        <div class="column is-2">
-            <a href="https://www.chartes.psl.eu/fr" target="_blank">
-                <img class="image__partner" :src="require(`@/assets/partners_logo/enc.png`)" alt="Ecole-nationale-chartes-logo">
-            </a>
-        </div>
-        <div class="column is-2">
-            <a href="https://lamop.pantheonsorbonne.fr/laboratoire-medievistique-occidentale-paris" target="_blank">
-                <img :src="require(`@/assets/partners_logo/lamop.png`)" alt="Lamop-logo">
-            </a>
-        </div>
-        <div class="column is-2">
-            <a href="https://www.archives-nationales.culture.gouv.fr/" target="_blank">
-                <img src="{{ url_for('static', filename='images/partners-logo/an.png') }}" alt="Archives-nationales-logo">
-            </a>
-        </div>
-        <div class="column is-2">
-            <a href="https://www.bnf.fr/fr" target="_blank">
-                <img src="{{ url_for('static', filename='images/partners-logo/bnf.png') }}" alt="BNF-logo">
-            </a>
-        </div>
-        <div class="column is-2">
-            <a href="https://www.bibliotheque-mazarine.fr/fr/" target="_blank">
-                <img src="{{ url_for('static', filename='images/partners-logo/mazarine.png') }}" alt="Mazarine-logo">
-            </a>
-        </div>
-        <div class="column is-2">
-            <a href="https://anr.fr/Projet-ANR-20-CE27-0012" target="_blank">
-                <img src="{{ url_for('static', filename='images/ANR-logo-C.jpg') }}" alt="ANR-logo">
-            </a>
-        </div>
-
-    </div>
-</div>-->
-
 </template>
+
 <script>
 export default {
   name: 'HomeView',
@@ -168,7 +132,7 @@ export default {
 }
 
 </style>
-<style src="../assets/css/html.css" id="document-html-css">
+<style>
 header {
   clear: both;
   padding: 1ex;
@@ -675,4 +639,4 @@ header {
   margin-bottom: 1em !important;
 }
 </style>
-<style src="../assets/css/postprod.css"></style>
+

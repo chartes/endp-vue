@@ -1,5 +1,4 @@
 <template>
-  <div class="container">
     <br>
     <h1 class="label-person">{{ meta_person['pref_label'] }}<span v-if="meta_person['is_canon']"> ~ Chanoine </span>
     </h1>
@@ -132,7 +131,6 @@
     <br>
 
     <br>
-  </div>
 </template>
 
 <script>

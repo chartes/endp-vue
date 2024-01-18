@@ -1,0 +1,41 @@
+{
+  "themes": {
+    "dark": {
+      "overlayFont": "Chivo Mono",
+      "palette": {
+        "primary": {
+          "main": "#b00722"
+        },
+        "secondary": {
+          "main": "#52b3fc"
+        }
+      }
+    }
+  },
+  "window": {
+    "sideBarOpenByDefault": false,
+    "hideWindowTitle": true,
+    "defaultView": "single",
+    "views": [
+      {
+        "key": "single",
+        "behaviors": [
+          "individuals"
+        ]
+      }
+    ],
+    "textOverlay": {
+      "enabled": true,
+      "selectable": true,
+      "visible": false,
+      "useAutoColors": true
+    }
+  },
+  "workspaceControlPanel": {
+    "enabled": false
+  },
+  "workspace": {
+    "showZoomControls": true,
+    "type": "mosaic"
+  }
+}

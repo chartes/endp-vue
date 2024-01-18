@@ -72,7 +72,7 @@ export default {
 <style scoped>
 
 .fac-simile__toc {
-  max-height: 650px;
+  max-height: 60vh;
   overflow-y: scroll;
   padding: 0.5em;
   border: 1px solid #d4d3d1;
@@ -112,4 +112,9 @@ export default {
 .chevron.open {
   transform: rotate(0deg);
 }
+
+nav li { text-align: left; }
+
+nav header { display: block; padding: 1px 1ex; margin-bottom: 1ex; margin-top: 1ex; font-weight: bold; font-size: 120%; border: 1px #FFF solid; border-right: none; line-height: 110%; -webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0; -webkit-border-top-left-radius: 1ex; -moz-border-top-left-radius: 1ex; border-top-left-radius: 1ex; -webkit-border-bottom-left-radius: 1ex; -moz-border-bottom-left-radius: 1ex; border-bottom-left-radius: 1ex; }
+nav menu, nav ul { margin-left: 1em; padding-left: 0; }
 </style>
