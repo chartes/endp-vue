@@ -1,12 +1,14 @@
 <template>
+  <div class="box box-histogram">
     <div id="histogram"></div>
+  </div>
 </template>
 
 <script>
 import Plotly from 'plotly.js-dist';
 import endpDataRange from '@/data/endp_data_range.json';
 export default {
-  name: 'RegisterHistChart',
+  name: 'RegisterHistogramChartBox',
   props: {
     startYearProp: {
       type: Number,
@@ -93,7 +95,7 @@ export default {
       };
 
       const graph = document.getElementById('histogram');
-      Plotly.newPlot(graph, [trace], layout);
+      Plotly.newPlot(graph, [trace], layout, { responsive: true, displayModeBar: true });
       graph.on('plotly_relayout', () => {
         const xaxis = graph.layout.xaxis;
         if (xaxis.range) {
@@ -123,3 +125,11 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.box-histogram {
+  border: 0.5px solid #0a0a0a;
+  border-radius: 5px;
+  width: 100%;
+}
+</style>

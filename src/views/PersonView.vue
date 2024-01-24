@@ -1,34 +1,28 @@
 <template>
-    <div class="section section-with-image">
-      <img src="@/assets/icons/medieval-priest.svg" alt="Illustration de personnes" class="illustration-1">
-      <h1 class="title">Personnes</h1>
-      <img src="@/assets/icons/medieval-secular-1.svg" alt="Illustration de personnes" class="illustration-2">
-      <hr>
-    </div>
-    <div class="columns">
-      <div class="column">
-        <div class="column is-4">
-          <div class="field is-flex is-grouped">
-            <div class="control has-icons-left has-icons-right">
-              <input class="input" type="text" placeholder="Rechercher" v-model="query">
-              <span class="icon is-right"><i class="fas fa-search"></i> </span>
-            </div>
-
-            <div style="display: flex; align-items: center;">
-              <input id="slider" name="slider" type="range" class="slider" v-model="type" min="0" max="2">
-              <label for="slider"
-                     style="height: 40px; width: 100px; margin-left: 10px; display: inline-block; padding: 5px;"><span
-                  style="color: #444444; font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 15px">{{
-                  typeOptionsTranslated[type]
-                }}</span></label>
-              <button class="button is-danger is-outlined" :class="{'button-reset-search': !resetButton}"
-                      @click="getPersons()">
-                <span class="icon is-small"><i class="fas fa-times"></i></span>
-              </button>
-            </div>
-          </div>
+  <!-- banner -->
+  <div id="banner-image" class="container is-fluid">
+    <h1 class="title">Personnes</h1>
+  </div>
+  <!-- end banner -->
+  <div class="columns">
+    <div class="column is-3">
+      <div>
+        <div class="control">
+          <input class="input" type="text" placeholder="Rechercher" v-model="query">
+          <span class="icon"><i class="fas fa-search"></i> </span>
         </div>
-        <div class="column">
+
+        <div>
+          <input id="slider" name="slider" type="range" class="slider" v-model="type" min="0" max="2">
+          <label for="slider"
+                 style="height: 40px; width: 100px; margin-left: 10px; display: inline-block; padding: 5px;"><span
+              style="color: #444444; font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 15px">{{
+              typeOptionsTranslated[type]
+            }}</span></label>
+          <button class="button is-danger is-outlined" :class="{'button-reset-search': !resetButton}"
+                  @click="getPersons()">
+            <span class="icon is-small"><i class="fas fa-times"></i></span>
+          </button>
           <!-- Pagination control panel -->
           <div class="pagination is-rounded">
             <ul class="pagination-list">
@@ -96,94 +90,97 @@
 
           </div>
         </div>
-        <div>
-          <ul>
-            <!-- ici le spinner de chargement -->
-            <div class="loader-wrapper" :class="{'is-active': !isLoading}">
-              <div class="loader is-loading"></div>
-            </div>
-            <li v-for="person in persons" :key="person._id_endp">
-              <div class="card">
-                <header class="card-header" @click="toggleContent(person, $event)">
-                  <div class="card-header-title">
-                    <span class="canon-icon" v-if="person.is_canon"></span>
-                    <span class="secular-people-icon" v-else></span>
-                    <span style="text-align: center; flex-grow: 1; display: flex">{{ person.pref_label }}</span>
-                  </div>
-                  <a href="#" class="toggle-btn" :class="{ 'is-opened': person.isOpened }"></a>
-                </header>
-                <div class="card-content" v-if="person.isOpened">
-                  <div class="content">
-                    <div class="columns is-multiline">
-                      <div class="column is-7 block has-text-left">
-                        <p><b>Prénom(s) - <i>Nomen</i></b> : {{ person.forename_alt_labels }}</p>
-                        <p><b>Nom(s) - <i>Cognomen</i></b> : {{ person.surname_alt_labels }}</p>
-                        <p><b>Dates extrêmes d'apparition dans les registres</b> :
-                          {{ person.first_mention_date ? person.first_mention_date : "Non renseigné" }} -
-                          {{ person.last_mention_date ? person.last_mention_date : "Non renseigné" }}</p>
-                        <p><router-link class="button is-primary is-outlined" :to="`/persons/${person._id_endp}`">
+      </div>
+    </div>
+    <div class="column persons--results--column">
+      <ul>
+        <!-- ici le spinner de chargement -->
+        <div class="loader-wrapper" :class="{'is-active': !isLoading}">
+          <div class="loader is-loading"></div>
+        </div>
+        <li v-for="person in persons" :key="person._id_endp" class="li--person">
+          <div class="card">
+            <header class="card-header" @click="toggleContent(person, $event)">
+              <div class="card-header-title">
+                <span class="canon-icon" v-if="person.is_canon"></span>
+                <span class="secular-people-icon" v-else></span>
+                <span style="text-align: center; flex-grow: 1; display: flex">{{ person.pref_label }}</span>
+              </div>
+              <a href="#" class="toggle-btn" :class="{ 'is-opened': person.isOpened }"></a>
+            </header>
+            <div class="card-content" v-if="person.isOpened">
+              <div class="content">
+                <div class="columns is-multiline">
+                  <div class="column is-7 block has-text-left">
+                    <p><b>Prénom(s) - <i>Nomen</i></b> : {{ person.forename_alt_labels }}</p>
+                    <p><b>Nom(s) - <i>Cognomen</i></b> : {{ person.surname_alt_labels }}</p>
+                    <p><b>Dates extrêmes d'apparition dans les registres</b> :
+                      {{ person.first_mention_date ? person.first_mention_date : "Non renseigné" }} -
+                      {{ person.last_mention_date ? person.last_mention_date : "Non renseigné" }}</p>
+                    <p>
+                      <router-link class="button is-primary is-outlined" :to="`/persons/${person._id_endp}`">
                           <span class="icon is-small">
                             <i class="fas fa-external-link-alt"></i>
                           </span>
-                          <span>Accéder à la fiche</span>
-                        </router-link></p>
-                      </div>
-                      <div class="column is-2">
-                        <!-- a button to access the person's page -->
-
-                      </div>
-                      <!--<div class="column is-3"  v-if="person.kb_links.length > 0 ">
-                        <p class="metadata-header-title"><b>LIENS EXTERNES</b></p>
-                        <ul>
-                          <li v-for="kb_link in person.kb_links" :key="kb_link.id">
-                            <figure class="image is-48x48 level-left" v-if='kb_link.type_kb !== "Collecta"'>
-                              <a v-bind:href="kb_link.url">
-                                <img title="Studium Parisiense" :src="require('@/assets/studium-icon.png')"
-                                     alt="studium parisiense logo" v-if="kb_link.type_kb === 'Studium Parisiense'"/>
-                              </a>
-                              https://www.collecta.fr/_files/uploads/thumbs/900/COL-IMG-12392-1.jpg
-                            </figure>
-                          </li>
-                        </ul>
-                      </div>-->
-                      <section class="section">
-                        <!--<div class="container"  v-if="person.kb_links.some(link => link.type_kb === 'Collecta')">
-                          <p class="metadata-header-title"><b>MEDIA(S)</b></p>
-                          <div id="carousel-media">
-                            <div class="item-1">
-                              <img title="Studium Parisiense" src="https://www.collecta.fr/_files/uploads/thumbs/900/COL-IMG-12392-1.jpg"
-                                                       alt="studium parisiense logo">
-                            </div>
-                            <div class="item-2">
-                              <img title="Studium Parisiense" :src="require('@/assets/studium-icon.png')"
-                                                       alt="studium parisiense logo"/>
-                            </div>
-                            <div class="item-3">
-                              <img title="Studium Parisiense" :src="require('@/assets/studium-icon.png')"
-                                                       alt="studium parisiense logo"/>
-                            </div>
-                          </div>
-
-                        </div>-->
-                      </section>
-                    </div>
+                        <span>Accéder à la fiche</span>
+                      </router-link>
+                    </p>
+                  </div>
+                  <div class="column is-2">
+                    <!-- a button to access the person's page -->
 
                   </div>
+                  <!--<div class="column is-3"  v-if="person.kb_links.length > 0 ">
+                    <p class="metadata-header-title"><b>LIENS EXTERNES</b></p>
+                    <ul>
+                      <li v-for="kb_link in person.kb_links" :key="kb_link.id">
+                        <figure class="image is-48x48 level-left" v-if='kb_link.type_kb !== "Collecta"'>
+                          <a v-bind:href="kb_link.url">
+                            <img title="Studium Parisiense" :src="require('@/assets/studium-icon.png')"
+                                 alt="studium parisiense logo" v-if="kb_link.type_kb === 'Studium Parisiense'"/>
+                          </a>
+                          https://www.collecta.fr/_files/uploads/thumbs/900/COL-IMG-12392-1.jpg
+                        </figure>
+                      </li>
+                    </ul>
+                  </div>-->
+                  <section class="section">
+                    <!--<div class="container"  v-if="person.kb_links.some(link => link.type_kb === 'Collecta')">
+                      <p class="metadata-header-title"><b>MEDIA(S)</b></p>
+                      <div id="carousel-media">
+                        <div class="item-1">
+                          <img title="Studium Parisiense" src="https://www.collecta.fr/_files/uploads/thumbs/900/COL-IMG-12392-1.jpg"
+                                                   alt="studium parisiense logo">
+                        </div>
+                        <div class="item-2">
+                          <img title="Studium Parisiense" :src="require('@/assets/studium-icon.png')"
+                                                   alt="studium parisiense logo"/>
+                        </div>
+                        <div class="item-3">
+                          <img title="Studium Parisiense" :src="require('@/assets/studium-icon.png')"
+                                                   alt="studium parisiense logo"/>
+                        </div>
+                      </div>
+
+                    </div>-->
+                  </section>
                 </div>
+
               </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <!--
-      <div class="column">
-        <a :href="dbAdminPath" class="button is-primary" target="_blank">
-          <span class="icon"><i class="fa fa-database"></i></span>
-          <span>Administration de la base de données</span>
-            </a>
-      </div>
-      -->
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
+    <!--
+    <div class="column">
+      <a :href="dbAdminPath" class="button is-primary" target="_blank">
+        <span class="icon"><i class="fa fa-database"></i></span>
+        <span>Administration de la base de données</span>
+          </a>
+    </div>
+    -->
+  </div>
 </template>
 
 <script>
@@ -325,6 +322,12 @@ export default {
 
 
 <style scoped>
+
+/* Set image banner */
+#banner-image::before {
+  background-image: url("@/assets/banners/banner-persons_page.png");
+}
+
 .toggle-btn {
   width: 27px;
   height: 27px;
@@ -373,6 +376,12 @@ export default {
   width: 35%; /* Ajustez la largeur selon vos besoins */
 }
 
+.persons--results--column {
+  justify-content: space-between;
+  /* start at 0 */
+  margin: 0;
+}
+
 /* Dans les cards */
 .card-header-title {
   height: 100px
@@ -414,6 +423,14 @@ export default {
   width: 50px;
   margin-right: 15px;
   margin-left: 10px;
+}
+
+.li--person {
+  padding: 10px;
+  justify-content: space-between;
+  width:70%;
+  border-radius: 3px;
+  background-color: white;
 }
 
 .illustration-1 {

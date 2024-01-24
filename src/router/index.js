@@ -3,7 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import PersonView from "@/views/PersonView.vue";
 import RessourcesView from "@/views/RessourcesView.vue";
 import PersonDataView from "@/views/PersonDataView.vue";
-import RangeRegisterPrototype from "@/views/RegistersView.vue";
+import RangeRegisterPrototype from "@/views/RegisterView.vue";
 import FacSimileView from "@/views/FacSimileView.vue";
 
 const rootURL = `${process.env.VUE_APP_APP_ROOT_URL}`

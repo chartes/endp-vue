@@ -1,29 +1,25 @@
 <template>
   <div class="columns">
-    <!-- sidebar menu -->
-    <div class="column is-2 sidebar__menu">
-      <app-menu-aside />
+    <div class="column is-2 app-sidebar__menu">
+      <AppNavBar/>
+      <AppMenuAside />
     </div>
-    <!-- main content area -->
-    <div class="column is-full main__content__area">
+    <div class="column is-full app-main-content__area">
       <router-view/>
     </div>
   </div>
 </template>
 
 <script setup>
-import AppMenuAside from "@/components/MenuAside.vue";
+import AppNavBar from "@/components/AppNavbar.vue";
+import AppMenuAside from "@/components/AppMenuAside.vue";
 </script>
 
 <style>
 html,
 body,
-.main__content__area,
-.sidebar__menu {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+.app-main-content__area,
+.app-sidebar__menu {
   height: 100%;
   width: 100%;
   font: 16px/24px Georgia, "Bitstream Vera Serif", Times, serif;
@@ -32,5 +28,4 @@ body,
 body {
   background-color: #ffffff;
 }
-
 </style>

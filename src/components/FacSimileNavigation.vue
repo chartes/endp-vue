@@ -16,7 +16,7 @@
             <ul v-if="openRegistres[registre]?.[year]" class="month">
               <li v-for="month in months" :key="month">
                 <a @click="updateMirador(registre, month.canvasID)">
-                <span class="month_name">{{ capitalizeFirstLetter(month.month) }}</span>
+                <span class="month_name">{{ month.month }}</span>
                 </a>
               </li>
             </ul>
@@ -29,7 +29,6 @@
 
 <script>
 import indexFSNavJson from "../data/nav_endp_new.json";
-import capitalizeFirstLetter from "@/utils/_string_formater";
 export default {
   name: "FacSimileNav",
   data() {
@@ -39,7 +38,6 @@ export default {
     };
   },
   methods: {
-    capitalizeFirstLetter,
     toggleRegistre: function(registre) {
       if (!this.openRegistres[registre]) {
         this.openRegistres[registre] = { isOpen: true };
@@ -111,6 +109,10 @@ export default {
 
 .chevron.open {
   transform: rotate(0deg);
+}
+
+.month_name {
+  text-transform: capitalize;
 }
 
 nav li { text-align: left; }

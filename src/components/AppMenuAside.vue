@@ -1,11 +1,10 @@
 <template>
-  <!-- navbar -->
-  <AppNavBar/>
   <aside class="menu">
     <ul class="menu-list has-text-left">
       <li>
-
-        <router-link class="nav-link active" to="/registres"><span class="icon"><i class="fa fa-book"></i></span> Registres</router-link>
+        <router-link class="nav-link active" to="/registres"><span class="icon"><i class="fa fa-book"></i></span>
+          Registres
+        </router-link>
         <ul class="">
           <li>
             <a @click="navigateToFacSimile">
@@ -21,20 +20,22 @@
         </ul>
       </li>
       <li>
-        <router-link class="nav-link active" to="/persons"><span class="icon"><i class="fa fa-user"></i></span> Personnes</router-link>
+        <router-link class="nav-link active" to="/persons"><span class="icon"><i class="fa fa-user"></i></span>
+          Personnes
+        </router-link>
       </li>
       <li>
-        <router-link class="nav-link active" to="/ressources"><span class="icon"><i class="fa fa-link"></i></span> ressources</router-link>
+        <router-link class="nav-link active" to="/ressources"><span class="icon"><i class="fa fa-link"></i></span>
+          ressources
+        </router-link>
       </li>
     </ul>
   </aside>
 </template>
 
 <script>
-import AppNavBar from "@/components/Navbar.vue";
 export default {
   name: "AppMenuAside",
-  components: {AppNavBar},
   data() {
     return {
       dbAdminPath: process.env.VUE_APP_DB_ADMIN
@@ -47,7 +48,7 @@ export default {
       this.$router.push(`/facsimile/collection/top`);
     },
   },
-
 }
-
 </script>
+
+<style scoped>/**/</style>

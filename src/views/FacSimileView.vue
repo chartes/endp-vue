@@ -1,16 +1,26 @@
 <template>
   <div class="header">
     <p class="title" v-if="registerPageDate">Fac simile du registre de conclusions capitulaires {{ endpVolume }} de
-      Notre-Dame de Paris - {{ capitalizeFirstLetter(registerPageDate) }}</p>
-    <p v-if="endpVolume">Citation url du fac simile courant : <a :href="citationUrl">{{
+      Notre-Dame de Paris - <span class="date-title">{{ registerPageDate }}</span></p>
+    <div class="card" v-if="endpVolume">
+      <div class="card-content">
+        <div class="content">
+          <p>Citation url du fac simile courant : <a :href="citationUrl">{{
         citationUrl
       }}</a></p>
-    <p v-if="endpVolume"><a target="_blank" :href="imageNakalaSrc">{{ imageNakalaSrc }}</a></p>
-    <p style="color: red" v-if="endpVolume">Le taux de reconnaissance du texte estimé pour ce
-      fac-simile est de X%.
-      (Le texte affiché peut comporter un certain nombre d'erreurs. En effet, la couche texte de ce facsimile a été
-      généré automatiquement par un programme de reconnaissance des écritures manuscrites (HTR).)</p>
-    <div class="column">
+    <p><a target="_blank" :href="imageNakalaSrc">{{ imageNakalaSrc }}</a></p>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="card" v-if="endpVolume">
+      <div class="card-content">
+        <div class="content" style="color: red">
+          fac-simile est de X%.
+          (Le texte affiché peut comporter un certain nombre d'erreurs. En effet, la couche texte de ce facsimile a été
+          généré automatiquement par un programme de reconnaissance des écritures manuscrites (HTR).)
+        </div>
+      </div>
     </div>
   </div>
   <div class="columns">
@@ -25,7 +35,6 @@
 </template>
 
 <script>
-//import MiradorViewer from "@/components/MiradorViewer.vue";
 import {mapState} from 'vuex';
 import Mirador from 'mirador/dist/es/src/index';
 import FacSimileNavigation from "@/components/FacSimileNavigation.vue";
@@ -33,7 +42,6 @@ import textOverlayPlugin from 'mirador-textoverlay/es';
 import endpManifestMapping from '../data/endp_manifest_mapping.json';
 import mapSha1Dates from '../data/mapping_image_sha1_dates.json';
 import MiradorSettings from "@/settings/mirador.conf.json";
-import capitalizeFirstLetter from "@/utils/_string_formater";
 
 export default {
   name: 'FacSimileView',
@@ -130,7 +138,6 @@ export default {
         },
       });
     },
-    capitalizeFirstLetter,
     toggleNav(event) {
       event.preventDefault();
       this.isNavOpen = !this.isNavOpen;
@@ -169,6 +176,10 @@ export default {
 .title {
   font-size: 1.5rem;
   color: #0a0b0d;
+}
+
+.date-title {
+  text-transform: capitalize;
 }
 
 .wrapper-mirador {
