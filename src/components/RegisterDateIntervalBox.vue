@@ -65,20 +65,40 @@ export default {
   },
   data() {
     return {
-      start_month_code: this.$props.startMonthCode,
-      end_month_code: this.$props.endMonthCode,
-      input_start_year: this.$props.yearRange[0],
-      input_end_year: this.$props.yearRange[1],
+      start_month_code: '',
+      end_month_code: '',
+      input_start_year: '',
+      input_end_year: '',
       months: this.$store.state.months,
     };
   },
   watch: {
     yearRange: {
       handler: function (newVal) {
-        this.input_start_year = newVal[0];
-        this.input_end_year = newVal[1];
+        if (newVal[0] > newVal[1]) {
+          this.input_start_year = newVal[1];
+          this.input_end_year = newVal[0];
+        }else {
+          this.input_start_year = newVal[0];
+          this.input_end_year = newVal[1];
+        }
       },
-      deep: true
+      deep: true,
+      immediate: true,
+    },
+    startMonthCode: {
+      handler: function (newVal) {
+        this.start_month_code = newVal;
+      },
+      immediate: true,
+      deep: true,
+    },
+    endMonthCode: {
+      handler: function (newVal) {
+        this.end_month_code = newVal;
+      },
+      immediate: true,
+      deep: true,
     },
   },
   methods: {

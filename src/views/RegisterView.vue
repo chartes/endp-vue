@@ -26,6 +26,8 @@
         </div>
         <!-- Date interval box -->
         <RegisterDateIntervalBox
+            :start-month-code="startMonthCode"
+            :end-month-code="endMonthCode"
             :yearRange="yearRange"
             @date-change="handleDateIntervalChange"
         />
@@ -34,12 +36,12 @@
             :year-range="yearRange"
         />
         <!-- histogram viz box -->
-          <RegisterHistogramChartBox
-              :startYearProp="yearRange[0]"
-              :endYearProp="yearRange[1]"
-              :minYear="minYear"
-              :maxYear="maxYear"
-          />
+        <RegisterHistogramChartBox
+            :startYearProp="yearRange[0]"
+            :endYearProp="yearRange[1]"
+            :minYear="minYear"
+            :maxYear="maxYear"
+        />
       </div>
     </div>
     <!-- end Filters column -->
@@ -227,26 +229,43 @@ export default {
     }
   },
   watch: {
-    'startMonthCode': function (newVal) {
-      if (this.yearRange[0] === this.yearRange[1] && this.endMonthCode < newVal) {
-        this.endMonthCode = newVal;
-      }
-    },
-
-    'yearRange': function (newVal) {
-      this.inputStartYear = newVal[0].toString();
-      this.inputEndYear = newVal[1].toString();
-      this.filterData(); // Mettre à jour les données filtrées
-      if (newVal[0] > newVal[1]) {
-        // Si l'année de début est postérieure à l'année de fin, ajustez les mois
-        this.startMonthCode = '01'; // Janvier de l'année de début
-        this.endMonthCode = '12'; // Décembre de l'année de fin
-      } else if (newVal[0] === newVal[1]) {
-        // Si les années de début et de fin sont les mêmes, ajustez les mois si nécessaire
-        if (this.startMonthCode > this.endMonthCode) {
-          this.endMonthCode = this.startMonthCode;
+    'startMonthCode':{
+      handler: function (newVal) {
+        if (this.yearRange[0] === this.yearRange[1] && this.endMonthCode < newVal) {
+          this.endMonthCode = newVal;
         }
-      }
+      },
+      immediate: true,
+      deep: true
+    },
+'endMonthCode':{
+      handler: function (newVal) {
+        if (this.yearRange[0] === this.yearRange[1] && this.startMonthCode > newVal) {
+          this.startMonthCode = newVal;
+        }
+      },
+      immediate: true,
+      deep: true
+    },
+    'yearRange': {
+      handler: function (newVal) {
+        this.inputStartYear = newVal[0].toString();
+        this.inputEndYear = newVal[1].toString();
+        this.filterData(); // Mettre à jour les données filtrées
+        if (newVal[0] > newVal[1]) {
+          // Si l'année de début est postérieure à l'année de fin, ajustez les mois
+          this.startMonthCode = '01'; // Janvier de l'année de début
+          this.endMonthCode = '12'; // Décembre de l'année de fin
+        } else if (newVal[0] === newVal[1]) {
+          // Si les années de début et de fin sont les mêmes, ajustez les mois si nécessaire
+          if (this.startMonthCode > this.endMonthCode) {
+            this.endMonthCode = this.startMonthCode;
+          }
+        }
+      },
+      immediate: true,
+      deep: true
+
     },
 
   },
@@ -296,8 +315,19 @@ export default {
       this.startMonthCode = startMonthCode;
       this.endMonthCode = endMonthCode;
 
-      this._checkYearValidity(startYear, endYear);
-      this._UpdateSliderProperties(startYear, endYear);
+      if (isNaN(startYear)) {
+        startYear = this.minYear;
+      } else {
+        startYear = Math.max(this.minYear, Math.min(startYear, this.maxYear));
+      }
+      if (isNaN(endYear)) {
+        endYear = this.maxYear;
+      } else {
+        endYear = Math.max(startYear, Math.min(endYear, this.maxYear));
+      }
+      this.yearRange = [startYear, endYear];
+      this.inputStartYear = startYear.toString();
+      this.inputEndYear = endYear.toString();
 
       // Refresh the filtered data
       this.filterData();
