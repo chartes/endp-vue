@@ -271,11 +271,11 @@ export default {
   },
   methods: {
     /**
-     * Check if the given years are valid
+     * Check if the given years are valid (not null, not NaN, between minYear and maxYear)
      * @param {number} startYear
      * @param {number} endYear
      * @private
-     * @return {void}
+     * @return {Array<number>}
      */
     _checkYearValidity(startYear, endYear) {
       if (isNaN(startYear)) {
@@ -288,6 +288,7 @@ export default {
       } else {
         endYear = Math.max(startYear, Math.min(endYear, this.maxYear));
       }
+      return [startYear, endYear];
     },
     /**
      * Update the slider properties
@@ -310,26 +311,13 @@ export default {
      * @return {void}
      */
     handleDateIntervalChange({startYear, endYear, startMonthCode, endMonthCode}) {
-      startYear = parseInt(startYear);
-      endYear = parseInt(endYear);
       this.startMonthCode = startMonthCode;
       this.endMonthCode = endMonthCode;
 
-      if (isNaN(startYear)) {
-        startYear = this.minYear;
-      } else {
-        startYear = Math.max(this.minYear, Math.min(startYear, this.maxYear));
-      }
-      if (isNaN(endYear)) {
-        endYear = this.maxYear;
-      } else {
-        endYear = Math.max(startYear, Math.min(endYear, this.maxYear));
-      }
-      this.yearRange = [startYear, endYear];
-      this.inputStartYear = startYear.toString();
-      this.inputEndYear = endYear.toString();
+      let years = this._checkYearValidity(startYear, endYear);
 
-      // Refresh the filtered data
+      this._UpdateSliderProperties(years[0], years[1]);
+
       this.filterData();
     },
     getMonthName(monthCode) {
