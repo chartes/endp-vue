@@ -79,11 +79,18 @@ export default {
     };
   },
   methods: {
+    /**
+     * Navigate to facsimile page
+     * @return {void}
+     */
     navigateToFacSimile() {
     this.$store.commit('setCanvasId', this.firstCanvasID);
     this.$store.commit('setEndpVolume', this.volume);
-    //this.$router.push(`/facsimile/${this.volume}/${this.firstCanvasID}`);
   },
+    /**
+     * Toggle content of card
+     * @return {void}
+     */
     toggleContent() {
       this.isOpened = !this.isOpened;
     },
@@ -181,6 +188,4 @@ export default {
 .card-content.is-open {
   max-height: 500px; /* Mettez une hauteur max suffisamment grande pour afficher tout le contenu */
 }
-
-
 </style>

@@ -8,7 +8,7 @@
         <ul class="">
           <li>
             <a @click="navigateToFacSimile">
-              <span class="icon is-small"><i class="fa fa-list"></i></span> fac-similés
+              <span class="icon is-small"><i class="fa fa-list"></i></span> Fac-similés
             </a>
             <a href="#">
               <span class="icon is-small"><i class="fa fa-list"></i></span> Éditions
@@ -26,7 +26,7 @@
       </li>
       <li>
         <router-link class="nav-link active" to="/ressources"><span class="icon"><i class="fa fa-link"></i></span>
-          ressources
+          Ressources
         </router-link>
       </li>
     </ul>
@@ -42,6 +42,9 @@ export default {
     };
   },
   methods: {
+    /**
+     * Navigate to fac-simile and set the default canvas id to the first canvas id of the volume
+     */
     navigateToFacSimile() {
       this.$store.commit('setEndpVolume', "collection");
       this.$store.commit('setCanvasId', "top");
@@ -51,4 +54,11 @@ export default {
 }
 </script>
 
-<style scoped>/**/</style>
+<style scoped>
+.menu {
+  margin-bottom: 1rem;
+  padding: 0.2rem;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+}
+</style>

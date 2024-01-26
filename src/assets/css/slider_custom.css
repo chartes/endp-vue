@@ -1,0 +1,28 @@
+.vue-slider-process {
+  color: #8d1919 !important;
+  background-color: #8d1919 !important;
+}
+
+.vue-slider-dot-handle {
+  border: 2px solid #8d1919 !important;
+  box-shadow: 0px 0px 0px 2px #8d1919 !important;
+}
+
+.vue-slider-dot-tooltip-text {
+  color: #fff !important;
+  font-weight: bold !important;
+}
+
+
+.vue-slider-dot-tooltip-inner {
+  font-size: 14px !important;
+  white-space: nowrap !important;
+  padding: 2px 5px !important;
+  min-width: 20px !important;
+  text-align: center !important;
+  color: #fff !important;
+  border-radius: 5px !important;
+  border-color: #8d1919 !important;
+  background-color: #8d1919 !important;
+  box-sizing: content-box !important;
+}

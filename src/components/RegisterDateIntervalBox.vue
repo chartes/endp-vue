@@ -1,40 +1,30 @@
 <template>
   <div class="box-container-facets__date-interval">
     <span class="box-date-interval__label">Entre</span>
-    <div class="control has-icons-left">
-      <div class="select select-month">
-        <select v-model="start_month_code" class="uppercase" @change="onDateInputChange">
-          <option v-for="month in months" :key="month.iso_code" :value="month.iso_code">
-            {{ month.name }}
-          </option>
-        </select>
-        <span class="icon is-left"><i class="fas fa-calendar-alt"></i></span>
-      </div>
-    </div>
-    <div class="control control-input-date">
-      <input class="input" type="text" @change="onDateInputChange" v-model="input_start_year">
-    </div>
+    <RegisterBaseDateSelector
+      :monthCode="start_month_code"
+      :year="input_start_year"
+      :mode-range="'start'"
+      @date-change-selector="onDateInputChange"
+    />
     <span class="box-date-interval__label">Et</span>
-    <div class="control has-icons-left">
-      <div class="select select-month">
-        <select v-model="end_month_code" class="uppercase" @change="onDateInputChange">
-          <option v-for="month in months" :key="month.iso_code" :value="month.iso_code"
-                  :disabled="shouldDisableEndMonthOption(month.iso_code)">
-            {{ month.name }}
-          </option>
-        </select>
-        <span class="icon is-left"><i class="fas fa-calendar-alt"></i></span>
-      </div>
-    </div>
-    <div class="control control-input-date">
-      <input class="input" type="text" @change="onDateInputChange" v-model="input_end_year">
-    </div>
+    <RegisterBaseDateSelector
+      :monthCode="end_month_code"
+      :year="input_end_year"
+      :mode-range="'end'"
+      :should-disable-option="shouldDisableEndMonthOption"
+      @date-change-selector="onDateInputChange" />
   </div>
 </template>
 
 <script>
+import {mapState} from "vuex";
+import RegisterBaseDateSelector from "@/components/RegisterBaseDateSelector.vue";
 export default {
   name: "DateIntervalBoxSelectorBox",
+  components: {
+    RegisterBaseDateSelector
+  },
   props: {
     /**
      * Start month ISO code
@@ -69,22 +59,20 @@ export default {
       end_month_code: '',
       input_start_year: '',
       input_end_year: '',
-      months: this.$store.state.months,
+      input_month_code: '',
     };
+  },
+  computed: {
+    ...mapState(['months'])
   },
   watch: {
     yearRange: {
-      handler: function (newVal) {
-        if (newVal[0] > newVal[1]) {
-          this.input_start_year = newVal[1];
-          this.input_end_year = newVal[0];
-        }else {
-          this.input_start_year = newVal[0];
-          this.input_end_year = newVal[1];
-        }
+      handler(newVal) {
+        this.input_start_year = newVal[0] <= newVal[1] ? newVal[0] : newVal[1];
+        this.input_end_year = newVal[0] <= newVal[1] ? newVal[1] : newVal[0];
       },
-      deep: true,
       immediate: true,
+      deep: true,
     },
     startMonthCode: {
       handler: function (newVal) {
@@ -104,13 +92,19 @@ export default {
   methods: {
     /**
      * Triggers when year inputs and month selectors change
+     * @param {string} year
+     * @param {string} monthCode
+     * @param {string} modeRange
+     * @emits date-change
+     * @event date-change
+     * @return void
      */
-    onDateInputChange() {
+    onDateInputChange({year, monthCode, modeRange}) {
       this.$emit('date-change', {
-        startYear: this.input_start_year,
-        endYear: this.input_end_year,
-        startMonthCode: this.start_month_code,
-        endMonthCode: this.end_month_code
+        startYear: modeRange === 'start' ? year : this.input_start_year,
+        endYear: modeRange === 'end' ? year : this.input_end_year,
+        startMonthCode: modeRange === 'start' ? monthCode : this.start_month_code,
+        endMonthCode: modeRange === 'end' ? monthCode : this.end_month_code,
       });
     },
 
@@ -127,40 +121,31 @@ export default {
   }
 };
 </script>
+
 <style scoped>
 .box-container-facets__date-interval {
-  /* space between the date interval box and the other facets */
   margin-bottom: 1rem;
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  /* augment size of the date interval box */
-  padding: 1rem;
+  padding: 0.8rem;
   border: 0.5px solid #0a0a0a;
   border-radius: 5px;
+  background-color: #FFFFFFFF;
 }
+
 
 .box-container-facets__date-interval > * {
   position: relative;
-  /* space between elements in the date interval box */
-  margin-right: 0.3rem;
-  /* align elements horizontally */
   display: inline-block;
-  /* align elements vertically */
   vertical-align: middle;
-  margin-bottom: 1rem;
-  margin-top: 1rem;
   overflow: hidden;
 }
 
-.select-month {
-  width: 100%
-}
-
-.control-input-date {
-  width: 15%;
-  margin-bottom: 1rem;
+.box-date-interval__label {
+  margin-right: 0.5rem;
+  font-size: 0.9rem;
 }
 </style>

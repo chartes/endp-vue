@@ -6,7 +6,8 @@
 
 <script>
 import Plotly from 'plotly.js-dist';
-import endpDataRange from '@/data/endp_data_range.json';
+import {mapState} from "vuex";
+
 export default {
   name: 'RegisterHistogramChartBox',
   props: {
@@ -27,42 +28,37 @@ export default {
       endYear: 1504,
       minYear: 1326,
       maxYear: 1504,
-      data: endpDataRange,
       pagesByYear: {}
     };
   },
+  computed: {
+    ...mapState(['endpData'])
+  },
   mounted() {
     this.calculatePagesByYear();
-    this.getTotalPagesForRange();
     this.plotHistogram();
   },
   watch: {
-  startYearProp() {
-    this.startYear = this.startYearProp;
-    this.getTotalPagesForRange();
-    this.updateChartColors();
-  },
-  endYearProp() {
-    this.endYear = this.endYearProp;
-    this.getTotalPagesForRange();
-    this.updateChartColors();
-  }
-},
-  methods: {
-    getTotalPagesForRange() {
-    let totalPagesInRange = 0;
-    for (let year = this.startYear; year <= this.endYear; year++) {
-      if (this.pagesByYear[year]) {
-        totalPagesInRange += this.pagesByYear[year];
-      }
+    startYearProp() {
+      this.startYear = this.startYearProp;
+      this.updateChartColors();
+    },
+    endYearProp() {
+      this.endYear = this.endYearProp;
+      this.updateChartColors();
     }
-    this.$emit('total-pages-range', totalPagesInRange);
-      return totalPagesInRange;
   },
-      calculatePagesByYear() {
-      Object.keys(this.data).forEach(key => {
-        const year = key.split('-')[0];
-        const pages = this.data[key].lastPageCanvasIdx - this.data[key].firstPageCanvasIdx + 1;
+  methods: {
+    /**
+     * Calculate the total number of pages for each year
+     * @returns {void}
+     */
+    calculatePagesByYear() {
+      Object.keys(this.endpData).forEach(key => {
+        const year = key.split('-')[0]; // Split the key and get the year
+        const pages = this.endpData[key].reduce((total, record) => {
+          return total + (record.lastPageCanvasIdx - record.firstPageCanvasIdx + 1);
+        }, 0);
 
         if (!this.pagesByYear[year]) {
           this.pagesByYear[year] = pages;
@@ -71,12 +67,17 @@ export default {
         }
       });
     },
+
+    /**
+     * Plot the histogram
+     * @returns {void}
+     */
     plotHistogram() {
       const trace = {
         x: Object.keys(this.pagesByYear),
         y: Object.values(this.pagesByYear),
         type: 'bar',
-        marker: { color: '#8d1919' }
+        marker: {color: '#8d1919'}
       };
 
       const layout = {
@@ -95,7 +96,7 @@ export default {
       };
 
       const graph = document.getElementById('histogram');
-      Plotly.newPlot(graph, [trace], layout, { responsive: true, displayModeBar: true });
+      Plotly.newPlot(graph, [trace], layout, {responsive: true, displayModeBar: true});
       graph.on('plotly_relayout', () => {
         const xaxis = graph.layout.xaxis;
         if (xaxis.range) {
@@ -105,23 +106,21 @@ export default {
       });
 
     },
+
+    /**
+     * Update the colors of the histogram bars based on the start and end year
+     * @returns {void}
+     */
     updateChartColors() {
-  const years = Object.keys(this.pagesByYear);
-  const colors = years.map(year => {
-    return (year >= this.startYear && year <= this.endYear) ? '#8d1919' : 'lightgrey';
-  });
-
-  console.log('Updating chart colors...');
-  console.log('Start Year:', this.startYear);
-  console.log('End Year:', this.endYear);
-
-  const graph = document.getElementById('histogram');
- if (graph) {
-    Plotly.restyle(graph, 'marker.color', [colors], [0], { duration: 500, easing:"linear"}); // La durée de transition est définie à 500 millisecondes (modifiable)
-  } else {
-    console.error('Graph element not found');
-  }
-}
+      const years = Object.keys(this.pagesByYear);
+      const graph = document.getElementById('histogram');
+      const colors = years.map(year => {
+        return (year >= this.startYear && year <= this.endYear) ? '#8d1919' : 'lightgrey';
+      });
+      if (graph) {
+        Plotly.restyle(graph, 'marker.color', [colors], [0], {duration: 500, easing: "linear"});
+      }
+    }
   }
 };
 </script>

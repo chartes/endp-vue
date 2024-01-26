@@ -2,21 +2,21 @@
   <nav class="fac-simile__toc">
     <h1 class="main__title__toc">Table des registres capitulaires</h1>
     <ul>
-      <li v-for="(years, registre) in jsonData" :key="registre" class="registre">
-        <b @click="toggleRegistre(registre)">
-          <span class="registre_name">{{ registre }}</span>
-          <span class="chevron" :class="{ 'open': openRegistres[registre]?.isOpen }">&#9660;</span>
+      <li v-for="(years, register) in this.indexFSNavJson" :key="register" class="register">
+        <b @click="toggleRegister(register)">
+          <span class="register_name">{{ register }}</span>
+          <span class="chevron" :class="{ 'open': openRegisters[register]?.isOpen }">&#9660;</span>
         </b>
-        <template v-if="openRegistres[registre]?.isOpen">
+        <template v-if="openRegisters[register]?.isOpen">
           <ul v-for="(months, year) in years" :key="year" class="year">
-            <li @click="toggleYear(registre, year)">
+            <li @click="toggleYear(register, year)">
               <span class="year_name">{{ formatYearNav(year) }}</span>
-              <span class="chevron" :class="{ 'open': openRegistres[registre]?.[year] }">&#9660;</span>
+              <span class="chevron" :class="{ 'open': openRegisters[register]?.[year] }">&#9660;</span>
             </li>
-            <ul v-if="openRegistres[registre]?.[year]" class="month">
+            <ul v-if="openRegisters[register]?.[year]" class="month">
               <li v-for="month in months" :key="month">
-                <a @click="updateMirador(registre, month.canvasID)">
-                <span class="month_name">{{ month.month }}</span>
+                <a @click="updateMirador(register, month.canvasID)">
+                  <span class="month_name">{{ month.month }}</span>
                 </a>
               </li>
             </ul>
@@ -28,53 +28,74 @@
 </template>
 
 <script>
-import indexFSNavJson from "../data/nav_endp_new.json";
+import {mapState} from "vuex";
+
 export default {
   name: "FacSimileNav",
   data() {
     return {
-      jsonData: indexFSNavJson,
-      openRegistres: {}, // Suivi des états dépliés/repliés
+      openRegisters: {},
     };
   },
+  computed: {
+    ...mapState(["indexFSNavJson"]),
+  },
   methods: {
-    toggleRegistre: function(registre) {
-      if (!this.openRegistres[registre]) {
-        this.openRegistres[registre] = { isOpen: true };
-      } else {
-        this.openRegistres[registre].isOpen = !this.openRegistres[registre].isOpen;
-      }
-    },
-    formatYearNav: function(year) {
+    /**
+     * Formats the year to display in the navigation
+     * @param year
+     * @returns {string}
+     */
+    formatYearNav: function (year) {
       return year.split('_')[0];
     },
-    toggleYear: function(registre, year) {
-      if (!this.openRegistres[registre]) {
-        this.openRegistres[registre] = { isOpen: true, [year]: true };
-      } else if (!this.openRegistres[registre][year]) {
-        this.openRegistres[registre][year] = true;
+
+    /**
+     * Triggers the opening/closing of a register
+     * @param register
+     * @returns {boolean}
+     */
+    toggleRegister: function (register) {
+      this.openRegisters[register] = this.openRegisters[register]
+          ? {isOpen: !this.openRegisters[register].isOpen}
+          : {isOpen: true};
+    },
+
+    /**
+     * Triggers the opening/closing of a year
+     * @param register
+     * @param year
+     * @returns {boolean}
+     */
+    toggleYear: function (register, year) {
+      if (!this.openRegisters[register]) {
+        this.openRegisters[register] = {isOpen: true, [year]: true};
       } else {
-        this.openRegistres[registre][year] = !this.openRegistres[registre][year];
+        this.openRegisters[register][year] = this.openRegisters[register][year] ? !this.openRegisters[register][year] : true;
       }
     },
-    updateMirador: function(registre, canvasID) {
-      event.preventDefault();
-      this.$emit('updateMirador', canvasID, registre);
+
+    /**
+     * Emits an event to update image in Mirador instance
+     * when a month is clicked
+     * @param register
+     * @param canvasID
+     */
+    updateMirador: function (register, canvasID) {
+      this.$emit('updateMirador', canvasID, register);
     },
   },
 };
-
-
 </script>
 
 <style scoped>
-
 .fac-simile__toc {
-  max-height: 60vh;
+  max-height: 100vh;
   overflow-y: scroll;
   padding: 0.5em;
-  border: 1px solid #d4d3d1;
+  border: 2px solid #8d1919;
   border-radius: 4px;
+  background-color: #f5f5f5;
 }
 
 .main__title__toc {
@@ -85,18 +106,18 @@ export default {
   text-align: center;
 }
 
-.registre:hover {
+.register:hover {
   cursor: pointer;
 }
 
-.registre_name, .year_name, .month_name {
+.register_name, .year_name, .month_name {
   display: inline-block;
   padding: 0.2em 0.5em;
   margin: 0.2em 0;
   font-size: 1.1em;
 }
 
-.registre_name:hover, .year_name:hover, .month_name:hover {
+.register_name:hover, .year_name:hover, .month_name:hover {
   background-color: #d4d3d1;
   border-radius: 4px;
 }
@@ -115,8 +136,24 @@ export default {
   text-transform: capitalize;
 }
 
-nav li { text-align: left; }
+nav li {
+  text-align: left;
+}
 
-nav header { display: block; padding: 1px 1ex; margin-bottom: 1ex; margin-top: 1ex; font-weight: bold; font-size: 120%; border: 1px #FFF solid; border-right: none; line-height: 110%; -webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0; -webkit-border-top-left-radius: 1ex; -moz-border-top-left-radius: 1ex; border-top-left-radius: 1ex; -webkit-border-bottom-left-radius: 1ex; -moz-border-bottom-left-radius: 1ex; border-bottom-left-radius: 1ex; }
-nav menu, nav ul { margin-left: 1em; padding-left: 0; }
+nav header {
+  display: block;
+  padding: 1px 1ex;
+  margin-bottom: 1ex;
+  margin-top: 1ex;
+  font-weight: bold;
+  font-size: 120%;
+  border: 1px #FFF solid;
+  border-right: none;
+  line-height: 110%;
+}
+
+nav menu, nav ul {
+  margin-left: 1em;
+  padding-left: 0;
+}
 </style>

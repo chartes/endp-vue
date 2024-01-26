@@ -1,5 +1,11 @@
 import {createStore} from 'vuex';
 
+import endpData from '@/data/stable/endp_data_range_new.json';
+import endpVolumesData from '@/data/stable/endp_register_volumes.json';
+import mapSha1Dates from '@/data/stable/mapping_image_sha1_dates.json';
+import indexFSNavJson from "@/data/stable/nav_endp_new.json";
+import MiradorSettings from "@/settings/mirador.conf.json";
+
 export default createStore({
     state: {
         // mirador states
@@ -20,6 +26,13 @@ export default createStore({
             {iso_code: '11', name: 'Novembre'},
             {iso_code: '12', name: 'Décembre'}
         ],
+        // Data-driven
+        endpData: endpData,
+        endpVolumesData: endpVolumesData,
+        mapSha1Dates: mapSha1Dates,
+        indexFSNavJson: indexFSNavJson,
+        // Configuration files
+        MiradorSettings: MiradorSettings,
     },
     mutations: {
         setCanvasId(state, id) {

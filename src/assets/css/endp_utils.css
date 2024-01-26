@@ -4,12 +4,12 @@
 
 #banner-image {
   position: relative; /* Pour le positionnement absolu du titre */
-  height: 250px; /* Ajustez selon vos besoins */
+  height: 350px; /* Ajustez selon vos besoins */
   width: 100%;
   max-width: 100%;
   display: flex;
   animation: fadeImageIn 1s ease-out 0s;
-  margin-bottom: 50px;
+  margin-bottom: 13px;
 }
 
 
@@ -22,7 +22,7 @@
   right: 0px;
   bottom: 0px;
   left: 0px;
-  opacity: 0.5;
+  opacity: 0.60;
 }
 
 .title {

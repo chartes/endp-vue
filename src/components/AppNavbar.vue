@@ -19,11 +19,10 @@ export default {
   background-color: #fff;
   border-bottom: 1px solid #dbdbdb;
   box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
-  z-index: 50;
   position: relative;
-  min-height: 50px;
   border-radius: 0px 0px 10px 0px;
 }
+
 
 .app-navbar__item img {
   max-height: 100%; /* Assurer que le logo ne dépasse pas la hauteur de la navbar */
@@ -33,6 +32,6 @@ export default {
 .app-navbar__logo {
   width: 80px;
   height: 100px;
-  margin-right: 1em;
+  margin: 0 auto;
 }
 </style>
