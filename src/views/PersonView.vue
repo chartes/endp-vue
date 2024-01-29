@@ -4,100 +4,101 @@
     <h1 class="title">Personnes</h1>
   </div>
   <!-- end banner -->
-  <div class="columns">
-    <div class="column is-3">
-      <div>
-        <div class="control">
-          <input class="input" type="text" placeholder="Rechercher" v-model="query">
-          <span class="icon"><i class="fas fa-search"></i> </span>
-        </div>
+  <!-- Main grid -->
+  <div class="columns is-multiline">
+    <div class="column is-12-mobile is-5-tablet is-5-desktop">
+      <div class="box box-search-person-facets">
+        <PersonSearchBox
+            @update:query="handleUpdateQuery"
+            @reset:query="handleResetQuery"
+        />
+        <div class="box">
+          <div>
 
-        <div>
-          <input id="slider" name="slider" type="range" class="slider" v-model="type" min="0" max="2">
-          <label for="slider"
-                 style="height: 40px; width: 100px; margin-left: 10px; display: inline-block; padding: 5px;"><span
-              style="color: #444444; font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 15px">{{
-              typeOptionsTranslated[type]
-            }}</span></label>
-          <button class="button is-danger is-outlined" :class="{'button-reset-search': !resetButton}"
-                  @click="getPersons()">
-            <span class="icon is-small"><i class="fas fa-times"></i></span>
-          </button>
-          <!-- Pagination control panel -->
-          <div class="pagination is-rounded">
-            <ul class="pagination-list">
-              <li>
-                <a class="pagination-link" v-if="currentPage > 2" aria-label="Goto page 1" @click="changePage(1)">1</a>
-              </li>
-              <li>
-                <span class="pagination-ellipsis" v-if="currentPage > 3">&hellip;</span>
-              </li>
-              <li>
-                <a class="pagination-link" v-if="currentPage > 1" aria-label="Goto previous page"
-                   @click="changePage(currentPage - 1)">
-                  {{ currentPage - 1 }}
-                </a>
-              </li>
-              <li>
-                <a class="pagination-link is-current" aria-label="Page {{ currentPage }}" aria-current="page">{{
-                    currentPage
-                  }}</a>
-              </li>
-              <li>
-                <a class="pagination-link" v-if="currentPage < totalPages" aria-label="Goto next page"
-                   @click="changePage(currentPage + 1)">
-                  {{ currentPage + 1 }}
-                </a>
-              </li>
-              <li>
-                <span class="pagination-ellipsis" v-if="currentPage < totalPages - 2">&hellip;</span>
-              </li>
-              <li>
-                <a class="pagination-link" v-if="currentPage < totalPages - 1" aria-label="Goto page {{ totalPages }}"
-                   @click="changePage(totalPages)">
-                  {{ totalPages }}
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div class="pagination-panel">
-            <div class="pagination-buttons pagination is-rounded">
+            <div>
 
-              <a class="pagination-previous" :class="{ 'disabled': currentPage === 1 }"
-                 @click="changePage(currentPage - 1)">
+              <!-- Pagination control panel -->
+              <div class="pagination is-rounded">
+                <ul class="pagination-list">
+                  <li>
+                    <a class="pagination-link" v-if="currentPage > 2" aria-label="Goto page 1"
+                       @click="changePage(1)">1</a>
+                  </li>
+                  <li>
+                    <span class="pagination-ellipsis" v-if="currentPage > 3">&hellip;</span>
+                  </li>
+                  <li>
+                    <a class="pagination-link" v-if="currentPage > 1" aria-label="Goto previous page"
+                       @click="changePage(currentPage - 1)">
+                      {{ currentPage - 1 }}
+                    </a>
+                  </li>
+                  <li>
+                    <a class="pagination-link is-current" aria-label="Page {{ currentPage }}" aria-current="page">{{
+                        currentPage
+                      }}</a>
+                  </li>
+                  <li>
+                    <a class="pagination-link" v-if="currentPage < totalPages" aria-label="Goto next page"
+                       @click="changePage(currentPage + 1)">
+                      {{ currentPage + 1 }}
+                    </a>
+                  </li>
+                  <li>
+                    <span class="pagination-ellipsis" v-if="currentPage < totalPages - 2">&hellip;</span>
+                  </li>
+                  <li>
+                    <a class="pagination-link" v-if="currentPage < totalPages - 1"
+                       aria-label="Goto page {{ totalPages }}"
+                       @click="changePage(totalPages)">
+                      {{ totalPages }}
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div class="pagination-panel">
+                <div class="pagination-buttons pagination is-rounded">
+
+                  <a class="pagination-previous" :class="{ 'disabled': currentPage === 1 }"
+                     @click="changePage(currentPage - 1)">
                <span class="icon is-primary">
                  <i class="fas fa-chevron-left"></i>
                </span>
 
-              </a>
-              <a class="pagination-next" :class="{ 'disabled': currentPage === totalPages }"
-                 @click="changePage(currentPage + 1)">
+                  </a>
+                  <a class="pagination-next" :class="{ 'disabled': currentPage === totalPages }"
+                     @click="changePage(currentPage + 1)">
                 <span class="icon is-primary">
                  <i class="fas fa-chevron-right"></i>
                </span>
-              </a>
-            </div>
+                  </a>
+                </div>
 
-            <div class="pagination-input" style="display: flex !important; align-items: center !important;">
-              <label class="label" for="limit-results"
-                     style="margin-left: 10px; display: inline-block !important; padding: 5px;">Résultats par
-                page</label>
-              <input id="limit-results" class="input small-input" type="number" placeholder="50" min="50" max="100"
-                     step="10"
-                     v-model="limit"
-                     @change="handleItemsPerPageChange">
-            </div>
+                <div class="pagination-input" style="display: flex !important; align-items: center !important;">
+                  <label class="label" for="limit-results"
+                         style="margin-left: 10px; display: inline-block !important; padding: 5px;">Résultats par
+                    page</label>
+                  <input id="limit-results" class="input small-input" type="number" placeholder="50" min="50" max="100"
+                         step="10"
+                         v-model="limit"
+                         @change="handleItemsPerPageChange">
+                </div>
 
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="column persons--results--column">
-      <ul>
-        <!-- ici le spinner de chargement -->
         <div class="loader-wrapper" :class="{'is-active': !isLoading}">
           <div class="loader is-loading"></div>
         </div>
+      </div>
+    </div>
+    <!-- Results column -->
+    <div class="column column-result is-12-mobile is-7-tablet is-7-desktop">
+      <ul>
+        <!-- ici le spinner de chargement -->
+        <!-- total trouvé -->
+        <h2 class="subtitle is-4">{{ total }} Résultats</h2>
         <li v-for="person in persons" :key="person._id_endp" class="li--person">
           <div class="card">
             <header class="card-header" @click="toggleContent(person, $event)">
@@ -126,44 +127,6 @@
                       </router-link>
                     </p>
                   </div>
-                  <div class="column is-2">
-                    <!-- a button to access the person's page -->
-
-                  </div>
-                  <!--<div class="column is-3"  v-if="person.kb_links.length > 0 ">
-                    <p class="metadata-header-title"><b>LIENS EXTERNES</b></p>
-                    <ul>
-                      <li v-for="kb_link in person.kb_links" :key="kb_link.id">
-                        <figure class="image is-48x48 level-left" v-if='kb_link.type_kb !== "Collecta"'>
-                          <a v-bind:href="kb_link.url">
-                            <img title="Studium Parisiense" :src="require('@/assets/studium-icon.png')"
-                                 alt="studium parisiense logo" v-if="kb_link.type_kb === 'Studium Parisiense'"/>
-                          </a>
-                          https://www.collecta.fr/_files/uploads/thumbs/900/COL-IMG-12392-1.jpg
-                        </figure>
-                      </li>
-                    </ul>
-                  </div>-->
-                  <section class="section">
-                    <!--<div class="container"  v-if="person.kb_links.some(link => link.type_kb === 'Collecta')">
-                      <p class="metadata-header-title"><b>MEDIA(S)</b></p>
-                      <div id="carousel-media">
-                        <div class="item-1">
-                          <img title="Studium Parisiense" src="https://www.collecta.fr/_files/uploads/thumbs/900/COL-IMG-12392-1.jpg"
-                                                   alt="studium parisiense logo">
-                        </div>
-                        <div class="item-2">
-                          <img title="Studium Parisiense" :src="require('@/assets/studium-icon.png')"
-                                                   alt="studium parisiense logo"/>
-                        </div>
-                        <div class="item-3">
-                          <img title="Studium Parisiense" :src="require('@/assets/studium-icon.png')"
-                                                   alt="studium parisiense logo"/>
-                        </div>
-                      </div>
-
-                    </div>-->
-                  </section>
                 </div>
 
               </div>
@@ -172,36 +135,29 @@
         </li>
       </ul>
     </div>
-    <!--
-    <div class="column">
-      <a :href="dbAdminPath" class="button is-primary" target="_blank">
-        <span class="icon"><i class="fa fa-database"></i></span>
-        <span>Administration de la base de données</span>
-          </a>
-    </div>
-    -->
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import PersonSearchBox from "@/components/PersonSearchBox.vue";
 
 export default {
   name: "PersonView",
+  components: {
+    PersonSearchBox,
+  },
   data() {
     return {
-      persons: [],
-      dbAdminPath: process.env.VUE_APP_DB_ADMIN,
+      persons: [], // a renommer en personsItems
+      dbAdminPath: process.env.VUE_APP_DB_ADMIN, // mettre dans le store (comme les autres chemins)
       currentPage: 1,
-      limit: 50,
-      total: 0,
-      query: "",
-      type: 0,
-      typeOptionsTranslated: ["Exacte", "Floue", "Très floue"],
-      typeOptions: ["exact", "fuzzy", "very_fuzzy"],
+      limit: 50, // a renommer en itemsPerPage
+      total: 0, // a renommer en totalResults
+      query: "", // a renommer en searchQuery
       isLoading: false,
-      resetButton: false,
       showCanon: false,
+      selectSearchType: "exact",
     };
   },
   computed: {
@@ -213,16 +169,25 @@ export default {
   watch: {
     query(newValue) {
       if (newValue.trim() === "") {
-        this.resetButton = false;
-        this.type = 0;
         this.getPersons();
       } else {
-        this.resetButton = true;
         this.handleDefaultSearch();
       }
     },
   },
+
   methods: {
+    handleUpdateQuery({query, search_type}) {
+      console.log("From parent : ", query, search_type);
+      this.currentPage = 1;
+      this.selectSearchType = search_type;
+      this.query = query;
+      this.handleDefaultSearch();
+    },
+    handleResetQuery() {
+      this.currentPage = 1;
+      this.getPersons();
+    },
     handleDefaultSearch() {
       if (this.query.trim() === "") {
         this.getPersons();
@@ -230,13 +195,10 @@ export default {
         this.searchPersons();
       }
     },
-    displayLoadingOnChange() {
-      this.isInactive = false;
-    },
     async getPersons() {
-      this.isLoading = false;
+      this.isLoading = true;
       this.query = "";
-      axios
+      await axios
           .get(process.env.VUE_APP_DB_API + "/persons/?size=" + this.limit + "&page=" + this.currentPage, {
             withCredentials: false,
           })
@@ -250,15 +212,16 @@ export default {
             if (this.currentPage > this.totalPages) {
               this.currentPage = 1;
             }
+          }).finally(() => {
+            this.isLoading = false;
           });
     },
     async searchPersons() {
       this.isLoading = true; // Activer le chargement
       this.currentPage = 1;
-      const selectedType = this.typeOptions[this.type];
-      axios
+      await axios
           .get(
-              process.env.VUE_APP_DB_API + "/persons/search?query=" + this.query + "&type_query=" + selectedType,
+              process.env.VUE_APP_DB_API + "/persons/search?query=" + this.query + "&type_query=" + this.selectSearchType,
               {
                 withCredentials: false,
               }
@@ -272,11 +235,7 @@ export default {
             this.total = response.data.total;
           })
           .finally(() => {
-            if (this.persons.length === 0) {
-              this.isLoading = true;
-            } else {
-              this.isLoading = false;
-            }
+            this.isLoading = false;
           });
     },
     toggleContent(person, event) {
@@ -288,30 +247,11 @@ export default {
       this.currentPage = 1;
       this.handleDefaultSearch();
     },
-    isFirstPage(page) {
-      return page === 1;
-    },
-    isLastPage(page) {
-      return page === this.totalPages;
-    },
-    isPageInRange(page) {
-      const pagesToShow = 5; // Adjust as needed
-      const lowerBound = Math.max(2, this.currentPage - Math.floor(pagesToShow / 2));
-      const upperBound = Math.min(
-          this.totalPages - 1,
-          this.currentPage + Math.floor(pagesToShow / 2)
-      );
-      return page >= lowerBound && page <= upperBound;
-    },
     changePage(page) {
       if (page >= 1 && page <= this.totalPages) {
         this.currentPage = page;
         this.getPersons();
       }
-    },
-    resetSearch() {
-      this.query = "";
-      this.getPersons();
     },
   },
   mounted() {
@@ -327,6 +267,26 @@ export default {
 #banner-image::before {
   background-image: url("@/assets/banners/banner-persons_page.png");
 }
+
+/* New CSS */
+
+.box-search-person-facets {
+  background-color: #f5f5f5;
+  padding: 1rem 1.5rem 1.5rem 1.5rem;
+  border: 2px solid #8d1919;
+  border-radius: 5px;
+  position: sticky;
+  top: 0;
+}
+
+.box-container-facets__person_search {
+  border: 0.5px solid #0a0a0a;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+/* END New CSS */
 
 .toggle-btn {
   width: 27px;
@@ -428,7 +388,7 @@ export default {
 .li--person {
   padding: 10px;
   justify-content: space-between;
-  width:70%;
+  width: 70%;
   border-radius: 3px;
   background-color: white;
 }

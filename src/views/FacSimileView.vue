@@ -48,8 +48,29 @@
       <div id='mirador'></div>
     </div>
   </div>
-  <div ref="textContainer" class="box" v-if="endpVolume">
-    <code v-html="text"></code>
+  <div class="header">
+    <div class="card" v-if="endpVolume">
+      <div class="card-header" @click="toggleCard('card3')">
+        <p class="card-header-title">
+          <i class="fas fa-text-width"></i>
+          Accéder à la prédiction texte brut
+          <i class="fas"
+             :class="{'fa-chevron-down': !metadataCardsState.card3, 'fa-chevron-up': metadataCardsState.card3}"
+          ></i>
+        </p>
+      </div>
+      <div class="card-content raw-prediction-text" v-if="metadataCardsState.card3">
+        <div class="notification is-success" v-if="showCopyConfirmation">
+          Texte copié dans le presse-papiers !
+        </div>
+        <button @click="copyToClipboard" class="button is-small is-info">
+          <i class="fas fa-copy"></i>
+        </button>
+        <br>
+        <hr>
+        <code v-html="rawPredictionText"></code>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -69,13 +90,15 @@ export default {
       metadataCardsState: {
         card1: true,
         card2: false,
+        card3: false,
       },
       citationUrl: '',
       viewer: null,
       windowId: "document",
       imageNakalaSrc: "",
       registerPageDate: "",
-      text: "",
+      rawPredictionText: "",
+      showCopyConfirmation: false,
       isNavOpen: true,
       endpVolumeManifest() {
         return this.endpVolume === "collection" || this.canvasId === "top"
@@ -86,9 +109,6 @@ export default {
     };
   },
   watch: {
-    text: function () {
-      this.extraireTexte();
-    },
     citationUrl: function () {
       this.citationUrl = window.location.href;
     },
@@ -129,12 +149,53 @@ export default {
   },
   methods: {
     /**
+     * Format the prediction text with HTML markup to plain text
+     * @param html
+     * @returns {string}
+     * @private
+     */
+    _htmlToPlainText(html) {
+      const tempDivElement = document.createElement("div");
+      tempDivElement.innerHTML = html;
+      let text = tempDivElement.textContent || tempDivElement.innerText || "";
+
+      // Replace multiple spaces and newlines with a single space
+      return text.replace(/[\r\n]+/g, '\n').replace(/[ \t]+/g, ' ').trim();
+    },
+
+    /**
+     * Copy the raw prediction text to the clipboard
+     * @returns {Promise<void>}
+     */
+    copyToClipboard() {
+      const plainText = this._htmlToPlainText(this.rawPredictionText);
+      navigator.clipboard.writeText(plainText).then(() => {
+        this.showCopyConfirmation = true;
+        setTimeout(() => {
+          this.showCopyConfirmation = false;
+        }, 2000);
+      });
+    },
+
+    /**
      * Toggle the metadata cards state
      * @param card
      * @returns {boolean}
      */
     toggleCard(card) {
       this.metadataCardsState[card] = !this.metadataCardsState[card];
+      this._testIfRawPredictionRequired();
+    },
+
+    /**
+     * Test if the raw prediction text is required
+     * (if the card is open and the text is not already loaded)
+     * @private
+     */
+    _testIfRawPredictionRequired() {
+      if (this.metadataCardsState.card3) {
+        this.getRawPredictionTextFromSvg();
+      }
     },
 
     /**
@@ -172,7 +233,14 @@ export default {
         this.$store.commit('setEndpVolume', canvasObject['volume_identifier']);
         this.$store.commit('setCanvasId', canvasObject['canvas_index']);
         this.registerPageDate = canvasObject['date_full'];
-        this.extraireTexte();
+
+        try {
+          if (this.metadataCardsState.card3) {
+            this.getRawPredictionTextFromSvg();
+          }
+        } catch (e) {
+          this.rawPredictionText = "<p>Impossible de récupérer la prédiction texte brut pour le moment</p>";
+        }
       });
     },
 
@@ -214,28 +282,33 @@ export default {
       await this.updateUrlParams();
     },
 
-    extraireTexte() {
+    /**
+     * Get & format the raw prediction text from the svg element into Mirador (text-overlay plugin)
+     * into HTML markup to be displayed in the card
+     *
+     * @returns {Promise<void>}
+     */
+    getRawPredictionTextFromSvg() {
       const svgs = document.querySelectorAll('svg');
-      let texteHtml = '';
+      let textHtmlMarkup = '';
 
       svgs.forEach(svg => {
         const textElements = svg.querySelectorAll('text');
-        textElements.forEach((textEl, ) => {
-          //if (index > 0) texteHtml += '<br>'; // Ajoute un saut de ligne entre les éléments <text>
+        textElements.forEach((textEl,) => {
+          //if (index > 0) texteHtml += '<br>'; // Add a line break if there are several text elements
           const tsElements = textEl.querySelectorAll('tspan');
           const texteDeTextEl = Array.from(tsElements).map(el => el.innerHTML).join(' ');
-          texteHtml += `<p>${texteDeTextEl}</p>`;
+          textHtmlMarkup += `<p>${texteDeTextEl}</p>`;
         });
       });
 
-      this.text = texteHtml;
+      this.rawPredictionText = textHtmlMarkup;
     }
   },
   mounted() {
     this.$store.commit('setEndpVolume', this.$route.params.volumeIndex);
     this.$store.commit('setCanvasId', this.$route.params.canvasIndex);
     this.initMiradorViewer();
-    this.extraireTexte();
   },
 };
 
@@ -282,8 +355,8 @@ export default {
   color: #ff3860;
 }
 
-.box code {
-  white-space: pre-line; /* S'assure que les sauts de ligne sont respectés */
+.raw-prediction-text code {
+  white-space: pre-line;
   font-family: 'Chivo Mono', monospace;
   font-size: 0.8rem;
   line-height: 1.5rem;
@@ -328,5 +401,12 @@ tspan {
 .btn-expanded-nav:hover {
   background-color: #f5f5f5;
   cursor: pointer;
+}
+
+.notification.is-success {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
 }
 </style>
