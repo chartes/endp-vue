@@ -20,6 +20,14 @@
       registres et de la transcription par « HTR » vise à la connaissance du cloître, de sa topographie et de son bâti,
       de sa population, de son économie et de sa vie, des usages que l’on y fait du livre et de l’écrit.
     </p>
+    <div class="logos-container container is-fluid">
+      <a href="https://www.chartes.psl.eu/fr" target="_blank"><img src="@/assets/partners_logo/enc.png" alt="Logo École nationale des chartes" class="logo logo-enc"/></a>
+      <a href="https://lamop.pantheonsorbonne.fr/laboratoire-medievistique-occidentale-paris" target="_blank"><img src="@/assets/partners_logo/lamop.png" alt="Logo Lamop" class="logo"/></a>
+      <a href="https://www.archives-nationales.culture.gouv.fr/" target="_blank"><img src="@/assets/partners_logo/an.png" alt="Logo Archives nationales" class="logo logo-an"/></a>
+      <a href="https://www.bibliotheque-mazarine.fr/fr/" target="_blank"><img src="@/assets/partners_logo/mazarine.png" alt="Logo Bibliothèque Mazarine" class="logo"/></a>
+      <a href="https://www.bnf.fr/fr" target="_blank"><img src="@/assets/partners_logo/bnf.png" alt="Logo BnF" class="logo"/></a>
+      <a href="https://anr.fr/Projet-ANR-20-CE27-0012" target="_blank"><img src="@/assets/partners_logo/anr.png" alt="Logo ANR" class="logo logo-anr"/></a>
+    </div>
   </div>
 </template>
 
@@ -52,5 +60,42 @@ export default {
   padding-right: 0.2em;
   float: left;
   color: #031531;
+}
+
+.logos-container {
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -10rem;
+
+}
+
+.logo {
+  width: 8rem;
+  height: auto;
+  filter: grayscale(100%);
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.logo-enc {
+  width: 15rem;
+}
+
+.logo-an {
+  width: 13rem;
+}
+
+.logo-anr {
+  width: 15rem;
+}
+
+.logo:hover {
+  transform: scale(1.4);
+  filter: grayscale(0);
+  cursor: pointer;
 }
 </style>

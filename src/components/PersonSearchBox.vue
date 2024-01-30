@@ -13,6 +13,7 @@
               class="input"
               type="text"
               placeholder="personne"
+              @keyup.enter="launchSearch"
               v-model="personQuery">
         </p>
         <p class="control">
@@ -20,7 +21,8 @@
             <span>Recherche</span>
           </button>
         </p>
-        <p class="control">
+      </div>
+      <p class="control control-slider">
           <input
               id="slider"
               name="slider"
@@ -35,7 +37,6 @@
             <span class="slider-label__value">{{ typeOptionsTranslated[searchType] }}</span>
           </label>
         </p>
-      </div>
       <p class="control">
         <button class="button is-outlined btn-reset" :class="{'button-reset-search': !resetBtn}" @click="resetSearch">
           <span class="icon is-small"><i class="fas fa-undo"></i></span>
@@ -67,6 +68,10 @@ export default {
     }
   },
   methods: {
+    /**
+     * Launch the search
+     * @emits update:query
+     */
     launchSearch() {
       const trimmedQuery = this.personQuery.trim();
       if (trimmedQuery) {
@@ -76,6 +81,11 @@ export default {
         });
       }
     },
+
+    /**
+     * Reset the search and results
+     * @emits reset:query
+     */
     resetSearch() {
       this.resetBtn = false;
       this.personQuery = "";
@@ -92,6 +102,7 @@ export default {
   display: flex;
   align-items: center;
   margin-top: 0.5em;
+  padding: 1rem;
 }
 
 /* space between the controls */
@@ -127,6 +138,11 @@ export default {
 .button-reset-search {
   opacity: 0;
   display: none;
+}
+
+.control-slider {
+  margin-top: 1rem;
+  margin-left: 1rem;
 }
 
 </style>

@@ -61,4 +61,13 @@ export default {
   background-color: #f5f5f5;
   border-radius: 5px;
 }
+
+.menu-list {
+  padding: 0.2rem;
+}
+
+.menu-list li {
+  padding: 0.2rem;
+  cursor: pointer;
+}
 </style>

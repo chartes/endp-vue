@@ -44,7 +44,7 @@
       <fac-simile-navigation @update-mirador="handleMiradorUpdate"></fac-simile-navigation>
     </div>
     <button @click="toggleNav" class="btn-expanded-nav"><i class="fas fa-bars"></i></button>
-    <div class='column' :class="{ 'is-full': !isNavOpen, 'is-8': isNavOpen }">
+    <div class='column container-mirador' :class="{ 'is-full': !isNavOpen, 'is-8': isNavOpen }">
       <div id='mirador'></div>
     </div>
   </div>
@@ -378,7 +378,7 @@ tspan {
 
 .is-full {
   width: 100%;
-  padding-right: 20%;
+  padding-right: 25%;
 }
 
 .is-8 {

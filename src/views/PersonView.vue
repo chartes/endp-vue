@@ -119,7 +119,7 @@
                       {{ person.first_mention_date ? person.first_mention_date : "Non renseigné" }} -
                       {{ person.last_mention_date ? person.last_mention_date : "Non renseigné" }}</p>
                     <p>
-                      <router-link class="button is-primary is-outlined" :to="`/persons/${person._id_endp}`">
+                      <router-link class="button  btn-person-data-link" :to="`/persons/${person._id_endp}`">
                           <span class="icon is-small">
                             <i class="fas fa-external-link-alt"></i>
                           </span>
@@ -284,6 +284,16 @@ export default {
   border-radius: 5px;
   margin-bottom: 1rem;
   margin-top: 1rem;
+}
+
+.btn-person-data-link {
+  margin-top: 1rem;
+  color: #8d1919;
+}
+
+.btn-person-data-link:hover {
+  background: #8d1919;
+  color: #fff;
 }
 
 /* END New CSS */
