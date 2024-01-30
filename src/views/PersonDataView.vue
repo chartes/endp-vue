@@ -47,7 +47,6 @@
     </div>
     <!-- end Person events timeline -->
   </div>
-  <FamilyGraph />
   <PersonDataCarousel :collecta-items="collecta_urls"/>
 </template>
 

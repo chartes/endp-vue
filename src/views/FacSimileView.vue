@@ -68,6 +68,7 @@
         </button>
         <br>
         <hr>
+        <p v-if="!rawPredictionText">Il semble que l'option "texte" est desactivé dans Mirador.</p>
         <code v-html="rawPredictionText"></code>
       </div>
     </div>
@@ -184,7 +185,7 @@ export default {
      */
     toggleCard(card) {
       this.metadataCardsState[card] = !this.metadataCardsState[card];
-      this._testIfRawPredictionRequired();
+      this.getRawPredictionTextFromSvg();
     },
 
     /**
