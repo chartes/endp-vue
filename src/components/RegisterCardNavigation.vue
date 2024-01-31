@@ -154,14 +154,14 @@ export default {
 .toggle-btn {
   width: 27px;
   height: 27px;
-  background: url('~@/assets/chevron_rouge.svg') center / cover no-repeat;
+  background: url('~@/assets/icons/chevron_rouge.svg') center / cover no-repeat;
   transition: transform 0.6s;
 }
 
 .toggle-btn.is-opened {
   width: 27px;
   height: 27px;
-  background: url('~@/assets/croix.svg') center / cover no-repeat;
+  background: url('~@/assets/icons/croix.svg') center / cover no-repeat;
 }
 
 

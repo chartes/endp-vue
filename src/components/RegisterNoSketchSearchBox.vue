@@ -2,7 +2,7 @@
   <div class="box box-container-facets__nosketch_search">
     <div class="box-header">
       <p class="subtitle nosketch_search-container__label is-5" @click="toggleBox">
-        <img src="@/assets/no-sketch-engine-logo.png" alt="Logo" class="image is-24x24">
+        <img src="@/assets/icons/no-sketch-engine-logo.png" alt="Logo" class="image is-24x24">
         <span>Recherche via NoSketch Engine</span>
         <i :class="`fas ${isBoxExpanded ? 'fa-chevron-up' : 'fa-chevron-down'}`"></i>
       </p>
