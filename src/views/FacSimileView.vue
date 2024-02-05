@@ -1,7 +1,8 @@
 <template>
-  <div class="header" v-if="endpVolume">
+  <div class="header">
     <!-- Title -->
-    <p class="title" v-if="registerPageDate">Fac simile du registre de conclusions capitulaires {{ endpVolume }} de
+    <p class="title" v-if="!registerPageDate">Collection des fac-similés de registres de conclusions capitulaires</p>
+    <p class="title" v-if="registerPageDate">Fac-similé du registre de conclusions capitulaires {{ endpVolume }} de
       Notre-Dame de Paris - <span class="date-title">{{ registerPageDate }}</span></p>
     <!-- Metadata card section -->
     <div class="card">
@@ -21,7 +22,7 @@
         <p>Source de l'image sur Nakala : <a target="_blank" :href="imageNakalaSrc">{{ imageNakalaSrc }}</a></p>
       </div>
     </div>
-    <div class="card">
+    <div class="card" v-if="registerPageDate">
       <div class="card-header" @click="toggleCard('card2')">
         <p class="card-header-title">
           <i class="fas fa-exclamation-triangle"></i>Avertissement
@@ -39,9 +40,13 @@
     </div>
   </div>
   <br>
+
   <div class="columns">
     <div class='column' v-if="isNavOpen">
-      <fac-simile-navigation @update-mirador="handleMiradorUpdate"></fac-simile-navigation>
+      <FacSimileNavigation
+          :register-to-open="endpVolume"
+          :year-to-open="registerPageDate"
+          @update-mirador="handleMiradorUpdate"/>
     </div>
     <button @click="toggleNav" class="btn-expanded-nav"><i class="fas fa-bars"></i></button>
     <div class='column container-mirador' :class="{ 'is-full': !isNavOpen, 'is-8': isNavOpen }">
@@ -68,8 +73,11 @@
         </button>
         <br>
         <hr>
-        <p v-if="!rawPredictionText">Il semble que l'option "texte" est desactivé dans Mirador.</p>
-        <code v-html="rawPredictionText"></code>
+        <!-- create a spinner when the text is loading -->
+        <div v-if="loadPredictionText" class="loader-wrapper">
+          <div class="loader is-loading"></div>
+        </div>
+        <div v-html="rawPredictionText"></div>
       </div>
     </div>
   </div>
@@ -96,10 +104,12 @@ export default {
       citationUrl: '',
       viewer: null,
       windowId: "document",
-      imageNakalaSrc: "",
+      imageNakalaSrc: "https://nakala.fr/collection/10.34847/nkl.03cbi521",
+      altoNakalaSrc: "",
       registerPageDate: "",
       rawPredictionText: "",
       showCopyConfirmation: false,
+      loadPredictionText: false,
       isNavOpen: true,
       endpVolumeManifest() {
         return this.endpVolume === "collection" || this.canvasId === "top"
@@ -121,6 +131,10 @@ export default {
           this.registerPageDate = "";
           this.$store.commit('setEndpVolume', "collection");
           await this.initMiradorViewer();
+        }
+        // fetch and display the raw prediction text only if card3 is open
+        if (this.metadataCardsState.card3) {
+          await this.fetchAndDisplayXML();
         }
         await this.updateUrlParams();
       }
@@ -184,20 +198,13 @@ export default {
      * @returns {boolean}
      */
     toggleCard(card) {
+      // fetch alto only if the card is opened
+      if (card === "card3" && !this.metadataCardsState[card]) {
+        this.fetchAndDisplayXML();
+      }
       this.metadataCardsState[card] = !this.metadataCardsState[card];
-      this.getRawPredictionTextFromSvg();
     },
 
-    /**
-     * Test if the raw prediction text is required
-     * (if the card is open and the text is not already loaded)
-     * @private
-     */
-    _testIfRawPredictionRequired() {
-      if (this.metadataCardsState.card3) {
-        this.getRawPredictionTextFromSvg();
-      }
-    },
 
     /**
      * Init and update the mirador viewer
@@ -228,21 +235,70 @@ export default {
 
         const canvasObject = Object(this.mapSha1Dates[sha1]);
 
-        this.imageNakalaSrc = nakalaUrlImageSrc;
+        this.altoNakalaSrc = canvasObject.alto_nakala_url;
+
+        // test if canvasObject is empty
+        if (Object.keys(canvasObject).length === 0) {
+          this.imageNakalaSrc = "https://nakala.fr/collection/10.34847/nkl.03cbi521";
+        } else {
+          this.imageNakalaSrc = nakalaUrlImageSrc;
+        }
+
         this.citationUrl = window.location;
+        if (canvasObject['date_iso'] !== undefined) {
+          this.$store.commit('setYear', canvasObject['date_iso'].toString().split('-')[0]);
+        }
 
         this.$store.commit('setEndpVolume', canvasObject['volume_identifier']);
         this.$store.commit('setCanvasId', canvasObject['canvas_index']);
         this.registerPageDate = canvasObject['date_full'];
 
-        try {
-          if (this.metadataCardsState.card3) {
-            this.getRawPredictionTextFromSvg();
-          }
-        } catch (e) {
-          this.rawPredictionText = "<p>Impossible de récupérer la prédiction texte brut pour le moment</p>";
-        }
       });
+    },
+
+    /**
+     * Get & display the raw HTR prediction text in correct HTML format from the XML ALTO (fetched from Nakala API)
+     * @param url
+     * @returns null
+     */
+    async fetchAndDisplayXML() {
+      console.log("Fetching XML ALTO on Nakala...")
+      this.loadPredictionText = true;
+    try {
+      const response = await fetch(this.altoNakalaSrc);
+      const xml = await response.text();
+      this.rawPredictionText = this._formatXmlAltoToHtml(xml);
+      this.loadPredictionText = false;
+    } catch (error) {
+      console.error("Error when fetching XML ALTO on Nakala...", error);
+      this.rawPredictionText = "Erreur lors du chargement des données, veuillez réessayer plus tard.";
+      this.loadPredictionText = false;
+    }
+  },
+
+    /**
+     * Format the XML ALTO to HTML
+     * @param xml
+     * @returns {string}
+     * @private
+     */
+    _formatXmlAltoToHtml(xml) {
+      let html = '';
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xml, "text/xml");
+      // comment (only for check the correct image)
+      /* const title = xmlDoc.querySelector('fileName').textContent;
+      html += `<h3>${title}\n</h3>`; */
+      const textLines = xmlDoc.querySelectorAll('TextLine');
+      textLines.forEach(line => {
+        let lineText = '';
+        const strings = line.querySelectorAll('String');
+        strings.forEach(string => {
+          lineText += string.getAttribute('CONTENT') + ' ';
+        });
+        html += `<p>${lineText.trim()}\n</p>`;
+      });
+      return html;
     },
 
     /**
@@ -281,34 +337,15 @@ export default {
       this.$store.commit('setCanvasId', canvasID);
       await this.initMiradorViewer();
       await this.updateUrlParams();
+      // prevent fetch & load of the XML ALTO if the card is not opened
+      this.metadataCardsState['card3'] = false;
     },
-
-    /**
-     * Get & format the raw prediction text from the svg element into Mirador (text-overlay plugin)
-     * into HTML markup to be displayed in the card
-     *
-     * @returns {Promise<void>}
-     */
-    getRawPredictionTextFromSvg() {
-      const svgs = document.querySelectorAll('svg');
-      let textHtmlMarkup = '';
-
-      svgs.forEach(svg => {
-        const textElements = svg.querySelectorAll('text');
-        textElements.forEach((textEl,) => {
-          //if (index > 0) texteHtml += '<br>'; // Add a line break if there are several text elements
-          const tsElements = textEl.querySelectorAll('tspan');
-          const texteDeTextEl = Array.from(tsElements).map(el => el.innerHTML).join(' ');
-          textHtmlMarkup += `<p>${texteDeTextEl}</p>`;
-        });
-      });
-
-      this.rawPredictionText = textHtmlMarkup;
-    }
   },
+
   mounted() {
     this.$store.commit('setEndpVolume', this.$route.params.volumeIndex);
     this.$store.commit('setCanvasId', this.$route.params.canvasIndex);
+    this.endpVolume = this.$route.params.volumeIndex;
     this.initMiradorViewer();
   },
 };
@@ -356,12 +393,8 @@ export default {
   color: #ff3860;
 }
 
-.raw-prediction-text code {
-  white-space: pre-line;
-  font-family: 'Chivo Mono', monospace;
-  font-size: 0.8rem;
-  line-height: 1.5rem;
-  color: #0a0b0d;
+.raw-prediction-text div {
+  font-family: "Times New Roman", Times, serif;
 }
 
 #mirador {
@@ -409,5 +442,24 @@ tspan {
   top: 20px;
   right: 20px;
   z-index: 1000;
+}
+
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.loader {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #3273dc;
+  width: 100px; /* Augmentez la taille du spinner */
+  height: 100px; /* Augmentez la taille du spinner */
+}
+
+.is-active {
+  opacity: 0;
 }
 </style>

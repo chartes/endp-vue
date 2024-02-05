@@ -41,5 +41,8 @@ export default createStore({
         setEndpVolume(state, volume) {
             state.endpVolume = volume;
         },
+        setYear(state, year) {
+            state.year = year;
+        }
     }
 });

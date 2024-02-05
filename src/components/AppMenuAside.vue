@@ -48,7 +48,7 @@ export default {
     navigateToFacSimile() {
       this.$store.commit('setEndpVolume', "collection");
       this.$store.commit('setCanvasId', "top");
-      this.$router.push(`/facsimile/collection/top`);
+      this.$router.push('/facsimile/collection/top');
     },
   },
 }

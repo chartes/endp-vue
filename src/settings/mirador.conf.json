@@ -26,7 +26,7 @@
     ],
     "textOverlay": {
       "enabled": true,
-      "selectable": true,
+      "selectable": false,
       "visible": false,
       "useAutoColors": true
     }

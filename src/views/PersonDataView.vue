@@ -6,6 +6,14 @@
   </div>
   <!-- end Person header -->
   <div class="columns is-multiline">
+    <div class="column is-full">
+      <div class="wrapper-db-link is-flex is-align-items-center">
+        <i class="fas fa-database"></i>
+        <!-- Utilisez une marge à gauche (par exemple, ml-2) pour espacer l'icône et le texte, si nécessaire -->
+        <p>Accéder à la <a class="link-person-db" :href="db_show_url" target="_blank">fiche personne en base</a></p>
+      </div>
+    </div>
+
     <!-- top Person metadata -->
     <div :class="{'column is-full': isEventsEmpty, 'column is-5': !isEventsEmpty}">
       <div class="person-metadata-wrapper">
@@ -64,7 +72,8 @@ export default {
   },
   data() {
     return {
-      dbAdminPath: process.env.VUE_APP_DB_API,
+      dbAdminApiPath: process.env.VUE_APP_DB_API,
+      dbAdminShowPath: "https://dev.chartes.psl.eu/endp-person/endp-person",
       reference_id: this.$route.params.id,
       meta_person: {},
       family_relations: {},
@@ -77,7 +86,8 @@ export default {
         "VIAF": require("@/assets/icons_kb/viaf-icon.png"),
         "DataBnF": require("@/assets/icons_kb/bnf-icon.svg.png"),
         "Studium Parisiense": require("@/assets/icons_kb/studium-icon.png"),
-      }
+      },
+      db_show_url: '',
     };
   },
   computed: {
@@ -114,12 +124,14 @@ export default {
 
         this.family_relations = await this.fetchData(`/persons/person/${this.reference_id}/family_relationships`);
         this.event_relations = await this.fetchData(`/persons/person/${this.reference_id}/events`);
+        this.identifiers = await this.fetchData(`/meta/persons/person/${this.reference_id}?person_id=${this.reference_id}`);
+        this.db_show_url = `${this.dbAdminShowPath}${this.identifiers["person_show_db_path"]}`
       } catch (error) {
         console.error("Erreur lors de la récupération des données:", error);
       }
     },
     async fetchData(endpoint) {
-      const response = await axios.get(`${this.dbAdminPath}${endpoint}`);
+      const response = await axios.get(`${this.dbAdminApiPath}${endpoint}`);
       return response.data;
     },
   },
@@ -190,5 +202,23 @@ export default {
 
 .link-list li {
   margin-bottom: 10px;
+}
+
+.wrapper-db-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  gap: 0.5rem;
+  border: 1px solid #2a2a2a;
+  padding: 0.5rem;
+  border-radius: 5px;
+  width: fit-content;
+  margin-left: 2rem;
+}
+
+.link-person-db:hover {
+  color: #2a2a2a;
+  text-decoration: underline;
 }
 </style>

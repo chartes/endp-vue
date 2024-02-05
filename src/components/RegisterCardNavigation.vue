@@ -41,8 +41,8 @@
           <tbody>
           <tr v-if="facSimile">
             <td><span class="icon book-icon-card"><i class="fas fa-book-open"></i></span></td>
-            <td><router-link :to="`/facsimile/${volume}/${firstCanvasID}`" @click="navigateToFacSimile">{{ firstPage }}</router-link></td>
-            <td><router-link :to="`/facsimile/${volume}/${lastCanvasID}`" @click="navigateToFacSimile">{{ lastPage }}</router-link></td>
+            <td><router-link :to="`/facsimile/${volume}/${firstCanvasID}`" @click="navigateToFacSimile(firstCanvasID, volume, yearFirstPage)">{{ firstPage }}</router-link></td>
+            <td><router-link :to="`/facsimile/${volume}/${lastCanvasID}`" @click="navigateToFacSimile(lastCanvasID, volume, yearLastPage)">{{ lastPage }}</router-link></td>
           </tr>
           <tr v-if="isEdited">
             <td><span class="icon book-icon-card"><i class="fas fa-book"></i></span></td>
@@ -72,6 +72,8 @@ export default {
     isEdited: Boolean,
     facSimile: Boolean,
     defaultCanvasID: Number,
+    yearFirstPage:String,
+    yearLastPage:String,
   },
   data() {
     return {
@@ -83,9 +85,10 @@ export default {
      * Navigate to facsimile page
      * @return {void}
      */
-    navigateToFacSimile() {
-    this.$store.commit('setCanvasId', this.firstCanvasID);
-    this.$store.commit('setEndpVolume', this.volume);
+    navigateToFacSimile(canvas, volume, year) {
+    this.$store.commit('setCanvasId', canvas);
+    this.$store.commit('setEndpVolume', volume);
+    this.$store.commit('setYear', year);
   },
     /**
      * Toggle content of card

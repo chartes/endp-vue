@@ -66,6 +66,8 @@
             :AnSivLink="cardData.sivLink"
             :firstPage="cardData.firstPage"
             :lastPage="cardData.lastPage"
+            :yearFirstPage="cardData.year_first"
+            :yearLastPage="cardData.year_last"
             :period="cardData.period"
             :defaultCanvasID="0"
             :firstCanvasID="cardData.firstPageCanvasID"
@@ -145,6 +147,8 @@ export default {
             label: volumeInfo.label,
             firstPage: firstData.firstPage,
             lastPage: lastData.lastPage,
+            year_first: firstData.date.split('-')[0],
+            year_last: lastData.date.split('-')[0],
             firstPageCanvasID: firstData.firstPageCanvasIdx,
             lastPageCanvasID: lastData.lastPageCanvasIdx,
             sivLink: firstData.links.siv_link,
