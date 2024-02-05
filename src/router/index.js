@@ -5,6 +5,7 @@ import RessourcesView from "@/views/RessourcesView.vue";
 import PersonDataView from "@/views/PersonDataView.vue";
 import RangeRegisterPrototype from "@/views/RegisterView.vue";
 import FacSimileView from "@/views/FacSimileView.vue";
+import ContactView from "@/views/ContactView.vue";
 
 const rootURL = `${process.env.VUE_APP_APP_ROOT_URL}`
 
@@ -40,6 +41,12 @@ const routes = [
       name: 'facsimile',
       component: FacSimileView,
     },
+  {
+    path:'/contact',
+    name: 'contact',
+    component: ContactView,
+  }
+
 ]
 
 const router = createRouter({

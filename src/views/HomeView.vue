@@ -20,15 +20,28 @@
       registres et de la transcription par « HTR » vise à la connaissance du cloître, de sa topographie et de son bâti,
       de sa population, de son économie et de sa vie, des usages que l’on y fait du livre et de l’écrit.
     </p>
-    <div class="logos-container container is-fluid">
-      <a href="https://www.chartes.psl.eu/fr" target="_blank"><img src="@/assets/partners_logo/enc.png" alt="Logo École nationale des chartes" class="logo logo-enc"/></a>
-      <!--<a href="https://www.pantheonsorbonne.fr/" target="_blank"><img src="@/assets/partners_logo/paris1.png" alt="Logo Paris 1 Panthéon-Sorbonne" class="logo logo-paris1"/></a>
-      <a href="https://www.cnrs.fr/fr" target="_blank"><img src="@/assets/partners_logo/cnrs.svg.png" alt="Logo CNRS" class="logo cnrs"/></a>-->
-      <a href="https://lamop.pantheonsorbonne.fr/laboratoire-medievistique-occidentale-paris" target="_blank"><img src="@/assets/partners_logo/lamop.png" alt="Logo Lamop" class="logo"/></a>
-      <a href="https://www.archives-nationales.culture.gouv.fr/" target="_blank"><img src="@/assets/partners_logo/an.png" alt="Logo Archives nationales" class="logo logo-an"/></a>
-      <a href="https://www.bibliotheque-mazarine.fr/fr/" target="_blank"><img src="@/assets/partners_logo/mazarine.png" alt="Logo Bibliothèque Mazarine" class="logo"/></a>
-      <a href="https://www.bnf.fr/fr" target="_blank"><img src="@/assets/partners_logo/bnf.png" alt="Logo BnF" class="logo"/></a>
-      <a href="https://anr.fr/Projet-ANR-20-CE27-0012" target="_blank"><img src="@/assets/partners_logo/ANR.jpg" alt="Logo ANR" class="logo logo-anr"/></a>
+    <div class="logos-container is-flex is-centered">
+      <a href="https://www.chartes.psl.eu/fr" target="_blank"><img src="@/assets/partners_logo/enc.png"
+                                                                   alt="Logo École nationale des chartes"
+                                                                   class="logo logo-enc"/></a>
+      <a href="https://www.pantheonsorbonne.fr/" target="_blank"><img src="@/assets/partners_logo/paris1.png"
+                                                                      alt="Logo Paris 1 Panthéon-Sorbonne"
+                                                                      class="logo logo-paris1"/></a>
+      <a href="https://www.cnrs.fr/fr" target="_blank"><img src="@/assets/partners_logo/cnrs.svg.png" alt="Logo CNRS"
+                                                            class="logo logo-cnrs"/></a>
+      <a href="https://lamop.pantheonsorbonne.fr/laboratoire-medievistique-occidentale-paris" target="_blank"><img
+          src="@/assets/partners_logo/lamop.png" alt="Logo Lamop" class="logo"/></a>
+    </div>
+    <div class="logos-container is-flex is-centered">
+      <a href="https://www.archives-nationales.culture.gouv.fr/" target="_blank"><img
+          src="@/assets/partners_logo/an.png" alt="Logo Archives nationales" class="logo logo-an"/></a>
+      <a href="https://www.bibliotheque-mazarine.fr/fr/" target="_blank"><img src="@/assets/partners_logo/mazarine.png"
+                                                                              alt="Logo Bibliothèque Mazarine"
+                                                                              class="logo"/></a>
+      <a href="https://www.bnf.fr/fr" target="_blank"><img src="@/assets/partners_logo/bnf.png" alt="Logo BnF"
+                                                           class="logo"/></a>
+    <a href="https://anr.fr/Projet-ANR-20-CE27-0012" target="_blank"><img src="@/assets/partners_logo/ANR.jpg"
+                                                                          alt="Logo ANR" class="logo logo-anr"/></a>
     </div>
   </div>
 </template>
@@ -65,14 +78,14 @@ export default {
 }
 
 .logos-container {
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   gap: 5rem;
   margin-top: 2rem;
   margin-bottom: 2rem;
   display: flex;
   flex-wrap: wrap;
-  margin-left: -10rem;
+  margin-left: 15rem;
 
 }
 
@@ -93,6 +106,10 @@ export default {
 
 .logo-anr {
   width: 9rem;
+}
+
+.logo-cnrs {
+  width: 4rem;
 }
 
 .logo:hover {
