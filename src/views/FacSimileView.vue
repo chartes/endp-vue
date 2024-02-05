@@ -19,7 +19,16 @@
         <p>Citation url du fac simile courant : <a :href="citationUrl">{{
             citationUrl
           }}</a></p>
-        <p>Source de l'image sur Nakala : <a target="_blank" :href="imageNakalaSrc">{{ imageNakalaSrc }}</a></p>
+        <br>
+        <div class="columns nakala-metadata-wrapper is-vcentered">
+          <div class="column is-narrow">
+            <img src="@/assets/icons/nakala-square-icon.png" alt="Fac-simile" class="nakala-image">
+          </div>
+          <div class="column">
+            <p>Source de l'image sur Nakala : <a target="_blank" :href="imageNakalaSrc">{{ imageNakalaSrc }}</a></p>
+          </div>
+        </div>
+
       </div>
     </div>
     <div class="card" v-if="registerPageDate">
@@ -65,13 +74,18 @@
         </p>
       </div>
       <div class="card-content raw-prediction-text" v-if="metadataCardsState.card3">
-        <div class="notification is-success" v-if="showCopyConfirmation">
-          Texte copié dans le presse-papiers !
+        <div :class="['notification', {'is-success': showCopyConfirmation, 'is-danger': showCopyError}]"
+             v-if="showCopyConfirmation || showCopyError">
+          <p v-if="showCopyConfirmation">Le texte a été copié dans le presse-papiers !</p>
+          <p v-else>Impossible de copier le texte dans le presse-papiers ! Veuillez réessayer plus tard.</p>
         </div>
         <button @click="copyToClipboard" class="button is-small is-info">
           <i class="fas fa-copy"></i>
         </button>
         <br>
+        <br>
+        <p><u>Note</u> : <i>L'ordre des lignes de texte peut ne pas correspondre à l'ordre des lignes du fac-similé.</i>
+        </p>
         <hr>
         <!-- create a spinner when the text is loading -->
         <div v-if="loadPredictionText" class="loader-wrapper">
@@ -104,17 +118,18 @@ export default {
       citationUrl: '',
       viewer: null,
       windowId: "document",
-      imageNakalaSrc: "https://nakala.fr/collection/10.34847/nkl.03cbi521",
+      imageNakalaSrc: `${this.nakalaAppService}collection/${this.nakalaDoiImages}`,
       altoNakalaSrc: "",
       registerPageDate: "",
       rawPredictionText: "",
       showCopyConfirmation: false,
+      showCopyError: false,
       loadPredictionText: false,
       isNavOpen: true,
       endpVolumeManifest() {
         return this.endpVolume === "collection" || this.canvasId === "top"
-            ? `https://iiif.chartes.psl.eu/endp/collection/top`
-            : `https://iiif.chartes.psl.eu/endp/${this.endpVolume}/manifest`;
+            ? `${this.iiifEncService}collection/top`
+            : `${this.iiifEncService}${this.endpVolume}/manifest`;
       },
 
     };
@@ -157,8 +172,13 @@ export default {
         [
           'canvasId',
           'endpVolume',
-          'MiradorSettings',
-          'mapSha1Dates'
+          'miradorSettings',
+          'mappingSha1VolumesJSON',
+          'iiifEncService',
+          'nakalaAppService',
+          'nakalaApiService',
+          'nakalaApiIIIFService',
+          'nakalaDoiImages'
         ]
     ),
   },
@@ -182,15 +202,35 @@ export default {
      * Copy the raw prediction text to the clipboard
      * @returns {Promise<void>}
      */
-    copyToClipboard() {
+    async copyToClipboard() {
       const plainText = this._htmlToPlainText(this.rawPredictionText);
-      navigator.clipboard.writeText(plainText).then(() => {
-        this.showCopyConfirmation = true;
-        setTimeout(() => {
-          this.showCopyConfirmation = false;
-        }, 2000);
-      });
+      let notificationType;
+      if (navigator.clipboard && window.isSecureContext) {
+        try {
+          notificationType = await navigator.clipboard.writeText(plainText)
+              .then(() => "success")
+              .catch(() => "error");
+        } catch (e) {
+          notificationType = "error";
+        }
+      } else {
+        notificationType = "error";
+      }
+      this.showCopyNotification(notificationType);
     },
+
+    /**
+     * Show a notification when the text is copied to the clipboard
+     * @param {string} type - Le type de notification ('success' ou 'error').
+     */
+    showCopyNotification(type) {
+      const propName = type === "success" ? 'showCopyConfirmation' : 'showCopyError';
+      this[propName] = true;
+      setTimeout(() => {
+        this[propName] = false;
+      }, 2000);
+    },
+
 
     /**
      * Toggle the metadata cards state
@@ -214,7 +254,7 @@ export default {
     initMiradorViewer() {
       this.viewer = Mirador.viewer({
         id: 'mirador',
-        ...this.MiradorSettings,
+        ...this.miradorSettings,
         windows: [
           {
             id: this.windowId,
@@ -228,26 +268,23 @@ export default {
         let canvasIDUrl = String(this.storeState.windows[this.windowId].canvasId);
 
         let nakalaUrlImageSrc = canvasIDUrl
-            .replace("https://api.nakala.fr/iiif/", "https://nakala.fr/")
+            .replace(this.nakalaApiIIIFService, this.nakalaAppService)
             .replace("/Canvas/", "#");
 
         const sha1 = canvasIDUrl.split("/")[(canvasIDUrl.split("/").length - 1)];
 
-        const canvasObject = Object(this.mapSha1Dates[sha1]);
+        const canvasObject = Object(this.mappingSha1VolumesJSON[sha1]);
 
         this.altoNakalaSrc = canvasObject.alto_nakala_url;
 
         // test if canvasObject is empty
         if (Object.keys(canvasObject).length === 0) {
-          this.imageNakalaSrc = "https://nakala.fr/collection/10.34847/nkl.03cbi521";
+          this.imageNakalaSrc = `${this.nakalaAppService}collection/${this.nakalaDoiImages}`;
         } else {
           this.imageNakalaSrc = nakalaUrlImageSrc;
         }
 
         this.citationUrl = window.location;
-        if (canvasObject['date_iso'] !== undefined) {
-          this.$store.commit('setYear', canvasObject['date_iso'].toString().split('-')[0]);
-        }
 
         this.$store.commit('setEndpVolume', canvasObject['volume_identifier']);
         this.$store.commit('setCanvasId', canvasObject['canvas_index']);
@@ -262,19 +299,17 @@ export default {
      * @returns null
      */
     async fetchAndDisplayXML() {
-      console.log("Fetching XML ALTO on Nakala...")
       this.loadPredictionText = true;
-    try {
-      const response = await fetch(this.altoNakalaSrc);
-      const xml = await response.text();
-      this.rawPredictionText = this._formatXmlAltoToHtml(xml);
-      this.loadPredictionText = false;
-    } catch (error) {
-      console.error("Error when fetching XML ALTO on Nakala...", error);
-      this.rawPredictionText = "Erreur lors du chargement des données, veuillez réessayer plus tard.";
-      this.loadPredictionText = false;
-    }
-  },
+      try {
+        const response = await fetch(this.altoNakalaSrc);
+        const xml = await response.text();
+        this.rawPredictionText = this._formatXmlAltoToHtml(xml);
+        this.loadPredictionText = false;
+      } catch (error) {
+        this.rawPredictionText = "Erreur lors du chargement des données, veuillez réessayer plus tard.";
+        this.loadPredictionText = false;
+      }
+    },
 
     /**
      * Format the XML ALTO to HTML
@@ -282,6 +317,7 @@ export default {
      * @returns {string}
      * @private
      */
+
     _formatXmlAltoToHtml(xml) {
       let html = '';
       const parser = new DOMParser();
@@ -300,6 +336,7 @@ export default {
       });
       return html;
     },
+
 
     /**
      * Update the url params
@@ -416,7 +453,7 @@ tspan {
 }
 
 .is-8 {
-  width: 75%; /* ou la largeur que vous souhaitez pour cette colonne */
+  width: 75%;
   padding-right: 20%;
 }
 
@@ -442,6 +479,17 @@ tspan {
   top: 20px;
   right: 20px;
   z-index: 1000;
+  color: #000000;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.notification.is-danger {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  color: #000000;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .loader-wrapper {
@@ -455,11 +503,16 @@ tspan {
 .loader {
   border: 4px solid rgba(0, 0, 0, 0.1);
   border-left-color: #3273dc;
-  width: 100px; /* Augmentez la taille du spinner */
-  height: 100px; /* Augmentez la taille du spinner */
+  width: 100px;
+  height: 100px;
 }
 
 .is-active {
   opacity: 0;
+}
+
+.nakala-metadata-wrapper .nakala-image {
+  max-width: 2rem;
+  margin-right: -1rem;
 }
 </style>

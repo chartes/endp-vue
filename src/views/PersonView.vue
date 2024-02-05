@@ -141,6 +141,7 @@
 <script>
 import axios from "axios";
 import PersonSearchBox from "@/components/PersonSearchBox.vue";
+import {mapState} from "vuex";
 
 export default {
   name: "PersonView",
@@ -150,7 +151,6 @@ export default {
   data() {
     return {
       persons: [], // a renommer en personsItems
-      dbAdminPath: process.env.VUE_APP_DB_ADMIN, // mettre dans le store (comme les autres chemins)
       currentPage: 1,
       limit: 50, // a renommer en itemsPerPage
       total: 0, // a renommer en totalResults
@@ -161,6 +161,8 @@ export default {
     };
   },
   computed: {
+    ...mapState(["personDbApi"]),
+
     totalPages() {
       return Math.ceil(this.total / this.limit);
     },
@@ -199,7 +201,8 @@ export default {
       this.isLoading = true;
       this.query = "";
       await axios
-          .get(process.env.VUE_APP_DB_API + "/persons/?size=" + this.limit + "&page=" + this.currentPage, {
+          .get(`${this.personDbApi}/persons/?size=${this.limit}&page=${this.currentPage}`,
+          {
             withCredentials: false,
           })
           .then((response) => {
@@ -220,12 +223,10 @@ export default {
       this.isLoading = true; // Activer le chargement
       this.currentPage = 1;
       await axios
-          .get(
-              process.env.VUE_APP_DB_API + "/persons/search?query=" + this.query + "&type_query=" + this.selectSearchType,
-              {
-                withCredentials: false,
-              }
-          )
+          .get(`${this.personDbApi}/persons/search?query=${this.query}&type_query=${this.selectSearchType}`,
+          {
+            withCredentials: false,
+          })
           .then((response) => {
             console.log(response.data);
             this.persons = response.data.results.map((person) => ({

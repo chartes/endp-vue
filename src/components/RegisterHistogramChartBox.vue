@@ -32,7 +32,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['endpData'])
+    ...mapState(['navByDatesJSON'])
   },
   mounted() {
     this.calculatePagesByYear();
@@ -54,9 +54,9 @@ export default {
      * @returns {void}
      */
     calculatePagesByYear() {
-      Object.keys(this.endpData).forEach(key => {
+      Object.keys(this.navByDatesJSON).forEach(key => {
         const year = key.split('-')[0]; // Split the key and get the year
-        const pages = this.endpData[key].reduce((total, record) => {
+        const pages = this.navByDatesJSON[key].reduce((total, record) => {
           return total + (record.lastPageCanvasIdx - record.firstPageCanvasIdx + 1);
         }, 0);
 

@@ -2,7 +2,7 @@
   <nav class="fac-simile__toc">
     <h1 class="main__title__toc">Table des registres capitulaires</h1>
     <ul>
-      <li v-for="(years, register) in this.indexFSNavJson" :key="register" class="register">
+      <li v-for="(years, register) in this.navByVolumesJSON" :key="register" class="register">
         <b @click="toggleRegister(register)">
           <span class="register_name">{{ register }}</span>
           <span class="chevron" :class="{ 'open': openRegisters[register]?.isOpen }">&#9660;</span>
@@ -38,7 +38,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["indexFSNavJson"]),
+    ...mapState(["navByVolumesJSON"]),
   },
   methods: {
     /**

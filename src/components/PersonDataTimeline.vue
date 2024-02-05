@@ -65,7 +65,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['months', 'mapSha1Dates']),
+    ...mapState(['months', 'mappingSha1VolumesJSON']),
     sortedEvents() {
       const eventsWithDate = Object.values(this.eventsResponse).filter(e => e.date).sort((a, b) => new Date(a.date) - new Date(b.date));
       const eventsWithoutDate = Object.values(this.eventsResponse).filter(e => !e.date);
@@ -94,7 +94,7 @@ export default {
       if (!identifiers) return '';
       /*"image_url": "LL108B;FRAN_0393_00301.tif;f698da8e09f4e6ca97db5856f0527d2ac81c65e2" */
       const parts = identifiers.split(';');
-      return `${parts[0]}/${this.mapSha1Dates[parts[2]].canvas_index}`;
+      return `${parts[0]}/${this.mappingSha1VolumesJSON[parts[2]].canvas_index}`;
     },
 
     /**

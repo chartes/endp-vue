@@ -119,7 +119,7 @@ export default {
     [this.inputStartYear, this.inputEndYear] = this.yearRange;
   },
   computed: {
-    ...mapState(['months', 'endpData', 'endpVolumesData']),
+    ...mapState(['months', 'navByDatesJSON', 'metadataVolumesJSON']),
 
     totalRegisters() {
       return this.updatedCardData.length;
@@ -137,7 +137,7 @@ export default {
       const filteredGroupedData = this.filteredAndGroupedData;
       // retrieve data according to the volumes filtered and grouped by volume for
       // a specific interval of date
-      return Object.entries(this.endpVolumesData).reduce((acc, [volumeKey, volumeInfo]) => {
+      return Object.entries(this.metadataVolumesJSON).reduce((acc, [volumeKey, volumeInfo]) => {
         if (filteredGroupedData[volumeKey]) {
           const volumeData = filteredGroupedData[volumeKey];
           const firstData = volumeData[0];
@@ -214,7 +214,7 @@ export default {
      * @returns {[string, unknown][]}
      */
     _filterDataByDate() {
-      return Object.entries(this.endpData)
+      return Object.entries(this.navByDatesJSON)
           .filter(([date]) => date >= this._formatDateIso(
                   this.startMonthCode,
                   this.yearRange[0]

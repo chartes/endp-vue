@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
+
 export default {
   name: "RegisterNoSketchSearchBox",
   props: {
@@ -40,6 +42,9 @@ export default {
       isBoxExpanded: false,
     }
   },
+  computed: {
+    ...mapState(["noSketchService"]),
+  },
   methods: {
     /**
      * Prepare the NoSketch request
@@ -48,7 +53,7 @@ export default {
      */
     _prepareNoSketchRequest() {
       let cqlQuery = encodeURIComponent(`[word="${this.NoSketchTermSearch}"] within <doc (date >="${this.yearRange[0]}") & (date<="${this.yearRange[1]}") />`);
-      let baseNoSketchUrl = "https://nosketch-engine.lamop.fr/#concordance";
+      let baseNoSketchUrl = `${this.noSketchService}#concordance`;
       let queryParams = `corpname=endp&tab=advanced&queryselector=cql&attrs=word&viewmode=kwic&attr_allpos=all&refs_up=0&shorten_refs=1&glue=1&gdexcnt=300&show_gdex_scores=0&itemsPerPage=20&structs=s%2Cg&refs=%3Ddoc.id&default_attr=word&cql=${cqlQuery}&showresults=1&showTBL=0&tbl_template=&gdexconf=&f_tab=basic&f_showrelfrq=1&f_showperc=0&f_showreldens=0&f_showreltt=0&c_custom=`;
       return `${baseNoSketchUrl}?${queryParams}`;
     },

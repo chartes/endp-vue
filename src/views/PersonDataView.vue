@@ -63,6 +63,7 @@
 import axios from 'axios';
 import PersonDataTimeline from "@/components/PersonDataTimeline.vue";
 import PersonDataCarousel from "@/components/PersonDataCarousel.vue";
+import {mapState} from "vuex";
 
 export default {
   name: "PersonDataView",
@@ -72,8 +73,6 @@ export default {
   },
   data() {
     return {
-      dbAdminApiPath: process.env.VUE_APP_DB_API,
-      dbAdminShowPath: "https://dev.chartes.psl.eu/endp-person/endp-person",
       reference_id: this.$route.params.id,
       meta_person: {},
       family_relations: {},
@@ -91,6 +90,8 @@ export default {
     };
   },
   computed: {
+    ...mapState(["personDbApi", "personDbAdminShow"]),
+
     isFamilyEmpty() {
       return !this.family_relations.relatives || this.family_relations.relatives.length === 0;
     },
@@ -125,13 +126,13 @@ export default {
         this.family_relations = await this.fetchData(`/persons/person/${this.reference_id}/family_relationships`);
         this.event_relations = await this.fetchData(`/persons/person/${this.reference_id}/events`);
         this.identifiers = await this.fetchData(`/meta/persons/person/${this.reference_id}?person_id=${this.reference_id}`);
-        this.db_show_url = `${this.dbAdminShowPath}${this.identifiers["person_show_db_path"]}`
+        this.db_show_url = `${this.personDbAdminShow}${this.identifiers["person_show_db_path"]}`
       } catch (error) {
         console.error("Erreur lors de la récupération des données:", error);
       }
     },
     async fetchData(endpoint) {
-      const response = await axios.get(`${this.dbAdminApiPath}${endpoint}`);
+      const response = await axios.get(`${this.personDbApi}${endpoint}`);
       return response.data;
     },
   },
