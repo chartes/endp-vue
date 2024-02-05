@@ -1,47 +1,55 @@
 <template>
+  <p><i>Cliquer/survoler pour faire apparaître les événements</i></p>
   <button class="button btn-scroll" @mousedown="startScroll(-50)" @mouseup="stopScroll" :disabled="isAtTop">▲</button>
   <div class="timeline-scroll-container" ref="scrollContainer">
     <div class="timeline-container">
-      <div v-for="event in sortedEvents" :key="event._id_endp" class="timeline-item">
-        <div
-            :class="['timeline-date', { active: hover === event._id_endp || clicked === event._id_endp }]"
-            v-if="event.date"
-            @click="togglePopup(event._id_endp)"
-        >
-          {{ formatDate(event.date) }}
+      <div v-for="(eventsGroup, date) in groupedEvents" :key="date" class="timeline-item">
+        <div @click="togglePopup(date)" class="timeline-dot"
+     :class="{ 'without-date': date === 'date_inconnue', 'dot-selected': selectedDate === date }"></div>
+
+        <div :class="['timeline-date', { active: hover === date || clicked === date }]" @click="togglePopup(date)">
+          {{ formatDate(date) }}
         </div>
-        <div
-            :class="['timeline-dot', { 'without-date': !event.date }]"
-            @mouseover="hover = event._id_endp"
-            @mouseleave="hover = null"
-            @click="togglePopup(event._id_endp)"
-        ></div>
-        <div
-            v-if="clicked === event._id_endp || (hover === event._id_endp && clicked === null)"
-            class="timeline-popup"
-        >
-          <div class="popup-date">☞ {{ event.type }}</div>
-          <div class="popup-description">
-              <span v-if="event.thesaurus_term_person" class="event-term"><u>{{
-                  event.thesaurus_term_person.topic
-                }}</u> : {{
-                  event.thesaurus_term_person.term_fr
-                }} ({{ event.thesaurus_term_person.term_la }})</span>
-            <br v-if="event.thesaurus_term_person">
-            <span v-if="event.place_term" class="event-place"><u>Lieu</u> : {{
-                event.place_term.term_fr
-              }} ({{ event.place_term.term_la }})</span></div>
-          <span v-if="event.image_url"><!--icon book --><i class="fas fa-book"></i>
-              <router-link :to="`/facsimile/${formatImageIdentifiers(event.image_url)}`" target="_blank"> Aller au Fac-simile</router-link></span>
+        <div v-if="clicked === date" class="popup-group">
+          <div class="popup-and-navigation" v-for="(event, index) in eventsGroup" :key="event._id_endp">
+            <div class="timeline-popup" :style="{ zIndex: activePopupIndex[date] === index ? 100 : 99 }"
+                 v-show="activePopupIndex[date] === index">
+              <div class="popup-content">
+                <div class="popup-date">☞ {{ event.type }}</div>
+                <div class="popup-description">
+                <span v-if="event.thesaurus_term_person" class="event-term"><u>{{
+                    event.thesaurus_term_person.topic
+                  }}</u> : {{ event.thesaurus_term_person.term_fr }} ({{ event.thesaurus_term_person.term_la }})</span>
+                  <br v-if="event.thesaurus_term_person">
+                  <span v-if="event.place_term" class="event-place"><u>Lieu</u> : {{
+                      event.place_term.term_fr
+                    }} ({{ event.place_term.term_la }})</span>
+                </div>
+                <span v-if="event.image_url"><!--icon book --><i class="fas fa-book"></i>
+                <router-link :to="`/facsimile/${formatImageIdentifiers(event.image_url)}`" target="_blank"> Aller au Fac-simile</router-link>
+              </span>
+              </div>
+            </div>
+            <!-- Carousel Navigation: Shown if there's more than one event -->
+            <div v-if="eventsGroup.length > 1" class="popup-navigation" :style="{ zIndex: 101 }">
+              <span class="popup-counter">{{ activePopupIndex[date] + 1 }}/{{ eventsGroup.length }}</span>
+              <button @click="navigateInCarousel(date, -1)" class="button nav-left">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <button @click="navigateInCarousel(date, 1)" class="button nav-right">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <button class="button btn-scroll" @mousedown="startScroll(50)" @mouseup="stopScroll" :disabled="isAtBottom">▼</button>
-  <div class="timeline-legend">
+  <!--<div class="timeline-legend">
     <span class="legend-item"><span class="dot neutral"></span> Cliquer/Survoler pour faire apparaître</span>
     <span class="legend-item"><span class="dot without-date"></span> Date de l'événement inconnue</span>
-  </div>
+  </div>-->
 </template>
 
 <script>
@@ -62,14 +70,26 @@ export default {
       scrollInterval: null,
       isAtTop: true,
       isAtBottom: false,
+      activePopupIndex: {},
+      selectedDate: null,
     };
   },
   computed: {
     ...mapState(['months', 'mappingSha1VolumesJSON']),
-    sortedEvents() {
+    groupedEvents() {
       const eventsWithDate = Object.values(this.eventsResponse).filter(e => e.date).sort((a, b) => new Date(a.date) - new Date(b.date));
       const eventsWithoutDate = Object.values(this.eventsResponse).filter(e => !e.date);
-      return [...eventsWithDate, ...eventsWithoutDate];
+
+      // Group events by date
+      const grouped = {};
+      eventsWithDate.forEach(event => {
+        if (!grouped[event.date]) {
+          grouped[event.date] = [];
+        }
+        grouped[event.date].push(event);
+      });
+
+      return {...grouped, 'Date inconnue': eventsWithoutDate};
     }
   },
   mounted() {
@@ -77,6 +97,24 @@ export default {
     this.$refs.scrollContainer.addEventListener('wheel', this.handleWheel, {passive: false});
   },
   methods: {
+    /**
+     * Navigate in the timeline's popup like a carousel
+     * @param date
+     * @param direction
+     * @returns {void}
+     */
+    navigateInCarousel(date, direction) {
+      const totalEvents = this.groupedEvents[date].length;
+      let currentIndex = this.activePopupIndex[date] || 0;
+      let newIndex = currentIndex + direction;
+      if (newIndex >= totalEvents) {
+        newIndex = 0;
+      } else if (newIndex < 0) {
+        newIndex = totalEvents - 1;
+      }
+      this.activePopupIndex[date] = newIndex;
+      this.activePopupIndex = {...this.activePopupIndex};
+    },
     /**
      * Prevents scrolling the page when scrolling the timeline
      * @param event
@@ -160,11 +198,18 @@ export default {
 
     /**
      * Toggle the popup of an event
-     * @param id
+     * @param date
      */
-    togglePopup(id) {
-      this.clicked = this.clicked === id ? null : id;
-    },
+    togglePopup(date) {
+  if (this.clicked === date) {
+    this.clicked = null; // Ferme le groupe si déjà ouvert
+    this.selectedDate = null; // Désélectionne le dot
+  } else {
+    this.clicked = date;
+    this.selectedDate = date; // Sélectionne le nouveau dot
+    this.activePopupIndex[date] = 0; // Initialiser ou réinitialiser l'index au premier pop-up du groupe
+  }
+},
   }
 };
 </script>
@@ -197,7 +242,7 @@ export default {
   position: absolute;
   width: 20px;
   height: 20px;
-  background: #BB062D;
+  background: #FFFFFF;
   border-radius: 50%;
   top: 15px;
   left: 50%;
@@ -209,6 +254,11 @@ export default {
 
 .timeline-dot:hover {
   transform: translateX(-50%) scale(1.5);
+  background: #BB062D;
+}
+
+.dot-selected {
+  background: #BB062D;
 }
 
 
@@ -306,5 +356,45 @@ export default {
   outline: none;
   cursor: pointer;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.popup-navigation {
+  position: absolute;
+  right: -22rem;
+  top:-3rem;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+}
+
+
+.popup-counter {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.nav-left, .nav-right {
+  /* create a red circle  and space between */
+   margin: 0 0.5rem 0 1.3rem;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #BB062D;
+  color: #FFFFFF;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+
+}
+
+.popup-and-navigation {
+  display: flex;
+  justify-content: space-between; /* ou 'flex-end' selon votre structure exacte */
+  align-items: center;
+}
+
+.popup-navigation {
+  margin-left: auto; /* pousse la navigation à l'extrémité droite du conteneur flex */
 }
 </style>
