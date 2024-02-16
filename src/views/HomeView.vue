@@ -31,7 +31,10 @@
                                                             class="logo logo-cnrs"/></a>
       <a href="https://lamop.pantheonsorbonne.fr/laboratoire-medievistique-occidentale-paris" target="_blank"><img
           src="@/assets/partners_logo/lamop.png" alt="Logo Lamop" class="logo"/></a>
+      <a href="" target="_blank"><img
+          src="@/assets/partners_logo/pariscite.png" alt="Logo Paris Cité" class="logo logo-pariscite"/></a>
     </div>
+
     <div class="logos-container is-flex is-centered">
       <a href="https://www.archives-nationales.culture.gouv.fr/" target="_blank"><img
           src="@/assets/partners_logo/an.png" alt="Logo Archives nationales" class="logo logo-an"/></a>
@@ -78,14 +81,13 @@ export default {
 }
 
 .logos-container {
-  justify-content: left;
   align-items: center;
   gap: 5rem;
   margin-top: 2rem;
   margin-bottom: 2rem;
   display: flex;
   flex-wrap: wrap;
-  margin-left: 15rem;
+  margin-left: 5rem;
 
 }
 
@@ -110,6 +112,10 @@ export default {
 
 .logo-cnrs {
   width: 4rem;
+}
+
+.logo-pariscite {
+  width: 13rem;
 }
 
 .logo:hover {

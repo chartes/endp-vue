@@ -53,6 +53,7 @@
   <div class="columns">
     <div class='column' v-if="isNavOpen">
       <FacSimileNavigation
+          :selected-nav="selectedNav"
           :register-to-open="endpVolume"
           :year-to-open="registerPageDate"
           @update-mirador="handleMiradorUpdate"/>
@@ -110,6 +111,11 @@ export default {
   components: {FacSimileNavigation},
   data() {
     return {
+      selectedNav: {
+      register: null,
+      year: null,
+      canvasID: null,
+    },
       metadataCardsState: {
         card1: true,
         card2: false,
@@ -289,7 +295,11 @@ export default {
         this.$store.commit('setEndpVolume', canvasObject['volume_identifier']);
         this.$store.commit('setCanvasId', canvasObject['canvas_index']);
         this.registerPageDate = canvasObject['date_full'];
-
+        this.selectedNav = {
+        'register': this.endpVolume,
+        'canvas': this.canvasId,
+        'year': this.registerPageDate,
+      }
       });
     },
 
@@ -377,6 +387,7 @@ export default {
       // prevent fetch & load of the XML ALTO if the card is not opened
       this.metadataCardsState['card3'] = false;
     },
+
   },
 
   mounted() {

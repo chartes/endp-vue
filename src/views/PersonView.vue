@@ -279,13 +279,6 @@ export default {
   top: 0;
 }
 
-.box-container-facets__person_search {
-  border: 0.5px solid #0a0a0a;
-  border-radius: 5px;
-  margin-bottom: 1rem;
-  margin-top: 1rem;
-}
-
 .btn-person-data-link {
   margin-top: 1rem;
   color: #8d1919;
@@ -295,8 +288,6 @@ export default {
   background: #8d1919;
   color: #fff;
 }
-
-/* END New CSS */
 
 .toggle-btn {
   width: 27px;
@@ -312,7 +303,7 @@ export default {
 
 .disabled {
   pointer-events: none;
-  color: gray; /* or any other color to indicate disabled state */
+  color: gray;
 }
 
 .pagination-panel {
@@ -346,12 +337,6 @@ export default {
   width: 35%; /* Ajustez la largeur selon vos besoins */
 }
 
-.persons--results--column {
-  justify-content: space-between;
-  /* start at 0 */
-  margin: 0;
-}
-
 /* Dans les cards */
 .card-header-title {
   height: 100px
@@ -368,17 +353,12 @@ export default {
 .loader {
   border: 4px solid rgba(0, 0, 0, 0.1);
   border-left-color: #3273dc;
-  width: 100px; /* Augmentez la taille du spinner */
-  height: 100px; /* Augmentez la taille du spinner */
+  width: 100px;
+  height: 100px;
 }
 
 .is-active {
   opacity: 0;
-}
-
-.button-reset-search {
-  opacity: 0;
-  display: none;
 }
 
 .canon-icon {
@@ -402,39 +382,4 @@ export default {
   border-radius: 3px;
   background-color: white;
 }
-
-.illustration-1 {
-  width: 150px; /* Ajustez la largeur de l'image selon vos besoins */
-  height: 200px; /* Ajustez la hauteur de l'image selon vos besoins */
-  margin-right: auto; /* Espace entre l'image et le titre */
-}
-
-.illustration-2 {
-  width: 198px; /* Ajustez la largeur de l'image selon vos besoins */
-  height: 170px; /* Ajustez la hauteur de l'image selon vos besoins */
-  margin-right: auto; /* Espace entre l'image et le titre */
-  margin-left: auto;
-}
-
-.section-with-image {
-  display: flex;
-  align-items: center;
-  background-color: gainsboro;
-  padding: 20px;
-  margin-bottom: 20px;
-  /* add transparent border */
-  border: 1px solid transparent;
-  border-radius: 5px;
-  /* add box shadow */
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-}
-
-.icon-container {
-  margin-right: 10px; /* Ajustez la marge selon vos besoins */
-}
-
-.label-container {
-  flex-grow: 1; /* Permet au label de prendre autant d'espace que possible */
-}
-
 </style>

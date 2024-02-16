@@ -2512,7 +2512,7 @@
       "volume": "LL107",
       "firstPage": "FRAN_0393_10062",
       "lastPage": "FRAN_0393_10079",
-      "firstPageCanvasIdx": 0,
+      "firstPageCanvasIdx": 1,
       "lastPageCanvasIdx": 17,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_214"
@@ -3052,7 +3052,7 @@
       "volume": "LL108A",
       "firstPage": "FRAN_0393_10713",
       "lastPage": "FRAN_0393_10718",
-      "firstPageCanvasIdx": 0,
+      "firstPageCanvasIdx": 1,
       "lastPageCanvasIdx": 5,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_260"
@@ -5876,7 +5876,7 @@
       "volume": "LL112",
       "firstPage": "FRAN_0393_02341",
       "lastPage": "FRAN_0393_02361",
-      "firstPageCanvasIdx": 0,
+      "firstPageCanvasIdx": 1,
       "lastPageCanvasIdx": 20,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_504"
@@ -11064,7 +11064,7 @@
       "volume": "LL118",
       "firstPage": "FRAN_0393_10989",
       "lastPage": "FRAN_0393_11009",
-      "firstPageCanvasIdx": 0,
+      "firstPageCanvasIdx": 1,
       "lastPageCanvasIdx": 20,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_957"
@@ -11694,7 +11694,7 @@
       "volume": "LL119",
       "firstPage": "FRAN_0393_11819",
       "lastPage": "FRAN_0393_11836",
-      "firstPageCanvasIdx": 0,
+      "firstPageCanvasIdx": 1,
       "lastPageCanvasIdx": 17,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_999"
@@ -17624,7 +17624,7 @@
       "volume": "LL127-LL128",
       "firstPage": "FRAN_0393_13733",
       "lastPage": "FRAN_0393_13746",
-      "firstPageCanvasIdx": 0,
+      "firstPageCanvasIdx": 1,
       "lastPageCanvasIdx": 13,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_1508"
