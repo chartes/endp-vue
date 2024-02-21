@@ -51,5 +51,5 @@ export default createStore({
         setEndpVolume(state, volume) {
             state.endpVolume = volume;
         }
-    }
+    },
 });

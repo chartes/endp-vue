@@ -96,8 +96,6 @@ export default {
 </script>
 
 <style scoped>
-
-/* align all the controls */
 .field.has-addons {
   display: flex;
   align-items: center;
@@ -105,12 +103,10 @@ export default {
   padding: 1rem;
 }
 
-/* space between the controls */
 .field.has-addons > *:not(:last-child) {
   margin-right: 0.5em;
 }
 
-/* between label and slider */
 .slider-label {
   margin-right: 0.5em;
   margin-left: 0.5em;

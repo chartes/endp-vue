@@ -1,10 +1,7 @@
 <template>
-  <!-- banner -->
   <div id="banner-image" class="container is-fluid">
     <h1 class="title">Personnes</h1>
   </div>
-  <!-- end banner -->
-  <!-- Main grid -->
   <div class="columns is-multiline">
     <div class="column is-12-mobile is-5-tablet is-5-desktop">
       <div class="box box-search-person-facets">
@@ -12,125 +9,29 @@
             @update:query="handleUpdateQuery"
             @reset:query="handleResetQuery"
         />
-        <div class="box">
-          <div>
-
-            <div>
-
-              <!-- Pagination control panel -->
-              <div class="pagination is-rounded">
-                <ul class="pagination-list">
-                  <li>
-                    <a class="pagination-link" v-if="currentPage > 2" aria-label="Goto page 1"
-                       @click="changePage(1)">1</a>
-                  </li>
-                  <li>
-                    <span class="pagination-ellipsis" v-if="currentPage > 3">&hellip;</span>
-                  </li>
-                  <li>
-                    <a class="pagination-link" v-if="currentPage > 1" aria-label="Goto previous page"
-                       @click="changePage(currentPage - 1)">
-                      {{ currentPage - 1 }}
-                    </a>
-                  </li>
-                  <li>
-                    <a class="pagination-link is-current" aria-label="Page {{ currentPage }}" aria-current="page">{{
-                        currentPage
-                      }}</a>
-                  </li>
-                  <li>
-                    <a class="pagination-link" v-if="currentPage < totalPages" aria-label="Goto next page"
-                       @click="changePage(currentPage + 1)">
-                      {{ currentPage + 1 }}
-                    </a>
-                  </li>
-                  <li>
-                    <span class="pagination-ellipsis" v-if="currentPage < totalPages - 2">&hellip;</span>
-                  </li>
-                  <li>
-                    <a class="pagination-link" v-if="currentPage < totalPages - 1"
-                       aria-label="Goto page {{ totalPages }}"
-                       @click="changePage(totalPages)">
-                      {{ totalPages }}
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div class="pagination-panel">
-                <div class="pagination-buttons pagination is-rounded">
-
-                  <a class="pagination-previous" :class="{ 'disabled': currentPage === 1 }"
-                     @click="changePage(currentPage - 1)">
-               <span class="icon is-primary">
-                 <i class="fas fa-chevron-left"></i>
-               </span>
-
-                  </a>
-                  <a class="pagination-next" :class="{ 'disabled': currentPage === totalPages }"
-                     @click="changePage(currentPage + 1)">
-                <span class="icon is-primary">
-                 <i class="fas fa-chevron-right"></i>
-               </span>
-                  </a>
-                </div>
-
-                <div class="pagination-input" style="display: flex !important; align-items: center !important;">
-                  <label class="label" for="limit-results"
-                         style="margin-left: 10px; display: inline-block !important; padding: 5px;">Résultats par
-                    page</label>
-                  <input id="limit-results" class="input small-input" type="number" placeholder="50" min="50" max="100"
-                         step="10"
-                         v-model="limit"
-                         @change="handleItemsPerPageChange">
-                </div>
-
-              </div>
-            </div>
-          </div>
+        <div class="checkbox-canon box">
+          <input id="checkbox-canon" type="checkbox" v-model="showCanon">
+          <label for="checkbox-canon"> Chanoines</label>
         </div>
+        <PersonPagination
+            :currentPage="currentPage"
+            :totalPages="totalPages"
+            :items-by-page-default="limit"
+            :items-by-page-min="50"
+            :items-by-page-max="100"
+            @update:change-page="changePage"
+            @change:items-by-page-display="handleItemsPerPageChange"/>
         <div class="loader-wrapper" :class="{'is-active': !isLoading}">
           <div class="loader is-loading"></div>
         </div>
       </div>
     </div>
-    <!-- Results column -->
     <div class="column column-result is-12-mobile is-7-tablet is-7-desktop">
       <ul>
-        <!-- ici le spinner de chargement -->
-        <!-- total trouvé -->
         <h2 class="subtitle is-4">{{ total }} Résultats</h2>
         <li v-for="person in persons" :key="person._id_endp" class="li--person">
-          <div class="card">
-            <header class="card-header" @click="toggleContent(person, $event)">
-              <div class="card-header-title">
-                <span class="canon-icon" v-if="person.is_canon"></span>
-                <span class="secular-people-icon" v-else></span>
-                <span style="text-align: center; flex-grow: 1; display: flex">{{ person.pref_label }}</span>
-              </div>
-              <a href="#" class="toggle-btn" :class="{ 'is-opened': person.isOpened }"></a>
-            </header>
-            <div class="card-content" v-if="person.isOpened">
-              <div class="content">
-                <div class="columns is-multiline">
-                  <div class="column is-7 block has-text-left">
-                    <p><b>Prénom(s) - <i>Nomen</i></b> : {{ person.forename_alt_labels }}</p>
-                    <p><b>Nom(s) - <i>Cognomen</i></b> : {{ person.surname_alt_labels }}</p>
-                    <p><b>Dates extrêmes d'apparition dans les registres</b> :
-                      {{ person.first_mention_date ? person.first_mention_date : "Non renseigné" }} -
-                      {{ person.last_mention_date ? person.last_mention_date : "Non renseigné" }}</p>
-                    <p>
-                      <router-link class="button  btn-person-data-link" :to="`/persons/${person._id_endp}`">
-                          <span class="icon is-small">
-                            <i class="fas fa-external-link-alt"></i>
-                          </span>
-                        <span>Accéder à la fiche</span>
-                      </router-link>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <PersonResultCard
+            :person="person"/>
         </li>
       </ul>
     </div>
@@ -139,13 +40,18 @@
 
 <script>
 import axios from "axios";
-import PersonSearchBox from "@/components/PersonSearchBox.vue";
 import {mapState} from "vuex";
+
+import PersonSearchBox from "@/components/PersonSearchBox.vue";
+import PersonPagination from "@/components/PersonPagination.vue";
+import PersonResultCard from "@/components/PersonResultCard.vue";
 
 export default {
   name: "PersonView",
   components: {
+    PersonResultCard,
     PersonSearchBox,
+    PersonPagination,
   },
   data() {
     return {
@@ -168,6 +74,10 @@ export default {
 
   },
   watch: {
+    showCanon() {
+      this.currentPage = 1;
+      this.handleDefaultSearch();
+    },
     query(newValue) {
       if (newValue.trim() === "") {
         this.getPersons();
@@ -200,12 +110,11 @@ export default {
       this.isLoading = true;
       this.query = "";
       await axios
-          .get(`${this.personDbApi}/persons/?size=${this.limit}&page=${this.currentPage}`,
-          {
-            withCredentials: false,
-          })
+          .get(`${this.personDbApi}/persons/?size=${this.limit}&page=${this.currentPage}&only_canon=${this.showCanon}`,
+              {
+                withCredentials: false,
+              })
           .then((response) => {
-            console.log(response.data);
             this.persons = response.data.items.map((person) => ({
               ...person,
               isOpened: false,
@@ -216,18 +125,22 @@ export default {
             }
           }).finally(() => {
             this.isLoading = false;
-          });
+          }).catch(() => {
+                this.persons = [];
+                this.total = 0;
+                this.isLoading = false;
+              },
+          );
     },
     async searchPersons() {
-      this.isLoading = true; // Activer le chargement
+      this.isLoading = true;
       this.currentPage = 1;
       await axios
-          .get(`${this.personDbApi}/persons/search?query=${this.query}&type_query=${this.selectSearchType}`,
-          {
-            withCredentials: false,
-          })
+          .get(`${this.personDbApi}/persons/search?query=${this.query}&type_query=${this.selectSearchType}&only_canon=${this.showCanon}`,
+              {
+                withCredentials: false,
+              })
           .then((response) => {
-            console.log(response.data);
             this.persons = response.data.results.map((person) => ({
               ...person,
               isOpened: false,
@@ -236,14 +149,15 @@ export default {
           })
           .finally(() => {
             this.isLoading = false;
-          });
+          }).catch(() => {
+                this.persons = [];
+                this.total = 0;
+                this.isLoading = false;
+              },
+          );
     },
-    toggleContent(person, event) {
-      event.preventDefault();
-      person.isOpened = !person.isOpened;
-    },
-    async handleItemsPerPageChange(event) {
-      this.limit = event.target.value;
+    async handleItemsPerPageChange(limit) {
+      this.limit = limit;
       this.currentPage = 1;
       this.handleDefaultSearch();
     },
@@ -262,13 +176,10 @@ export default {
 
 
 <style scoped>
-
 /* Set image banner */
 #banner-image::before {
   background-image: url("@/assets/banners/banner-persons_page.png");
 }
-
-/* New CSS */
 
 .box-search-person-facets {
   background-color: #f5f5f5;
@@ -277,69 +188,6 @@ export default {
   border-radius: 5px;
   position: sticky;
   top: 0;
-}
-
-.btn-person-data-link {
-  margin-top: 1rem;
-  color: #8d1919;
-}
-
-.btn-person-data-link:hover {
-  background: #8d1919;
-  color: #fff;
-}
-
-.toggle-btn {
-  width: 27px;
-  height: 27px;
-  background: url('~@/assets/icons/chevron_rouge.svg') center / cover no-repeat;
-  transition: transform 0.6s;
-}
-
-.toggle-btn.is-opened {
-  width: 27px;
-  background: url('~@/assets/icons/croix.svg') center / cover no-repeat;
-}
-
-.disabled {
-  pointer-events: none;
-  color: gray;
-}
-
-.pagination-panel {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.pagination-buttons {
-  display: flex;
-  align-items: center;
-}
-
-.pagination-previous,
-.pagination-next {
-  margin-right: 10px;
-}
-
-.pagination-input {
-  display: flex;
-  align-items: center;
-}
-
-.pagination-input label {
-  margin-right: 10px;
-  display: inline;
-}
-
-.small-input {
-  width: 35%; /* Ajustez la largeur selon vos besoins */
-}
-
-/* Dans les cards */
-.card-header-title {
-  height: 100px
 }
 
 .loader-wrapper {
@@ -357,29 +205,15 @@ export default {
   height: 100px;
 }
 
-.is-active {
-  opacity: 0;
-}
-
-.canon-icon {
-  background: url(@/assets/icons/canon-icon.svg) center / cover no-repeat;
-  height: 70px;
-  width: 70px;
-}
-
-.secular-people-icon {
-  background: url(@/assets/icons/secular-people-1.png) center / cover no-repeat;
-  height: 50px;
-  width: 50px;
-  margin-right: 15px;
-  margin-left: 10px;
-}
-
 .li--person {
   padding: 10px;
   justify-content: space-between;
   width: 70%;
   border-radius: 3px;
   background-color: white;
+}
+
+.is-active {
+  opacity: 0;
 }
 </style>

@@ -88,8 +88,11 @@ export default {
         }
         grouped[event.date].push(event);
       });
-
-      return {...grouped, 'Date inconnue': eventsWithoutDate};
+      if (eventsWithoutDate.length > 0) {
+        return {...grouped, 'Date inconnue': eventsWithoutDate};
+      }else {
+        return {...grouped};
+      }
     }
   },
   mounted() {
