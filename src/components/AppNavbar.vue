@@ -1,9 +1,16 @@
 <template>
-  <nav class="navbar has-shadow is-fixed-top app-navbar" role="navigation" aria-label="main navigation">
+  <nav class="navbar is-fixed-top app-navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a class="navbar-item app-navbar__item">
-        <router-link to="/"><img src="@/assets/logo_endp.png" class="app-navbar__logo"></router-link>
-      </a>
+      <div class="navbar-item app-navbar__item">
+        <router-link to="/">
+          <img src="@/assets/images/head_logo.svg" class="app-navbar__logo">
+        </router-link>
+      </div>
+      <div class="navbar-item app-navbar__item">
+        <router-link to="/">
+          <span class="e-endp-logo">e</span><span class="endp-logo">NDP</span>
+        </router-link>
+      </div>
     </div>
   </nav>
 </template>
@@ -15,14 +22,30 @@ export default {
 </script>
 
 <style scoped>
+
 .app-navbar {
-  background-color: #fff;
-  border-bottom: 1px solid #dbdbdb;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+  display: inline-block;
   position: relative;
-  border-radius: 0px 0px 10px 0px;
+  background: none;
 }
 
+.app-navbar__item {
+  background: none !important;
+  padding: 0;
+
+  font-family: var(--font-endp);
+  font-size: 38px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.app-navbar__item a {
+  color: #FFFFFF;
+}
+
+.app-navbar__item:not(:last-child) {
+  margin-right: 65px;
+}
 
 .app-navbar__item img {
   max-height: 100%; /* Assurer que le logo ne dépasse pas la hauteur de la navbar */
@@ -30,8 +53,9 @@ export default {
 }
 
 .app-navbar__logo {
-  width: 80px;
-  height: 100px;
-  margin: 0 auto;
+  height: 40px;
+  width: auto;
+  margin: 5px auto 0;
 }
+
 </style>

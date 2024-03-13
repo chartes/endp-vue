@@ -1,6 +1,6 @@
 <template>
-  <div class="columns">
-    <div class="column is-2 app-sidebar__menu">
+  <div class="app-content">
+    <div class="column is-align-items-center app-sidebar__menu">
       <AppNavBar/>
       <AppMenuAside/>
     </div>
@@ -8,13 +8,13 @@
       <router-view/>
     </div>
   </div>
-  <!--<AppFooter/>-->
+  <AppFooter/>
 </template>
 
 <script setup>
 import AppNavBar from "@/components/AppNavbar.vue";
 import AppMenuAside from "@/components/AppMenuAside.vue";
-//import AppFooter from "@/components/AppFooter.vue";
+import AppFooter from "@/components/AppFooter.vue";
 </script>
 
 <style>
@@ -22,12 +22,37 @@ html,
 body,
 .app-main-content__area,
 .app-sidebar__menu {
-  height: 100vh;
   width: 100%;
-  font: 16px/24px Georgia, "Bitstream Vera Serif", Times, serif;
+}
+
+.app-main-content__area,
+.column.app-sidebar__menu {
+  min-height: 50px;
+}
+
+.app-main-content__area {
+  min-height: 100vh;
+  padding: 0;
+}
+
+.column.app-sidebar__menu {
+
+}
+
+.column.app-sidebar__menu {
+  display: flex;
+  padding: 0 calc(50% - 640px);
+  background-color: var(--brown);
 }
 
 body {
   background-color: #ffffff;
 }
+
+@media (max-width: 1320px) {
+  .column.app-sidebar__menu {
+    padding: 0 20px;
+  }
+}
+
 </style>

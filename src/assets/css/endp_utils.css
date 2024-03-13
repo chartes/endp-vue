@@ -1,4 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+
+/* */
+html {
+  --font-primary: "Libre Baskerville", sans-serif;
+  --font-secondary: "Barlow Semi Condensed", sans-serif;
+  --font-endp: "Cormorant Garamond", sans-serif;
+  --brown: #7B0C12;
+  --dark-grey: #343434;
+  --light-brown: #D74A52;
+}
+
+body {
+  font-family: var(--font-primary);
+}
 
 /* Banner style */
 
@@ -8,13 +22,10 @@
   width: 100%;
   max-width: 100%;
   display: flex;
-  animation: fadeImageIn 1s ease-out 0s;
   margin-bottom: 13px;
 }
 
-
 #banner-image::before {
-  border-radius: 0px 0px 0px 10px;
   content: "";
   background-size: cover;
   position: absolute;
@@ -22,18 +33,29 @@
   right: 0px;
   bottom: 0px;
   left: 0px;
-  opacity: 0.60;
+}
+
+.endp-logo,
+.e-endp-logo {
+  font-family: var(--font-endp);
+}
+
+.endp-logo {
+  font-weight: 400;
+}
+
+.e-endp-logo {
+  font-weight: 300;
+  font-style: italic;
 }
 
 .title {
-  font-family: MedievalSharp, sans-serif;
   padding: 5%;
   font-size: 3rem;
   position: relative;
   align-items: flex-start;
   text-align: left;
   color: #031531;
-  animation: fadeTitleIn 2s ease-out 0s;
 }
 
 
