@@ -97,6 +97,11 @@ footer .columns {
   padding: 0;
 }
 
+footer .columns {
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
 footer .columns .column {
   padding: 55px 40px 8px;
   background-color: #4C4949;

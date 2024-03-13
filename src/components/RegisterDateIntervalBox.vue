@@ -1,19 +1,23 @@
 <template>
   <div class="box-container-facets__date-interval">
-    <span class="box-date-interval__label">Entre</span>
-    <RegisterBaseDateSelector
-      :monthCode="start_month_code"
-      :year="input_start_year"
-      :mode-range="'start'"
-      @date-change-selector="onDateInputChange"
-    />
-    <span class="box-date-interval__label">Et</span>
-    <RegisterBaseDateSelector
-      :monthCode="end_month_code"
-      :year="input_end_year"
-      :mode-range="'end'"
-      :should-disable-option="shouldDisableEndMonthOption"
-      @date-change-selector="onDateInputChange" />
+    <div>
+      <span class="box-date-interval__label">Entre</span>
+      <RegisterBaseDateSelector
+        :monthCode="start_month_code"
+        :year="input_start_year"
+        :mode-range="'start'"
+        @date-change-selector="onDateInputChange"
+      />
+    </div>
+    <div>
+      <span class="box-date-interval__label">Et</span>
+      <RegisterBaseDateSelector
+        :monthCode="end_month_code"
+        :year="input_end_year"
+        :mode-range="'end'"
+        :should-disable-option="shouldDisableEndMonthOption"
+        @date-change-selector="onDateInputChange" />
+    </div>
   </div>
 </template>
 
@@ -124,28 +128,34 @@ export default {
 
 <style scoped>
 .box-container-facets__date-interval {
-  margin-bottom: 1rem;
-  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0.8rem;
-  border: 0.5px solid #0a0a0a;
-  border-radius: 5px;
-  background-color: #FFFFFFFF;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 1rem;
 }
 
 
 .box-container-facets__date-interval > * {
   position: relative;
   display: inline-block;
+  flex: 50% 0 0;
   vertical-align: middle;
   overflow: hidden;
 }
 
 .box-date-interval__label {
-  margin-right: 0.5rem;
-  font-size: 0.9rem;
+  display: block;
+  padding-left: 4px;
+  margin-bottom: 10px;
+  font-family: var(--font-secondary);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #272727;
+  text-transform: uppercase;
 }
+
 </style>

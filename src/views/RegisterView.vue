@@ -11,7 +11,7 @@
       <!-- Create a single component for this box facets ? -->
       <div class="box box-facets" >
         <!-- Date slider container -->
-        <p class="subtitle is-5">Période du contenu</p>
+        <p class="subtitle is-5">Dates</p>
         <div class="container-slider">
           <VueSlider
               class="slider-component"
@@ -24,9 +24,8 @@
               :process="true"
               :lazy="true"
           />
-          <button class="button is-outlined btn-reset-date" @click="handleResetSlider">
-            <!-- icon reset --> <i class="fas fa-undo"></i></button>
         </div>
+
         <!-- Date interval box -->
         <RegisterDateIntervalBox
             :start-month-code="startMonthCode"
@@ -34,6 +33,12 @@
             :yearRange="yearRange"
             @date-change="handleDateIntervalChange"
         />
+
+        <!-- Reset button -->
+        <button class="button is-outlined btn-reset-date" @click="handleResetSlider">
+
+          <!-- icon reset --> <i class="fas fa-undo"></i>
+        </button>
         <!-- NoSketch Engine search box -->
         <RegisterNoSketchSearchBox
             :year-range="yearRange"
@@ -113,7 +118,7 @@ export default {
       endMonthCode: '12',
       inputStartYear: '',
       inputEndYear: '',
-      isFacetsBoxCollapsed: false,
+      isFacetsBoxCollapsed: true,
     };
   },
   mounted() {
@@ -395,6 +400,7 @@ export default {
 .columns .column:first-child {
   width: 465px;
   background-color: var(--panel-bg-color);
+  padding: 80px 32px 23px;
 }
 
 .columns.facets-box-collapsed .column:first-child {
@@ -426,10 +432,19 @@ export default {
 /* facets part */
 
 .box-facets {
-  background-color: #f5f5f5;
-  padding: 1rem 1.5rem 1.5rem 1.5rem;
+  padding: 0;
   position: sticky;
   top: 0;
+}
+
+.subtitle {
+  display: block;
+  margin-bottom: 75px;
+
+  font-size: 24px;
+  font-weight: 400;
+  font-style: italic;
+  color: #272727;
 }
 
 .container-slider {

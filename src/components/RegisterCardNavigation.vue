@@ -203,7 +203,7 @@ button.toggle-btn-wrapper {
 .table-available-ressources {
   width: 80%; /* Assurez-vous que le tableau utilise toute la largeur disponible */
   border-collapse: separate; /* Sépare les bordures des cellules */
-  border-spacing: 15px 0; /* Espacement entre les colonnes et les lignes */
+  border-spacing: 4px 0; /* Espacement entre les colonnes et les lignes */
 }
 
 .table-available-ressources th {
