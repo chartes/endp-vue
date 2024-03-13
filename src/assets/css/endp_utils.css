@@ -5,9 +5,16 @@ html {
   --font-primary: "Libre Baskerville", sans-serif;
   --font-secondary: "Barlow Semi Condensed", sans-serif;
   --font-endp: "Cormorant Garamond", sans-serif;
+
   --brown: #7B0C12;
   --dark-grey: #343434;
   --light-brown: #D74A52;
+  --panel-bg-color: #F7F7F7;
+
+  --desktop-content-width: 1280px;
+  --desktop-side-padding: calc(50% - 640px);
+  --tablet-side-padding: 40px;
+  --mobile-side-padding:  20px;
 }
 
 body {
@@ -18,22 +25,59 @@ body {
 
 #banner-image {
   position: relative; /* Pour le positionnement absolu du titre */
-  height: 350px; /* Ajustez selon vos besoins */
+  height: 263px; /* Ajustez selon vos besoins */
   width: 100%;
   max-width: 100%;
+  padding: 0 var(--desktop-side-padding);
   display: flex;
-  margin-bottom: 13px;
 }
 
 #banner-image::before {
   content: "";
   background-size: cover;
   position: absolute;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
+
+#banner-image h1 {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+
+  display: block;
+  width: var(--desktop-content-width);
+  margin: 0 var(--desktop-side-padding);
+  padding: 0 15px;
+  background-color: #000000CC;
+
+  font-size: 25px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 52px;
+  color: #FFFFFF;
+}
+
+.columns {
+  margin: 0;
+}
+
+.columns:last-child {
+  margin-bottom: 0;
+}
+
+.card,
+.card-header,
+.box {
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+}
+
 
 .endp-logo,
 .e-endp-logo {
@@ -48,6 +92,21 @@ body {
   font-weight: 300;
   font-style: italic;
 }
+
+.app-main-content__area > .columns {
+  padding: 0 var(--desktop-side-padding);
+}
+
+@media (max-width: 1380px) {
+  .app-main-content__area > .columns,
+  #banner-image h1,
+  #banner-image {
+    padding: 0 var(--tablet-side-padding);
+  }
+}
+
+
+
 
 .title {
   padding: 5%;

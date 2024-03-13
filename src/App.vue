@@ -41,7 +41,7 @@ body,
 
 .column.app-sidebar__menu {
   display: flex;
-  padding: 0 calc(50% - 640px);
+  padding: 0 var(--desktop-side-padding);
   background-color: var(--brown);
 }
 
@@ -49,9 +49,9 @@ body {
   background-color: #ffffff;
 }
 
-@media (max-width: 1320px) {
+@media (max-width: 1380px) {
   .column.app-sidebar__menu {
-    padding: 0 20px;
+    padding: 0 var(--tablet-side-padding);
   }
 }
 

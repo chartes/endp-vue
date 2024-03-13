@@ -1,11 +1,11 @@
 <template>
   <!-- Banner -->
   <div id="banner-image" class="container is-fluid">
-    <h1 class="title">Accéder aux registres</h1>
+    <h1 class="title">Registres</h1>
   </div>
   <!-- end banner -->
   <!-- Main grid  -->
-  <div class="columns is-multiline">
+  <div class="columns is-multiline" :class="facetsBoxCollapsedCssClass">
     <!-- Filters column (facets, histogram etc.) -->
     <div class="column is-12-mobile is-5-tablet is-5-desktop">
       <!-- Create a single component for this box facets ? -->
@@ -50,6 +50,7 @@
     <!-- end Filters column -->
     <!-- Results column -->
     <div class="column column-result is-12-mobile is-7-tablet is-7-desktop">
+      <a class="collapseFacetsBoxToggle" @click="_collapseFacetsBox()" />
       <RegisterMetadataBox
           :total-of-registers="totalRegisters"
       />
@@ -125,6 +126,10 @@ export default {
       return this.updatedCardData.length;
     },
 
+    facetsBoxCollapsedCssClass() {
+      return this.isFacetsBoxCollapsed ? "" : "facets-box-collapsed";
+    },
+
     filteredAndGroupedData() {
       return this._getFirstAndLastEntriesPerVolume(
           this._groupByVolume(
@@ -198,6 +203,14 @@ export default {
     },
   },
   methods: {
+    /**
+     * Collapse Facets Box
+     * @returns {void}
+     * @private
+     */
+    _collapseFacetsBox() {
+      this.isFacetsBoxCollapsed = ! this.isFacetsBoxCollapsed;
+    },
     /**
      * Test if years in range are equals
      * @returns {boolean}
@@ -369,18 +382,52 @@ export default {
 </script>
 
 <style scoped>
+
 /* Set image banner */
 #banner-image::before {
-  background-image: url("@/assets/banners/banner-registers_page.jpg");
+  background-image: url("@/assets/banners/banner-registers.png");
 }
+
+.columns {
+  gap: 50px;
+}
+
+.columns .column:first-child {
+  width: 465px;
+  background-color: var(--panel-bg-color);
+}
+
+.columns.facets-box-collapsed .column:first-child {
+  display: none;
+}
+
+.columns .column:last-child {
+  width: calc(100% - 50px - 465px);
+  background-color: var(--panel-bg-color);
+  padding: 23px 32px;
+}
+
+.columns.facets-box-collapsed .column:last-child {
+  width: 100%;
+}
+
+.collapseFacetsBoxToggle {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  background-image: url("@/assets/images/b_openW.svg");
+}
+
+.columns.facets-box-collapsed .collapseFacetsBoxToggle {
+  background-image: url("@/assets/images/b_closeW.svg");
+}
+
 
 /* facets part */
 
 .box-facets {
   background-color: #f5f5f5;
   padding: 1rem 1.5rem 1.5rem 1.5rem;
-  border: 2px solid #8d1919;
-  border-radius: 5px;
   position: sticky;
   top: 0;
 }
@@ -403,8 +450,7 @@ export default {
 /* results part */
 
 .card-navigation-container {
-  margin-top: 10px;
-  margin-left: 0px;
-  width: 83%;
+  width: 100%;
+  margin: 0 0 45px;
 }
 </style>

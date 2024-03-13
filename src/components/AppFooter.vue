@@ -28,36 +28,48 @@
         </ul>
       </div>
       <div class="column">
-        <div class="logos-container is-flex is-centered">
-          <a href="https://www.chartes.psl.eu/fr" target="_blank"><img src="@/assets/partners_logo/enc.png"
-                                                                       alt="Logo École nationale des chartes"
-                                                                       class="logo logo-enc"/></a>
+        <div class="logos-container is-flex is-justify-content-center">
 
-          <a href="https://www.pantheonsorbonne.fr/" target="_blank"><img src="@/assets/partners_logo/paris1.png"
-                                                                          alt="Logo Paris 1 Panthéon-Sorbonne"
-                                                                          class="logo logo-paris1"/></a>
+          <a href="https://www.chartes.psl.eu/fr/rubrique-centre-jean-mabillon/centre-jean-mabillon" target="_blank">
+            <img src="@/assets/partners_logo/Logo-CMJ.png" alt="Logo Centre Jean Mabillon" class="logo logo-cmj"/>
+          </a>
 
-          <a href="https://www.cnrs.fr/fr" target="_blank"><img src="@/assets/partners_logo/cnrs.svg.png" alt="Logo CNRS"
-                                                                class="logo logo-cnrs"/></a>
+          <a href="https://www.chartes.psl.eu/fr" target="_blank">
+            <img src="@/assets/partners_logo/Logo_ENC_PSL.svg" alt="Logo École nationale des chartes" class="logo logo-enc"/>
+          </a>
 
-          <a href="https://lamop.pantheonsorbonne.fr/laboratoire-medievistique-occidentale-paris" target="_blank"><img
-              src="@/assets/partners_logo/lamop.png" alt="Logo Lamop" class="logo"/></a>
+          <a href="https://anr.fr/Projet-ANR-20-CE27-0012" target="_blank">
+            <img src="@/assets/partners_logo/logo_ANR.svg" alt="Logo ANR" class="logo logo-anr"/>
+          </a>
 
-          <a href="" target="_blank"><img
-              src="@/assets/partners_logo/pariscite.png" alt="Logo Paris Cité" class="logo logo-pariscite"/></a>
+          <a href="https://lamop.pantheonsorbonne.fr/laboratoire-medievistique-occidentale-paris" target="_blank">
+            <img src="@/assets/partners_logo/logo_LAMOP_gris.svg" alt="Logo Laboratoire médievistique occidentale" class="logo logo-lamop" />
+          </a>
 
-          <a href="https://www.archives-nationales.culture.gouv.fr/" target="_blank"><img
-              src="@/assets/partners_logo/an.png" alt="Logo Archives nationales" class="logo logo-an"/></a>
+          <a href="https://www.pantheonsorbonne.fr/" target="_blank">
+            <img src="@/assets/partners_logo/logo_Paris_Sorbonne.svg" alt="Logo Paris 1 Panthéon-Sorbonne" class="logo logo-paris1"/>
+          </a>
 
-          <a href="https://www.bibliotheque-mazarine.fr/fr/" target="_blank"><img src="@/assets/partners_logo/mazarine.png"
-                                                                                  alt="Logo Bibliothèque Mazarine"
-                                                                                  class="logo"/></a>
+          <a href="https://www.cnrs.fr/fr" target="_blank">
+            <img src="@/assets/partners_logo/logo_CNRS.svg" alt="Logo CNRS" class="logo logo-cnrs"/>
+          </a>
 
-          <a href="https://www.bnf.fr/fr" target="_blank"><img src="@/assets/partners_logo/bnf.png" alt="Logo BnF"
-                                                               class="logo"/></a>
+          <a href="https://u-paris.fr/" target="_blank">
+            <img src="@/assets/partners_logo/logo_Paris_Cite.svg" alt="Logo Paris Cité" class="logo logo-pariscite"/>
+          </a>
 
-          <a href="https://anr.fr/Projet-ANR-20-CE27-0012" target="_blank"><img src="@/assets/partners_logo/ANR.jpg"
-                                                                                alt="Logo ANR" class="logo logo-anr"/></a>
+          <a href="https://www.archives-nationales.culture.gouv.fr/" target="_blank">
+            <img src="@/assets/partners_logo/logo_Archives_Nationales.svg" alt="Logo École nationale des chartes" class="logo logo-an"/>
+          </a>
+
+          <a href="https://www.bnf.fr/fr" target="_blank">
+            <img src="@/assets/partners_logo/logo_BNF.svg" alt="Logo École nationale des chartes" class="logo logo-bnf"/>
+          </a>
+
+          <a href="https://www.bibliotheque-mazarine.fr/fr/" target="_blank">
+            <img src="@/assets/partners_logo/Logo_mazarine_sansfond 6B6B6B.svg" alt="Logo Bibliothèque Mazarine" class="logo mazarine"/>
+          </a>
+
         </div>
       </div>
     </div>
@@ -76,8 +88,6 @@ export default {
 
 footer {
   width: 100%;
-  align-items: flex-start;
-  justify-content: center;
   border-top: solid 6px var(--brown);
 }
 
@@ -93,13 +103,14 @@ footer .columns .column {
 }
 
 footer .columns .column:first-child {
-  max-width: 485px;
+  max-width: 490px;
+  padding-left: 47px;
   background-color: #302C2C;
 }
 
 footer .columns .column:nth-child(2) {
-  max-width: 515px;
-  padding-left: 30px;
+  max-width: 575px;
+  padding-left: 35px;
 }
 
 footer .columns .column:last-child {
@@ -185,24 +196,44 @@ footer .columns .column:last-child {
   height: auto;
 }
 
-.logo-enc {
-  width: 15rem;
+.logo-cmj {
+  width: 178px;
 }
 
-.logo-an {
-  width: 13rem;
+.logo-enc {
+  width: 256px;
 }
 
 .logo-anr {
-  width: 9rem;
+  width: 183px;
+}
+
+.logo-lamop {
+  width: 145px;
+}
+
+.logo-paris1 {
+  width: 74px;
 }
 
 .logo-cnrs {
-  width: 4rem;
+  width: 82px;
 }
 
 .logo-pariscite {
-  width: 13rem;
+  width: 177px;
+}
+
+.logo-an {
+  width: 223px;
+}
+
+.logo-bnf {
+  width: 160px;
+}
+
+.logo-mazarine {
+  width: 110px;
 }
 
 </style>

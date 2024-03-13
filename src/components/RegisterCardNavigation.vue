@@ -3,14 +3,14 @@
     <header class="card-header" @click="toggleContent">
       <p class="card-header-title">
         <!-- add book icon -->
-        <span class="card-header-main-title">{{ title }}</span>
         <span class="card-header-subtitle">{{ period }}</span>
+        <span class="card-header-main-title">{{ title }}</span>
         <span class="container-icons-services">
         <span class="icon book-icon-card" v-if="isEdited">
-        <i class="fas fa-book"></i>
+        <i class="fas fa-book-open"></i>
       </span>
         <span class="icon book-icon-card" v-if="facSimile">
-        <i class="fas fa-book-open"></i>
+        <i class="fas fa-book"></i>
       </span>
     </span>
       </p>
@@ -40,12 +40,12 @@
           </thead>
           <tbody>
           <tr v-if="facSimile">
-            <td><span class="icon book-icon-card"><i class="fas fa-book-open"></i></span></td>
+            <td><span class="icon book-icon-card"><i class="fas fa-book"></i></span></td>
             <td><router-link :to="`/facsimile/${volume}/${firstCanvasID}`" @click="navigateToFacSimile(firstCanvasID, volume, yearFirstPage)">{{ firstPage }}</router-link></td>
             <td><router-link :to="`/facsimile/${volume}/${lastCanvasID}`" @click="navigateToFacSimile(lastCanvasID, volume, yearLastPage)">{{ lastPage }}</router-link></td>
           </tr>
           <tr v-if="isEdited">
-            <td><span class="icon book-icon-card"><i class="fas fa-book"></i></span></td>
+            <td><span class="icon book-icon-card"><i class="fas fa-book-open"></i></span></td>
             <td>{{ firstPage }}</td>
             <td>{{ lastPage }}</td>
           </tr>
@@ -104,91 +104,178 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Barlow&family=Barlow+Semi+Condensed&display=swap');
 
+.card {
+  padding-bottom: 10px;
+  border-bottom: solid 6px #D74A52;
+}
+
 .card-header {
-  background-color: #ffffff;
+  position: relative;
+}
+
+.card-header,
+.card-content.is-open .content {
+  padding: 0 4px;
 }
 
 .card-header-title {
   display: inline;
   align-items: center;
-  padding: 20px;
+  padding: 0;
   font-family: "Barlow", sans-serif !important;
   font-weight: bold;
 }
 
+.card-header-title > * {
+  display: block;
+}
+
 .card-header-main-title {
-  margin-right: 20px;
-  margin-left: 15px;
-  color: #000000;
+  margin-bottom: 20px;
+  max-width: 75%;
+
+  font-family: var(--font-primary);
   font-size: 20px;
+  font-weight: 400;
+  color: #000000;
 }
 
 .card-header-subtitle {
-  color: #929292;
-  font-size: 20px;
+  margin-bottom: 3px;
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.card-header-subtitle,
+.ressource-title {
+  font-family: var(--font-secondary);
+  color: #CC3E46;
 }
 
 .book-icon-card {
-  font-size: 19px;
-  color: #8d1919;
-  margin-left: 10px;
+  font-size: 24px;
+  color: #000000;
+  margin-right: 10px;
 }
 
 .container-icons-services {
-  display: inline;
-  float: right;
   padding-top: 5px;
 }
 
 .ressource-title {
-  font-family: "Barlow", sans-serif !important;
-  font-weight: bold;
   font-size: 20px;
-  margin-top: 20px;
-  margin-bottom: 10px;
+  vertical-align: top;
+  font-weight: 400;
 }
 
-.toggle-btn-wrapper {
+button.toggle-btn-wrapper {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+
   border: none;
-  background-color: #ffffff;
-  margin-right: 10px;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  background: transparent
+}
+
+.toggle-btn-wrapper .icon {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
 }
 
 .toggle-btn {
-  width: 27px;
-  height: 27px;
-  background: url('~@/assets/icons/chevron_rouge.svg') center / cover no-repeat;
-  transition: transform 0.6s;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  background: transparent url('~@/assets/images/b_Open_liste.svg') center / cover no-repeat;
+  cursor: pointer;
 }
 
 .toggle-btn.is-opened {
-  width: 27px;
-  height: 27px;
-  background: url('~@/assets/icons/croix.svg') center / cover no-repeat;
+  background-image: url('~@/assets/images/b_Close_liste.svg');
 }
 
 
 .table-available-ressources {
-  width: 100%; /* Assurez-vous que le tableau utilise toute la largeur disponible */
+  width: 80%; /* Assurez-vous que le tableau utilise toute la largeur disponible */
   border-collapse: separate; /* Sépare les bordures des cellules */
   border-spacing: 15px 0; /* Espacement entre les colonnes et les lignes */
-  margin: 0 auto; /* Centre le tableau dans le conteneur */
+}
+
+.table-available-ressources th {
+  padding-bottom: 5px;
 }
 
 .table-available-ressources > td, th {
-  padding: 10px;
   text-align: left;
-  font-family: "Barlow", sans-serif !important;
-  font-weight: bold;
+  font-family: var(--font-secondary);
+  font-weight: 600;
+  color: #6E6E6E;
+}
+
+.table-available-ressources td {
+  padding-bottom: 5px;
+}
+
+
+.table-available-ressources td,
+.table-available-ressources td a {
+  font-family: var(--font-secondary);
+  color: #6E6E6E;
+}
+
+.table-available-ressources td a {
+  text-decoration: underline;
+}
+
+.card-content .content a:hover,
+.table-available-ressources td a:hover {
+  color: #CC3E46;
+}
+
+.table-available-ressources td:first-child {
+  width: 30px;
+}
+
+hr,
+.main-label {
+  display: none;
 }
 
 .card-content {
   max-height: 0;
+  padding: 0;
   overflow: hidden;
   transition: max-height 0.5s ease-out; /* La transition se fera sur la hauteur max */
 }
 
 .card-content.is-open {
   max-height: 500px; /* Mettez une hauteur max suffisamment grande pour afficher tout le contenu */
+  margin-top: 10px;
+  padding-top: 15px;
+  border-top: solid 1px #A5A5A5;
 }
+
+.card-content .content {
+  font-family: var(--font-secondary);
+  font-size: 20px;
+  font-weight: 400;
+  color: #6E6E6E;
+}
+
+.card-content .content p {
+  margin-bottom: 0;
+}
+
+.card-content .content a {
+  margin-bottom: 0;
+  color: #6E6E6E;
+  text-decoration: underline;
+}
+
+
 </style>

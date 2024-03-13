@@ -126,9 +126,11 @@ export default {
 </script>
 
 <style scoped>
+#histogram {
+  max-width: 393px;
+}
 .box-histogram {
-  border: 0.5px solid #0a0a0a;
-  border-radius: 5px;
   width: 100%;
+  padding: 0;
 }
 </style>

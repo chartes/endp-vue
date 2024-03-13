@@ -1,8 +1,12 @@
 <template>
   <div class="container result-container-total">
     <p class="resultCanvas">
-      <span class="totalFounded">{{ totalRegisters }}</span> registre<span v-if="isPlural">s</span>
-      disponible<span v-if="isPlural">s</span>
+      <span class="totalFounded">{{ totalRegisters }}</span>
+      <span>
+        Registre<span v-if="isPlural">s</span>
+        <br/>
+        disponible<span v-if="isPlural">s</span>
+      </span>
     </p>
   </div>
 </template>
@@ -27,12 +31,30 @@ export default {
 
 <style scoped>
 .result-container-total {
-  padding: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: solid 6px #000000;
+}
+.resultCanvas {
+  display: flex;
+  align-items: flex-start;
+
+  font-size: 20px;
+  color: #000000;
+  font-weight: 400;
+  font-style: italic;
+}
+.totalFounded,
+.resultCanvas > span:last-child {
+  padding: 5px 12px 35px;
 }
 .totalFounded {
-  font-size: 35px;
-  font-weight: bold;
-  color: #8d1919;
+  display: inline-block;
+  background-color: #000000;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 400;
+  color: #FFFFFF;
+  text-align: center;
 }
 </style>

@@ -56,6 +56,10 @@ export default {
 <style src="@/assets/css/endp_utils.css"></style>
 <style scoped>
 
+#banner-image {
+  height: 330px;
+}
+
 /* Set image banner */
 #banner-image::before {
   background-image: url("@/assets/banners/banner-ndp-map_home_page.jpg");
@@ -93,7 +97,6 @@ h1.title .period {
 
 
 .columns {
-  padding: 0 calc(50% - 640px);
   gap: 50px;
   transform: translateY(-135px);
 }
@@ -101,12 +104,6 @@ h1.title .period {
 .columns > .column:first-child {
   max-width: 430px;
   transform: translateY(135px);
-}
-
-@media (max-width: 1320px) {
-  .columns {
-    padding: 0 40px;
-  }
 }
 
 nav li {
