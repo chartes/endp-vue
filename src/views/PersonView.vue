@@ -178,7 +178,7 @@ export default {
 <style scoped>
 /* Set image banner */
 #banner-image::before {
-  background-image: url("@/assets/banners/banner-persons_page.png");
+  background-image: url("@/assets/banners/band_Personnes.png");
 }
 
 .box-search-person-facets {

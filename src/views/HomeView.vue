@@ -62,7 +62,7 @@ export default {
 
 /* Set image banner */
 #banner-image::before {
-  background-image: url("@/assets/banners/banner-ndp-map_home_page.jpg");
+  background: url("@/assets/banners/banner-ndp-map_home_page.jpg") center / cover;
 }
 
 h1.title {

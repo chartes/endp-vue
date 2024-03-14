@@ -26,16 +26,20 @@ body {
 
 #banner-image {
   position: relative; /* Pour le positionnement absolu du titre */
-  height: 263px; /* Ajustez selon vos besoins */
+
+  display: flex;
   width: 100%;
+  height: 263px; /* Ajustez selon vos besoins */
   max-width: 100%;
   padding: 0 var(--desktop-side-padding);
-  display: flex;
 }
 
 #banner-image::before {
   content: "";
-  background-size: cover;
+  background-color : #320205;
+  background-size: 1280px auto;
+  background-position: center;
+  background-repeat: no-repeat;
   position: absolute;
   top: 0;
   right: 0;
