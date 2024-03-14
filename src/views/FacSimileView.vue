@@ -1,101 +1,102 @@
 <template>
-  <div class="header">
-    <!-- Title -->
-    <p class="title" v-if="!registerPageDate">Collection des fac-similés de registres de conclusions capitulaires</p>
-    <p class="title" v-if="registerPageDate">Fac-similé du registre de conclusions capitulaires {{ endpVolume }} de
-      Notre-Dame de Paris - <span class="date-title">{{ registerPageDate }}</span></p>
-    <!-- Metadata card section -->
-    <div class="card">
-      <div class="card-header" @click="toggleCard('card1')">
-        <p class="card-header-title">
-          <i class="fas fa-info-circle"></i>
-          Métadonnées
-          <i class="fas"
-             :class="{'fa-chevron-down': !metadataCardsState.card1, 'fa-chevron-up': metadataCardsState.card1}"
-          ></i>
-        </p>
-      </div>
-      <div class="card-content" v-if="metadataCardsState.card1">
-        <p>Citation url du fac simile courant : <a :href="citationUrl">{{
-            citationUrl
-          }}</a></p>
-        <br>
-        <div class="columns nakala-metadata-wrapper is-vcentered">
-          <div class="column is-narrow">
-            <img src="@/assets/icons/nakala-square-icon.png" alt="Fac-simile" class="nakala-image">
-          </div>
-          <div class="column">
-            <p>Source de l'image sur Nakala : <a target="_blank" :href="imageNakalaSrc">{{ imageNakalaSrc }}</a></p>
-          </div>
-        </div>
 
-      </div>
-    </div>
-    <div class="card" v-if="registerPageDate">
-      <div class="card-header" @click="toggleCard('card2')">
-        <p class="card-header-title">
-          <i class="fas fa-exclamation-triangle"></i>Avertissement
-          <i class="fas"
-             :class="{'fa-chevron-down': !metadataCardsState.card2, 'fa-chevron-up': metadataCardsState.card2}"
-          ></i>
-        </p>
-      </div>
-      <div class="card-content" v-if="metadataCardsState.card2">
-        <p class="warning">Le taux de reconnaissance de ce fac-simile est de X%
-          (Le texte affiché peut comporter un certain nombre d'erreurs. En effet, la couche texte de ce facsimile a
-          été
-          généré automatiquement par un programme de reconnaissance des écritures manuscrites (HTR).)</p>
-      </div>
-    </div>
-  </div>
-  <br>
+  <div class="columns facsimile-columns">
 
-  <div class="columns">
     <div class='column' v-if="isNavOpen">
+      <!-- Metadata card section -->
+      <div class="card" :class="metadataCardsState.card1 ? 'is-opened': ''">
+        <div class="card-header" @click="toggleCard('card1')">
+          <p class="card-header-title">
+            Métadonnées
+            <button class="card-header-toggle" />
+          </p>
+        </div>
+        <div class="card-content" v-if="metadataCardsState.card1">
+          <p>Citation url du fac simile courant : <a :href="citationUrl">{{
+              citationUrl
+            }}</a></p>
+          <br>
+          <div class="columns nakala-metadata-wrapper is-vcentered">
+            <div class="column is-narrow">
+              <img src="@/assets/icons/nakala-square-icon.png" alt="Fac-simile" class="nakala-image">
+            </div>
+            <div class="column">
+              <p>Source de l'image sur Nakala : <a target="_blank" :href="imageNakalaSrc">{{ imageNakalaSrc }}</a></p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!-- Warning section -->
+      <div class="card" :class="metadataCardsState.card2 ? 'is-opened': ''" v-if="registerPageDate">
+        <div class="card-header" @click="toggleCard('card2')">
+          <p class="card-header-title">
+            Avertissement
+            <button class="card-header-toggle" />
+          </p>
+        </div>
+        <div class="card-content" v-if="metadataCardsState.card2">
+          <p class="warning">Le taux de reconnaissance de ce fac-simile est de X%
+            (Le texte affiché peut comporter un certain nombre d'erreurs. En effet, la couche texte de ce facsimile a
+            été
+            généré automatiquement par un programme de reconnaissance des écritures manuscrites (HTR).)</p>
+        </div>
+      </div>
       <FacSimileNavigation
           :selected-nav="selectedNav"
           :register-to-open="endpVolume"
           :year-to-open="registerPageDate"
           @update-mirador="handleMiradorUpdate"/>
     </div>
-    <button @click="toggleNav" class="btn-expanded-nav"><i class="fas fa-bars"></i></button>
-    <div class='column container-mirador' :class="{ 'is-full': !isNavOpen, 'is-8': isNavOpen }">
-      <div id='mirador'></div>
+
+    <div class='column'>
+      <!-- Toggle left column button -->
+      <button @click="toggleNav" class="btn-expanded-nav" :class="{ 'is-opened': isNavOpen }" />
+
+      <!-- Title section -->
+      <div class="header">
+        <p class="facsimile-title" v-if="!registerPageDate">Collection des fac-similés de registres de conclusions capitulaires</p>
+        <p class="facsimile-title" v-if="registerPageDate">Fac-similé du registre de conclusions capitulaires {{ endpVolume }} de
+          Notre-Dame de Paris - <span class="date-title">{{ registerPageDate }}</span></p>
+      </div>
+      <!-- Mirador viewer section -->
+      <div class='container-mirador'>
+        <div id='mirador'></div>
+      </div>
+      <!-- Raw predictions section -->
+      <div class="header raw-prediction-card-parent">
+        <div class="card" v-if="endpVolume">
+          <div class="card-header" @click="toggleCard('card3')">
+            <p class="card-header-title">
+              Accéder à la prédiction texte brut
+              <button class="card-header-toggle" />
+            </p>
+          </div>
+          <div class="card-content raw-prediction-text" v-if="metadataCardsState.card3">
+            <div :class="['notification', {'is-success': showCopyConfirmation, 'is-danger': showCopyError}]"
+                 v-if="showCopyConfirmation || showCopyError">
+              <p v-if="showCopyConfirmation">Le texte a été copié dans le presse-papiers !</p>
+              <p v-else>Impossible de copier le texte dans le presse-papiers ! Veuillez réessayer plus tard.</p>
+            </div>
+            <button @click="copyToClipboard" class="button is-small is-info">
+              <i class="fas fa-copy"></i>
+            </button>
+            <br>
+            <br>
+            <p><u>Note</u> : <i>L'ordre des lignes de texte peut ne pas correspondre à l'ordre des lignes du fac-similé.</i>
+            </p>
+            <hr>
+            <!-- create a spinner when the text is loading -->
+            <div v-if="loadPredictionText" class="loader-wrapper">
+              <div class="loader is-loading"></div>
+            </div>
+            <div v-html="rawPredictionText"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="header">
-    <div class="card" v-if="endpVolume">
-      <div class="card-header" @click="toggleCard('card3')">
-        <p class="card-header-title">
-          <i class="fas fa-text-width"></i>
-          Accéder à la prédiction texte brut
-          <i class="fas"
-             :class="{'fa-chevron-down': !metadataCardsState.card3, 'fa-chevron-up': metadataCardsState.card3}"
-          ></i>
-        </p>
-      </div>
-      <div class="card-content raw-prediction-text" v-if="metadataCardsState.card3">
-        <div :class="['notification', {'is-success': showCopyConfirmation, 'is-danger': showCopyError}]"
-             v-if="showCopyConfirmation || showCopyError">
-          <p v-if="showCopyConfirmation">Le texte a été copié dans le presse-papiers !</p>
-          <p v-else>Impossible de copier le texte dans le presse-papiers ! Veuillez réessayer plus tard.</p>
-        </div>
-        <button @click="copyToClipboard" class="button is-small is-info">
-          <i class="fas fa-copy"></i>
-        </button>
-        <br>
-        <br>
-        <p><u>Note</u> : <i>L'ordre des lignes de texte peut ne pas correspondre à l'ordre des lignes du fac-similé.</i>
-        </p>
-        <hr>
-        <!-- create a spinner when the text is loading -->
-        <div v-if="loadPredictionText" class="loader-wrapper">
-          <div class="loader is-loading"></div>
-        </div>
-        <div v-html="rawPredictionText"></div>
-      </div>
-    </div>
-  </div>
+
 </template>
 
 <script>
@@ -403,38 +404,104 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@100&display=swap');
 
+.facsimile-columns {
+  gap: 45px;
+}
+
+.facsimile-columns > .column:first-child {
+  padding: 90px 0 0;
+}
+
+.facsimile-columns > .column:first-child {
+  max-width: 465px;
+}
+
+.facsimile-columns > .column:last-child {
+  background-color: var(--panel-bg-color);
+  padding: 0;
+}
+
+.facsimile-columns > .column:last-child > div {
+  width: 100%;
+  padding: 26px 26px;
+}
+
+.facsimile-columns > .column:last-child > div.raw-prediction-card-parent {
+  padding: 26px 0;
+}
+
+.container-mirador {
+  width: 100%;
+  padding: 0;
+}
+
 .header {
   display: block;
   width: 82%;
-  padding: 0.5rem;
   flex-direction: row;
 }
 
-.title {
-  font-size: 1.5rem;
-  color: #0a0b0d;
+.facsimile-title {
+  margin: 45px 0;
+  font-size: 26px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 33px;
+  color: #7B0C12;
+}
+
+.facsimile-title:after {
+  content: "";
+  display: block;
+  width: 44px;
+  height: 8px;
+  margin: 20px 0;
+  border-top: solid var(--light-brown-alt) 8px;
 }
 
 .date-title {
   text-transform: capitalize;
 }
 
-.card {
-  margin: 1rem;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  background-color: #fff;
-  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease-in-out;
+.raw-prediction-card-parent > * {
+  width: 100%;
+}
+
+.raw-prediction-card-parent .card-header {
+  background-color: #ffffff;
 }
 
 .card-header-title {
   display: flex;
   justify-content: space-between;
+  padding: 20px;
+
+  font-size: 24px;
+  color: #272727;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.card-header-toggle {
+  display: inline-block;
+  width: 27px;
+  height: 27px;
+  background: transparent url('~@/assets/images/b_Open_liste.svg') center / cover no-repeat;
+  border: none;
+  cursor: pointer;
+}
+
+.card.is-opened .card-header-toggle {
+  background-image: url('~@/assets/images/b_Close_liste.svg');
 }
 
 .card-header:hover {
   cursor: pointer;
+}
+
+.card-content {
+  margin-bottom: 40px;
+  background-color: var(--panel-bg-color);
 }
 
 .warning {
@@ -448,8 +515,12 @@ export default {
 #mirador {
   position: relative;
   height: 100vh;
-  border: 2px solid #8d1919;
-  border-radius: 0.5rem;
+  border: none;
+}
+
+::v-deep .mosaic-tile {
+  margin: 0;
+  border: none;
 }
 
 tspan {
@@ -457,27 +528,17 @@ tspan {
   font-weight: normal !important;
 }
 
-
-.is-full {
-  width: 100%;
-  padding-right: 25%;
-}
-
-.is-8 {
-  width: 75%;
-  padding-right: 20%;
-}
-
-.column {
-  transition: width 0.5s;
-}
-
 .btn-expanded-nav {
-  margin-top: 0.7rem;
-  margin-bottom: 0.7rem;
-  text-align: left;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  margin: 26px 0 0 26px;
+  background: transparent url('~@/assets/images/b_closeW.svg') center / cover no-repeat;
+  border: none;
+}
+
+.btn-expanded-nav.is-opened {
+  background-image: url('~@/assets/images/b_openW.svg');
 }
 
 .btn-expanded-nav:hover {

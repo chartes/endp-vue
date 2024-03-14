@@ -91,7 +91,11 @@ export default {
   background-color: #5F070CD9;
   transform: translateX(-50%);
 
-  /* display: none; */
+  display: none;
+}
+
+.menu-list li > ul.is-opened {
+  display: block;
 }
 
 .menu-list li > ul > li:not(:last-child) {

@@ -265,21 +265,26 @@ export default {
 }
 
 
-.fac-simile__toc {
+.fac-simile__toc ul {
   max-height: 100vh;
   overflow-y: scroll;
-  padding: 0.5em;
-  border: 2px solid #8d1919;
-  border-radius: 4px;
-  background-color: #ffffff;
+  padding: 0;
+  background-color: var(--panel-bg-color);
+}
+
+.fac-simile__toc > ul {
+  margin: 0;
+  font-family: var(--font-secondary);
 }
 
 .main__title__toc {
-  font-size: 1.4em;
-  font-weight: bold;
-  margin-bottom: 1em;
   display: block;
-  text-align: center;
+  margin: 21px 0 10px;
+
+  font-size: 24px;
+  font-weight: 400;
+  font-style: italic;
+  color: #272727;
 }
 
 .register:hover {

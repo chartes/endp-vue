@@ -150,7 +150,7 @@ export default {
 .card-header-subtitle,
 .ressource-title {
   font-family: var(--font-secondary);
-  color: #CC3E46;
+  color: var(--light-brown-alt);
 }
 
 .book-icon-card {
@@ -234,7 +234,7 @@ button.toggle-btn-wrapper {
 
 .card-content .content a:hover,
 .table-available-ressources td a:hover {
-  color: #CC3E46;
+  color: var(--light-brown-alt);
 }
 
 .table-available-ressources td:first-child {
