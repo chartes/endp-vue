@@ -5,7 +5,7 @@
   </div>
   <!-- end banner -->
   <!-- Main grid  -->
-  <div class="columns is-multiline" :class="facetsBoxCollapsedCssClass">
+  <div class="columns is-multiline" :class="{ 'facets-box-collapsed' : isFacetsBoxCollapsed }">
     <!-- Filters column (facets, histogram etc.) -->
     <div class="column is-12-mobile is-5-tablet is-5-desktop">
       <!-- Create a single component for this box facets ? -->
@@ -129,10 +129,6 @@ export default {
 
     totalRegisters() {
       return this.updatedCardData.length;
-    },
-
-    facetsBoxCollapsedCssClass() {
-      return this.isFacetsBoxCollapsed ? "" : "facets-box-collapsed";
     },
 
     filteredAndGroupedData() {

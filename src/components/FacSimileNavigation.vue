@@ -217,26 +217,14 @@ export default {
 }
 
 .is-highlighted {
-  background-color: #cccccc; /* ou toute autre couleur de mise en surbrillance */
+  /* background-color: #cccccc; */ /* ou toute autre couleur de mise en surbrillance */
   /* prendre  toute la largeur */
   width: 100%;
   /* prendre toute la hauteur */
   height: 100%;
-  border-radius: 4px;
   flex-grow: 1;
   position: relative;
   font-weight: bold;
-}
-
-.is-highlighted:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  background-color: #8d1919;
-  border-radius: 4px;
 }
 
 .month li {
@@ -246,9 +234,6 @@ export default {
 
 .month li a {
   flex-grow: 1;
-  padding: 0.2em;
-  border-radius: 4px;
-  margin: 0.2em;
   text-decoration: none;
   color: #000000;
 }
@@ -256,25 +241,38 @@ export default {
 .year li {
   display: flex;
   width: 100%;
-  margin: 0.5em 0;
+  margin: 0;
+}
+
+li.register .is-highlighted,
+.month li,
+.year li {
+  margin-bottom: 4px;
 }
 
 
 .span-is-highlighted {
-  color: #8d1919 !important;
+  display: block;
+  width: 100%;
+  color: var(--light-brown-alt) !important;
+  background-color: #EDEDED;
+}
+
+.span-is-highlighted:before {
+  display: none;
 }
 
 
 .fac-simile__toc ul {
-  max-height: 100vh;
-  overflow-y: scroll;
   padding: 0;
   background-color: var(--panel-bg-color);
 }
 
 .fac-simile__toc > ul {
+  max-height: 60vh;
+  overflow-y: scroll;
   margin: 0;
-  font-family: var(--font-secondary);
+  padding: 30px 0;
 }
 
 .main__title__toc {
@@ -287,21 +285,32 @@ export default {
   color: #272727;
 }
 
+.register {
+}
+
 .register:hover {
   cursor: pointer;
 }
 
 .register_name, .year_name, .month_name {
   display: inline-block;
-  padding: 0.2em 0.5em;
-  margin: 0.2em 0.1em;
-  font-size: 1.1em;
-  border-radius: 4px;
+  padding: 0.1em 25px;
+  margin: 0;
+
+  font-family: var(--font-secondary);
+  font-size: 18px;
+}
+
+.year_name {
+  padding-left: 52px;
+}
+
+.month_name {
+  padding-left: 75px;
 }
 
 .register_name:hover, .year_name:hover, .month_name:hover {
-  background-color: #d4d3d1;
-  border-radius: 4px;
+  color: var(--light-brown-alt);
 }
 
 .chevron {
@@ -338,7 +347,7 @@ nav header {
 }
 
 nav menu, nav ul {
-  margin-left: 1em;
-  padding-left: 0;
+  margin-left: 0;
+  padding-left: 1em;
 }
 </style>

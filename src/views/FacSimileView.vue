@@ -1,10 +1,10 @@
 <template>
 
-  <div class="columns facsimile-columns">
+  <div class="columns facsimile-columns" :class="{ 'is-collapsed': isNavOpen }">
 
     <div class='column' v-if="isNavOpen">
       <!-- Metadata card section -->
-      <div class="card" :class="metadataCardsState.card1 ? 'is-opened': ''">
+      <div class="card" :class="{ 'is-opened': metadataCardsState.card1 }">
         <div class="card-header" @click="toggleCard('card1')">
           <p class="card-header-title">
             Métadonnées
@@ -12,23 +12,21 @@
           </p>
         </div>
         <div class="card-content" v-if="metadataCardsState.card1">
-          <p>Citation url du fac simile courant : <a :href="citationUrl">{{
-              citationUrl
-            }}</a></p>
+          <p>
+            <span class="card-content-label">Citation url du fac simile courant : </span>
+            <a :href="citationUrl">{{ citationUrl }}</a>
+          </p>
           <br>
           <div class="columns nakala-metadata-wrapper is-vcentered">
-            <div class="column is-narrow">
-              <img src="@/assets/icons/nakala-square-icon.png" alt="Fac-simile" class="nakala-image">
-            </div>
-            <div class="column">
-              <p>Source de l'image sur Nakala : <a target="_blank" :href="imageNakalaSrc">{{ imageNakalaSrc }}</a></p>
-            </div>
+            <p>
+              <span class="card-content-label">Source de l'image sur Nakala</span>
+              <a target="_blank" :href="imageNakalaSrc">{{ imageNakalaSrc }}</a>
+            </p>
           </div>
-
         </div>
       </div>
       <!-- Warning section -->
-      <div class="card" :class="metadataCardsState.card2 ? 'is-opened': ''" v-if="registerPageDate">
+      <div class="card" :class="{ 'is-opened': metadataCardsState.card2 }" v-if="registerPageDate">
         <div class="card-header" @click="toggleCard('card2')">
           <p class="card-header-title">
             Avertissement
@@ -412,7 +410,7 @@ export default {
   padding: 90px 0 0;
 }
 
-.facsimile-columns > .column:first-child {
+.facsimile-columns.is-collapsed > .column:first-child {
   max-width: 465px;
 }
 
@@ -423,7 +421,7 @@ export default {
 
 .facsimile-columns > .column:last-child > div {
   width: 100%;
-  padding: 26px 26px;
+  padding: 0 26px;
 }
 
 .facsimile-columns > .column:last-child > div.raw-prediction-card-parent {
@@ -474,12 +472,16 @@ export default {
 .card-header-title {
   display: flex;
   justify-content: space-between;
-  padding: 20px;
+  padding: 20px 0;
 
   font-size: 24px;
   color: #272727;
   font-weight: 400;
   font-style: italic;
+}
+
+.raw-prediction-card-parent .card-header-title {
+  padding: 40px 0 10px;
 }
 
 .card-header-toggle {
@@ -501,11 +503,27 @@ export default {
 
 .card-content {
   margin-bottom: 40px;
+  padding: 27px;
   background-color: var(--panel-bg-color);
+
+  font-family: var(--font-secondary);
+  font-size: 20px;
+  line-height: 1.2;
+  color: #303030;
+  font-weight: 400;
 }
 
+.card-content a {
+  color: #303030;
+}
+
+.card-content span.card-content-label {
+  display: block;
+}
+
+.card-content span.card-content-label,
 .warning {
-  color: #ff3860;
+  color: var(--light-brown-alt);
 }
 
 .raw-prediction-text div {
@@ -587,4 +605,9 @@ tspan {
   max-width: 2rem;
   margin-right: -1rem;
 }
+
+.nakala-metadata-wrapper a {
+  word-break: break-word;
+}
+
 </style>
