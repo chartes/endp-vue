@@ -133,4 +133,9 @@ export default {
   width: 100%;
   padding: 0;
 }
+
+::v-deep .main-svg {
+  background-color: transparent !important;
+}
+
 </style>

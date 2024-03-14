@@ -36,9 +36,9 @@
 
         <!-- Reset button -->
         <button class="button is-outlined btn-reset-date" @click="handleResetSlider">
-
           <!-- icon reset --> <i class="fas fa-undo"></i>
         </button>
+
         <!-- NoSketch Engine search box -->
         <RegisterNoSketchSearchBox
             :year-range="yearRange"
@@ -400,7 +400,7 @@ export default {
 .columns .column:first-child {
   width: 465px;
   background-color: var(--panel-bg-color);
-  padding: 80px 32px 23px;
+  padding: 80px 0 23px;
 }
 
 .columns.facets-box-collapsed .column:first-child {
@@ -437,6 +437,13 @@ export default {
   top: 0;
 }
 
+.box-facets > p,
+.box-facets > .container-slider,
+.box-facets > .box-container-facets__date-interval,
+.box-facets > .box-histogram {
+  padding: 0 32px;
+}
+
 .subtitle {
   display: block;
   margin-bottom: 75px;
@@ -453,13 +460,22 @@ export default {
 }
 
 .btn-reset-date {
-  margin-top: 1rem;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 40px;
+  height: 40px;
   margin-bottom: 0.3rem;
+  background: url("@/assets/images/b_Recherche_reset.svg") center / cover;
+  border: none;
 }
 
 .btn-reset-date:hover {
-  background-color: #8d1919;
-  color: white;
+}
+
+.btn-reset-date .fa-undo {
+  display: none;
 }
 
 /* results part */

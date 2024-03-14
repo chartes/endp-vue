@@ -134,7 +134,7 @@ export default {
   align-items: center;
   gap: 10px;
   width: 100%;
-  margin-bottom: 1rem;
+  margin-bottom: 20px;
 }
 
 
