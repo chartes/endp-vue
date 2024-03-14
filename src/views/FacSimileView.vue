@@ -1,5 +1,10 @@
 <template>
-
+  <!-- Banner -->
+  <div id="banner-image" class="container is-fluid">
+    <h1 class="title">Registres</h1>
+  </div>
+  <!-- end banner -->
+  <!-- Main grid  -->
   <div class="columns facsimile-columns" :class="{ 'is-collapsed': isNavOpen }">
 
     <div class='column' v-if="isNavOpen">
@@ -76,14 +81,12 @@
               <p v-if="showCopyConfirmation">Le texte a été copié dans le presse-papiers !</p>
               <p v-else>Impossible de copier le texte dans le presse-papiers ! Veuillez réessayer plus tard.</p>
             </div>
-            <button @click="copyToClipboard" class="button is-small is-info">
-              <i class="fas fa-copy"></i>
-            </button>
-            <br>
-            <br>
-            <p><u>Note</u> : <i>L'ordre des lignes de texte peut ne pas correspondre à l'ordre des lignes du fac-similé.</i>
-            </p>
-            <hr>
+            <div class="header">
+              <button @click="copyToClipboard" class="button copy-button" />
+              <p>
+                Note : L'ordre des lignes de texte peut ne pas correspondre à l'ordre des lignes du fac-similé.
+              </p>
+            </div>
             <!-- create a spinner when the text is loading -->
             <div v-if="loadPredictionText" class="loader-wrapper">
               <div class="loader is-loading"></div>
@@ -402,6 +405,11 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@100&display=swap');
 
+/* Set image banner */
+#banner-image::before {
+  background-image: url("@/assets/banners/banner-registers.png");
+}
+
 .facsimile-columns {
   gap: 45px;
 }
@@ -526,8 +534,52 @@ export default {
   color: var(--light-brown-alt);
 }
 
+.raw-prediction-text {
+  padding: 0;
+}
+
 .raw-prediction-text div {
-  font-family: "Times New Roman", Times, serif;
+  font-family: var(--font-secondary);
+  padding: 0 40px;
+}
+
+.raw-prediction-text .header {
+  position: relative;
+  width: 100%;
+  padding: 27px 40px;
+  border-bottom: solid 1px #D6D6D6;
+  margin-bottom: 27px;
+
+  font-size: 18px;
+  color: #6E6E6E;
+  font-weight: 400;
+}
+
+.raw-prediction-text ::v-deep p {
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+.raw-prediction-text .header p {
+  width: 80%;
+  margin-bottom: 0;
+}
+
+.raw-prediction-text .header button {
+  position: absolute;
+  right: 27px;
+  top:27px;
+}
+
+button.copy-button {
+  display: inline-block;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  background: transparent url('~@/assets/images/b_Copier.svg') center / cover no-repeat;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
 }
 
 #mirador {
@@ -539,6 +591,10 @@ export default {
 ::v-deep .mosaic-tile {
   margin: 0;
   border: none;
+}
+
+::v-deep .MuiToolbar-root {
+  border: none !important;
 }
 
 tspan {
@@ -564,13 +620,24 @@ tspan {
   cursor: pointer;
 }
 
+.notification {
+  padding: 30px;
+  border-radius: 0;
+}
+
+::v-deep .notification p {
+  font-family: var(--font-secondary);
+  font-size: 20px !important;
+  color: #000000;
+  margin-bottom: 0;
+}
+
 .notification.is-success {
   position: fixed;
   top: 20px;
   right: 20px;
   z-index: 1000;
-  color: #000000;
-  font-family: 'Times New Roman', Times, serif;
+  padding: 30px !important;
 }
 
 .notification.is-danger {
@@ -578,8 +645,7 @@ tspan {
   top: 20px;
   right: 20px;
   z-index: 1000;
-  color: #000000;
-  font-family: 'Times New Roman', Times, serif;
+  padding: 30px !important;
 }
 
 .loader-wrapper {
