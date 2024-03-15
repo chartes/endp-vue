@@ -118,7 +118,17 @@ export default {
   font-weight: 600;
   text-transform: uppercase;
   color: #363636;
+}
 
+button.button.is-info {
+  background-color: #303030;
+  border-radius: 2px;
+  font-family: var(--font-secondary);
+  font-size: 18px;
+  font-weight: 500;
+  color: #FFFFFF;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .btn-reset {
@@ -139,6 +149,23 @@ export default {
 .control-slider {
   margin-top: 1rem;
   margin-left: 1rem;
+}
+
+.container-search {
+  background-color: var(--panel-bg-color);
+}
+
+input {
+  border: none;
+  border-bottom: solid 1px var(--light-brown);
+  border-radius: 0;
+}
+
+.subtitle {
+  font-size: 24px;
+  color: #272727;
+  font-weight: 400;
+  font-style: italic;
 }
 
 </style>

@@ -62,7 +62,8 @@ export default {
 
 /* Set image banner */
 #banner-image::before {
-  background: url("@/assets/banners/banner-ndp-map_home_page.jpg") center / cover;
+  background-size: 1920px auto;
+  background-image: url("@/assets/banners/bandeau_home.jpg");
 }
 
 h1.title {
