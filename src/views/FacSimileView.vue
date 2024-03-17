@@ -555,7 +555,7 @@ export default {
   font-weight: 400;
 }
 
-.raw-prediction-text ::v-deep p {
+:deep(.raw-prediction-text p) {
   font-size: 22px;
   margin-bottom: 12px;
 }
@@ -588,12 +588,12 @@ button.copy-button {
   border: none;
 }
 
-::v-deep .mosaic-tile {
+:deep(.mosaic-tile) {
   margin: 0;
   border: none;
 }
 
-::v-deep .MuiToolbar-root {
+:deep(.MuiToolbar-root) {
   border: none !important;
 }
 
@@ -625,7 +625,7 @@ tspan {
   border-radius: 0;
 }
 
-::v-deep .notification p {
+:deep(.notification p) {
   font-family: var(--font-secondary);
   font-size: 20px !important;
   color: #000000;

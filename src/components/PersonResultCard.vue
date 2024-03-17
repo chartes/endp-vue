@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div class="card" :class="{ 'is-opened': person.isOpened }">
       <header class="card-header" @click="toggleContent(person, $event)">
         <div class="card-header-title">
           <span class="canon-icon" v-if="person.is_canon"></span>
@@ -12,16 +12,18 @@
         <div class="content">
           <div class="columns is-multiline">
             <div class="column is-7 block has-text-left">
-              <p><b>Prénom(s) - <i>Nomen</i></b> : {{ person.forename_alt_labels }}</p>
-              <p><b>Nom(s) - <i>Cognomen</i></b> : {{ person.surname_alt_labels }}</p>
-              <p><b>Dates extrêmes d'apparition dans les registres</b> :
+              <p>
+                <b>Prénom(s) - <i>Nomen</i></b>
+                {{ person.forename_alt_labels }}
+              </p>
+              <p><b>Nom(s) - <i>Cognomen</i></b>
+                {{ person.surname_alt_labels }}
+              </p>
+              <p><b>Dates extrêmes d'apparition dans les registres</b>
                 {{ person.first_mention_date ? person.first_mention_date : "Non renseigné" }} -
                 {{ person.last_mention_date ? person.last_mention_date : "Non renseigné" }}</p>
               <p>
                 <router-link class="button  btn-person-data-link" :to="`/persons/${person._id_endp}`">
-                          <span class="icon is-small">
-                            <i class="fas fa-external-link-alt"></i>
-                          </span>
                   <span>Accéder à la fiche</span>
                 </router-link>
               </p>
@@ -51,47 +53,90 @@ export default {
 </script>
 
 <style scoped>
+
+.card-content {
+  padding: 25px 0;
+
+  font-family: var(--font-secondary);
+  font-size: 1.25em;
+}
+
+.card-content .column  {
+  width: 100%;
+  padding: 0;
+}
+
+.card-content .column p {
+  position: relative;
+}
+
+.card-content .column p > b {
+  display: block;
+  font-weight: 400;
+  color: var(--light-brown-alt);
+}
+
 .canon-icon {
-  background: url(@/assets/icons/canon-icon.svg) center / cover no-repeat;
-  height: 70px;
-  width: 70px;
+  background: url(@/assets/images/picto_chanoine_liste.svg) center left / auto 59px no-repeat;
+  height: 60px;
+  width: 55px;
 }
 
 .secular-people-icon {
-  background: url(@/assets/icons/secular-people-1.png) center / cover no-repeat;
-  height: 50px;
-  width: 50px;
-  margin-right: 15px;
-  margin-left: 10px;
+  background: url(@/assets/images/picto_perso_titre.svg) center left / auto 59px no-repeat;
+  height: 59px;
+  width: 55px;
+}
+
+header {
+  min-height: 130px;
+  border-bottom: solid 6px #D74A52;
+  align-items: flex-end;
+}
+
+.is-opened header {
+  border-bottom: solid 1px #A5A5A5;
+}
+
+.card-header {
+  border-radius: 0;
 }
 
 .card-header-title {
-  height: 100px
+  padding: 0;
+  font-size: 22px;
+  color: #000000;
+  font-weight: 400;
+  font-style: italic;
 }
 
 .btn-person-data-link {
-  margin-top: 1rem;
-  color: #8d1919;
+  padding: 0 35px 0 0;
+  border: none;
+  line-height: 26px;
+  color: #6E6E6E;
+  background: transparent url(@/assets/images/b_access_fiche.svg) center right / auto 26px no-repeat;
+
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .btn-person-data-link:hover {
-  background: #8d1919;
-  color: #fff;
+  color: var(--light-brown-alt);
 }
 
 .toggle-btn {
-  background: url('~@/assets/icons/chevron_rouge.svg') center / cover no-repeat;
-  transition: transform 0.3s ease-in-out;
+  background: transparent url('~@/assets/images/b_Open_liste.svg') center / cover no-repeat;
   cursor: pointer;
   width: 27px;
   height: 27px;
-  margin: 2rem 2rem auto auto;
-
+  margin-bottom: 12px;
+  margin-right: 10px;
 }
 
 .toggle-btn.is-opened {
-  width: 27px;
-  background: url('~@/assets/icons/croix.svg') center / cover no-repeat;
+  background-image: url('~@/assets/images/b_Close_liste.svg');
 }
 
 </style>

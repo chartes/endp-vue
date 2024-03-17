@@ -181,6 +181,20 @@ nav .pagination {
   opacity: 0.5;
 }
 
+.pagination-link {
+  background-color: #E0E0E0;
+  border: none;
+  border-radius: 3px;
+  font-family: var(--font-secondary);
+  font-size: 18px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.pagination-link.is-current {
+  background-color: #A53605;
+}
+
 .pagination-previous, .pagination-next {
   margin-right: 10px;
 }

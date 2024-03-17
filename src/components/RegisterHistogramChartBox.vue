@@ -134,7 +134,7 @@ export default {
   padding: 0;
 }
 
-::v-deep .main-svg {
+:deep(.main-svg) {
   background-color: transparent !important;
 }
 

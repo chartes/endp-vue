@@ -5,13 +5,15 @@
   <div class="columns is-multiline">
     <div class="column is-12-mobile is-5-tablet is-5-desktop">
       <div class="box box-search-person-facets">
-        <PersonSearchBox
-            @update:query="handleUpdateQuery"
-            @reset:query="handleResetQuery"
-        />
-        <div class="checkbox-canon box">
-          <input id="checkbox-canon" type="checkbox" v-model="showCanon">
-          <label for="checkbox-canon"> Chanoines</label>
+        <div class="box-content">
+          <PersonSearchBox
+              @update:query="handleUpdateQuery"
+              @reset:query="handleResetQuery"
+          />
+          <div class="checkbox-canon box">
+            <input id="checkbox-canon" type="checkbox" v-model="showCanon">
+            <label for="checkbox-canon"> Chanoines</label>
+          </div>
         </div>
         <div class="loader-wrapper" :class="{'is-active': !isLoading}">
           <div class="loader is-loading"></div>
@@ -186,6 +188,20 @@ export default {
   background-image: url("@/assets/banners/band_Personnes.png");
 }
 
+.columns {
+  gap: 50px;
+}
+
+.columns .column:first-child {
+  width: 465px;
+  padding: 100px 0 23px;
+}
+
+.columns .column:last-child {
+  width: calc(100% - 50px - 465px);
+  padding: 85px 30px 300px 30px;
+}
+
 .box-search-person-facets {
   position: sticky;
   top: 0;
@@ -195,6 +211,27 @@ export default {
 .box-search-person-facets .box {
   padding: 0;
   margin-bottom: 0;
+}
+
+.box-search-person-facets .box-content {
+  position: relative;
+}
+
+.box-search-person-facets .box-content .checkbox-canon {
+  position: absolute;
+  bottom: 50px;
+  right: 20px;
+  padding: 20px 40px 20px 0;
+  background: url("@/assets/images/picto_chanoine_liste.svg") center right / auto 50px no-repeat;
+}
+
+.box-search-person-facets .box-content .checkbox-canon {
+  font-family: var(--font-secondary);
+  font-size: 20px;
+}
+
+.box-search-person-facets .box-content .checkbox-canon label {
+  margin-left: 5px;
 }
 
 .loader-wrapper {
@@ -213,7 +250,6 @@ export default {
 }
 
 .li--person {
-  padding: 10px;
   justify-content: space-between;
 }
 
@@ -229,8 +265,8 @@ export default {
 .results-count {
   display: inline-block;
   width: 74px;
-  height: 132px;
-  background: url("@/assets/images/picto_perso_liste.svg") center / cover;
+  height: 137px;
+  background: url("@/assets/images/picto_perso_titre.svg") center / cover;
   padding-top: 50px;
 
   font-size: 22px;
