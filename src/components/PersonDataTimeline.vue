@@ -3,17 +3,17 @@
   <button class="button btn-scroll" @mousedown="startScroll(-50)" @mouseup="stopScroll" :disabled="isAtTop">▲</button>
   <div class="timeline-scroll-container" ref="scrollContainer">
     <div class="timeline-container">
-      <div v-for="(eventsGroup, date) in groupedEvents" :key="date" class="timeline-item">
-        <div @click="togglePopup(date)" class="timeline-dot"
-     :class="{ 'without-date': date === 'date_inconnue', 'dot-selected': selectedDate === date }"></div>
+      <div v-for="group in groupedEvents" :key="group.date" class="timeline-item">
+        <div @click="togglePopup(group.date)" class="timeline-dot"
+             :class="{ 'without-date': group.date === 'date_inconnue', 'dot-selected': selectedDate === group.date }"></div>
 
-        <div :class="['timeline-date', { active: hover === date || clicked === date }]" @click="togglePopup(date)">
-          {{ formatDate(date) }}
+        <div :class="['timeline-date', { active: hover === group.date || clicked === group.date }]" @click="togglePopup(group.date)">
+          {{ formatDate(group.date) }}
         </div>
-        <div v-if="clicked === date" class="popup-group">
-          <div class="popup-and-navigation" v-for="(event, index) in eventsGroup" :key="event._id_endp">
-            <div class="timeline-popup" :style="{ zIndex: activePopupIndex[date] === index ? 100 : 99 }"
-                 v-show="activePopupIndex[date] === index">
+        <div v-if="clicked === group.date" class="popup-group">
+          <div class="popup-and-navigation" v-for="(event, index) in group.events" :key="event._id_endp">
+            <div class="timeline-popup" :style="{ zIndex: activePopupIndex[group.date] === index ? 100 : 99 }"
+                 v-show="activePopupIndex[group.date] === index">
               <div class="popup-content">
                 <div class="popup-date">☞ {{ event.type }}</div>
                 <div class="popup-description">
@@ -31,12 +31,12 @@
               </div>
             </div>
             <!-- Carousel Navigation: Shown if there's more than one event -->
-            <div v-if="eventsGroup.length > 1" class="popup-navigation" :style="{ zIndex: 101 }">
-              <span class="popup-counter">{{ activePopupIndex[date] + 1 }}/{{ eventsGroup.length }}</span>
-              <button @click="navigateInCarousel(date, -1)" class="button nav-left">
+            <div v-if="group.events.length > 1" class="popup-navigation" :style="{ zIndex: 101 }">
+              <span class="popup-counter">{{ activePopupIndex[group.date] + 1 }}/{{ group.events.length }}</span>
+              <button @click="navigateInCarousel(group, -1)" class="button nav-left">
                 <i class="fas fa-chevron-left"></i>
               </button>
-              <button @click="navigateInCarousel(date, 1)" class="button nav-right">
+              <button @click="navigateInCarousel(group, 1)" class="button nav-right">
                 <i class="fas fa-chevron-right"></i>
               </button>
             </div>
@@ -77,54 +77,74 @@ export default {
   computed: {
     ...mapState(['months', 'mappingSha1VolumesJSON']),
     groupedEvents() {
-      const eventsWithDate = Object.values(this.eventsResponse).filter(e => e.date).sort((a, b) => new Date(a.date) - new Date(b.date));
+      const normalizeDate = (date) => {
+        return date.length === 4 ? `${date}-01-01` : date; // Normalisation des dates
+      };
+
+      let eventsWithDate = Object.values(this.eventsResponse)
+          .filter(e => e.date)
+          .map(e => ({...e, normalizedDate: normalizeDate(e.date)}))
+          .sort((a, b) => new Date(a.normalizedDate) - new Date(b.normalizedDate));
+
       const eventsWithoutDate = Object.values(this.eventsResponse).filter(e => !e.date);
 
-      // Group events by date
-      const grouped = {};
+      // Transformation en tableau pour garder l'ordre
+      const groupedArray = [];
       eventsWithDate.forEach(event => {
-        if (!grouped[event.date]) {
-          grouped[event.date] = [];
+        const found = groupedArray.find(item => item.date === event.date);
+        if (!found) {
+          groupedArray.push({
+            date: event.date, // Clé pour l'affichage
+            events: [event]
+          });
+        } else {
+          found.events.push(event);
         }
-        grouped[event.date].push(event);
       });
+
       if (eventsWithoutDate.length > 0) {
-        return {...grouped, 'Date inconnue': eventsWithoutDate};
-      }else {
-        return {...grouped};
+        groupedArray.push({date: 'Date inconnue', events: eventsWithoutDate});
       }
-    }
+
+      return groupedArray;
+    },
   },
+
   mounted() {
     this.$refs.scrollContainer.addEventListener('scroll', this.handleScroll);
     this.$refs.scrollContainer.addEventListener('wheel', this.handleWheel, {passive: false});
-  },
+  }
+  ,
   methods: {
     /**
      * Navigate in the timeline's popup like a carousel
-     * @param date
+     * @param group
      * @param direction
      * @returns {void}
      */
-    navigateInCarousel(date, direction) {
-      const totalEvents = this.groupedEvents[date].length;
-      let currentIndex = this.activePopupIndex[date] || 0;
+    navigateInCarousel(group, direction) {
+      console.log(group)
+      console.log('navigateInCarousel',group.events);
+      const totalEvents = group.events.length;
+      let currentIndex = this.activePopupIndex[group.date] || 0;
       let newIndex = currentIndex + direction;
       if (newIndex >= totalEvents) {
         newIndex = 0;
       } else if (newIndex < 0) {
         newIndex = totalEvents - 1;
       }
-      this.activePopupIndex[date] = newIndex;
+      this.activePopupIndex[group.date] = newIndex;
       this.activePopupIndex = {...this.activePopupIndex};
-    },
+    }
+    ,
     /**
      * Prevents scrolling the page when scrolling the timeline
      * @param event
      */
     handleWheel(event) {
       event.preventDefault();
-    },
+    }
+    ,
 
     /**
      * Format the image identifiers to match the facsimile route
@@ -136,7 +156,8 @@ export default {
       /*"image_url": "LL108B;FRAN_0393_00301.tif;f698da8e09f4e6ca97db5856f0527d2ac81c65e2" */
       const parts = identifiers.split(';');
       return `${parts[0]}/${this.mappingSha1VolumesJSON[parts[2]].canvas_index}`;
-    },
+    }
+    ,
 
     /**
      * Handle the scroll event to know if the user is at the top or bottom of the timeline
@@ -144,7 +165,8 @@ export default {
     handleScroll() {
       this.isAtTop = this.$refs.scrollContainer.scrollTop === 0;
       this.isAtBottom = this.$refs.scrollContainer.scrollHeight - this.$refs.scrollContainer.scrollTop === this.$refs.scrollContainer.clientHeight;
-    },
+    }
+    ,
 
     /**
      * Toggle the popup of an event
@@ -154,14 +176,16 @@ export default {
       this.stopScroll();
       this.scroll(amount);
       this.scrollInterval = setInterval(() => this.scroll(amount), 100);
-    },
+    }
+    ,
 
     /**
      * Stop the scrolling
      */
     stopScroll() {
       clearInterval(this.scrollInterval);
-    },
+    }
+    ,
 
     /**
      * Scroll the timeline
@@ -172,7 +196,8 @@ export default {
       if (container) {
         container.scrollBy({top: amount, behavior: 'smooth'});
       }
-    },
+    }
+    ,
 
     /**
      * Format the date to display it in the timeline
@@ -197,24 +222,27 @@ export default {
         formattedDate = `${parts[2]} ${formattedDate}`; // Jour
       }
       return formattedDate;
-    },
+    }
+    ,
 
     /**
      * Toggle the popup of an event
      * @param date
      */
     togglePopup(date) {
-  if (this.clicked === date) {
-    this.clicked = null; // Ferme le groupe si déjà ouvert
-    this.selectedDate = null; // Désélectionne le dot
-  } else {
-    this.clicked = date;
-    this.selectedDate = date; // Sélectionne le nouveau dot
-    this.activePopupIndex[date] = 0; // Initialiser ou réinitialiser l'index au premier pop-up du groupe
+      if (this.clicked === date) {
+        this.clicked = null; // Ferme le groupe si déjà ouvert
+        this.selectedDate = null; // Désélectionne le dot
+      } else {
+        this.clicked = date;
+        this.selectedDate = date; // Sélectionne le nouveau dot
+        this.activePopupIndex[date] = this.activePopupIndex[date] || 0;
+      }
+    }
+    ,
   }
-},
-  }
-};
+}
+;
 </script>
 
 <style scoped>
@@ -364,7 +392,7 @@ export default {
 .popup-navigation {
   position: absolute;
   right: -22rem;
-  top:-3rem;
+  top: -3rem;
   bottom: 0;
   display: flex;
   align-items: center;
@@ -378,7 +406,7 @@ export default {
 
 .nav-left, .nav-right {
   /* create a red circle  and space between */
-   margin: 0 0.5rem 0 1.3rem;
+  margin: 0 0.5rem 0 1.3rem;
   width: 30px;
   height: 30px;
   border-radius: 50%;
