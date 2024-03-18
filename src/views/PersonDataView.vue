@@ -1,18 +1,20 @@
 <template>
-  <!-- Person header -->
-  <div class="person-data-container-header">
-    <h1 class="person-name">{{ meta_person['pref_label'] }}</h1>
-    <span v-if="meta_person['is_canon']" class="canon-status">~ Chanoine ~</span>
+  <div id="banner-image" class="container is-fluid">
+    <h1 class="title">Personnes</h1>
   </div>
-  <!-- end Person header -->
-  <div class="columns is-multiline">
+
+  <div class="columns person-name-columns is-multiline">
     <div class="column is-full">
-      <div class="wrapper-db-link is-flex is-align-items-center">
-        <i class="fas fa-database"></i>
-        <!-- Utilisez une marge à gauche (par exemple, ml-2) pour espacer l'icône et le texte, si nécessaire -->
-        <p>Accéder à la <a class="link-person-db" :href="db_show_url" target="_blank">fiche personne en base</a></p>
+      <!-- Person header -->
+      <div class="person-data-container-header">
+        <h1 class="person-name">{{ meta_person['pref_label'] }}</h1>
+        <span v-if="meta_person['is_canon']" class="canon-status">Chanoine</span>
       </div>
     </div>
+  </div>
+
+  <!-- end Person header -->
+  <div class="columns is-multiline">
 
     <!-- top Person metadata -->
     <div :class="{'column is-full': isEventsEmpty, 'column is-5': !isEventsEmpty}">
@@ -46,6 +48,11 @@
           </div>
         </div>
       </div>
+      <div class="wrapper-db-link is-flex is-align-items-center">
+        <i class="fas fa-database"></i>
+        <!-- Utilisez une marge à gauche (par exemple, ml-2) pour espacer l'icône et le texte, si nécessaire -->
+        <p>Accéder à la <a class="link-person-db" :href="db_show_url" target="_blank">fiche personne en base</a></p>
+      </div>
     </div>
     <!-- end top Person metadata -->
     <!-- Person events timeline -->
@@ -54,6 +61,7 @@
       <PersonDataTimeline :events-response="event_relations['events']"/>
     </div>
     <!-- end Person events timeline -->
+
   </div>
   <PersonDataCarousel :collecta-items="collecta_urls"/>
 </template>
@@ -143,24 +151,64 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Charm&display=swap');
+
+/* Set image banner */
+#banner-image::before {
+  background-image: url("@/assets/banners/band_Personnes.png");
+}
+
+.person-name-columns {
+  margin-bottom: 25px;
+}
+
+.person-name-columns > .column {
+  padding: 0;
+}
+
+.columns {
+  gap: 46px;
+}
+
+.columns, .column {
+  padding-top: 0;
+}
+
+.columns > .column {
+  background-color: var(--panel-bg-color);
+}
 
 /* new styles */
 .person-data-container-header {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 5rem 10rem;
-  text-align: center;
+  background-color: var(--panel-bg-color);
+  padding: 65px 37px 40px;
 }
 
+.person-data-container-header::after {
+  content: "";
+  display: block;
+  width: 44px;
+  height: 8px;
+  margin: 20px 0;
+  border-top: solid var(--light-brown-alt) 8px;
+}
+
+.person-data-container-header > span {
+  font-size: 1.25em;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 33px;
+  color: #000000;
+}
+
+
 .person-name {
-  font-family: 'Charm', cursive;
-  font-size: 3em;
-  margin-bottom: 2rem;
-  margin-right: 20rem;
-  color: #2a2a2a;
+  font-size: 2.25em;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 40px;
+  color: #7B0C12;
 }
 
 .canon-status {
@@ -168,12 +216,6 @@ export default {
   color: #606060;
   font-size: 1.5rem;
   margin-right: 20rem;
-}
-
-.person-metadata-wrapper,
-.timeline-wrapper {
-  margin-left: 2rem;
-  margin-bottom: 2rem;
 }
 
 .section-title {
