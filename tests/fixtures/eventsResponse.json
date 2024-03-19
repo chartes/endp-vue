@@ -1,0 +1,228 @@
+[
+  {
+    "data": [
+      {
+        "date": "1392-06-26",
+        "type": "Entrée"
+      },
+      {
+        "date": "1392-06-26",
+        "type": "Entrée"
+      },
+      {
+        "date": "1415",
+        "type": "Entrée"
+      },
+      {
+        "date": "1415-07-12",
+        "type": "Entrée"
+      },
+      {
+        "date": "1418",
+        "type": "Entrée"
+      },
+      {
+        "date": "1424-07-12",
+        "type": "Sortie"
+      },
+      {
+        "date": "1424-07-12",
+        "type": "Entrée"
+      },
+      {
+        "date": "1424-07-21",
+        "type": "Entrée"
+      },
+      {
+        "date": "1424-08-02",
+        "type": "Entrée"
+      }
+    ],
+    "toChecked": {
+      "orderDateExpected": [
+        "1392-06-26",
+        "1415",
+        "1415-07-12",
+        "1418",
+        "1424-07-12",
+        "1424-07-21",
+        "1424-08-02"
+      ],
+      "totalEventsByDateExpected": {
+        "1392-06-26": 2,
+        "1415": 1,
+        "1415-07-12": 1,
+        "1418": 1,
+        "1424-07-12": 2,
+        "1424-07-21": 1,
+        "1424-08-02": 1
+      }
+    }
+  },
+  {
+    "data": [
+      {
+        "date": "1392-01-01",
+        "type": "Entrée"
+      },
+      {
+        "date": null,
+        "type": "Entrée"
+      },
+      {
+        "date": "1392-01-01",
+        "type": "Sortie"
+      },
+      {
+        "date": "1425",
+        "type": "Sortie"
+      },
+      {
+        "date": null,
+        "type": "Entrée"
+      },
+      {
+        "date": null,
+        "type": "Sortie"
+      },
+      {
+        "date": "1392-05",
+        "type": "Sortie"
+      },
+      {
+        "date": "1392-01",
+        "type": "Sortie"
+      },
+      {
+        "date": "1392",
+        "type": "Sortie"
+      },
+      {
+        "date": "1425-01",
+        "type": "Entrée"
+      }
+    ],
+    "toChecked": {
+      "orderDateExpected": [
+        "1392",
+        "1392-01",
+        "1392-01-01",
+        "1392-05",
+        "1425",
+        "1425-01",
+        "Date inconnue"
+      ],
+      "totalEventsByDateExpected": {
+        "1392": 1,
+        "1392-01": 1,
+        "1392-01-01": 2,
+        "1392-05": 1,
+        "1425": 1,
+        "1425-01": 1,
+        "Date inconnue": 3
+      }
+    }
+  },
+  {
+    "data": [
+      {
+        "date": null,
+        "type": "Entrée"
+      },
+      {
+        "date": null,
+        "type": "Entrée"
+      },
+      {
+        "date": null,
+        "type": "Sortie"
+      },
+      {
+        "date": null,
+        "type": "Sortie"
+      },
+      {
+        "date": null,
+        "type": "Sortie"
+      },
+      {
+        "date": null,
+        "type": "Sortie"
+      }
+    ],
+    "toChecked": {
+      "orderDateExpected": [
+        "Date inconnue"
+      ],
+      "totalEventsByDateExpected": {
+        "Date inconnue": 6
+      }
+    }
+  },
+  {
+    "data": [
+      {
+        "date": "1504",
+        "type": "Entrée"
+      },
+      {
+        "date": null,
+        "type": "Entrée"
+      },
+      {
+        "date": "1504",
+        "type": "Sortie"
+      },
+      {
+        "date": "1504-01-01",
+        "type": "Entrée"
+      },
+      {
+        "date": "1235-04",
+        "type": "Entrée"
+      },
+      {
+        "date": "1324-01",
+        "type": "Sortie"
+      },
+      {
+        "date": null,
+        "type": "Sortie"
+      },
+      {
+        "date": "1524-12-05",
+        "type": "Sortie"
+      },
+      {
+        "date": "1524-12-01",
+        "type": "Sortie"
+      },
+      {
+        "date": "1234-12",
+        "type": "Sortie"
+      }
+    ],
+    "toChecked": {
+      "orderDateExpected": [
+        "1234-12",
+        "1235-04",
+        "1324-01",
+        "1504",
+        "1504-01-01",
+        "1524-12-01",
+        "1524-12-05",
+        "Date inconnue"
+      ],
+      "totalEventsByDateExpected": {
+        "1234-12": 1,
+        "1235-04": 1,
+        "1324-01": 1,
+        "1504": 2,
+        "1504-01-01": 1,
+        "1524-12-01": 1,
+        "1524-12-05": 1,
+        "Date inconnue": 2
+      }
+    }
+  }
+]

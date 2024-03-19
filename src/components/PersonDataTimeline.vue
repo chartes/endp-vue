@@ -7,7 +7,8 @@
         <div @click="togglePopup(group.date)" class="timeline-dot"
              :class="{ 'without-date': group.date === 'date_inconnue', 'dot-selected': selectedDate === group.date }"></div>
 
-        <div :class="['timeline-date', { active: hover === group.date || clicked === group.date }]" @click="togglePopup(group.date)">
+        <div :class="['timeline-date', { active: hover === group.date || clicked === group.date }]"
+             @click="togglePopup(group.date)">
           {{ formatDate(group.date) }}
         </div>
         <div v-if="clicked === group.date" class="popup-group">
@@ -76,7 +77,8 @@ export default {
   },
   computed: {
     ...mapState(['months', 'mappingSha1VolumesJSON']),
-    groupedEvents() {
+    /*groupedEvents() {
+      //console.log('this.eventsResponse',this.eventsResponse);
       const normalizeDate = (date) => {
         return date.length === 4 ? `${date}-01-01` : date; // Normalisation des dates
       };
@@ -106,8 +108,50 @@ export default {
         groupedArray.push({date: 'Date inconnue', events: eventsWithoutDate});
       }
 
+      //console.log('groupedArray',groupedArray);
+
       return groupedArray;
-    },
+    },*/
+    groupedEvents() {
+      // Parse une date et retourne un objet avec année, mois, jour et un poids pour le tri.
+      const parseDate = (date) => {
+        const parts = date ? date.split('-').map(Number) : [];
+        return {
+          year: parts[0] || 0,
+          month: parts[1] || 0,
+          day: parts[2] || 0,
+          // Le poids indique la précision de la date (utile pour le tri).
+          weight: parts.length
+        };
+      };
+
+      // Compare deux dates.
+      const compareDates = (a, b) => {
+        const dateA = parseDate(a.date), dateB = parseDate(b.date);
+        // Compare année, puis mois, puis jour, puis poids.
+        if (dateA.year !== dateB.year) return dateA.year - dateB.year;
+        if (dateA.month !== dateB.month) return dateA.month - dateB.month;
+        if (dateA.day !== dateB.day) return dateA.day - dateB.day;
+        return dateA.weight - dateB.weight;
+      };
+
+      // Tri des événements par date.
+      const eventsWithDate = this.eventsResponse.filter(e => e.date).sort(compareDates);
+      const eventsWithoutDate = this.eventsResponse.filter(e => !e.date);
+
+      // Groupement des événements par date unique.
+      let grouped = eventsWithDate.reduce((acc, event) => {
+        const foundIndex = acc.findIndex(item => item.date === event.date);
+        foundIndex === -1 ? acc.push({date: event.date, events: [event]}) : acc[foundIndex].events.push(event);
+        return acc;
+      }, []);
+
+      // Ajoute les événements sans date à la fin.
+      if (eventsWithoutDate.length) grouped.push({date: 'Date inconnue', events: eventsWithoutDate});
+
+      return grouped;
+    }
+
   },
 
   mounted() {
@@ -123,8 +167,8 @@ export default {
      * @returns {void}
      */
     navigateInCarousel(group, direction) {
-      console.log(group)
-      console.log('navigateInCarousel',group.events);
+      //console.log(group)
+      console.log('navigateInCarousel', group.events);
       const totalEvents = group.events.length;
       let currentIndex = this.activePopupIndex[group.date] || 0;
       let newIndex = currentIndex + direction;
