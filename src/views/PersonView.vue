@@ -271,12 +271,15 @@ export default {
 
   font-size: 22px;
   font-weight: 700;
+  font-style: normal;
   color: #FFFFFF;
   text-align: center;
 }
 
 h2.subtitle {
   margin-bottom: 0;
+  font-size: 20px;
+  font-style: italic;
 }
 
 

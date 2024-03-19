@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="49.4974747px" height="49.4974747px" viewBox="0 0 49.4974747 49.4974747" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group 5</title>
+    <g id="Dsk" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="PERSOS-fiche" transform="translate(-1262.751263, -750.000000)">
+            <g id="Group-5" transform="translate(1287.500000, 774.748737) rotate(-45.000000) translate(-1287.500000, -774.748737) translate(1270.000000, 757.248737)">
+                <circle id="Oval" fill="#303030" cx="17.5" cy="17.5" r="17.5"></circle>
+                <g id="fleche" transform="translate(17.222222, 17.500000) scale(-1, 1) rotate(45.000000) translate(-17.222222, -17.500000) translate(7.500000, 9.166667)" stroke="#FFFFFF" stroke-width="2.3">
+                    <line x1="19.0843621" y1="8.33333333" x2="1.08024691" y2="8.33333333" id="Line" stroke-linecap="square"></line>
+                    <line x1="0.360082305" y1="8.33333333" x2="8.281893" y2="0.362318841" id="Line-2" stroke-linecap="round"></line>
+                    <line x1="0.360082305" y1="16.3043478" x2="8.281893" y2="8.33333333" id="Line-2" stroke-linecap="round" transform="translate(4.320988, 12.318841) scale(1, -1) translate(-4.320988, -12.318841) "></line>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

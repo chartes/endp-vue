@@ -13,10 +13,10 @@
           <div class="columns is-multiline">
             <div class="column is-7 block has-text-left">
               <p>
-                <b>Prénom(s) - <i>Nomen</i></b>
+                <b>Prénom(s) - Nomen :</b>
                 {{ person.forename_alt_labels }}
               </p>
-              <p><b>Nom(s) - <i>Cognomen</i></b>
+              <p><b>Nom(s) - Cognomen :</b>
                 {{ person.surname_alt_labels }}
               </p>
               <p><b>Dates extrêmes d'apparition dans les registres</b>
@@ -58,7 +58,7 @@ export default {
   padding: 25px 0;
 
   font-family: var(--font-secondary);
-  font-size: 1.25em;
+  font-size: 20px;
 }
 
 .card-content .column  {
@@ -67,7 +67,9 @@ export default {
 }
 
 .card-content .column p {
+  margin-bottom: 20px;
   position: relative;
+  color: #6E6E6E;
 }
 
 .card-content .column p > b {
@@ -94,8 +96,14 @@ header {
   align-items: flex-end;
 }
 
-.is-opened header {
+.card.is-opened {
+  border-bottom: solid 6px #000000;
+  padding-bottom: 32px;
+}
+
+.card.is-opened header {
   border-bottom: solid 1px #A5A5A5;
+  min-height: 125px;
 }
 
 .card-header {
@@ -111,11 +119,12 @@ header {
 }
 
 .btn-person-data-link {
-  padding: 0 35px 0 0;
+  padding: 0 45px 0 0;
   border: none;
-  line-height: 26px;
+  font-size: 20px;
+  line-height: 35px;
   color: #6E6E6E;
-  background: transparent url(@/assets/images/b_access_fiche.svg) center right / auto 26px no-repeat;
+  background: transparent url(@/assets/images/b_access_fiche.svg) center right / auto 35px no-repeat;
 
   position: absolute;
   right: 0;

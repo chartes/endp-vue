@@ -14,23 +14,36 @@
   </div>
 
   <!-- end Person header -->
-  <div class="columns is-multiline">
+  <div class="columns is-multiline details-column">
 
     <!-- top Person metadata -->
     <div :class="{'column is-full': isEventsEmpty, 'column is-5': !isEventsEmpty}">
       <div class="person-metadata-wrapper">
         <h3 class="section-title">Identité</h3>
-        <p><b>Prénom(s) - nomen</b> : {{ meta_person['forename_alt_labels'] }}</p>
-        <p><b>Nom(s) - cognomen</b> : {{ meta_person['surname_alt_labels'] }}</p>
 
+        <p>
+          <b>Prénom(s) - Nomen :</b>
+          {{ meta_person['forename_alt_labels'] }}
+        </p>
+        <p>
+          <b>Nom(s) - Cognomen :</b>
+          {{ meta_person['surname_alt_labels'] }}
+        </p>
         <h4 class="section-subtitle">Présence dans les registres</h4>
-        <p><b>Première mention</b> : {{ formatDate(meta_person['first_mention_date']) }}</p>
-        <p><b>Dernière mention</b> : {{ formatDate(meta_person['last_mention_date']) }}</p>
+        <p>
+          <b>Première mention :</b>
+          {{ formatDate(meta_person['first_mention_date']) }}
+        </p>
+        <p>
+          <b>Dernière mention :</b>
+          {{ formatDate(meta_person['last_mention_date']) }}
+        </p>
 
         <div class="family-relationships-container" v-if="!isFamilyEmpty">
           <h3 class="section-title">Relations familiales</h3>
           <div v-for="relative in family_relations['relatives']" :key="relative['relative']['_id_endp']">
-            <p>{{ relative['relation_type'] }}
+            <p>
+              <b>{{ relative['relation_type'] }} :</b>
               <router-link :to="relative.relative._id_endp">{{ relative['relative']['pref_label'] }}</router-link>
             </p>
           </div>
@@ -41,7 +54,7 @@
           <div class="link-list">
             <ul>
               <li v-for="link in kb_urls" :key="link">
-                <img class="logo__kb_icon" :src="mapping_kb_icons[link['type']]">
+                <span><img class="logo__kb_icon" :src="mapping_kb_icons[link['type']]"></span>
                 <a :href="link['url']" alt="{{link['type']}}" target="_blank">{{ link['url'] }}</a>
               </li>
             </ul>
@@ -49,9 +62,7 @@
         </div>
       </div>
       <div class="wrapper-db-link is-flex is-align-items-center">
-        <i class="fas fa-database"></i>
-        <!-- Utilisez une marge à gauche (par exemple, ml-2) pour espacer l'icône et le texte, si nécessaire -->
-        <p>Accéder à la <a class="link-person-db" :href="db_show_url" target="_blank">fiche personne en base</a></p>
+        <p><a class="link-person-db" :href="db_show_url" target="_blank">Accéder à la fiche personne en base</a></p>
       </div>
     </div>
     <!-- end top Person metadata -->
@@ -170,12 +181,22 @@ export default {
 }
 
 .columns, .column {
+  position: relative;
   padding-top: 0;
 }
 
 .columns > .column {
   background-color: var(--panel-bg-color);
 }
+
+.columns.details-column > .column {
+  padding: 8px 38px;
+}
+
+.columns.details-column > .column:first-child {
+  padding-bottom: 80px;
+}
+
 
 /* new styles */
 .person-data-container-header {
@@ -190,7 +211,7 @@ export default {
   display: block;
   width: 44px;
   height: 8px;
-  margin: 20px 0;
+  margin: 16px 0;
   border-top: solid var(--light-brown-alt) 8px;
 }
 
@@ -219,17 +240,39 @@ export default {
 }
 
 .section-title {
-  font-size: 35px;
+  display: inline-block;
+  font-size: 26px;
+  color: #000000;
+  font-weight: 400;
+  font-style: italic;
   text-align: left;
   margin-bottom: 1.5rem;
   margin-top: 1rem;
+  border-bottom: #303030 solid 3px;
 }
 
 .section-subtitle {
-  font-size: 20px;
+  margin-top: 30px;
+  font-size: 18px;
+  color: #000000;
   text-align: left;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+}
+
+.person-metadata-wrapper p {
+  margin-bottom: 20px;
+  font-family: var(--font-secondary);
+  font-size: 20px;
+  color: #6E6E6E;
+}
+
+.person-metadata-wrapper p > a {
+  color: #6E6E6E;
+}
+
+.person-metadata-wrapper p > b {
+  display: block;
+  font-weight: 400;
+  color: var(--light-brown-alt);
 }
 
 .logo__kb_icon {
@@ -244,21 +287,58 @@ export default {
 }
 
 .link-list li {
+  display: flex;
+  align-items: center;
+  gap: 25px;
   margin-bottom: 10px;
 }
 
-.wrapper-db-link {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2rem;
-  gap: 0.5rem;
-  border: 1px solid #2a2a2a;
-  padding: 0.5rem;
-  border-radius: 5px;
-  width: fit-content;
-  margin-left: 2rem;
+.link-list li span {
+  display: inline-block;
+  text-align: center;
+
+  background-color: #ffffff;
+  border-radius: 50%;
+  min-width: 60px;
+  min-height: 60px;
+  line-height: 60px;
 }
+
+.link-list li img {
+  vertical-align: middle;
+  margin: 0;
+  min-width: 40px;
+  max-width: 50px;
+  height: auto;
+}
+
+.link-list li a {
+  font-family: var(--font-secondary);
+  font-size: 20px;
+  line-height: 1.15;
+  color: #6E6E6E;
+}
+
+.wrapper-db-link {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+
+  display: block;
+
+  width: 100%;
+  border-top: 1px solid #e0e0e0;
+  padding: 12px 38px;
+
+  font-family: var(--font-secondary);
+}
+
+.wrapper-db-link a {
+  font-size: 18px;
+  font-weight: 500;
+  color: #A53605;
+}
+
 
 .link-person-db:hover {
   color: #2a2a2a;

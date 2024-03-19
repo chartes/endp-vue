@@ -50,6 +50,10 @@ p, ul, li, a {
   font-size: 22px;
 }
 
+p {
+  margin-bottom: 20px;
+}
+
 h2, h3 {
   font-family: var(--font-primary);
 }

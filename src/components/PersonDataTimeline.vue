@@ -1,55 +1,59 @@
 <template>
-  <p><i>Cliquer/survoler pour faire apparaître les événements</i></p>
-  <button class="button btn-scroll" @mousedown="startScroll(-50)" @mouseup="stopScroll" :disabled="isAtTop">▲</button>
+  <div class="timeline-legend">
+    <span class="legend-item"><span class="dot neutral"></span> Cliquer/Survoler pour faire apparaître</span>
+    <span class="legend-item"><span class="dot without-date"></span> Date de l'événement inconnue</span>
+  </div>
+  <button class="button btn-scroll btn-scroll-up" @mousedown="startScroll(-50)" @mouseup="stopScroll" :disabled="isAtTop"></button>
   <div class="timeline-scroll-container" ref="scrollContainer">
     <div class="timeline-container">
-      <div v-for="(eventsGroup, date) in groupedEvents" :key="date" class="timeline-item">
-        <div @click="togglePopup(date)" class="timeline-dot"
-     :class="{ 'without-date': date === 'date_inconnue', 'dot-selected': selectedDate === date }"></div>
-
+      <div v-for="(eventsGroup, date) in groupedEvents" :key="date" class="timeline-item" :class="{ 'dot-selected': selectedDate === date }" >
+        <div @click="togglePopup(date)"
+             class="timeline-dot"
+             :class="{ 'without-date': date === 'Date inconnue' }"
+             :data-date="date"
+        >
+        </div>
         <div :class="['timeline-date', { active: hover === date || clicked === date }]" @click="togglePopup(date)">
           {{ formatDate(date) }}
         </div>
         <div v-if="clicked === date" class="popup-group">
-          <div class="popup-and-navigation" v-for="(event, index) in eventsGroup" :key="event._id_endp">
-            <div class="timeline-popup" :style="{ zIndex: activePopupIndex[date] === index ? 100 : 99 }"
-                 v-show="activePopupIndex[date] === index">
-              <div class="popup-content">
-                <div class="popup-date">☞ {{ event.type }}</div>
-                <div class="popup-description">
-                <span v-if="event.thesaurus_term_person" class="event-term"><u>{{
-                    event.thesaurus_term_person.topic
-                  }}</u> : {{ event.thesaurus_term_person.term_fr }} ({{ event.thesaurus_term_person.term_la }})</span>
-                  <br v-if="event.thesaurus_term_person">
-                  <span v-if="event.place_term" class="event-place"><u>Lieu</u> : {{
-                      event.place_term.term_fr
-                    }} ({{ event.place_term.term_la }})</span>
+
+          <div class="popup-group-content">
+            <div class="popup-and-navigation"
+                 v-for="(event, index) in eventsGroup" :key="event._id_endp"
+                 :class="{ 'is-active': activePopupIndex[date] === index }"
+            >
+              <div class="timeline-popup" v-show="activePopupIndex[date] === index">
+                <div class="popup-content">
+                  <div class="popup-date">{{ event.type }}</div>
+                  <div class="popup-description">
+                  <span v-if="event.thesaurus_term_person" class="event-term">
+                    <u>{{ event.thesaurus_term_person.topic }} :</u>
+                    {{ event.thesaurus_term_person.term_fr }} ({{ event.thesaurus_term_person.term_la }})</span>
+                    <br v-if="event.thesaurus_term_person">
+                    <span v-if="event.place_term" class="event-place"><u>Lieu</u> : {{
+                        event.place_term.term_fr
+                      }} ({{ event.place_term.term_la }})</span>
+                  </div>
+                  <span v-if="event.image_url"><!--icon book --><i class="fas fa-book"></i>
+                  <router-link :to="`/facsimile/${formatImageIdentifiers(event.image_url)}`" target="_blank"> Aller au Fac-simile</router-link>
+                </span>
                 </div>
-                <span v-if="event.image_url"><!--icon book --><i class="fas fa-book"></i>
-                <router-link :to="`/facsimile/${formatImageIdentifiers(event.image_url)}`" target="_blank"> Aller au Fac-simile</router-link>
-              </span>
+              </div>
+              <!-- Carousel Navigation: Shown if there's more than one event -->
+              <div v-if="eventsGroup.length > 1" class="popup-navigation" :style="{ zIndex: 101 }">
+                <button @click="navigateInCarousel(date, -1)" class="button nav-left" />
+                <span class="popup-counter">{{ activePopupIndex[date] + 1 }}/{{ eventsGroup.length }}</span>
+                <button @click="navigateInCarousel(date, 1)" class="button nav-right" />
               </div>
             </div>
-            <!-- Carousel Navigation: Shown if there's more than one event -->
-            <div v-if="eventsGroup.length > 1" class="popup-navigation" :style="{ zIndex: 101 }">
-              <span class="popup-counter">{{ activePopupIndex[date] + 1 }}/{{ eventsGroup.length }}</span>
-              <button @click="navigateInCarousel(date, -1)" class="button nav-left">
-                <i class="fas fa-chevron-left"></i>
-              </button>
-              <button @click="navigateInCarousel(date, 1)" class="button nav-right">
-                <i class="fas fa-chevron-right"></i>
-              </button>
-            </div>
+
           </div>
         </div>
       </div>
     </div>
   </div>
-  <button class="button btn-scroll" @mousedown="startScroll(50)" @mouseup="stopScroll" :disabled="isAtBottom">▼</button>
-  <!--<div class="timeline-legend">
-    <span class="legend-item"><span class="dot neutral"></span> Cliquer/Survoler pour faire apparaître</span>
-    <span class="legend-item"><span class="dot without-date"></span> Date de l'événement inconnue</span>
-  </div>-->
+  <button class="button btn-scroll btn-scroll-down" @mousedown="startScroll(50)" @mouseup="stopScroll" :disabled="isAtBottom"></button>
 </template>
 
 <script>
@@ -220,184 +224,208 @@ export default {
 <style scoped>
 .timeline-container {
   position: relative;
-  width: 2px;
-  background: #333;
-  margin: 1rem 10rem;
+  width: 6px;
+  background: #dfdede;
+  margin: 0 auto;
   height: 100%;
 }
 
 .timeline-item {
   position: relative;
   width: 100%;
-  height: 60px;
+  min-height: 84px;
 }
 
 .timeline-date {
-  right: 2rem;
-  bottom: 1.5rem;
-  white-space: nowrap;
-  font-weight: bold;
   position: absolute;
+  right: 2rem;
+  top: 42px;
+  transform: translateY(-50%);
+  white-space: nowrap;
   cursor: pointer;
+
+  font-style: italic;
+  font-size: 20px;
+  font-weight: normal;
+  color: #000000;
 }
 
 .timeline-dot {
   position: absolute;
-  width: 20px;
-  height: 20px;
-  background: #FFFFFF;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
-  top: 15px;
+  top: 42px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   transition: all 0.3s ease;
   cursor: pointer;
-  border: 2px solid #333;
+  border: 5px solid #dfdede;
 }
 
-.timeline-dot:hover {
-  transform: translateX(-50%) scale(1.5);
+.timeline-dot,
+.legend-item .dot.neutral {
+  background: #DFDEDE;
+}
+
+.timeline-dot.without-date,
+.legend-item .dot.without-date {
+  background-color: #FFFFFF;
+  border: #DFDEDE 6px solid;
+}
+
+.timeline-item:not(.dot-selected) .timeline-dot:hover {
+  transform: translate(-50%, -50%) scale(1.2);
   background: #BB062D;
+  border: #BB062D;
 }
 
-.dot-selected {
+.timeline-item.dot-selected {
+  padding-bottom: 20px;
+}
+
+.timeline-item.dot-selected .popup-group-content {
+  padding-bottom: 40px;
+}
+
+.timeline-item.dot-selected .timeline-dot {
+  width: 31px;
+  height: 31px;
   background: #BB062D;
+  border: #BB062D;
 }
 
+.timeline-scroll-container {
+  /*
+  max-height: 30rem;
+  overflow-y: auto;
+   */
+  border-top: 1px solid #A7A7A7;
+  border-bottom: 1px solid #A7A7A7;
+}
+
+.timeline-legend {
+  margin-bottom: 32px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  font-family: var(--font-secondary);
+  font-size: 17px;
+}
+
+.legend-item .dot {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.button.btn-scroll {
+  bottom: 0;
+  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 49px;
+  height: 49px;
+  border: none;
+  background: url("@/assets/images/b_fleche_top.svg") center / 49px auto no-repeat;
+  padding: 0;
+  outline: none;
+  cursor: pointer;
+}
+
+.button.btn-scroll.btn-scroll-down {
+  transform-origin: 50% 50%;
+  transform: rotate(180deg) translateX(50%);
+}
+
+.button.btn-scroll[disabled] {
+  opacity: 1;
+}
+
+.popup-group {
+  transform: translateX(-50%) translateY(80px);
+  width: 343px;
+  margin-bottom: 40px;
+}
 
 .timeline-popup {
-  position: absolute;
-  left: 30px;
-  top: -10px;
-  min-width: 200px;
+  width: 100%;
   background: #FFFFFF;
-  padding: 0.5rem;
+  padding: 20px 20px 60px;
   border: 1px solid #333;
   border-radius: 5px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
   z-index: 10;
 }
 
-.timeline-date::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 2px;
-  bottom: -2px;
-  left: 0;
-  background-color: black;
-  transform: scaleX(0);
-  transform-origin: bottom left;
-  transition: transform 0.5s ease-in-out;
-}
-
-.timeline-date.active::after, .timeline-date:hover::after {
-  transform: scaleX(1);
-}
-
 .popup-date {
-  font-weight: bold;
+  font-style: italic;
+  font-size: 22px;
+  color: #000000;
 }
 
 .popup-description {
-  margin-top: 5px;
+  font-family: var(--font-secondary);
+  font-size: 20px;
+  line-height: 1.2;
+  color: #6E6E6E;
 }
 
-.timeline-scroll-container {
-  max-height: 30rem;
-  padding: 2rem;
-  overflow-y: auto;
-  width: 80%;
-}
-
-.timeline-dot.without-date {
-  background: #1F618D;
-}
-
-.timeline-legend {
-  margin-top: 0.5rem;
-  margin-right: 1rem;
-  margin-bottom: 2rem;
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  margin-right: 1rem;
-}
-
-.legend-item .dot {
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  display: inline-block;
-  margin-right: 0.5rem;
-}
-
-.legend-item .dot.with-date {
-  background: #BB062D;
-}
-
-.legend-item .dot.without-date {
-  background: #1F618D;
-}
-
-.legend-item .dot.neutral {
-  background: #333;
-}
-
-.btn-scroll {
-  margin-top: 1rem;
-  bottom: 1rem;
-  right: 1rem;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: #BB062D;
-  color: #FFFFFF;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.popup-navigation {
-  position: absolute;
-  right: -22rem;
-  top:-3rem;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-}
-
-
-.popup-counter {
-  margin-right: 10px;
-  font-weight: bold;
-}
-
-.nav-left, .nav-right {
-  /* create a red circle  and space between */
-   margin: 0 0.5rem 0 1.3rem;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: #BB062D;
-  color: #FFFFFF;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-
+.popup-description .event-term u {
+  display: block;
+  text-decoration: none;
+  color: #A53605;
 }
 
 .popup-and-navigation {
+  display: none;
+}
+
+.popup-and-navigation.is-active {
+  position: relative;
   display: flex;
   justify-content: space-between; /* ou 'flex-end' selon votre structure exacte */
   align-items: center;
 }
 
 .popup-navigation {
-  margin-left: auto; /* pousse la navigation à l'extrémité droite du conteneur flex */
+  position: absolute;
+  bottom: 15px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
 }
+
+.popup-counter {
+  font-family: var(--font-secondary);
+  font-weight: bold;
+  font-size: 20px;
+  color: #A53605;
+}
+
+.nav-left, .nav-right {
+  width: 30px;
+  height: 30px;
+  color: #FFFFFF;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: url("@/assets/images/b_fleche.svg") center / 23px auto no-repeat;
+}
+
+.nav-left {
+  transform: rotate(180deg);
+  transform-origin: 50% 50%;
+}
+
+
 </style>

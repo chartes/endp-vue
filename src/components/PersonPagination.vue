@@ -122,7 +122,7 @@ export default {
 <style scoped>
 
 nav .pagination {
-   background-color: #f5f5f5 !important; ;
+  background-color: #f5f5f5 !important; ;
   padding: 1rem 1.5rem 1.5rem 1.5rem;
   border-radius: 5px;
   top: 0;
@@ -181,21 +181,56 @@ nav .pagination {
   opacity: 0.5;
 }
 
+.pagination-list {
+  margin-left: 40px;
+  justify-content: center;
+}
+
 .pagination-link {
+  min-width: 35px;
+  height: auto;
   background-color: #E0E0E0;
   border: none;
   border-radius: 3px;
+  padding: 7px 0;
   font-family: var(--font-secondary);
   font-size: 18px;
   font-weight: 500;
-  color: #fff;
+  color: #4D4D4D;
 }
 
 .pagination-link.is-current {
-  background-color: #A53605;
+  background-color: #7B0C12;
+  color: #fff;
 }
 
 .pagination-previous, .pagination-next {
+  position: relative;
   margin-right: 10px;
+  border: none;
 }
+
+.pagination-ellipsis {
+  margin: 0;
+}
+
+.pagination-previous .icon,
+.pagination-next .icon {
+  display: none;
+}
+
+.pagination-previous:before,
+.pagination-next:before {
+  content: "";
+  position: absolute;
+  display: inline-block;
+  width: 28px;
+  height: 23px;
+  background-image: url("@/assets/images/b_fleche.svg");
+}
+
+.pagination-previous:before {
+  transform: scaleX(-1);
+}
+
 </style>

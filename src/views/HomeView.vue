@@ -78,7 +78,7 @@ h1.title {
 
 h1.title .subtitle {
   display: block;
-  margin: 15px 0 50px;
+  margin: 20px 0 64px;
   font-size: 36px;
   font-weight: 400;
   font-style: italic;
@@ -102,8 +102,13 @@ h1.title .period {
   transform: translateY(-135px);
 }
 
+.column {
+  padding: 0;
+}
+
 .columns > .column:first-child {
-  max-width: 430px;
+  max-width: 460px;
+  padding: 15px 0 0 20px;
   transform: translateY(135px);
 }
 
