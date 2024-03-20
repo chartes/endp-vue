@@ -96,10 +96,10 @@ h1.title .period {
   color: #303030;
 }
 
-
 .columns {
-  gap: 50px;
+  gap: var(--column-gap-desktop);
   transform: translateY(-135px);
+  margin-bottom: -135px;
 }
 
 .column {
@@ -112,8 +112,13 @@ h1.title .period {
   transform: translateY(135px);
 }
 
+.columns > .container.column:last-child {
+  padding-bottom: 875px;
+}
+
 nav li {
   text-align: right;
+  margin-bottom: 3px;
 }
 
 nav a {
@@ -123,6 +128,12 @@ nav a {
   font-style: italic;
   color: #343434;
 }
+
+nav a:hover {
+  color: var(--link-over-color);
+}
+
+
 
 nav a .icon {
   display: none;
@@ -143,8 +154,15 @@ nav a .icon {
   font-weight: 400;
   line-height: 28px;
   color: var(--dark-grey);
-
   -webkit-hyphens: none;
+}
+
+.block a {
+  color: var(--brown);
+}
+
+.block a:hover {
+  color: var(--light-brown);
 }
 
 .lettrine::first-letter {

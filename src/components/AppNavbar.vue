@@ -44,7 +44,8 @@ export default {
 }
 
 .app-navbar__item:not(:last-child) {
-  margin-right: 65px;
+  margin-left: 2px;
+  margin-right: 70px;
 }
 
 .app-navbar__item img {
@@ -53,9 +54,9 @@ export default {
 }
 
 .app-navbar__logo {
-  height: 40px;
+  height: 39px;
   width: auto;
-  margin: 5px auto 0;
+  margin: 8px auto 0;
 }
 
 </style>

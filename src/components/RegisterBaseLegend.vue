@@ -3,11 +3,11 @@
     <p class="legend-title">Légende</p>
     <div class="legend-item">
       <span class="icon book-icon"><i class="fas fa-book"></i></span>
-      <span class="legend-text">= fac-similé intéractif</span>
+      <span class="legend-text">=</span><span class="legend-text legend-label">fac-similé intéractif</span>
     </div>
     <div class="legend-item">
       <span class="icon book-icon"><i class="fas fa-book-open"></i></span>
-      <span class="legend-text">= édition TEI</span>
+      <span class="legend-text">=</span><span class="legend-text legend-label">édition TEI</span>
     </div>
   </div>
 </template>
@@ -45,6 +45,11 @@ export default {
   color: #939393;
   font-weight: 400;
   font-style: italic;
+}
+
+.legend-label {
+  margin-left: 5px;
+  color: #000000;
 }
 
 .book-icon {

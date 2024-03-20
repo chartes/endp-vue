@@ -31,7 +31,7 @@ export default {
   background-color: transparent;
   border: none;
   border-radius: 0;
-  padding: 35px 0 0;
+  padding: 40px 0 0;
   margin-bottom: 0;
 }
 </style>

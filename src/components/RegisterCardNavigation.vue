@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" :class="{ 'is-opened': isOpened }">
     <header class="card-header" @click="toggleContent">
       <p class="card-header-title">
         <!-- add book icon -->
@@ -16,7 +16,7 @@
       </p>
       <button class="toggle-btn-wrapper">
       <span class="icon">
-        <span class="toggle-btn" :class="{ 'is-opened': isOpened }"></span>
+        <span class="toggle-btn"></span>
       </span>
       </button>
     </header>
@@ -109,6 +109,10 @@ export default {
   border-bottom: solid 6px #D74A52;
 }
 
+.card.is-opened {
+  border-bottom-color : #000000;
+}
+
 .card-header {
   position: relative;
 }
@@ -131,12 +135,13 @@ export default {
 }
 
 .card-header-main-title {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   max-width: 75%;
 
   font-family: var(--font-primary);
   font-size: 20px;
   font-weight: 400;
+  line-height: 1.25;
   color: #000000;
 }
 
@@ -172,7 +177,7 @@ export default {
 button.toggle-btn-wrapper {
   position: absolute;
   bottom: 0;
-  right: 0;
+  right: 5px;
 
   border: none;
   padding: 0;
@@ -195,18 +200,21 @@ button.toggle-btn-wrapper {
   cursor: pointer;
 }
 
-.toggle-btn.is-opened {
+.is-opened .toggle-btn {
   background-image: url('~@/assets/images/b_Close_liste.svg');
 }
 
 
 .table-available-ressources {
-  width: 80%; /* Assurez-vous que le tableau utilise toute la largeur disponible */
+  width: 65%; /* Assurez-vous que le tableau utilise toute la largeur disponible */
   border-collapse: separate; /* Sépare les bordures des cellules */
   border-spacing: 4px 0; /* Espacement entre les colonnes et les lignes */
+  margin-bottom: 25px;
 }
 
 .table-available-ressources th {
+  font-size: 20px;
+  font-weight: 500;
   padding-bottom: 5px;
 }
 
@@ -218,6 +226,7 @@ button.toggle-btn-wrapper {
 }
 
 .table-available-ressources td {
+  font-size: 20px;
   padding-bottom: 5px;
 }
 
@@ -229,6 +238,10 @@ button.toggle-btn-wrapper {
 }
 
 .table-available-ressources td a {
+  text-decoration: none;
+}
+
+.table-available-ressources td a:hover {
   text-decoration: underline;
 }
 
@@ -240,6 +253,12 @@ button.toggle-btn-wrapper {
 .table-available-ressources td:first-child {
   width: 30px;
 }
+
+.table-available-ressources .book-icon-card {
+  color: #939393;
+  margin-right: 20px;
+}
+
 
 hr,
 .main-label {

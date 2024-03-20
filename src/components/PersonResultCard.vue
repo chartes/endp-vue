@@ -19,7 +19,7 @@
               <p><b>Nom(s) - Cognomen :</b>
                 {{ person.surname_alt_labels }}
               </p>
-              <p><b>Dates extrêmes d'apparition dans les registres</b>
+              <p class="dates"><b>Dates extrêmes d'apparition dans les registres</b>
                 {{ person.first_mention_date ? person.first_mention_date : "Non renseigné" }} -
                 {{ person.last_mention_date ? person.last_mention_date : "Non renseigné" }}</p>
               <p>
@@ -71,6 +71,11 @@ export default {
   position: relative;
   color: #6E6E6E;
 }
+
+.card-content .column p.dates {
+  margin-top: 25px;
+}
+
 
 .card-content .column p > b {
   display: block;

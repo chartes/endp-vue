@@ -390,13 +390,13 @@ export default {
 }
 
 .columns {
-  gap: 50px;
+  gap: var(--column-gap-desktop);
 }
 
 .columns .column:first-child {
   width: 465px;
   background-color: var(--panel-bg-color);
-  padding: 80px 0 23px;
+  padding: 89px 0 23px;
 }
 
 .columns.facets-box-collapsed .column:first-child {
@@ -406,7 +406,7 @@ export default {
 .columns .column:last-child {
   width: calc(100% - 50px - 465px);
   background-color: var(--panel-bg-color);
-  padding: 23px 32px;
+  padding: 25px 32px var(--right-column-bottom-padding-desktop);
 }
 
 .columns.facets-box-collapsed .column:last-child {
@@ -433,11 +433,17 @@ export default {
   top: 0;
 }
 
-.box-facets > p,
-.box-facets > .container-slider,
+.box-facets > p {
+  padding: 0 20px;
+}
+
 .box-facets > .box-container-facets__date-interval,
+.box-facets > .container-slider {
+  padding: 0 30px;
+}
+
 .box-facets > .box-histogram {
-  padding: 0 32px;
+  padding: 0 10px 0 0;
 }
 
 .subtitle {
@@ -452,7 +458,7 @@ export default {
 
 .container-slider {
   margin-top: 3rem;
-  margin-bottom: 1rem;
+  margin-bottom: 30px;
 }
 
 .btn-reset-date {

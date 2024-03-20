@@ -189,12 +189,12 @@ export default {
 }
 
 .columns {
-  gap: 50px;
+  gap: var(--column-gap-desktop);
 }
 
 .columns .column:first-child {
   width: 465px;
-  padding: 100px 0 23px;
+  padding: 110px 0 23px;
 }
 
 .columns .column:last-child {
@@ -220,7 +220,7 @@ export default {
 .box-search-person-facets .box-content .checkbox-canon {
   position: absolute;
   bottom: 50px;
-  right: 20px;
+  right: 30px;
   padding: 20px 40px 20px 0;
   background: url("@/assets/images/picto_chanoine_liste.svg") center right / auto 50px no-repeat;
 }
@@ -268,6 +268,7 @@ export default {
   height: 137px;
   background: url("@/assets/images/picto_perso_titre.svg") center / cover;
   padding-top: 50px;
+  margin-right: 5px;
 
   font-size: 22px;
   font-weight: 700;

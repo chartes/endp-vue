@@ -321,7 +321,7 @@ export default {
   height: 25px;
   border-radius: 50%;
   display: inline-block;
-  margin-right: 0.5rem;
+  margin-right: 10px;
 }
 
 .button.btn-scroll {

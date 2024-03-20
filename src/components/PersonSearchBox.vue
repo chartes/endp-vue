@@ -126,7 +126,7 @@ export default {
   display: flex;
   align-items: center;
   margin-top: 0.5em;
-  padding: 30px 20px;
+  padding: 20px 25px 25px;
 }
 
 .field.has-addons > *:not(:last-child) {
@@ -214,6 +214,14 @@ input[type="text"] {
   border-radius: 0;
   padding: 10px;
   line-height: 1.2;
+}
+
+input[type="text"]::placeholder {
+  font-family: var(--font-secondary);
+  font-size: 22px;
+  font-weight: 400;
+  color: #B4B4B4;
+  opacity: 0.75;
 }
 
 .subtitle {

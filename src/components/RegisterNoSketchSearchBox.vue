@@ -119,7 +119,7 @@ export default {
 
 .help {
   width: 100%;
-  margin: 35px 0 12px;
+  margin: 35px 0 15px;
   font-family: var(--font-secondary);
   font-size: 18px;
   font-weight: 500;
@@ -129,6 +129,7 @@ export default {
 
 .input {
   width: calc(100% - 12px);
+  height: 2.75em;
   border: none;
   border-bottom: 1px solid var(--light-brown);
 }
@@ -138,6 +139,7 @@ input::placeholder {
   font-size: 22px;
   font-weight: 400;
   color: #B4B4B4;
+  opacity: 0.75;
 }
 
 .control {

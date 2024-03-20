@@ -54,7 +54,7 @@
 
     <div class='column'>
       <!-- Toggle left column button -->
-      <button @click="toggleNav" class="btn-expanded-nav" :class="{ 'is-opened': isNavOpen }" />
+      <button @click="toggleNav" class="btn-expanded-nav"  />
 
       <!-- Title section -->
       <div class="header">
@@ -415,7 +415,7 @@ export default {
 }
 
 .facsimile-columns > .column:first-child {
-  padding: 90px 0 0;
+  padding: 86px 0 0;
 }
 
 .facsimile-columns.is-collapsed > .column:first-child {
@@ -424,16 +424,24 @@ export default {
 
 .facsimile-columns > .column:last-child {
   background-color: var(--panel-bg-color);
-  padding: 0;
+  padding: 0 0 0;
 }
 
 .facsimile-columns > .column:last-child > div {
   width: 100%;
-  padding: 0 26px;
+  padding: 0 15px;
+}
+
+.facsimile-columns > .column:last-child > div.header {
+  padding: 0 38px;
+}
+
+.facsimile-columns.is-collapsed > .column:last-child > div.header {
+  padding: 0 28px;
 }
 
 .facsimile-columns > .column:last-child > div.raw-prediction-card-parent {
-  padding: 26px 0;
+  padding: 26px 0  var(--right-column-bottom-padding-desktop);
 }
 
 .container-mirador {
@@ -494,14 +502,16 @@ export default {
 
 .card-header-toggle {
   display: inline-block;
-  width: 27px;
-  height: 27px;
+  width: 29px;
+  height: 29px;
   background: transparent url('~@/assets/images/b_Open_liste.svg') center / cover no-repeat;
   border: none;
+  margin-right: 12px;
   cursor: pointer;
 }
 
 .card.is-opened .card-header-toggle {
+  background-size: 21px 21px;
   background-image: url('~@/assets/images/b_Close_liste.svg');
 }
 
@@ -511,7 +521,7 @@ export default {
 
 .card-content {
   margin-bottom: 40px;
-  padding: 27px;
+  padding: 27px 27px 50px;
   background-color: var(--panel-bg-color);
 
   font-family: var(--font-secondary);
@@ -606,13 +616,14 @@ tspan {
   display: inline-block;
   width: 25px;
   height: 25px;
-  margin: 26px 0 0 26px;
+  margin: 26px 0 0 36px;
   background: transparent url('~@/assets/images/b_closeW.svg') center / cover no-repeat;
   border: none;
 }
 
-.btn-expanded-nav.is-opened {
+.is-collapsed .btn-expanded-nav {
   background-image: url('~@/assets/images/b_openW.svg');
+  margin-left: 26px;
 }
 
 .btn-expanded-nav:hover {

@@ -25,10 +25,14 @@ body,
   width: 100%;
 }
 
-.app-main-content__area,
 .column.app-sidebar__menu {
+  height: 50px;
+}
+
+.app-main-content__area {
   min-height: 50px;
 }
+
 
 .app-main-content__area {
   min-height: 100vh;

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
 
 /* */
 html {
@@ -11,11 +11,14 @@ html {
   --light-brown: #D74A52;
   --light-brown-alt: #CC3E46;
   --panel-bg-color: #F7F7F7;
+  --link-over-color: #CC3E46;
 
-  --desktop-content-width: 1280px;
-  --desktop-side-padding: calc(50% - 640px);
+  --desktop-content-width: 1270px;
+  --desktop-side-padding: calc(50% - 635px);
   --tablet-side-padding: 40px;
   --mobile-side-padding:  20px;
+  --column-gap-desktop: 48px;
+  --right-column-bottom-padding-desktop: 300px;
 }
 
 body {
@@ -29,7 +32,7 @@ body {
 
   display: flex;
   width: 100%;
-  height: 263px; /* Ajustez selon vos besoins */
+  height: 260px; /* Ajustez selon vos besoins */
   max-width: 100%;
   padding: 0 var(--desktop-side-padding);
 }
@@ -37,7 +40,7 @@ body {
 #banner-image::before {
   content: "";
   background-color : #320205;
-  background-size: 1280px auto;
+  background-size: var(--desktop-content-width) auto;
   background-position: center;
   background-repeat: no-repeat;
   position: absolute;
@@ -56,7 +59,7 @@ body {
   display: block;
   width: var(--desktop-content-width);
   margin: 0 var(--desktop-side-padding);
-  padding: 0 15px;
+  padding: 0 0 0 20px;
   background-color: #000000CC;
 
   font-size: 25px;

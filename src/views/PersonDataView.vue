@@ -17,7 +17,7 @@
   <div class="columns is-multiline details-column">
 
     <!-- top Person metadata -->
-    <div :class="{'column is-full': isEventsEmpty, 'column is-5': !isEventsEmpty}">
+    <div :class="{'column is-full': isEventsEmpty, 'column': !isEventsEmpty}">
       <div class="person-metadata-wrapper">
         <h3 class="section-title">Identité</h3>
 
@@ -190,11 +190,15 @@ export default {
 }
 
 .columns.details-column > .column {
-  padding: 8px 38px;
+  padding: 8px 50px;
 }
 
 .columns.details-column > .column:first-child {
   padding-bottom: 80px;
+}
+
+.columns.details-column > .column:last-child {
+  /* padding-bottom: var(--right-column-bottom-padding-desktop); */
 }
 
 
@@ -203,13 +207,13 @@ export default {
   display: flex;
   flex-direction: column;
   background-color: var(--panel-bg-color);
-  padding: 65px 37px 40px;
+  padding: 72px 40px 40px;
 }
 
 .person-data-container-header::after {
   content: "";
   display: block;
-  width: 44px;
+  width: 46px;
   height: 8px;
   margin: 16px 0;
   border-top: solid var(--light-brown-alt) 8px;
@@ -230,6 +234,7 @@ export default {
   font-style: italic;
   line-height: 40px;
   color: #7B0C12;
+  margin-bottom: 3px;
 }
 
 .canon-status {

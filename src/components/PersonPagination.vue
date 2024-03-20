@@ -129,6 +129,10 @@ nav .pagination {
   position: sticky;
 }
 
+nav.pagination {
+  margin-bottom: 0;
+}
+
 .pagination-box {
   display: flex;
   flex-direction: column-reverse;
@@ -146,7 +150,7 @@ nav .pagination {
 
 .pagination-panel .label {
   margin-left: 10px;
-  margin-bottom: 5px;
+  margin-bottom: 12px;
 
   font-family: var(--font-secondary);
   font-size: 20px;
@@ -160,6 +164,7 @@ nav .pagination {
   padding: 2px 8px 2px 2px;
   margin-left: 10px;
   margin-bottom: 5px;
+  transform: translateY(-4px);
   border-bottom: solid 1px var(--light-brown);
   border-radius: 0;
 
@@ -200,13 +205,13 @@ nav .pagination {
 }
 
 .pagination-link.is-current {
-  background-color: #7B0C12;
+  background-color: #a53605;
   color: #fff;
 }
 
 .pagination-previous, .pagination-next {
   position: relative;
-  margin-right: 10px;
+  margin: 0;
   border: none;
 }
 

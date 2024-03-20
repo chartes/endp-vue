@@ -43,10 +43,11 @@ export default {
   color: #000000;
   font-weight: 400;
   font-style: italic;
+  line-height: 1.2;
 }
 .totalFounded,
 .resultCanvas > span:last-child {
-  padding: 5px 12px 35px;
+  padding: 13px 10px 32px;
 }
 .totalFounded {
   display: inline-block;

@@ -127,7 +127,7 @@ export default {
 
 <style scoped>
 #histogram {
-  max-width: 393px;
+  max-width: 445px;
 }
 .box-histogram {
   width: 100%;
