@@ -5,7 +5,7 @@
         <router-link class="nav-link active" to="/registres"><span class="icon"><i class="fa fa-book"></i></span>
           Registres
         </router-link>
-        <ul class="">
+        <ul class="submenu">
           <li>
             <a @click="navigateToFacSimile">
               <span class="icon is-small"><i class="fa fa-list"></i></span> Fac-similés
@@ -80,22 +80,31 @@ export default {
   cursor: pointer;
 }
 
-.menu-list li > ul {
-  position: absolute;
-  left: calc( 50% - 20px );
-  z-index: 2;
+.menu-list > li > ul.submenu a:hover {
+  text-decoration: underline;
+}
 
-  margin: 8px 0 0;
+.menu-list > li > ul.submenu {
+  position: absolute;
+  left: 38px;
+  top: 50px;
+  z-index: 10;
+  transform: translateX(-50%);
+
+  width: 220px;
+  margin: 0;
   padding: 0;
   border: none;
   background-color: #5F070CD9;
-  transform: translateX(-50%);
 
-  display: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity ease-in-out 0.25s;
 }
 
-.menu-list li > ul.is-opened {
-  display: block;
+.menu-list > li:hover > ul.submenu {
+  visibility: visible;
+  opacity: 1;
 }
 
 .menu-list li > ul > li:not(:last-child) {
@@ -121,7 +130,7 @@ export default {
   font-family: var(--font-secondary);
   font-size: 18px;
   font-weight: 400;
-  line-height: 27px;
+  line-height: 50px;
   color: #FFFFFF;
 
   text-align: center;
@@ -135,17 +144,19 @@ export default {
   font-weight: 600;
 }
 
+.menu-list > li > a:hover::after,
 .menu-list a.is-active::after {
   content: "";
 
   position: absolute;
-  bottom: -16px;
+  bottom: -2px;
   left: 0;
   z-index: 3;
 
   display: inline-block;
   width: 100%;
   border-bottom: 4px solid #D74A52;
+  pointer-events: none;
 }
 
 ul.menu-list > li:not(:last-child)::after {
