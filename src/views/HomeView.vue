@@ -176,4 +176,56 @@ nav a .icon {
   float: left;
 }
 
+
+@media screen and (max-width: 1024px) {
+
+  .columns {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .columns > .column {
+    width: 100%;
+    max-width: unset !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  .columns > .column:first-child {
+    background: linear-gradient(#F7F7F7CC 0% ,#F7F7F7 11.94090256424186% ,#F7F7F7 100% ,#FCFCFC 100%);
+    transform: none;
+  }
+
+  .columns > .container.column:last-child {
+    padding-bottom: 500px;
+  }
+
+  nav {
+    padding: 30px 20px 20px;
+  }
+
+  nav ul {
+    margin: 0 auto;
+    border-top: solid 1px #D7D7D7;
+    border-bottom: solid 1px #D7D7D7;
+  }
+
+  nav li {
+    text-align: center;
+  }
+
+  nav li > a {
+    padding: 10px 0;
+  }
+
+  h1.title {
+    border: none;
+  }
+
+  .container > :last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+}
 </style>

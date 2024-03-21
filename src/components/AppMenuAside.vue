@@ -43,6 +43,7 @@
 </template>
 
 <script>
+
 export default {
   name: "AppMenuAside",
   data() {
@@ -175,5 +176,81 @@ ul.menu-list > li:not(:last-child)::after {
 .menu-list a:hover {
   background: transparent;
 }
+
+@media screen and (max-width: 1024px) {
+
+  .menu {
+    position: absolute;
+    z-index: 2;
+    top: 50px;
+    width: 90%;
+    margin: 0 auto;
+    background-color: #4B080BF2;
+  }
+
+  .menu.is-flex {
+    display: none !important;
+  }
+
+  .menu.is-flex.is-opened {
+    display: flex !important;
+  }
+
+  .menu > ul {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .menu-list > li > ul.submenu {
+    position: unset;
+    width: 100%;
+    padding: 15px 0 25px;
+    transform: none;
+    visibility: visible;
+    background: none;
+    opacity: 1;
+    transition: none;
+  }
+
+  .menu-list > li {
+    padding: 10px 0;
+  }
+
+  .menu-list > li,
+  .menu-list > li > a,
+  .menu-list > li > ul.submenu > li {
+    width: 100%;
+  }
+
+  .menu-list li > ul > li > a,
+  .menu-list > li > a {
+    font-size: 22px;
+  }
+
+  .menu-list li > ul > li > a {
+    padding: 0;
+  }
+
+  ul.menu-list > li[data-v-09a19628]:not(:last-child)::after {
+    display: none;
+  }
+
+  .menu-list > li:not(:last-child) {
+    border-bottom: solid 1px #A53605;
+  }
+
+
+  .menu-list li > ul > li:not(:last-child) {
+    border-bottom: none;
+  }
+
+  .menu-list > li > a:hover::after,
+  .menu-list a.is-active::after {
+    border: none;
+  }
+
+}
+
 
 </style>

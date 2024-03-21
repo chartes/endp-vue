@@ -241,4 +241,24 @@ footer .columns .column:last-child {
   width: 110px;
 }
 
+
+
+@media screen and (max-width: 1024px) {
+
+  footer .columns {
+    flex-direction: column;
+  }
+
+  footer .columns > .column {
+    width: 100%;
+    max-width: unset !important;
+  }
+
+  footer .columns .column:last-child {
+    padding: 55px 40px;
+  }
+
+}
+
+
 </style>
