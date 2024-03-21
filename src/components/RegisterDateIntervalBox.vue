@@ -137,7 +137,6 @@ export default {
   margin-bottom: 20px;
 }
 
-
 .box-container-facets__date-interval > * {
   position: relative;
   display: inline-block;
@@ -156,6 +155,23 @@ export default {
   line-height: 1.2;
   color: #272727;
   text-transform: uppercase;
+}
+
+
+@media screen and (max-width: 1024px) {
+
+  .box-container-facets__date-interval {
+    flex-direction: column;
+  }
+
+  .box-date-interval__label {
+    text-align: center;
+  }
+
+  .box-container-facets__date-interval > * {
+    width: 100%;
+    text-align: center;
+  }
 }
 
 </style>

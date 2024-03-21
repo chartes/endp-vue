@@ -496,11 +496,29 @@ export default {
 
   .columns {
     flex-direction: column;
+    padding: 0 !important;
   }
 
   .columns.facets-box-collapsed .column:first-child {
     display: block;
     width: 100%;
+  }
+
+  .columns .column:first-child {
+    border-bottom: solid 1px #D0D0D0;
+  }
+
+  .box-facets > .box-container-facets__date-interval,
+  .box-facets > .container-slider {
+    padding: 0 40px;
+  }
+
+  .columns .collapseFacetsBoxToggle {
+    display: none;
+  }
+
+  .card-navigation-container {
+    margin: 0 0 25px;
   }
 }
 

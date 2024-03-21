@@ -58,4 +58,5 @@ export default {
   color: #FFFFFF;
   text-align: center;
 }
+
 </style>

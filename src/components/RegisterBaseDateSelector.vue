@@ -91,6 +91,7 @@ export default {
 
 .select select option,
 .select select {
+  width: 100%;
   background-color: var(--light-brown);
   font-family: var(--font-secondary);
   font-size: 18px;
@@ -136,5 +137,19 @@ export default {
   display: none;
 }
 
+
+
+@media screen and (max-width: 1024px) {
+
+  .select-month {
+    width: 226px;
+  }
+
+  .control-input-date[data-v-9af370de] {
+    width: 108px;
+    border-bottom: solid 1px var(--light-brown);
+  }
+
+}
 
 </style>

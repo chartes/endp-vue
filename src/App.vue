@@ -13,7 +13,8 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {ref, watch} from "vue";
+import {useRoute} from "vue-router";
 import AppNavBar from "@/components/AppNavbar.vue";
 import AppMenuAside from "@/components/AppMenuAside.vue";
 import AppFooter from "@/components/AppFooter.vue";
@@ -25,6 +26,11 @@ const toggleMobileMenu = function($event) {
   $event.preventDefault();
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
 }
+
+const route = useRoute();
+watch(route, () => {
+  isMobileMenuOpen.value = false;
+});
 
 </script>
 

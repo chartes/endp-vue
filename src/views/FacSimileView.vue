@@ -697,6 +697,7 @@ tspan {
 
   .columns {
     flex-direction: column;
+    padding: 0;
   }
 
   .columns .column:first-child,
@@ -706,6 +707,29 @@ tspan {
     max-width: 100% !important;
     padding: 40px 0 0 0;
   }
+
+  .card-header-title {
+    padding: 20px;
+    border-top: solid 1px #D0D0D0;
+  }
+
+  .card-content {
+    background: transparent;
+    margin-bottom: 20px;
+  }
+
+  .btn-expanded-nav {
+    display: none;
+  }
+
+  .header.raw-prediction-card-parent {
+    background: #ffffff;
+  }
+
+  .facsimile-title {
+    margin: 0 0 45px 0;
+  }
+
 }
 
 

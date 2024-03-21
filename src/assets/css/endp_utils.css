@@ -123,6 +123,7 @@ body {
   #banner-image h1 {
     width: 100%;
     margin: 0;
+    text-align: center;
   }
 }
 
@@ -135,8 +136,9 @@ body {
 
   #banner-image h1 {
     width: 100%;
-    position: unset;
+    position: relative;
     margin: 0;
+    z-index: 1;
   }
 
 }

@@ -254,8 +254,16 @@ footer .columns .column:last-child {
     max-width: unset !important;
   }
 
+  footer .columns .column {
+    padding: 55px 20px 8px;
+  }
+
+  footer .columns .column {
+    padding-left: 20px !important;
+  }
+
   footer .columns .column:last-child {
-    padding: 55px 40px;
+    padding: 55px 20px;
   }
 
 }

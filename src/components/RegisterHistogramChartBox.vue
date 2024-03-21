@@ -129,6 +129,7 @@ export default {
 #histogram {
   max-width: 445px;
 }
+
 .box-histogram {
   width: 100%;
   padding: 0;
@@ -137,5 +138,15 @@ export default {
 :deep(.main-svg) {
   background-color: transparent !important;
 }
+
+
+@media screen and (max-width: 1024px) {
+
+  #histogram {
+    max-width: 100%;
+  }
+
+}
+
 
 </style>

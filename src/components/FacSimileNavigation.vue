@@ -1,6 +1,9 @@
 <template>
-  <nav class="fac-simile__toc">
-    <h1 class="main__title__toc">Table des registres capitulaires</h1>
+  <nav class="fac-simile__toc" :class="{ 'is-opened': metadataCardState }">
+    <h1 class="main__title__toc" @click="toggleCard()">
+      Table des registres capitulaires
+      <button class="card-header-toggle" />
+    </h1>
     <ul>
       <li v-for="(years, register) in this.navByVolumesJSON" :key="register" class="register">
         <b @click="toggleRegister(register)" :class="{ 'is-highlighted': openRegisters[register]?.isOpen }">
@@ -53,6 +56,7 @@ export default {
       openRegisters: {},
       navItemsSelected: {},
       highlighted: null, // Ajout pour suivre l'élément mis en surbrillance
+      metadataCardState: false,
     };
   },
   computed: {
@@ -204,6 +208,15 @@ export default {
     updateMirador: function (register, year, canvasID) {
       this.$emit('updateMirador', canvasID, register);
     },
+
+    /**
+     * Toggle the metadata cards state
+     * @returns {boolean}
+     */
+    toggleCard() {
+      this.metadataCardState = !this.metadataCardState;
+    },
+
   },
 };
 </script>
@@ -264,8 +277,13 @@ li.register .is-highlighted,
 
 
 .fac-simile__toc ul {
+  display: block;
   padding: 0;
   background-color: var(--panel-bg-color);
+}
+
+.fac-simile__toc.is-opened ul {
+  display: block;
 }
 
 .fac-simile__toc > ul {
@@ -283,6 +301,10 @@ li.register .is-highlighted,
   font-weight: 400;
   font-style: italic;
   color: #272727;
+}
+
+.card-header-toggle {
+  display: none;
 }
 
 .register {
@@ -350,4 +372,46 @@ nav menu, nav ul {
   margin-left: 0;
   padding-left: 1em;
 }
+
+
+@media screen and (max-width: 1024px) {
+
+  .main__title__toc {
+    margin: 0;
+    padding: 20px;
+    border-top: solid 1px #D0D0D0;
+    background: #646464;
+    color: #ffffff;
+
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .fac-simile__toc ul {
+    display: none;
+  }
+
+  .fac-simile__toc.is-opened ul {
+    display: block;
+  }
+
+  .card-header-toggle {
+    display: inline-block;
+    width: 29px;
+    height: 29px;
+    background: transparent url('~@/assets/images/b_Open_liste.svg') center / cover no-repeat;
+    filter: invert();
+    border: none;
+    margin-right: 12px;
+    cursor: pointer;
+  }
+
+  .is-opened .card-header-toggle {
+    background-size: 21px 21px;
+    background-image: url('~@/assets/images/b_Close_liste.svg');
+    filter: brightness(100);
+  }
+
+}
+
 </style>

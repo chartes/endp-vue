@@ -175,4 +175,11 @@ button.is-info {
   background: url("@/assets/images/b_Close_20x20.svg") center / 20px auto no-repeat;
 }
 
+@media screen and (max-width: 1024px) {
+
+  button.is-info {
+    padding: 13px 35px 15px;
+  }
+
+}
 </style>

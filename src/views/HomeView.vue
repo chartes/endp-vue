@@ -220,11 +220,30 @@ nav a .icon {
 
   h1.title {
     border: none;
+    margin-bottom: 0;
+    padding: 5px 0 8px;
+  }
+
+  h1.title .subtitle {
+    font-size: 28px;
+    margin: 15px 0 10px;
+  }
+
+  h1.title .period {
+    font-size: 20px;
+  }
+
+  .container {
+    padding-top: 10px;
   }
 
   .container > :last-child {
     padding-bottom: 0;
     border-bottom: none;
+  }
+
+  .block {
+    font-size: 18px;
   }
 
 }

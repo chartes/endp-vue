@@ -56,4 +56,14 @@ export default {
   margin-right: 5px;
   font-size: 24px;
 }
+
+
+@media screen and (max-width: 1024px) {
+
+  .legend-item {
+    justify-content: flex-start;
+  }
+
+}
+
 </style>
