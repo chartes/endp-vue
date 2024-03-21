@@ -76,4 +76,13 @@ h3, h4 {
   color: var(--light-brown-alt)
 }
 
+@media screen and (max-width: 1024px) {
+
+  #banner-image::before {
+    background-color: #000000CC;
+    background-image: none !important;
+  }
+
+}
+
 </style>

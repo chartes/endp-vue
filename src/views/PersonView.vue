@@ -284,4 +284,25 @@ h2.subtitle {
 }
 
 
+@media screen and (max-width: 1024px) {
+
+  #banner-image::before {
+    background-color: #000000CC;
+    background-image: none !important;
+  }
+
+  .columns {
+    flex-direction: column;
+  }
+
+  .columns .column:first-child,
+  .columns .column:last-child {
+    display: block;
+    width: 100%;
+    max-width: 100% !important;
+    padding: 40px 0 0 0;
+  }
+}
+
+
 </style>

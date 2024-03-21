@@ -486,4 +486,22 @@ export default {
   width: 100%;
   margin: 0 0 45px;
 }
+
+@media screen and (max-width: 1024px) {
+
+  #banner-image::before {
+    background-color: #000000CC;
+    background-image: none !important;
+  }
+
+  .columns {
+    flex-direction: column;
+  }
+
+  .columns.facets-box-collapsed .column:first-child {
+    display: block;
+    width: 100%;
+  }
+}
+
 </style>
