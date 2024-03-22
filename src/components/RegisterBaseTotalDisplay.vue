@@ -51,6 +51,7 @@ export default {
 }
 .totalFounded {
   display: inline-block;
+  min-width: 75px;
   background-color: #000000;
   font-size: 40px;
   font-style: normal;

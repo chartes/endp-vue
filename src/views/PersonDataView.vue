@@ -177,6 +177,7 @@ export default {
 }
 
 .columns {
+  align-items: flex-start;
   gap: 46px;
 }
 
@@ -198,7 +199,7 @@ export default {
 }
 
 .columns.details-column > .column:last-child {
-  /* padding-bottom: var(--right-column-bottom-padding-desktop); */
+  padding-bottom: var(--right-column-bottom-padding-desktop);
 }
 
 

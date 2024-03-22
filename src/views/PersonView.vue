@@ -199,7 +199,7 @@ export default {
 
 .columns .column:last-child {
   width: calc(100% - 50px - 465px);
-  padding: 85px 30px 300px 30px;
+  padding: 85px 30px var(--right-column-bottom-padding-desktop) 30px;
 }
 
 .box-search-person-facets {

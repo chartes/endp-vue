@@ -118,7 +118,7 @@ export default {
       endMonthCode: '12',
       inputStartYear: '',
       inputEndYear: '',
-      isFacetsBoxCollapsed: true,
+      isFacetsBoxCollapsed: false,
     };
   },
   mounted() {
@@ -440,7 +440,7 @@ export default {
 
 .box-facets > .box-container-facets__date-interval,
 .box-facets > .container-slider {
-  padding: 0 30px;
+  padding: 0 40px;
 }
 
 .box-facets > .box-histogram {

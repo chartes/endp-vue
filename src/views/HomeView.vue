@@ -6,8 +6,8 @@
     <div class="column">
       <h1 class="title">
         e-NDP<br/>
-        Notre-Dame de Paris et son cloître : <br>
-        <span class="subtitle">les lieux, les gens, la vie</span>
+        Notre-Dame de Paris et son cloître<br>
+        <span class="subtitle">Les lieux, les gens, la vie</span>
         <span class="period">1326-1504</span>
       </h1>
       <nav>
@@ -67,7 +67,7 @@ export default {
 }
 
 h1.title {
-  padding: 60px 0 8px;
+  padding: 70px 0 8px 20px;
   margin-bottom: 15px;
   font-size: 36px;
   font-weight: 700;
@@ -108,7 +108,6 @@ h1.title .period {
 
 .columns > .column:first-child {
   max-width: 460px;
-  padding: 15px 0 0 20px;
   transform: translateY(135px);
 }
 
@@ -140,7 +139,7 @@ nav a .icon {
 }
 
 .container {
-  padding: 70px 85px;
+  padding: 70px 95px;
   background: linear-gradient(#F7F7F7CC 0% ,#F7F7F7 11.94090256424186% ,#F7F7F7 100% ,#FCFCFC 100%);
 }
 
@@ -152,7 +151,7 @@ nav a .icon {
 .block {
   font-size: 20px;
   font-weight: 400;
-  line-height: 28px;
+  line-height: 27px;
   color: var(--dark-grey);
   -webkit-hyphens: none;
 }
@@ -171,7 +170,8 @@ nav a .icon {
   vertical-align: top;
   font-weight: 700;
 
-  margin-top: 10px;
+  margin-left: -7px;
+  margin-top: 5px;
   padding-right: 0.2em;
   float: left;
 }

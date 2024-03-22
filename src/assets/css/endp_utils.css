@@ -18,12 +18,17 @@ html {
   --tablet-side-padding: 40px;
   --mobile-side-padding: 18px;
   --column-gap-desktop: 48px;
-  --right-column-bottom-padding-desktop: 300px;
+  --right-column-bottom-padding-desktop: 500px;
   --right-column-bottom-padding-mobile: 200px;
 }
 
 body {
   font-family: var(--font-primary);
+}
+
+.input:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 /* Banner style */
@@ -62,6 +67,7 @@ body {
   margin: 0 var(--desktop-side-padding);
   padding: 0 0 0 20px;
   background-color: #000000CC;
+  box-sizing: border-box;
 
   font-size: 25px;
   font-weight: 400;
@@ -108,7 +114,6 @@ body {
 
 @media (max-width: 1380px) {
   .app-main-content__area > .columns,
-  #banner-image h1,
   #banner-image {
     padding: 0 var(--tablet-side-padding);
   }
@@ -117,18 +122,22 @@ body {
 @media (max-width: 1340px) {
 
   #banner-image {
-    width: 100vw;
+    width: 100%;
     padding: 0;
   }
 
   #banner-image h1 {
-    width: 100%;
-    margin: 0;
-    text-align: center;
+    width: calc(100% - 2* var(--tablet-side-padding));
+    margin: 0 var(--tablet-side-padding);
   }
 }
 
 @media (max-width: 1024px) {
+
+  .app-main-content__area > .columns {
+    padding: 0 var(--mobile-side-padding);
+  }
+
   #banner-image {
     width: 100vw;
     height: 50px;
@@ -139,6 +148,7 @@ body {
     width: 100%;
     position: relative;
     margin: 0;
+    text-align: center;
     z-index: 1;
   }
 
