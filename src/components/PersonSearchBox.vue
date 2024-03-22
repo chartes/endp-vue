@@ -6,13 +6,12 @@
       </p>
     </div>
     <div class="container-search">
-      <div class="control has-icons-left field has-addons">
+      <div class="control field has-addons">
         <p class="control">
-          <span class="icon is-left"><i class="fas fa-search"></i></span>
           <input
               class="input"
               type="text"
-              placeholder="personne"
+              placeholder="Votre recherche"
               @keyup.enter="launchSearch"
               v-model="personQuery">
         </p>
@@ -96,29 +95,101 @@ export default {
 </script>
 
 <style scoped>
+
+.container-search {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: var(--panel-bg-color);
+  padding-bottom: 50px;
+}
+
+.container-search > div {
+  flex: 100% 0 0;
+}
+
+.container-search > p {
+  flex: 50% 0 0;
+  margin: 0;
+  padding-left: 30px;
+  padding-bottom: 20px;
+}
+
+.container-search > p:first-child {
+  padding: 0 0 30px 20px;
+}
+
+.container-search > p:last-child {
+  padding: 0;
+}
+
 .field.has-addons {
   display: flex;
   align-items: center;
   margin-top: 0.5em;
-  padding: 1rem;
+  padding: 20px 25px 25px;
 }
 
 .field.has-addons > *:not(:last-child) {
-  margin-right: 0.5em;
+  margin-right: 5px;
+}
+
+.field.has-addons > p:first-child {
+  width: 100%;
+}
+
+.control-slider {
+  display: flex;
+  align-items: center;
+}
+
+.slider {
+  width: 96px;
+  height: 1px;
+  margin: 0;
+  background-color: #D74A52;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #D74A52;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: #D74A52;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 .slider-label {
-  margin-right: 0.5em;
-  margin-left: 0.5em;
-  border: 1px solid #dbdbdb;
-  border-radius: 5px;
-  background-color: #f5f5f5;
   padding: 0.25em 0.5em;
-  font-size: 0.90rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: #363636;
 
+  font-family: var(--font-secondary);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1;
+  color: #6E6E6E;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+button.button.is-info {
+  height: auto;
+  background-color: #303030;
+  border-radius: 2px;
+  font-family: var(--font-secondary);
+  font-size: 18px;
+  font-weight: 500;
+  color: #FFFFFF;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 6px 20px 7px;
 }
 
 .btn-reset {
@@ -136,9 +207,29 @@ export default {
   display: none;
 }
 
-.control-slider {
-  margin-top: 1rem;
-  margin-left: 1rem;
+input[type="text"] {
+  height: auto;
+  border: none;
+  border-bottom: solid 1px var(--light-brown);
+  border-radius: 0;
+  padding: 10px;
+  line-height: 1.2;
+}
+
+input[type="text"]::placeholder {
+  font-family: var(--font-secondary);
+  font-size: 22px;
+  font-weight: 400;
+  color: #B4B4B4;
+  opacity: 0.75;
+}
+
+.subtitle {
+  padding-bottom: 12px;
+  font-size: 24px;
+  color: #272727;
+  font-weight: 400;
+  font-style: italic;
 }
 
 </style>

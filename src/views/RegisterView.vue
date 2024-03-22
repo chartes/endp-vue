@@ -1,17 +1,17 @@
 <template>
   <!-- Banner -->
   <div id="banner-image" class="container is-fluid">
-    <h1 class="title">Accéder aux registres</h1>
+    <h1 class="title">Registres</h1>
   </div>
   <!-- end banner -->
   <!-- Main grid  -->
-  <div class="columns is-multiline">
+  <div class="columns is-multiline" :class="{ 'facets-box-collapsed' : isFacetsBoxCollapsed }">
     <!-- Filters column (facets, histogram etc.) -->
     <div class="column is-12-mobile is-5-tablet is-5-desktop">
       <!-- Create a single component for this box facets ? -->
       <div class="box box-facets" >
         <!-- Date slider container -->
-        <p class="subtitle is-5">Période du contenu</p>
+        <p class="subtitle is-5">Dates</p>
         <div class="container-slider">
           <VueSlider
               class="slider-component"
@@ -24,9 +24,8 @@
               :process="true"
               :lazy="true"
           />
-          <button class="button is-outlined btn-reset-date" @click="handleResetSlider">
-            <!-- icon reset --> <i class="fas fa-undo"></i></button>
         </div>
+
         <!-- Date interval box -->
         <RegisterDateIntervalBox
             :start-month-code="startMonthCode"
@@ -34,6 +33,12 @@
             :yearRange="yearRange"
             @date-change="handleDateIntervalChange"
         />
+
+        <!-- Reset button -->
+        <button class="button is-outlined btn-reset-date" @click="handleResetSlider">
+          <!-- icon reset --> <i class="fas fa-undo"></i>
+        </button>
+
         <!-- NoSketch Engine search box -->
         <RegisterNoSketchSearchBox
             :year-range="yearRange"
@@ -50,6 +55,7 @@
     <!-- end Filters column -->
     <!-- Results column -->
     <div class="column column-result is-12-mobile is-7-tablet is-7-desktop">
+      <a class="collapseFacetsBoxToggle" @click="_collapseFacetsBox()">Filtres</a>
       <RegisterMetadataBox
           :total-of-registers="totalRegisters"
       />
@@ -112,7 +118,7 @@ export default {
       endMonthCode: '12',
       inputStartYear: '',
       inputEndYear: '',
-      isFacetsBoxCollapsed: false,
+      isFacetsBoxCollapsed: true,
     };
   },
   mounted() {
@@ -198,6 +204,14 @@ export default {
     },
   },
   methods: {
+    /**
+     * Collapse Facets Box
+     * @returns {void}
+     * @private
+     */
+    _collapseFacetsBox() {
+      this.isFacetsBoxCollapsed = ! this.isFacetsBoxCollapsed;
+    },
     /**
      * Test if years in range are equals
      * @returns {boolean}
@@ -369,42 +383,197 @@ export default {
 </script>
 
 <style scoped>
+
 /* Set image banner */
 #banner-image::before {
-  background-image: url("@/assets/banners/banner-registers_page.jpg");
+  background-image: url("@/assets/banners/banner-registers.png");
 }
+
+.columns {
+  gap: var(--column-gap-desktop);
+}
+
+.columns .column:first-child {
+  width: 465px;
+  background-color: var(--panel-bg-color);
+  padding: 89px 0 23px;
+}
+
+.columns.facets-box-collapsed .column:first-child {
+  display: none;
+}
+
+.columns .column:last-child {
+  width: calc(100% - 50px - 465px);
+  background-color: var(--panel-bg-color);
+  padding: 25px 32px var(--right-column-bottom-padding-desktop);
+}
+
+.columns.facets-box-collapsed .column:last-child {
+  width: 100%;
+}
+
+.collapseFacetsBoxToggle {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  background-image: url("@/assets/images/b_openW.svg");
+  text-indent: -9999px;
+}
+
+.columns.facets-box-collapsed .collapseFacetsBoxToggle {
+  background-image: url("@/assets/images/b_closeW.svg");
+}
+
 
 /* facets part */
 
 .box-facets {
-  background-color: #f5f5f5;
-  padding: 1rem 1.5rem 1.5rem 1.5rem;
-  border: 2px solid #8d1919;
-  border-radius: 5px;
+  padding: 0;
   position: sticky;
   top: 0;
 }
 
+.box-facets > p {
+  padding: 0 20px;
+}
+
+.box-facets > .box-container-facets__date-interval,
+.box-facets > .container-slider {
+  padding: 0 30px;
+}
+
+.box-facets > .box-histogram {
+  padding: 0 10px 0 0;
+}
+
+.subtitle {
+  display: block;
+  margin-bottom: 75px;
+
+  font-size: 24px;
+  font-weight: 400;
+  font-style: italic;
+  color: #272727;
+}
+
 .container-slider {
   margin-top: 3rem;
-  margin-bottom: 1rem;
+  margin-bottom: 30px;
 }
 
 .btn-reset-date {
-  margin-top: 1rem;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 40px;
+  height: 40px;
   margin-bottom: 0.3rem;
+  background: url("@/assets/images/b_Recherche_reset.svg") center / cover;
+  border: none;
 }
 
 .btn-reset-date:hover {
-  background-color: #8d1919;
-  color: white;
+}
+
+.btn-reset-date .fa-undo {
+  display: none;
 }
 
 /* results part */
 
 .card-navigation-container {
-  margin-top: 10px;
-  margin-left: 0px;
-  width: 83%;
+  width: 100%;
+  margin: 0 0 45px;
 }
+
+@media screen and (max-width: 1024px) {
+
+  #banner-image::before {
+    background-color: #000000CC;
+    background-image: none !important;
+  }
+
+  .columns {
+    flex-direction: column;
+    padding: 0 !important;
+    position: relative;
+  }
+
+  .columns .column {
+    padding: 20px var(--mobile-side-padding) var(--right-column-bottom-padding-mobile) !important;
+  }
+
+  .columns .column:first-child {
+    display: block;
+    width: 100%;
+    border-bottom: solid 1px #D0D0D0;
+  }
+
+  .columns .column:first-child {
+    padding-top: 90px !important;
+  }
+
+  .columns.facets-box-collapsed .column:first-child {
+    display: none;
+  }
+
+  .columns.facets-box-collapsed .column.column-result,
+  .columns .column.column-result {
+    width: 100% !important;
+    padding-top: 55px !important;
+    background-color: #ffffff;
+  }
+
+  .columns.facets-box-collapsed .column.column-result {
+  }
+
+  .box-facets > .box-container-facets__date-interval,
+  .box-facets > .container-slider {
+    padding: 0 40px;
+  }
+
+  .box-facets > p {
+    padding: 0;
+  }
+  .columns .collapseFacetsBoxToggle {
+    position: absolute;
+    top: 0;
+    text-indent: 0;
+    margin: 25px 0 0;
+
+    font-family: var(--font-secondary);
+    font-size: 18px;
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: 1;
+    color: #303030;
+  }
+
+  .columns .collapseFacetsBoxToggle {
+    display: block;
+    width: calc(100% - 2 * var(--mobile-side-padding));
+    height: auto;
+    padding: 8px 0;
+    background: transparent url('~@/assets/images/b_Close_liste.svg') right center / 30px auto no-repeat;
+    box-sizing: border-box;
+  }
+
+  .columns.facets-box-collapsed .collapseFacetsBoxToggle {
+    display: inline-block;
+    width: auto;
+    height: auto;
+    padding: 8px 32px;
+    background-color: #7B0C12;
+    background-image: none;
+    border-radius: 4px;
+    color: #ffffff;
+  }
+
+  .card-navigation-container {
+    margin: 0 0 25px;
+  }
+}
+
 </style>

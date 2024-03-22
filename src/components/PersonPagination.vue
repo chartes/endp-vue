@@ -1,6 +1,6 @@
 <template>
   <div class="pagination-box box">
-    <nav class="pagination is-rounded">
+    <nav class="pagination">
       <a class="pagination-previous" :class="{ 'disabled': currentPage === 1 }"
          @click="handleChangePage(currentPage - 1)">
         <span class="icon is-primary">
@@ -53,10 +53,10 @@
       </a>
     </nav>
     <div class="pagination-panel">
-      <label class="label" for="limit-results">Résultats par page</label>
       <input id="limit-results" class="input items-by-page-input" type="number" placeholder="50"
              :min="itemsByPageMinDisplay" :max="itemsByPageMaxDisplay" step="10"
              v-model="itemsByPageDisplay" @change="handleItemsPerPageChange">
+      <label class="label" for="limit-results">Résultats par page</label>
     </div>
   </div>
 </template>
@@ -122,26 +122,57 @@ export default {
 <style scoped>
 
 nav .pagination {
-   background-color: #f5f5f5 !important; ;
+  background-color: #f5f5f5 !important; ;
   padding: 1rem 1.5rem 1.5rem 1.5rem;
   border-radius: 5px;
   top: 0;
   position: sticky;
 }
 
+nav.pagination {
+  margin-bottom: 0;
+}
+
+.pagination-box {
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 0;
+  margin-top: -45px;
+}
+
 .pagination-panel {
+  display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
+  border-bottom: #000000 solid 6px;
+  margin-bottom: 10px;
 }
 
 .pagination-panel .label {
-  margin-right: 10px;
+  margin-left: 10px;
+  margin-bottom: 12px;
+
+  font-family: var(--font-secondary);
+  font-size: 20px;
+  color: #6E6E6E;
+  font-weight: 400;
 }
 
 .items-by-page-input {
   width: 80px;
-  padding: 0.5em;
+  height: auto;
+  padding: 2px 8px 2px 2px;
   margin-left: 10px;
+  margin-bottom: 5px;
+  transform: translateY(-4px);
+  border-bottom: solid 1px var(--light-brown);
+  border-radius: 0;
+
+  font-family: var(--font-secondary);
+  font-size: 20px;
+  font-weight: 400;
+  color: #303030;
+  text-align: center;
 }
 
 .pagination-box .pagination-input .label {
@@ -155,15 +186,56 @@ nav .pagination {
   opacity: 0.5;
 }
 
-.pagination-panel {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 20px;
+.pagination-list {
+  margin-left: 40px;
+  justify-content: center;
 }
 
+.pagination-link {
+  min-width: 35px;
+  height: auto;
+  background-color: #E0E0E0;
+  border: none;
+  border-radius: 3px;
+  padding: 7px 0;
+  font-family: var(--font-secondary);
+  font-size: 18px;
+  font-weight: 500;
+  color: #4D4D4D;
+}
+
+.pagination-link.is-current {
+  background-color: #a53605;
+  color: #fff;
+}
 
 .pagination-previous, .pagination-next {
-  margin-right: 10px;
+  position: relative;
+  margin: 0;
+  border: none;
 }
+
+.pagination-ellipsis {
+  margin: 0;
+}
+
+.pagination-previous .icon,
+.pagination-next .icon {
+  display: none;
+}
+
+.pagination-previous:before,
+.pagination-next:before {
+  content: "";
+  position: absolute;
+  display: inline-block;
+  width: 28px;
+  height: 23px;
+  background-image: url("@/assets/images/b_fleche.svg");
+}
+
+.pagination-previous:before {
+  transform: scaleX(-1);
+}
+
 </style>

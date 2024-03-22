@@ -1,27 +1,21 @@
 <template>
   <div class="box box-container-facets__nosketch_search">
-    <div class="box-header">
+    <div class="box-header is-flex is-justify-content-space-between">
       <p class="subtitle nosketch_search-container__label is-5" @click="toggleBox">
-        <img src="@/assets/icons/no-sketch-engine-logo.png" alt="Logo" class="image is-24x24">
-        <span>Recherche via NoSketch Engine</span>
-        <i :class="`fas ${isBoxExpanded ? 'fa-chevron-up' : 'fa-chevron-down'}`"></i>
+        <span>Recherche dans les registres</span>
       </p>
+      <button @click="toggleBox($event)" class="open-nosketch-search" :class="isBoxExpanded ? 'is-opened' : ''" />
     </div>
-    <transition name="slide-fade">
-      <div class="container-search" v-if="isBoxExpanded">
-        <div class="control has-icons-left field has-addons">
-          <p class="control">
-            <input class="input" type="text" placeholder="Rechercher" v-model="NoSketchTermSearch">
-            <span class="icon is-left"><i class="fas fa-search"></i></span>
-          </p>
-          <p class="control">
-            <button class="button is-info" @click="goNoSketchResults">Rechercher</button>
-          </p>
-        </div>
-        <p class="help">Recherche dans le corpus du terme : <i>"{{ NoSketchTermSearch }}"</i> entre
-          {{ yearRange[0] }} et {{ yearRange[1] }}</p>
+    <div class="container-search" v-if="isBoxExpanded">
+      <div class="help">Pour la période {{ yearRange[0] }}-{{ yearRange[1] }}</div>
+      <div class="control">
+          <input class="input" type="text" placeholder="Votre recherche" v-model="NoSketchTermSearch">
       </div>
-    </transition>
+      <p class="control">
+        <button class="button is-info" @click="goNoSketchResults">Rechercher</button>
+      </p>
+      <img src="@/assets/icons/no-sketch-engine-logo.png" alt="Logo" class="image sketch-image" />
+    </div>
   </div>
 </template>
 
@@ -79,19 +73,37 @@ export default {
 
 <style scoped>
 
+.box-header {
+  width: 100%;
+}
+
+.container-search {
+  position: relative;
+}
+
+.container-search .image {
+  position: absolute;
+  bottom: 0;
+  right: 10px;
+
+  width: 31px;
+  height: auto;
+}
+
 .box-container-facets__nosketch_search {
-  border: 0.5px solid #0a0a0a;
-  border-radius: 5px;
+  border-top: solid 1px #D0D0D0;
+  border-bottom: solid 1px #D0D0D0;
   margin-bottom: 1rem;
   margin-top: 1rem;
 }
 
 .nosketch_search-container__label {
+  margin-bottom: 0;
+  font-size: 24px;
+  font-weight: 400;
+  font-style: italic;
+  color: #272727;
   cursor: pointer;
-}
-
-.container-search > * {
-  margin-top: 1.5rem;
 }
 
 .nosketch_search-container__label {
@@ -105,12 +117,69 @@ export default {
   margin-right: 0.5rem;
 }
 
-.slide-fade-enter-active, .slide-fade-leave-active {
-  transition: all 0.3s ease;
+.help {
+  width: 100%;
+  margin: 35px 0 15px;
+  font-family: var(--font-secondary);
+  font-size: 18px;
+  font-weight: 500;
+  color: #4A4A4A;
+  text-align: center;
 }
 
-.slide-fade-enter, .slide-fade-leave-to {
-  opacity: 0;
-  transform: translateY(10px);
+.input {
+  width: calc(100% - 12px);
+  height: 2.75em;
+  border: none;
+  border-bottom: 1px solid var(--light-brown);
+}
+
+input::placeholder {
+  font-family: var(--font-secondary);
+  font-size: 22px;
+  font-weight: 400;
+  color: #B4B4B4;
+  opacity: 0.75;
+}
+
+.control {
+  text-align: center;
+}
+
+button.is-info {
+  height: auto;
+  padding: 6px 15px 8px;
+  background-color: #303030;
+  border-radius: 2px;
+  margin: 20px 0 50px;
+
+  font-family: var(--font-secondary);
+  font-size: 18px;
+  text-align: center;
+  font-weight: 500;
+  line-height: 1;
+  color: #FFFFFF;
+  text-transform: uppercase;
+}
+
+.open-nosketch-search {
+  display: inline-block;
+  width: 27px;
+  height: 27px;
+  border: none;
+  background: url("@/assets/images/b_Open_20x20.svg") center / cover;
+  cursor: pointer;
+}
+
+.open-nosketch-search.is-opened {
+  background: url("@/assets/images/b_Close_20x20.svg") center / 20px auto no-repeat;
+}
+
+@media screen and (max-width: 1024px) {
+
+  button.is-info {
+    padding: 13px 35px 15px;
+  }
+
 }
 </style>

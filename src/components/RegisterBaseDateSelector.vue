@@ -82,12 +82,74 @@ export default {
 
 <style scoped>
 .control {
+  display: inline-block;
   margin: 0;
 }
 .select-month {
+  width: 128px;
+}
+
+.select select option,
+.select select {
   width: 100%;
+  background-color: var(--light-brown);
+  font-family: var(--font-secondary);
+  font-size: 18px;
+  font-weight: 400;
+  color: #FFFFFF;
+  text-transform: uppercase;
+}
+
+.select select option {
+  font-size: 14px;
+}
+
+.select:not(.is-multiple):not(.is-loading)::after {
+  top: 19px;
+  right: 16px;
+  border-color: #ffffff;
+}
+
+.control-input-date input,
+.select select {
+  border-radius: 0;
+  border: none;
 }
 .control-input-date {
-  width: 4rem;
+  width: 63px;
+  border-bottom: solid 1px var(--light-brown);
 }
+.control-input-date input {
+  padding: 5px 0 4px;
+  font-family: var(--font-secondary);
+  font-size: 18px;
+  font-weight: 500;
+  color: #4A4A4A;
+  text-align: center;
+  height: auto;
+}
+
+.control.has-icons-left .select select {
+  height: auto;
+  padding: 5px 25px 5px 10px;
+}
+.control.has-icons-left .icon.is-left {
+  display: none;
+}
+
+
+
+@media screen and (max-width: 1024px) {
+
+  .select-month {
+    width: 226px;
+  }
+
+  .control-input-date[data-v-9af370de] {
+    width: 108px;
+    border-bottom: solid 1px var(--light-brown);
+  }
+
+}
+
 </style>

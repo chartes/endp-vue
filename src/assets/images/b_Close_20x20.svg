@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20.5253247px" height="20.5253247px" viewBox="0 0 20.5253247 20.5253247" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group 2</title>
+    <g id="Dsk" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+        <g id="registres-recherche-depl" transform="translate(-736.737338, -750.737338)" stroke="#F63C46">
+            <g id="Group-11" transform="translate(319.000000, 747.000000)">
+                <g id="Group-2" transform="translate(418.000000, 4.000000)">
+                    <line x1="10" y1="-3.51359626" x2="10" y2="23.5135963" id="Line-2" transform="translate(10.000000, 10.000000) rotate(45.000000) translate(-10.000000, -10.000000) "></line>
+                    <line x1="10" y1="-3.51359626" x2="10" y2="23.5135963" id="Line-2" transform="translate(10.000000, 10.000000) rotate(-45.000000) translate(-10.000000, -10.000000) "></line>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

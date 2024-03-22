@@ -28,7 +28,10 @@ export default {
 
 <style scoped>
 .box-results-metadata {
-  border: 1px solid #e5e5e5;
-  border-radius: 5px;
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 40px 0 0;
+  margin-bottom: 0;
 }
 </style>

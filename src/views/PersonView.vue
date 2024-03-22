@@ -5,14 +5,26 @@
   <div class="columns is-multiline">
     <div class="column is-12-mobile is-5-tablet is-5-desktop">
       <div class="box box-search-person-facets">
-        <PersonSearchBox
-            @update:query="handleUpdateQuery"
-            @reset:query="handleResetQuery"
-        />
-        <div class="checkbox-canon box">
-          <input id="checkbox-canon" type="checkbox" v-model="showCanon">
-          <label for="checkbox-canon"> Chanoines</label>
+        <div class="box-content">
+          <PersonSearchBox
+              @update:query="handleUpdateQuery"
+              @reset:query="handleResetQuery"
+          />
+          <div class="checkbox-canon box">
+            <input id="checkbox-canon" type="checkbox" v-model="showCanon">
+            <label for="checkbox-canon"> Chanoines</label>
+          </div>
         </div>
+        <div class="loader-wrapper" :class="{'is-active': !isLoading}">
+          <div class="loader is-loading"></div>
+        </div>
+      </div>
+    </div>
+    <div class="column column-result is-12-mobile is-7-tablet is-7-desktop">
+      <div class="column-result-header">
+        <h2 class="subtitle is-4">
+          <span class="results-count">{{ total }}</span> Résultats
+        </h2>
         <PersonPagination
             :currentPage="currentPage"
             :totalPages="totalPages"
@@ -21,14 +33,9 @@
             :items-by-page-max="100"
             @update:change-page="changePage"
             @change:items-by-page-display="handleItemsPerPageChange"/>
-        <div class="loader-wrapper" :class="{'is-active': !isLoading}">
-          <div class="loader is-loading"></div>
-        </div>
       </div>
-    </div>
-    <div class="column column-result is-12-mobile is-7-tablet is-7-desktop">
       <ul>
-        <h2 class="subtitle is-4">{{ total }} Résultats</h2>
+
         <li v-for="person in persons" :key="person._id_endp" class="li--person">
         <PersonResultCard
             :person="person"/>
@@ -178,16 +185,53 @@ export default {
 <style scoped>
 /* Set image banner */
 #banner-image::before {
-  background-image: url("@/assets/banners/banner-persons_page.png");
+  background-image: url("@/assets/banners/band_Personnes.png");
+}
+
+.columns {
+  gap: var(--column-gap-desktop);
+}
+
+.columns .column:first-child {
+  width: 465px;
+  padding: 110px 0 23px;
+}
+
+.columns .column:last-child {
+  width: calc(100% - 50px - 465px);
+  padding: 85px 30px 300px 30px;
 }
 
 .box-search-person-facets {
-  background-color: #f5f5f5;
-  padding: 1rem 1.5rem 1.5rem 1.5rem;
-  border: 2px solid #8d1919;
-  border-radius: 5px;
   position: sticky;
   top: 0;
+  padding: 0;
+}
+
+.box-search-person-facets .box {
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.box-search-person-facets .box-content {
+  position: relative;
+}
+
+.box-search-person-facets .box-content .checkbox-canon {
+  position: absolute;
+  bottom: 50px;
+  right: 30px;
+  padding: 20px 40px 20px 0;
+  background: url("@/assets/images/picto_chanoine_liste.svg") center right / auto 50px no-repeat;
+}
+
+.box-search-person-facets .box-content .checkbox-canon {
+  font-family: var(--font-secondary);
+  font-size: 20px;
+}
+
+.box-search-person-facets .box-content .checkbox-canon label {
+  margin-left: 5px;
 }
 
 .loader-wrapper {
@@ -206,14 +250,59 @@ export default {
 }
 
 .li--person {
-  padding: 10px;
   justify-content: space-between;
-  width: 70%;
-  border-radius: 3px;
-  background-color: white;
 }
 
 .is-active {
   opacity: 0;
 }
+
+.columns .column:last-child,
+.checkbox-canon {
+  background-color: var(--panel-bg-color);
+}
+
+.results-count {
+  display: inline-block;
+  width: 74px;
+  height: 137px;
+  background: url("@/assets/images/picto_perso_titre.svg") center / cover;
+  padding-top: 50px;
+  margin-right: 5px;
+
+  font-size: 22px;
+  font-weight: 700;
+  font-style: normal;
+  color: #FFFFFF;
+  text-align: center;
+}
+
+h2.subtitle {
+  margin-bottom: 0;
+  font-size: 20px;
+  font-style: italic;
+}
+
+
+@media screen and (max-width: 1024px) {
+
+  #banner-image::before {
+    background-color: #000000CC;
+    background-image: none !important;
+  }
+
+  .columns {
+    flex-direction: column;
+  }
+
+  .columns .column:first-child,
+  .columns .column:last-child {
+    display: block;
+    width: 100%;
+    max-width: 100% !important;
+    padding: 40px 0 0 0;
+  }
+}
+
+
 </style>

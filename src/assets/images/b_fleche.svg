@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="27.2259259px" height="23.3735786px" viewBox="0 0 27.2259259 23.3735786" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group Copy</title>
+    <g id="Dsk" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="PERSONNES" transform="translate(-1540.925499, -558.851672)" stroke="#000000" stroke-width="1.3">
+            <g id="Group-12" transform="translate(1498.000000, 559.000000)">
+                <g id="Group-Copy" transform="translate(56.538462, 11.538462) scale(-1, 1) translate(-56.538462, -11.538462) translate(43.076923, 0.000000)">
+                    <line x1="26.4245014" y1="11.5384615" x2="1.4957265" y2="11.5384615" id="Line" stroke-linecap="square"></line>
+                    <line x1="0.498575499" y1="11.5384615" x2="11.4672365" y2="0.501672241" id="Line-2" stroke-linecap="round"></line>
+                    <line x1="0.498575499" y1="22.5752508" x2="11.4672365" y2="11.5384615" id="Line-2" stroke-linecap="round" transform="translate(5.982906, 17.056856) scale(1, -1) translate(-5.982906, -17.056856) "></line>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

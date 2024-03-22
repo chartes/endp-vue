@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30.0808802px" height="30.0808802px" viewBox="0 0 30.0808802 30.0808802" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group 2</title>
+    <g id="Dsk" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+        <g id="PERSONNES-deplié" transform="translate(-1537.959560, -812.959560)" stroke="#F63C46">
+            <g id="Group-2" transform="translate(1538.000000, 813.000000)">
+                <line x1="15" y1="-5.27039439" x2="15" y2="35.2703944" id="Line-2" transform="translate(15.000000, 15.000000) rotate(45.000000) translate(-15.000000, -15.000000) "></line>
+                <line x1="15" y1="-5.27039439" x2="15" y2="35.2703944" id="Line-2" transform="translate(15.000000, 15.000000) rotate(-45.000000) translate(-15.000000, -15.000000) "></line>
+            </g>
+        </g>
+    </g>
+</svg>

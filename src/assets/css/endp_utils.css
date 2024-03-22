@@ -1,39 +1,158 @@
-@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+
+/* */
+html {
+  --font-primary: "Libre Baskerville", sans-serif;
+  --font-secondary: "Barlow Semi Condensed", sans-serif;
+  --font-endp: "Cormorant Garamond", sans-serif;
+
+  --brown: #7B0C12;
+  --dark-grey: #343434;
+  --light-brown: #D74A52;
+  --light-brown-alt: #CC3E46;
+  --panel-bg-color: #F7F7F7;
+  --link-over-color: #CC3E46;
+
+  --desktop-content-width: 1270px;
+  --desktop-side-padding: calc(50% - 635px);
+  --tablet-side-padding: 40px;
+  --mobile-side-padding: 18px;
+  --column-gap-desktop: 48px;
+  --right-column-bottom-padding-desktop: 300px;
+  --right-column-bottom-padding-mobile: 200px;
+}
+
+body {
+  font-family: var(--font-primary);
+}
 
 /* Banner style */
 
 #banner-image {
   position: relative; /* Pour le positionnement absolu du titre */
-  height: 350px; /* Ajustez selon vos besoins */
-  width: 100%;
-  max-width: 100%;
-  display: flex;
-  animation: fadeImageIn 1s ease-out 0s;
-  margin-bottom: 13px;
-}
 
+  display: flex;
+  width: 100%;
+  height: 260px; /* Ajustez selon vos besoins */
+  max-width: 100%;
+  padding: 0 var(--desktop-side-padding);
+}
 
 #banner-image::before {
-  border-radius: 0px 0px 0px 10px;
   content: "";
-  background-size: cover;
+  background-color : #320205;
+  background-size: var(--desktop-content-width) auto;
+  background-position: center;
+  background-repeat: no-repeat;
   position: absolute;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
-  opacity: 0.60;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
+#banner-image h1 {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+
+  display: block;
+  width: var(--desktop-content-width);
+  margin: 0 var(--desktop-side-padding);
+  padding: 0 0 0 20px;
+  background-color: #000000CC;
+
+  font-size: 25px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 52px;
+  color: #FFFFFF;
+}
+
+.columns {
+  margin: 0;
+}
+
+.columns:last-child {
+  margin-bottom: 0;
+}
+
+.card,
+.card-header,
+.box {
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+}
+
+
+.endp-logo,
+.e-endp-logo {
+  font-family: var(--font-endp);
+}
+
+.endp-logo {
+  font-weight: 400;
+}
+
+.e-endp-logo {
+  font-weight: 300;
+  font-style: italic;
+}
+
+.app-main-content__area > .columns {
+  padding: 0 var(--desktop-side-padding);
+}
+
+@media (max-width: 1380px) {
+  .app-main-content__area > .columns,
+  #banner-image h1,
+  #banner-image {
+    padding: 0 var(--tablet-side-padding);
+  }
+}
+
+@media (max-width: 1340px) {
+
+  #banner-image {
+    width: 100vw;
+    padding: 0;
+  }
+
+  #banner-image h1 {
+    width: 100%;
+    margin: 0;
+    text-align: center;
+  }
+}
+
+@media (max-width: 1024px) {
+  #banner-image {
+    width: 100vw;
+    height: 50px;
+    padding: 0;
+  }
+
+  #banner-image h1 {
+    width: 100%;
+    position: relative;
+    margin: 0;
+    z-index: 1;
+  }
+
+}
+
+
+
 .title {
-  font-family: MedievalSharp, sans-serif;
   padding: 5%;
   font-size: 3rem;
   position: relative;
   align-items: flex-start;
   text-align: left;
   color: #031531;
-  animation: fadeTitleIn 2s ease-out 0s;
 }
 
 

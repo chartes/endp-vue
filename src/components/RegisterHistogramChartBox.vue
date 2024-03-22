@@ -126,9 +126,27 @@ export default {
 </script>
 
 <style scoped>
-.box-histogram {
-  border: 0.5px solid #0a0a0a;
-  border-radius: 5px;
-  width: 100%;
+#histogram {
+  max-width: 445px;
 }
+
+.box-histogram {
+  width: 100%;
+  padding: 0;
+}
+
+:deep(.main-svg) {
+  background-color: transparent !important;
+}
+
+
+@media screen and (max-width: 1024px) {
+
+  #histogram {
+    max-width: 100%;
+  }
+
+}
+
+
 </style>
