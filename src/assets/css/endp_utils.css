@@ -16,9 +16,10 @@ html {
   --desktop-content-width: 1270px;
   --desktop-side-padding: calc(50% - 635px);
   --tablet-side-padding: 40px;
-  --mobile-side-padding:  20px;
+  --mobile-side-padding: 18px;
   --column-gap-desktop: 48px;
   --right-column-bottom-padding-desktop: 300px;
+  --right-column-bottom-padding-mobile: 200px;
 }
 
 body {

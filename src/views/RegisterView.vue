@@ -55,7 +55,7 @@
     <!-- end Filters column -->
     <!-- Results column -->
     <div class="column column-result is-12-mobile is-7-tablet is-7-desktop">
-      <a class="collapseFacetsBoxToggle" @click="_collapseFacetsBox()" />
+      <a class="collapseFacetsBoxToggle" @click="_collapseFacetsBox()">Filtres</a>
       <RegisterMetadataBox
           :total-of-registers="totalRegisters"
       />
@@ -418,6 +418,7 @@ export default {
   width: 25px;
   height: 25px;
   background-image: url("@/assets/images/b_openW.svg");
+  text-indent: -9999px;
 }
 
 .columns.facets-box-collapsed .collapseFacetsBoxToggle {
@@ -497,15 +498,35 @@ export default {
   .columns {
     flex-direction: column;
     padding: 0 !important;
+    position: relative;
   }
 
-  .columns.facets-box-collapsed .column:first-child {
-    display: block;
-    width: 100%;
+  .columns .column {
+    padding: 20px var(--mobile-side-padding) var(--right-column-bottom-padding-mobile) !important;
   }
 
   .columns .column:first-child {
+    display: block;
+    width: 100%;
     border-bottom: solid 1px #D0D0D0;
+  }
+
+  .columns .column:first-child {
+    padding-top: 90px !important;
+  }
+
+  .columns.facets-box-collapsed .column:first-child {
+    display: none;
+  }
+
+  .columns.facets-box-collapsed .column.column-result,
+  .columns .column.column-result {
+    width: 100% !important;
+    padding-top: 55px !important;
+    background-color: #ffffff;
+  }
+
+  .columns.facets-box-collapsed .column.column-result {
   }
 
   .box-facets > .box-container-facets__date-interval,
@@ -513,8 +534,41 @@ export default {
     padding: 0 40px;
   }
 
+  .box-facets > p {
+    padding: 0;
+  }
   .columns .collapseFacetsBoxToggle {
-    display: none;
+    position: absolute;
+    top: 0;
+    text-indent: 0;
+    margin: 25px 0 0;
+
+    font-family: var(--font-secondary);
+    font-size: 18px;
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: 1;
+    color: #303030;
+  }
+
+  .columns .collapseFacetsBoxToggle {
+    display: block;
+    width: calc(100% - 2 * var(--mobile-side-padding));
+    height: auto;
+    padding: 8px 0;
+    background: transparent url('~@/assets/images/b_Close_liste.svg') right center / 30px auto no-repeat;
+    box-sizing: border-box;
+  }
+
+  .columns.facets-box-collapsed .collapseFacetsBoxToggle {
+    display: inline-block;
+    width: auto;
+    height: auto;
+    padding: 8px 32px;
+    background-color: #7B0C12;
+    background-image: none;
+    border-radius: 4px;
+    color: #ffffff;
   }
 
   .card-navigation-container {
