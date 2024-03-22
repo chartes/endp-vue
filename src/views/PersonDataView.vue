@@ -14,7 +14,7 @@
   </div>
 
   <!-- end Person header -->
-  <div class="columns is-multiline details-column">
+  <div class="columns is-multiline details-column" :class="{ 'has-carousel': collecta_urls.length > 0 }">
 
     <!-- top Person metadata -->
     <div :class="{'column is-full': isEventsEmpty, 'column': !isEventsEmpty}">
@@ -177,8 +177,11 @@ export default {
 }
 
 .columns {
-  align-items: flex-start;
   gap: 46px;
+}
+
+.columns:not(.has-carousel) {
+  align-items: flex-start;
 }
 
 .columns, .column {
@@ -198,7 +201,7 @@ export default {
   padding-bottom: 80px;
 }
 
-.columns.details-column > .column:last-child {
+.columns.details-column:not(.has-carousel) > .column:last-child {
   padding-bottom: var(--right-column-bottom-padding-desktop);
 }
 

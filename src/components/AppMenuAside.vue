@@ -233,7 +233,7 @@ ul.menu-list > li:not(:last-child)::after {
     padding: 0;
   }
 
-  ul.menu-list > li[data-v-09a19628]:not(:last-child)::after {
+  ul.menu-list > li:not(:last-child)::after {
     display: none;
   }
 

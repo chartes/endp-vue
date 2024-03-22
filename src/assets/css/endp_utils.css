@@ -108,6 +108,7 @@ body {
   font-style: italic;
 }
 
+.app-main-content__area > .box-iconography-collecta,
 .app-main-content__area > .columns {
   padding: 0 var(--desktop-side-padding);
 }

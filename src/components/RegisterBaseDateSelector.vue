@@ -145,7 +145,7 @@ export default {
     width: 226px;
   }
 
-  .control-input-date[data-v-9af370de] {
+  .control-input-date {
     width: 108px;
     border-bottom: solid 1px var(--light-brown);
   }

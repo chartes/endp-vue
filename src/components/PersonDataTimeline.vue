@@ -25,7 +25,7 @@
               <div class="timeline-popup"
                    v-show="activePopupIndex[group.date] === index">
                 <div class="popup-content">
-                  <div class="popup-date">☞ {{ event.type }}</div>
+                  <div class="popup-date">{{ event.type }}</div>
                   <div class="popup-description">
                 <span v-if="event.thesaurus_term_person" class="event-term"><u>{{
                     event.thesaurus_term_person.topic
@@ -485,7 +485,7 @@ export default {
 
 .popup-counter {
   font-family: var(--font-secondary);
-  font-weight: bold;
+  font-weight: 500;
   font-size: 20px;
   color: #A53605;
 }
