@@ -1,9 +1,9 @@
 <template>
-  <div class="box box-results-metadata">
+  <div class="box box-results-metadata" :class="{ 'with-legend' : withLegend }">
     <RegisterBaseTotalDisplay
         :total-registers="totalOfRegisters"
     />
-    <RegisterBaseLegend/>
+    <RegisterBaseLegend class="register-base-legend" />
   </div>
 </template>
 
@@ -21,6 +21,11 @@ export default {
       type: Number,
       required: true,
       default: 0
+    },
+    withLegend: {
+      type: Boolean,
+      required: false,
+      default: true
     }
   },
 }
@@ -34,4 +39,13 @@ export default {
   padding: 40px 0 0;
   margin-bottom: 0;
 }
+
+.register-base-legend {
+  display: none;
+}
+
+.with-legend .register-base-legend {
+  display: block;
+}
+
 </style>

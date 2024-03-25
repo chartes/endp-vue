@@ -252,7 +252,7 @@ export default {
   height: 100px;
 }
 
-:deep .li--person:first-child header.card-header {
+:deep(.li--person:first-child header.card-header) {
   min-height: 110px;
 }
 

@@ -29,29 +29,32 @@
         </p>
         <p>Lien vers facsimile : <router-link :to="`/facsimile/${volume}/0`" @click="navigateToFacSimile">ici</router-link></p>
       </div>
-      <div>
-        <table class="table-available-ressources">
-          <thead>
-          <tr>
-            <th></th>
-            <th>Première page</th>
-            <th>Dernière page</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-if="facSimile">
-            <td><span class="icon book-icon-card"><i class="fas fa-book"></i></span></td>
-            <td><router-link :to="`/facsimile/${volume}/${firstCanvasID}`" @click="navigateToFacSimile(firstCanvasID, volume, yearFirstPage)">{{ firstPage }}</router-link></td>
-            <td><router-link :to="`/facsimile/${volume}/${lastCanvasID}`" @click="navigateToFacSimile(lastCanvasID, volume, yearLastPage)">{{ lastPage }}</router-link></td>
-          </tr>
-          <tr v-if="isEdited">
-            <td><span class="icon book-icon-card"><i class="fas fa-book-open"></i></span></td>
-            <td>{{ firstPage }}</td>
-            <td>{{ lastPage }}</td>
-          </tr>
-          </tbody>
-        </table>
+
+      <div class="available-ressources">
+        <div>
+          <div>Première page</div>
+          <div v-if="facSimile">
+            <span class="icon book-icon-card"><i class="fas fa-book"></i></span>
+            <router-link :to="`/facsimile/${volume}/${firstCanvasID}`" @click="navigateToFacSimile(firstCanvasID, volume, yearFirstPage)">{{ firstPage }}</router-link>
+          </div>
+          <div v-if="isEdited">
+            <span class="icon book-icon-card"><i class="fas fa-book-open"></i></span>
+            <span class="edition-page">{{ firstPage }}</span>
+          </div>
+        </div>
+        <div>
+          <div>Dernière page</div>
+          <div v-if="facSimile">
+            <span class="icon book-icon-card"><i class="fas fa-book"></i></span>
+            <router-link :to="`/facsimile/${volume}/${lastCanvasID}`" @click="navigateToFacSimile(lastCanvasID, volume, yearLastPage)">{{ lastPage }}</router-link>
+          </div>
+          <div v-if="isEdited">
+            <span class="icon book-icon-card"><i class="fas fa-book-open"></i></span>
+            <span class="edition-page">{{ lastPage }}</span>
+          </div>
+        </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -141,7 +144,7 @@ export default {
   font-family: var(--font-primary);
   font-size: 20px;
   font-weight: 400;
-  line-height: 1.25;
+  line-height: 1.35;
   color: #000000;
 }
 
@@ -161,7 +164,6 @@ export default {
 .book-icon-card {
   font-size: 24px;
   color: #000000;
-  margin-right: 10px;
 }
 
 .container-icons-services {
@@ -204,59 +206,65 @@ button.toggle-btn-wrapper {
   background-image: url('~@/assets/images/b_Close_liste.svg');
 }
 
+.book-icon-card {
+  color: #000;
+  margin-right: 10px;
+}
 
-.table-available-ressources {
-  width: 65%; /* Assurez-vous que le tableau utilise toute la largeur disponible */
-  border-collapse: separate; /* Sépare les bordures des cellules */
-  border-spacing: 4px 0; /* Espacement entre les colonnes et les lignes */
+.available-ressources {
+  display: flex;
+  gap: 25px;
   margin-bottom: 25px;
 }
 
-.table-available-ressources th {
+.available-ressources > div {
+  font-family: var(--font-secondary);
   font-size: 20px;
+  color: #6E6E6E;
+  padding-bottom: 5px;
+}
+
+.available-ressources > div span.edition-page,
+.available-ressources > div a {
+  line-height: 34px;
+  vertical-align: bottom;
+}
+
+.available-ressources .icon {
+  display: inline-block;
+  font-weight: 400;
+  color: rgb(147, 147, 147);
+  padding-right: 45px;
+  padding-left: 5px;
+}
+
+.available-ressources > div:last-child .icon {
+  display: none;
+}
+
+.available-ressources > div > div:first-child {
   font-weight: 500;
-  padding-bottom: 5px;
 }
 
-.table-available-ressources > td, th {
-  text-align: left;
-  font-family: var(--font-secondary);
-  font-weight: 600;
+.available-ressources > div:first-child > div:first-child {
+  padding-left: 50px;
+}
+
+.available-ressources a {
   color: #6E6E6E;
 }
 
-.table-available-ressources td {
-  font-size: 20px;
-  padding-bottom: 5px;
-}
-
-
-.table-available-ressources td,
-.table-available-ressources td a {
-  font-family: var(--font-secondary);
+.available-ressources .book-icon-card {
   color: #6E6E6E;
+  margin-right: 0;
 }
 
-.table-available-ressources td a {
-  text-decoration: none;
-}
 
-.table-available-ressources td a:hover {
-  text-decoration: underline;
-}
-
-.card-content .content a:hover,
-.table-available-ressources td a:hover {
+.available-ressources a:hover {
   color: var(--light-brown-alt);
 }
-
-.table-available-ressources td:first-child {
-  width: 30px;
-}
-
-.table-available-ressources .book-icon-card {
-  color: #939393;
-  margin-right: 20px;
+.card-content .content a:hover {
+  color: var(--light-brown-alt);
 }
 
 
@@ -302,6 +310,19 @@ hr,
 
   .card-header-main-title {
     margin-bottom: 12px;
+  }
+
+
+  .available-ressources {
+    flex-direction: column;
+  }
+
+  .available-ressources > div:first-child > div[data-v-572ca977]:first-child {
+    padding-left: 0;
+  }
+
+  .available-ressources > div:last-child .icon {
+    display: inline-block;
   }
 
 }

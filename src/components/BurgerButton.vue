@@ -49,6 +49,7 @@ export default {
   right: 0;
   height: 3px;
   background: #FFF;
+  border-radius: 2px;
 }
 
 .hamburger span::before,
@@ -59,6 +60,7 @@ export default {
   width: 100%;
   height: 3px;
   background: #FFF;
+  border-radius: 2px;
   content: "";
 }
 

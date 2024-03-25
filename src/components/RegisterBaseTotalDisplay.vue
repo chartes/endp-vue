@@ -31,6 +31,7 @@ export default {
 
 <style scoped>
 .result-container-total {
+  max-width: 100%;
   margin-bottom: 10px;
   padding-bottom: 10px;
   border-bottom: solid 6px #000000;

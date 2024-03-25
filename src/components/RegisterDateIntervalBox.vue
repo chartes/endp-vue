@@ -166,6 +166,7 @@ export default {
 
   .box-date-interval__label {
     text-align: center;
+    margin-bottom: 5px;
   }
 
   .box-container-facets__date-interval > * {

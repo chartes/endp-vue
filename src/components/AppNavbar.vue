@@ -59,4 +59,15 @@ export default {
   margin: 8px auto 0;
 }
 
+
+@media screen and (max-width: 1024px) {
+
+  .app-navbar__item:not(:last-child) {
+    margin-right: 15px;
+  }
+
+}
+
+
+
 </style>
