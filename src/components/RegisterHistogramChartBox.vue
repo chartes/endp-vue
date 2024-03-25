@@ -81,7 +81,7 @@ export default {
         type: 'bar',
         text: "",
         hoverinfo: 'text',
-        marker: {color: '#D74A52FF'}
+        marker: {color: '#ad464b'}
       };
 
       const layout = {
@@ -139,11 +139,11 @@ export default {
 
       const animationOptions = {
         transition: {
-          duration: 2000,
+          duration: 1000,
           easing: "cubic-in-out"
         },
         frame: {
-          duration: 2000
+          duration: 1000
         }
       };
 
@@ -176,7 +176,7 @@ export default {
       const years = Object.keys(this.pagesByYear);
       const graph = document.getElementById('histogram');
       const colors = years.map(year => {
-        return (year >= this.startYear && year <= this.endYear) ? '#D74A52FF' : 'lightgrey';
+        return (year >= this.startYear && year <= this.endYear) ? '#ad464b' : 'lightgrey';
       });
       if (graph) {
         Plotly.restyle(graph, 'marker.color', [colors], [0], {duration: 500, easing: "cubic-in-out"});
