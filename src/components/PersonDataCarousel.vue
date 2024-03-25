@@ -21,6 +21,7 @@
           <Pagination v-if="ItemsGreaterThanOne"/>
         </template>
       </Carousel>
+      <div class="active-slide-caption">Légende</div>
     </div>
   </div>
 </template>
@@ -101,7 +102,7 @@ export default {
 
 .box-iconography-collecta.is-opened .box-content {
   background-color: var(--panel-bg-color);
-  padding-bottom: var(--right-column-bottom-padding-desktop);
+  margin-bottom: var(--right-column-bottom-padding-desktop);
 }
 
 .box-header {
@@ -144,6 +145,21 @@ export default {
 
 .is-opened .box-content {
   display: block;
+  position: relative;
+}
+
+.box-content .active-slide-caption {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  z-index: 2;
+
+  font-family: var(--font-secondary);
+  font-size: 18px;
+  font-weight: 400;
+  color: #FFFFFF;
+  padding-bottom: 20px;
+  text-align: center;
 }
 
 /* Carrousel */
@@ -212,11 +228,11 @@ li.carousel__slide a::after {
 }
 
 :deep .carousel__prev {
-  transform: translate(-75%, 46px) scaleX(-1);
+  transform: translate(-175%, 46px) scaleX(-1);
 }
 
 :deep .carousel__next {
-  transform: translate(+75%, 46px);
+  transform: translate(-5%, 46px);
 }
 
 :deep .carousel__prev,
@@ -248,6 +264,20 @@ li.carousel__slide a::after {
 
 :deep .carousel__viewport {
   background-color: #555555;
+}
+
+
+@media (max-width: 1380px) {
+  .box-iconography-collecta .box-header {
+    padding: 0 var(--tablet-side-padding);
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .box-iconography-collecta .box-header {
+    padding: 0 var(--mobile-side-padding) var(--right-column-bottom-padding-mobile) !important;
+  }
+
 }
 
 

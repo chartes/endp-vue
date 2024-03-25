@@ -45,10 +45,6 @@ body {
 
 #banner-image::before {
   content: "";
-  background-color : #320205;
-  background-size: var(--desktop-content-width) auto;
-  background-position: center;
-  background-repeat: no-repeat;
   position: absolute;
   top: 0;
   right: 0;
@@ -56,11 +52,22 @@ body {
   left: 0;
 }
 
-#banner-image h1 {
-  position: absolute;
-  left: 0;
-  bottom: 0;
+.page-title,
+#banner-image::before {
+  background-color : #320205;
+  background-size: var(--desktop-content-width) auto;
+  background-position: bottom center;
+  background-repeat: no-repeat;
+}
+
+.page-title {
+  position: sticky;
   z-index: 2;
+  top: 0;
+  margin-top:-52px;
+}
+
+.page-title h1 {
 
   display: block;
   width: var(--desktop-content-width);
@@ -127,7 +134,7 @@ body {
     padding: 0;
   }
 
-  #banner-image h1 {
+  .page-title h1 {
     width: calc(100% - 2* var(--tablet-side-padding));
     margin: 0 var(--tablet-side-padding);
   }
@@ -145,7 +152,11 @@ body {
     padding: 0;
   }
 
-  #banner-image h1 {
+  .page-title {
+    top: 50px;
+  }
+
+  .page-title h1 {
     width: 100%;
     position: relative;
     margin: 0;

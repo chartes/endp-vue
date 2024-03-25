@@ -1,9 +1,12 @@
 <template>
   <!-- Banner -->
-  <div id="banner-image" class="container is-fluid">
-    <h1 class="title">Ressources</h1>
-  </div>
+  <div id="banner-image" class="container is-fluid"></div>
   <!-- end banner -->
+
+  <div class="page-title">
+    <h1>Ressources</h1>
+  </div>
+
   <!-- Main grid  -->
   <div class="columns">
     <div class="column">
@@ -34,7 +37,7 @@ export default {
 <style scoped>
 
 /* Set image banner */
-#banner-image::before {
+.page-title, #banner-image::before {
   background-image: url("@/assets/banners/band_Ressources.png");
 }
 
@@ -48,6 +51,14 @@ export default {
 
 p, ul, li, a {
   font-size: 22px;
+}
+
+a {
+  color: var(--light-brown-alt);
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 p {

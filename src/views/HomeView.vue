@@ -1,7 +1,7 @@
 <template>
   <!-- banner -->
-  <div id="banner-image" class="container is-fluid">
-  </div>
+  <div id="banner-image" class="container is-fluid"></div>
+
   <div class="columns">
     <div class="column">
       <h1 class="title">

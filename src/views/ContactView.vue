@@ -1,9 +1,12 @@
 <template>
   <!-- Banner -->
-  <div id="banner-image" class="container is-fluid">
-    <h1 class="title">Contact</h1>
-  </div>
+  <div id="banner-image" class="container is-fluid"></div>
   <!-- end banner -->
+
+  <div class="page-title">
+    <h1>Contact</h1>
+  </div>
+
   <div class="columns">
     <div class="column">
       <p>Le travail sur le site et le corpus est toujours en cours d'évolution. Pour toute remarque, suggestion ou
@@ -30,7 +33,7 @@ export default {
 <style scoped>
 
 /* Set image banner */
-#banner-image::before {
+.page-title, #banner-image::before {
   background-image: url("@/assets/banners/band_Ressources.png");
 }
 
@@ -44,6 +47,14 @@ export default {
 
 p, ul, li, a {
   font-size: 22px;
+}
+
+a {
+  color: var(--light-brown-alt);
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 p {

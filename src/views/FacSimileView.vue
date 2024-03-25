@@ -1,9 +1,12 @@
 <template>
   <!-- Banner -->
-  <div id="banner-image" class="container is-fluid">
-    <h1 class="title">Registres</h1>
-  </div>
+  <div id="banner-image" class="container is-fluid"></div>
   <!-- end banner -->
+
+  <div class="page-title">
+    <h1>Registres</h1>
+  </div>
+
   <!-- Main grid  -->
   <div class="columns facsimile-columns" :class="{ 'is-collapsed': isNavOpen }">
 
@@ -406,7 +409,7 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@100&display=swap');
 
 /* Set image banner */
-#banner-image::before {
+.page-title, #banner-image::before {
   background-image: url("@/assets/banners/banner-registers.png");
 }
 
