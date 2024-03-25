@@ -237,6 +237,43 @@ input[type="text"]::placeholder {
   font-style: italic;
 }
 
+/* augment a little bit the size of the slider */
+.slider {
+  width: 100px;
+  height: 2px;
+}
+
+/* Chrome, Safari, et d'autres navigateurs WebKit */
+.slider::-webkit-slider-thumb {
+  /* remove border color */
+  border: none;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 2px 13px rgba(231, 101, 101, 0.3);
+  transition: box-shadow 0.3s;
+}
+
+.slider::-webkit-slider-thumb:active {
+  box-shadow: 0 0 2px 19px rgba(231, 101, 101, 0.3);
+  transition: box-shadow 0.3s;
+}
+
+/* Firefox */
+.slider::-moz-range-thumb {
+  border: none;
+}
+
+.slider::-moz-range-thumb:hover {
+  box-shadow: 0 0 2px 13px rgba(231, 101, 101, 0.3);
+  transition: box-shadow 0.3s;
+}
+
+.slider::-moz-range-thumb:active {
+  box-shadow: 0 0 2px 19px rgba(231, 101, 101, 0.3);
+  transition: box-shadow 0.3s;
+}
+
 @media screen and (max-width: 1024px) {
 
   .container-search {
@@ -266,7 +303,6 @@ input[type="text"]::placeholder {
     left: 50%;
     transform: translateX(-50%);
   }
-
 }
 
 </style>

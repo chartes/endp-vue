@@ -28,21 +28,16 @@
       </nav>
     </div>
     <div class="column container is-fluid">
-      <p class="block lettrine">Le projet e-NDP est consacré à la publication numérique et à l'exploitation des 27
-        premiers registres du chapitre de l'Église de Paris, rédigés par ses notaires entre 1326 et 1504. Ces registres
-        contiennent les décisions prises collectivement par les chanoines pour l’administration du culte, des biens, des
-        droits, des personnes et collectivités dont le doyen et le chapitre de l'Église de Paris sont seigneurs,
-        employeurs ou propriétaires.</p>
-      <p class="block lettrine">Ces propriétés et biens concernent le territoire du cloître, ses bâtiments et ses
-        églises ― Notre-Dame et ses tours, Saint-Denis-du-Pas, Saint-Jean-le-Rond, Saint-Aignan ―, le parvis et
-        l'Hôtel-Dieu, les très nombreuses maisons, terres, bois, vignes, étangs et autres possessions hors du cloître,
-        hors de la Cité et hors de Paris. Le menu
-        <router-link to="/registres">registres</router-link>
-        donne accès aux 14605 pages numérisées des registres et à une transcription obtenue par processus de
-        reconnaissance de l'écriture manuscrite (« HTR » Handwritten Text Recognition). L’exploitation du contenu des
-        registres et de la transcription par « HTR » vise à la connaissance du cloître, de sa topographie et de son bâti,
-        de sa population, de son économie et de sa vie, des usages que l’on y fait du livre et de l’écrit.
-      </p>
+      <p class="block lettrine">Le projet e-NDP propose de renouveler la connaissance de Notre-Dame de Paris par
+        l'édition
+        collaborative numérique des registres du chapitre cathédral. 26 registres, établis entre 1326 et 1504,
+        donnent accès à toutes les décisions prises par les chanoines sur l'administration de la cathédrale, sur la
+        gestion de leurs droits et de leur patrimoine, et sur la société du cloître.</p>
+      <p class="block lettrine">Ces registres sont désormais accessibles grâce à la numérisation de leurs 14605 pages
+      et à l'utilisation de la reconnaissance automatique de l'écriture manuscrite (HTR), qui permet d'en fournir une
+      transcription. Celle-ci permet d'exhumer une source majeure pour l'histoire et la vie des hommes, des femmes et
+      des enfants qui ont composé la société active à l'ombre de la cathédrale Notre-Dame et ont fait de cette dernière
+      un modèle pour l'architecture, la liturgie, les arts et la vie intellectuelle et scientifique.</p>
     </div>
   </div>
   <!-- end banner -->
@@ -133,14 +128,15 @@ nav a:hover {
 }
 
 
-
 nav a .icon {
   display: none;
 }
 
 .container {
   padding: 70px 95px;
-  background: linear-gradient(#F7F7F7CC 0% ,#F7F7F7 11.94090256424186% ,#F7F7F7 100% ,#FCFCFC 100%);
+  background: linear-gradient(#F7F7F7CC 0%, #F7F7F7 11.94090256424186%, #F7F7F7 100%, #FCFCFC 100%);
+  /* justify text */
+  text-align: justify;
 }
 
 .container > *:last-child {
@@ -171,7 +167,7 @@ nav a .icon {
   font-weight: 700;
 
   margin-left: -7px;
-  margin-top: 5px;
+  margin-top: 18px;
   padding-right: 0.2em;
   float: left;
 }
@@ -192,7 +188,7 @@ nav a .icon {
   }
 
   .columns > .column:first-child {
-    background: linear-gradient(#F7F7F7CC 0% ,#F7F7F7 11.94090256424186% ,#F7F7F7 100% ,#FCFCFC 100%);
+    background: linear-gradient(#F7F7F7CC 0%, #F7F7F7 11.94090256424186%, #F7F7F7 100%, #FCFCFC 100%);
     transform: none;
   }
 
