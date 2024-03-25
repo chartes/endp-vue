@@ -1,7 +1,10 @@
 <template>
-  <div id="banner-image" class="container is-fluid">
-    <h1 class="title">Personnes</h1>
+  <div id="banner-image" class="container is-fluid"></div>
+
+  <div class="page-title">
+    <h1>Personnes</h1>
   </div>
+
   <div class="columns is-multiline">
     <div class="column is-12-mobile is-5-tablet is-5-desktop">
       <div class="box box-search-person-facets">
@@ -21,7 +24,7 @@
       </div>
     </div>
     <div class="column column-result is-12-mobile is-7-tablet is-7-desktop">
-      <div class="column-result-header">
+      <div class="column-results-header">
         <h2 class="subtitle is-4">
           <span class="results-count">{{ total }}</span> Résultats
         </h2>
@@ -184,7 +187,7 @@ export default {
 
 <style scoped>
 /* Set image banner */
-#banner-image::before {
+.page-title, #banner-image::before {
   background-image: url("@/assets/banners/band_Personnes.png");
 }
 
@@ -194,18 +197,18 @@ export default {
 
 .columns .column:first-child {
   width: 465px;
-  padding: 110px 0 23px;
+  padding: 10px 0 23px;
 }
 
 .columns .column:last-child {
   width: calc(100% - 50px - 465px);
-  padding: 85px 30px 300px 30px;
+  padding: 65px 30px var(--right-column-bottom-padding-desktop) 30px;
 }
 
 .box-search-person-facets {
   position: sticky;
   top: 0;
-  padding: 0;
+  padding: 100px 0 0;
 }
 
 .box-search-person-facets .box {
@@ -249,8 +252,8 @@ export default {
   height: 100px;
 }
 
-.li--person {
-  justify-content: space-between;
+:deep .li--person:first-child header.card-header {
+  min-height: 110px;
 }
 
 .is-active {
@@ -259,6 +262,16 @@ export default {
 
 .columns .column:last-child,
 .checkbox-canon {
+  background-color: var(--panel-bg-color);
+}
+
+.column-results-header {
+  position: sticky;
+  top:52px;
+  z-index: 1;
+  width: 100%;
+  height: 232px;
+  padding-top: 20px;
   background-color: var(--panel-bg-color);
 }
 

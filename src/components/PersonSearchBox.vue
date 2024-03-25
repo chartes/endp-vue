@@ -142,11 +142,15 @@ export default {
   align-items: center;
 }
 
+input[type='range'].slider {
+  -webkit-appearance: none;
+}
+
 .slider {
   width: 96px;
   height: 1px;
   margin: 0;
-  background-color: #D74A52;
+  background-color: var(--light-brown) !important;
 }
 
 .slider::-webkit-slider-thumb {
@@ -154,7 +158,7 @@ export default {
   appearance: none;
   width: 20px;
   height: 20px;
-  background: #D74A52;
+  background: var(--light-brown) !important;
   border-radius: 50%;
   cursor: pointer;
 }
@@ -162,7 +166,7 @@ export default {
 .slider::-moz-range-thumb {
   width: 20px;
   height: 20px;
-  background: #D74A52;
+  background: var(--light-brown) !important;
   border-radius: 50%;
   cursor: pointer;
 }
@@ -178,6 +182,7 @@ export default {
   text-transform: capitalize;
   white-space: nowrap;
 }
+
 
 button.button.is-info {
   height: auto;

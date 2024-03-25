@@ -164,9 +164,10 @@ ul.menu-list > li:not(:last-child)::after {
   content: "";
   display: inline-block;
   width: 1px;
-  height: 100%;
+  height: 27px;
   border-right: solid #ffffff 1px;
-  margin: 0 20px;
+  margin: 12px 20px 0;
+  box-sizing: border-box;
 }
 
 .menu-list a span.icon {
@@ -232,7 +233,7 @@ ul.menu-list > li:not(:last-child)::after {
     padding: 0;
   }
 
-  ul.menu-list > li[data-v-09a19628]:not(:last-child)::after {
+  ul.menu-list > li:not(:last-child)::after {
     display: none;
   }
 

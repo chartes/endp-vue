@@ -1,6 +1,8 @@
 <template>
-  <div id="banner-image" class="container is-fluid">
-    <h1 class="title">Personnes</h1>
+  <div id="banner-image" class="container is-fluid"></div>
+
+  <div class="page-title">
+    <h1>Personnes</h1>
   </div>
 
   <div class="columns person-name-columns is-multiline">
@@ -14,7 +16,7 @@
   </div>
 
   <!-- end Person header -->
-  <div class="columns is-multiline details-column">
+  <div class="columns is-multiline details-column" :class="{ 'has-carousel': collecta_urls.length > 0 }">
 
     <!-- top Person metadata -->
     <div :class="{'column is-full': isEventsEmpty, 'column': !isEventsEmpty}">
@@ -164,7 +166,7 @@ export default {
 <style scoped>
 
 /* Set image banner */
-#banner-image::before {
+.page-title, #banner-image::before {
   background-image: url("@/assets/banners/band_Personnes.png");
 }
 
@@ -178,6 +180,10 @@ export default {
 
 .columns {
   gap: 46px;
+}
+
+.columns:not(.has-carousel) {
+  align-items: flex-start;
 }
 
 .columns, .column {
@@ -197,8 +203,8 @@ export default {
   padding-bottom: 80px;
 }
 
-.columns.details-column > .column:last-child {
-  /* padding-bottom: var(--right-column-bottom-padding-desktop); */
+.columns.details-column:not(.has-carousel) > .column:last-child {
+  padding-bottom: var(--right-column-bottom-padding-desktop);
 }
 
 

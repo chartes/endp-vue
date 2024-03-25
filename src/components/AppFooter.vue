@@ -74,7 +74,6 @@
       </div>
     </div>
 
-
   </footer>
 </template>
 
@@ -88,6 +87,7 @@ export default {
 
 footer {
   width: 100%;
+  background-color: #4C4949;
   border-top: solid 6px var(--brown);
 }
 

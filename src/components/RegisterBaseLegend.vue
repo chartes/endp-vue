@@ -20,7 +20,6 @@ export default {
 
 <style scoped>
 .result-container-legend {
-  margin-bottom: 20px;
   position: relative;
 }
 

@@ -19,8 +19,8 @@ export default {
   overflow: hidden;
   margin: 0;
   padding: 0;
-  width: 27px;
-  height: 27px;
+  width: 32px;
+  height: 32px;
   font-size: 0;
   text-indent: -9999px;
   -webkit-appearance: none;
@@ -44,7 +44,7 @@ export default {
 .hamburger span {
   display: block;
   position: absolute;
-  top: 9px;
+  top: 11px;
   left: 0;
   right: 0;
   height: 3px;
@@ -63,11 +63,11 @@ export default {
 }
 
 .hamburger span::before {
-  top: -9px;
+  top: -11px;
 }
 
 .hamburger span::after {
-  bottom: -9px;
+  bottom: -11px;
 }
 
 .hamburger span {

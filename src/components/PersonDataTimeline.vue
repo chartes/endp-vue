@@ -7,9 +7,9 @@
           :disabled="isAtTop"></button>
   <div class="timeline-scroll-container" ref="scrollContainer">
     <div class="timeline-container">
-      <div v-for="group in groupedEvents" :key="group.date" class="timeline-item">
+      <div v-for="group in groupedEvents" :key="group.date" class="timeline-item" :class="{ 'dot-selected': selectedDate === group.date }">
         <div @click="togglePopup(group.date)" class="timeline-dot"
-             :class="{ 'without-date': group.date === 'date_inconnue', 'dot-selected': selectedDate === group.date }"></div>
+             :class="{ 'without-date': group.date === 'date_inconnue' || group.date === 'Date inconnue' }"></div>
 
         <div :class="['timeline-date', { active: hover === group.date || clicked === group.date }]"
              @click="togglePopup(group.date)">
@@ -25,11 +25,11 @@
               <div class="timeline-popup"
                    v-show="activePopupIndex[group.date] === index">
                 <div class="popup-content">
-                  <div class="popup-date">☞ {{ event.type }}</div>
+                  <div class="popup-date">{{ event.type }}</div>
                   <div class="popup-description">
                 <span v-if="event.thesaurus_term_person" class="event-term"><u>{{
                     event.thesaurus_term_person.topic
-                  }}</u> : {{ event.thesaurus_term_person.term_fr }} ({{ event.thesaurus_term_person.term_la }})</span>
+                  }} : </u>{{ event.thesaurus_term_person.term_fr }} ({{ event.thesaurus_term_person.term_la }})</span>
                     <br v-if="event.thesaurus_term_person">
                     <span v-if="event.place_term" class="event-place"><u>Lieu</u> : {{
                         event.place_term.term_fr
@@ -324,6 +324,11 @@ export default {
   color: #000000;
 }
 
+.timeline-item.dot-selected .timeline-date {
+  color: var(--light-brown-alt);
+}
+
+
 .timeline-dot {
   position: absolute;
   width: 25px;
@@ -365,8 +370,8 @@ export default {
 .timeline-item.dot-selected .timeline-dot {
   width: 31px;
   height: 31px;
-  background: #BB062D;
-  border: #BB062D;
+  background: #BB062D !important;
+  border: #BB062D !important;
 }
 
 .timeline-scroll-container {
@@ -430,11 +435,10 @@ export default {
 
 .timeline-popup {
   width: 100%;
-  background: #FFFFFF;
+  background: rgba(255,255,255, 0.95);
   padding: 20px 20px 60px;
-  border: 1px solid #333;
-  border-radius: 5px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 12px 0 #00000033;
+  border-radius: 10px;
   z-index: 10;
 }
 
@@ -481,7 +485,7 @@ export default {
 
 .popup-counter {
   font-family: var(--font-secondary);
-  font-weight: bold;
+  font-weight: 500;
   font-size: 20px;
   color: #A53605;
 }

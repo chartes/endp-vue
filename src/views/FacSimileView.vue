@@ -1,9 +1,12 @@
 <template>
   <!-- Banner -->
-  <div id="banner-image" class="container is-fluid">
-    <h1 class="title">Registres</h1>
-  </div>
+  <div id="banner-image" class="container is-fluid"></div>
   <!-- end banner -->
+
+  <div class="page-title">
+    <h1>Registres</h1>
+  </div>
+
   <!-- Main grid  -->
   <div class="columns facsimile-columns" :class="{ 'is-collapsed': isNavOpen }">
 
@@ -68,7 +71,7 @@
       </div>
       <!-- Raw predictions section -->
       <div class="header raw-prediction-card-parent">
-        <div class="card" v-if="endpVolume">
+        <div class="card" v-if="endpVolume"  :class="{ 'is-opened': metadataCardsState.card3 }">
           <div class="card-header" @click="toggleCard('card3')">
             <p class="card-header-title">
               Accéder à la prédiction texte brut
@@ -406,7 +409,7 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@100&display=swap');
 
 /* Set image banner */
-#banner-image::before {
+.page-title, #banner-image::before {
   background-image: url("@/assets/banners/banner-registers.png");
 }
 
@@ -424,7 +427,7 @@ export default {
 
 .facsimile-columns > .column:last-child {
   background-color: var(--panel-bg-color);
-  padding: 0 0 0;
+  padding: 0 0 var(--right-column-bottom-padding-desktop) 0;
 }
 
 .facsimile-columns > .column:last-child > div {
@@ -479,10 +482,6 @@ export default {
 
 .raw-prediction-card-parent > * {
   width: 100%;
-}
-
-.raw-prediction-card-parent .card-header {
-  background-color: #ffffff;
 }
 
 .card-header-title {
@@ -705,7 +704,14 @@ tspan {
     display: block;
     width: 100%;
     max-width: 100% !important;
+  }
+
+  .facsimile-columns > .column:first-child {
     padding: 40px 0 0 0;
+  }
+
+  .facsimile-columns > .column:last-child {
+    padding: 0 0 var(--right-column-bottom-padding-desktop) 0;
   }
 
   .card-header-title {
@@ -730,6 +736,9 @@ tspan {
     margin: 0 0 45px 0;
   }
 
+  .raw-prediction-card-parent .card-header {
+    background-color: #ffffff;
+  }
 }
 
 

@@ -126,8 +126,8 @@ export default {
   display: inline;
   align-items: center;
   padding: 0;
-  font-family: "Barlow", sans-serif !important;
-  font-weight: bold;
+  font-family: var(--font-secondary) !important;
+  font-weight: 500;
 }
 
 .card-header-title > * {

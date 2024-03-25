@@ -1,22 +1,28 @@
 <template>
-  <div class="box box-iconography-collecta" v-if="!ItemsEmpty">
-    <h3 style="font-size: 35px; text-align: left">Iconographie sur
-      <span class="logo-collecta">COLLECTA</span></h3>
-    <Carousel :itemsToShow="ItemsShowed" :wrapAround="true"
-              :transition="500">
-      <Slide v-for="link in collectaItems" :key="link">
-        <a :href="link['url']" alt="{{link['type']}}" target="_blank">
-          <img class="carousel__item" :src="formatCollectaUrl(link['url'], '.jpg')"
-               @error="$event.target.style.display='none'">
-          <img class="carousel__item" :src="formatCollectaUrl(link['url'], '.jpeg')"
-               @error="$event.target.style.display='none'">
-        </a>
-      </Slide>
-      <template #addons>
-        <Navigation v-if="ItemsGreaterThanOne"/>
-        <Pagination v-if="ItemsGreaterThanOne"/>
-      </template>
-    </Carousel>
+  <div class="box box-iconography-collecta" v-if="!ItemsEmpty" :class="{ 'is-opened': isOpened }">
+    <div class="box-header">
+      <h3>Iconographie sur <span class="logo-collecta">COLLECTA</span></h3>
+      <a class="toggle-btn" @click="toggleContent($event)"></a>
+    </div>
+    <div class="box-content">
+      <Carousel :itemsToShow="ItemsShowed"
+                :wrapAround="true"
+                :transition="500">
+        <Slide v-for="link in collectaItems" :key="link">
+          <a :href="link['url']" alt="{{link['type']}}" target="_blank">
+            <img class="carousel__item" :src="formatCollectaUrl(link['url'], '.jpg')"
+                 @error="$event.target.style.display='none'">
+            <img class="carousel__item" :src="formatCollectaUrl(link['url'], '.jpeg')"
+                 @error="$event.target.style.display='none'">
+          </a>
+        </Slide>
+        <template #addons>
+          <Navigation v-if="ItemsGreaterThanOne"/>
+          <Pagination v-if="ItemsGreaterThanOne"/>
+        </template>
+      </Carousel>
+      <div class="active-slide-caption">Légende</div>
+    </div>
   </div>
 </template>
 
@@ -38,6 +44,11 @@ export default {
       default: () => []
     }
   },
+  data() {
+    return {
+      isOpened: true,
+    }
+  },
   computed: {
     totalItems() {
       return this.collectaItems.length;
@@ -46,7 +57,7 @@ export default {
       return this.totalItems === 0;
     },
     ItemsShowed() {
-      return this.totalItems < 3 ? this.totalItems : 3;
+      return this.totalItems < 5 ? this.totalItems : 5;
     },
     ItemsGreaterThanOne() {
       return this.totalItems > 1;
@@ -62,6 +73,11 @@ export default {
     formatCollectaUrl(originalUrl, extension) {
       const lastSegment = originalUrl.split('/').pop();
       return `https://www.collecta.fr/_files/uploads/thumbs/900/${lastSegment}-1${extension}`;
+    },
+
+    toggleContent(event) {
+      event.preventDefault();
+      this.isOpened = !this.isOpened;
     }
   }
 }
@@ -76,38 +92,198 @@ export default {
   align-items: center;
   justify-content: center;
   text-align: center;
-  border: 3px solid #BB062D;
-  margin-right: 5rem;
-  width: 80%;
-  padding: 1rem;
-  /* shadow */
-  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  margin-top: 50px;
+  padding-bottom: var(--right-column-bottom-padding-desktop);
 }
 
+.box-iconography-collecta.is-opened {
+  padding-bottom: 0;
+}
+
+.box-iconography-collecta.is-opened .box-content {
+  background-color: var(--panel-bg-color);
+  margin-bottom: var(--right-column-bottom-padding-desktop);
+}
+
+.box-header {
+  width: 100%;
+  text-align: left;
+  position: relative;
+}
+
+.box-header h3 {
+  font-size: 24px;
+  font-weight: 400;
+  font-style: italic;
+  color: #272727;
+  margin-bottom: 6px;
+}
 
 .logo-collecta {
-  adding: 0.5em;
-  color: #d40000;
-  font-size: 1em;
-  font-weight: 500;
-  text-transform: uppercase;
-  flex-grow: 2;
-  position: relative;
-  font-family: monospace !important;
 }
 
+.toggle-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  background: transparent url('~@/assets/images/b_Open_liste.svg') center / cover no-repeat;
+  cursor: pointer;
+  width: 27px;
+  height: 27px;
+  margin-bottom: 12px;
+  margin-right: 10px;
+}
+
+.is-opened .toggle-btn {
+  background-image: url('~@/assets/images/b_Close_liste.svg');
+}
+
+.box-content {
+  display: none;
+}
+
+.is-opened .box-content {
+  display: block;
+  position: relative;
+}
+
+.box-content .active-slide-caption {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  z-index: 2;
+
+  font-family: var(--font-secondary);
+  font-size: 18px;
+  font-weight: 400;
+  color: #FFFFFF;
+  padding-bottom: 20px;
+  text-align: center;
+}
+
+/* Carrousel */
 
 .carousel__item {
-  margin-top: 5rem;
   min-height: 300px;
   width: 500px;
-  /*font-size: 20px;*/
-  border-radius: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+li.carousel__slide a:before,
+li.carousel__slide img {
+  transform:  scale(0.7);
+}
+
+li.carousel__slide img {
+  position: relative;
+  z-index: 5;
+}
+
+li.carousel__slide a {
+  position: relative;
+}
+
+li.carousel__slide a:before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: #3b3b3b;
+  position: absolute;
+  top: -114px;
+  left: 67px;
+  transform-origin: bottom center;
+  transform: scale(0.4) rotate3d(1, -0.2, 0.4, 25deg);
+  z-index: 1;
+}
+
+li.carousel__slide a::after {
+  content: "";
+  position: absolute;
+  left:0;
+  top: -10px;
+  display: block;
+  width: 110%;
+  height: 50%;
+  background-color: var(--panel-bg-color);
+  z-index: 2;
+}
+
+:deep .carousel__slide--active {
+  position: relative;
+}
+
+:deep .carousel__slide--active:after {
+  content:"";
+  position: absolute;
+  bottom: 76px;
+  display: block;
+  border: 7px solid white;
+  width: 100%;
+  transform:  scale(0.7);
+  z-index: 6;
+}
+
+:deep .carousel__prev {
+  transform: translate(-175%, 46px) scaleX(-1);
+}
+
+:deep .carousel__next {
+  transform: translate(-5%, 46px);
+}
+
+:deep .carousel__prev,
+:deep .carousel__next {
+  position: absolute;
+  left:50%;
+  bottom: 0;
+  top: unset;
+
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: url("@/assets/images/b_fleche.svg") center / 28px auto no-repeat;
+  opacity: 0.8;
+}
+
+:deep .carousel__prev > svg,
+:deep .carousel__next > svg {
+  display: none;
+}
+
+
+:deep .carousel__pagination {
+  display: none;
+}
+
+:deep .carousel__viewport {
+  background-color: #555555;
+}
+
+
+@media (max-width: 1380px) {
+  .box-iconography-collecta .box-header {
+    padding: 0 var(--tablet-side-padding);
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .box-iconography-collecta .box-header {
+    padding: 0 var(--mobile-side-padding) var(--right-column-bottom-padding-mobile) !important;
+  }
+
+}
+
+
+
+
+/*
 
 .carousel__slide {
   padding: 5px;
@@ -148,4 +324,7 @@ export default {
   opacity: 1;
   transform: rotateY(0) scale(1.1);
 }
+
+*/
+
 </style>

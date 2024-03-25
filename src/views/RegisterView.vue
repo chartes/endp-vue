@@ -1,9 +1,12 @@
 <template>
   <!-- Banner -->
-  <div id="banner-image" class="container is-fluid">
-    <h1 class="title">Registres</h1>
-  </div>
+  <div id="banner-image" class="container is-fluid"></div>
   <!-- end banner -->
+
+  <div class="page-title">
+    <h1>Registres</h1>
+  </div>
+
   <!-- Main grid  -->
   <div class="columns is-multiline" :class="{ 'facets-box-collapsed' : isFacetsBoxCollapsed }">
     <!-- Filters column (facets, histogram etc.) -->
@@ -54,11 +57,13 @@
     </div>
     <!-- end Filters column -->
     <!-- Results column -->
-    <div class="column column-result is-12-mobile is-7-tablet is-7-desktop">
-      <a class="collapseFacetsBoxToggle" @click="_collapseFacetsBox()">Filtres</a>
-      <RegisterMetadataBox
-          :total-of-registers="totalRegisters"
-      />
+    <div class="column column-results is-12-mobile is-7-tablet is-7-desktop">
+      <div class="column-results-header">
+        <a class="collapseFacetsBoxToggle" @click="_collapseFacetsBox()">Filtres</a>
+        <RegisterMetadataBox
+            :total-of-registers="totalRegisters"
+        />
+      </div>
       <div class="container card-navigation-container">
         <RegisterCardNavigation
             class="card-navigation-container"
@@ -118,7 +123,7 @@ export default {
       endMonthCode: '12',
       inputStartYear: '',
       inputEndYear: '',
-      isFacetsBoxCollapsed: true,
+      isFacetsBoxCollapsed: false,
     };
   },
   mounted() {
@@ -385,7 +390,7 @@ export default {
 <style scoped>
 
 /* Set image banner */
-#banner-image::before {
+.page-title, #banner-image::before {
   background-image: url("@/assets/banners/banner-registers.png");
 }
 
@@ -396,7 +401,7 @@ export default {
 .columns .column:first-child {
   width: 465px;
   background-color: var(--panel-bg-color);
-  padding: 89px 0 23px;
+  padding: 15px 0 23px;
 }
 
 .columns.facets-box-collapsed .column:first-child {
@@ -406,11 +411,21 @@ export default {
 .columns .column:last-child {
   width: calc(100% - 50px - 465px);
   background-color: var(--panel-bg-color);
-  padding: 25px 32px var(--right-column-bottom-padding-desktop);
+  padding: 0 32px var(--right-column-bottom-padding-desktop);
 }
 
 .columns.facets-box-collapsed .column:last-child {
   width: 100%;
+}
+
+.column-results-header {
+  position: sticky;
+  top:52px;
+  z-index: 1;
+  width: 100%;
+  height: 272px;
+  padding-top: 25px;
+  background-color: var(--panel-bg-color);
 }
 
 .collapseFacetsBoxToggle {
@@ -429,7 +444,7 @@ export default {
 /* facets part */
 
 .box-facets {
-  padding: 0;
+  padding: 74px 0 0;
   position: sticky;
   top: 0;
 }
@@ -440,7 +455,7 @@ export default {
 
 .box-facets > .box-container-facets__date-interval,
 .box-facets > .container-slider {
-  padding: 0 30px;
+  padding: 0 40px;
 }
 
 .box-facets > .box-histogram {
@@ -519,14 +534,11 @@ export default {
     display: none;
   }
 
-  .columns.facets-box-collapsed .column.column-result,
-  .columns .column.column-result {
+  .columns.facets-box-collapsed .column.column-results,
+  .columns .column.column-results {
     width: 100% !important;
     padding-top: 55px !important;
     background-color: #ffffff;
-  }
-
-  .columns.facets-box-collapsed .column.column-result {
   }
 
   .box-facets > .box-container-facets__date-interval,
