@@ -73,36 +73,97 @@ export default {
      * @returns {void}
      */
     plotHistogram() {
+      const finalYValues = Object.values(this.pagesByYear);
+
       const trace = {
         x: Object.keys(this.pagesByYear),
-        y: Object.values(this.pagesByYear),
+        y: finalYValues,
         type: 'bar',
-        marker: {color: '#8d1919'}
+        text: "",
+        hoverinfo: 'text',
+        marker: {color: '#ad464b'}
       };
 
       const layout = {
         title: '',
+
         xaxis: {
           title: '',
           tickmode: 'linear',
           dtick: 10,
-          showline: false
+          showline: false,
+          fixedrange: true,
         },
         yaxis: {
-          title: ''
+          title: '',
+          autoRange: true,
+          fixedrange: true,
         },
+        font: {
+          size: 13,
+          family: 'Libre Baskerville, sans-serif',
+
+        },
+        annotations: [{
+          xref: 'paper',
+          yref: 'paper',
+          x: 0,
+          xanchor: 'right',
+          y: 1,
+          yanchor: 'bottom',
+          text: 'Pages',
+          showarrow: false,
+          font: {
+            size: 14,
+            family: 'Libre Baskerville, sans-serif',
+            weight: 'bold',
+          }
+        }],
         uirevision: false,
         displayModeBar: false
       };
 
       const graph = document.getElementById('histogram');
       Plotly.newPlot(graph, [trace], layout, {responsive: true, displayModeBar: false});
+
+      // Initial configuration for the animation : set all values of the y-axis to 0
+      const animationStart = {
+        data: [{y: finalYValues.map(() => 0)}], // All values set to 0 for the initial state
+      };
+
+      const animationEnd = {
+        data: [{y: finalYValues}],
+        traces: [0],
+        layout: {}
+      };
+
+      const animationOptions = {
+        transition: {
+          duration: 1000,
+          easing: "cubic-in-out"
+        },
+        frame: {
+          duration: 1000
+        }
+      };
+
+      Plotly.animate(graph, animationStart, {transition: {duration: 0}})
+          .then(() => Plotly.animate(graph, animationEnd, animationOptions))
+          .then(() => {
+            const text = Object.entries(this.pagesByYear).map(([year, pages]) => `${pages} page(s) pour ${year}`);
+            Plotly.restyle(graph, {
+              text: [text],
+              hoverinfo: ['text']
+            });
+          });
+
       graph.on('plotly_relayout', () => {
         const xaxis = graph.layout.xaxis;
         if (xaxis.range) {
           this.startYear = Math.max(this.minYear, Math.min(this.maxYear, Math.floor(xaxis.range[0])));
           this.endYear = Math.max(this.minYear, Math.min(this.maxYear, Math.floor(xaxis.range[1])));
         }
+
       });
 
     },
@@ -115,10 +176,10 @@ export default {
       const years = Object.keys(this.pagesByYear);
       const graph = document.getElementById('histogram');
       const colors = years.map(year => {
-        return (year >= this.startYear && year <= this.endYear) ? '#8d1919' : 'lightgrey';
+        return (year >= this.startYear && year <= this.endYear) ? '#ad464b' : 'lightgrey';
       });
       if (graph) {
-        Plotly.restyle(graph, 'marker.color', [colors], [0], {duration: 500, easing: "linear"});
+        Plotly.restyle(graph, 'marker.color', [colors], [0], {duration: 500, easing: "cubic-in-out"});
       }
     }
   }
@@ -129,8 +190,9 @@ export default {
 #histogram {
   max-width: 580px;
   margin: -50px -50px 0 -40px;
-  padding: 0 1px 0 1px;
+  padding: 0 0.1px 0 10px;
 }
+
 :deep(.main-svg) {
   background-color: transparent !important;
 }
