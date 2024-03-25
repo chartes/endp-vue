@@ -89,14 +89,14 @@ export default {
           showline: false
         },
         yaxis: {
-          title: 'Pages'
+          title: ''
         },
         uirevision: false,
         displayModeBar: false
       };
 
       const graph = document.getElementById('histogram');
-      Plotly.newPlot(graph, [trace], layout, {responsive: true, displayModeBar: true});
+      Plotly.newPlot(graph, [trace], layout, {responsive: true, displayModeBar: false});
       graph.on('plotly_relayout', () => {
         const xaxis = graph.layout.xaxis;
         if (xaxis.range) {
@@ -127,26 +127,35 @@ export default {
 
 <style scoped>
 #histogram {
-  max-width: 445px;
+  max-width: 580px;
+  margin: -50px -50px 0 -40px;
+  padding: 0 1px 0 1px;
 }
-
-.box-histogram {
-  width: 100%;
-  padding: 0;
-}
-
 :deep(.main-svg) {
   background-color: transparent !important;
 }
 
-
-@media screen and (max-width: 1024px) {
-
+@media screen and (max-width: 1015px) {
   #histogram {
-    max-width: 100%;
+    margin: 0 -50px;
+    max-width: 150%;
+    padding: 0 1px 0 1px;
   }
-
 }
 
+@media screen and (max-width: 970px) {
+  #histogram {
+    margin: 0 0 0 -50px;
+    max-width: 160%;
+    padding: 0 1px 0 1px;
+  }
+}
 
+@media screen and (max-width: 850px) {
+  #histogram {
+    margin: 0 0 0 -50px;
+    width: 120%;
+    padding: 0 1px 0 1px;
+  }
+}
 </style>
