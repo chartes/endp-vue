@@ -94,6 +94,14 @@ h3, h4 {
     background-image: none !important;
   }
 
+  .columns {
+    padding: 0;
+  }
+
+  .column {
+    padding: 40px 20px;
+  }
+
 }
 
 </style>
