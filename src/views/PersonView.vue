@@ -247,7 +247,7 @@ export default {
 
 .loader {
   border: 4px solid rgba(0, 0, 0, 0.1);
-  border-left-color: #3273dc;
+  border-left-color: var(--light-brown) !important;
   width: 100px;
   height: 100px;
 }
