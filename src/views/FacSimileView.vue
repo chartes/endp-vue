@@ -7,6 +7,13 @@
     <h1>Registres</h1>
   </div>
 
+  <!-- Mobile Title section -->
+  <div class="mobile-header header">
+    <p class="facsimile-title" v-if="!registerPageDate">Collection des fac-similés de registres de conclusions capitulaires</p>
+    <p class="facsimile-title" v-if="registerPageDate">Fac-similé du registre de conclusions capitulaires {{ endpVolume }} de
+      Notre-Dame de Paris - <span class="date-title">{{ registerPageDate }}</span></p>
+  </div>
+
   <!-- Main grid  -->
   <div class="columns facsimile-columns" :class="{ 'is-collapsed': isNavOpen }">
 
@@ -59,12 +66,13 @@
       <!-- Toggle left column button -->
       <button @click="toggleNav" class="btn-expanded-nav"  />
 
-      <!-- Title section -->
+      <!-- Desktop Title section -->
       <div class="header">
         <p class="facsimile-title" v-if="!registerPageDate">Collection des fac-similés de registres de conclusions capitulaires</p>
         <p class="facsimile-title" v-if="registerPageDate">Fac-similé du registre de conclusions capitulaires {{ endpVolume }} de
           Notre-Dame de Paris - <span class="date-title">{{ registerPageDate }}</span></p>
       </div>
+
       <!-- Mirador viewer section -->
       <div class='container-mirador'>
         <div id='mirador'></div>
@@ -458,6 +466,10 @@ export default {
   flex-direction: row;
 }
 
+.header.mobile-header {
+  display: none;
+}
+
 .facsimile-title {
   margin: 45px 0;
   font-size: 26px;
@@ -694,7 +706,26 @@ tspan {
     background-image: none !important;
   }
 
-  .columns {
+  .header.mobile-header {
+    position: sticky;
+    top:102px;
+    z-index: 2;
+
+    display: block;
+    width: 100%;
+    padding: 25px var(--mobile-side-padding);
+    background-color: #FFF;
+  }
+
+  .facsimile-title::after {
+    margin-bottom: 0;
+  }
+
+  .header.mobile-header > p.facsimile-title {
+    margin-bottom: 0;
+  }
+
+    .columns {
     flex-direction: column;
     padding: 0;
   }
@@ -706,12 +737,20 @@ tspan {
     max-width: 100% !important;
   }
 
+  .facsimile-columns > .column:last-child > div.header {
+    display: none;
+  }
+
   .facsimile-columns > .column:first-child {
-    padding: 40px 0 0 0;
+    padding: 10px 0 0 0;
   }
 
   .facsimile-columns > .column:last-child {
     padding: 0 0 var(--right-column-bottom-padding-desktop) 0;
+  }
+
+  .facsimile-columns > .column:last-child > div {
+    padding-top: 30px;
   }
 
   .card-header-title {
@@ -721,7 +760,9 @@ tspan {
 
   .card-content {
     background: transparent;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
   .btn-expanded-nav {

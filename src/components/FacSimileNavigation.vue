@@ -391,6 +391,11 @@ nav menu, nav ul {
     display: none;
   }
 
+  .fac-simile__toc > ul {
+    max-height: unset;
+    overflow-y: unset;
+  }
+
   .fac-simile__toc.is-opened ul {
     display: block;
   }
