@@ -153,4 +153,13 @@ header {
   background-image: url('~@/assets/images/b_Close_liste.svg');
 }
 
+@media screen and (max-width: 1024px) {
+
+  header,
+  .li--person:first-child header.card-header {
+    min-height: 90px;
+  }
+
+}
+
 </style>

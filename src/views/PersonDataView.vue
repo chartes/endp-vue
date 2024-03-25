@@ -364,6 +364,14 @@ export default {
     background-image: none !important;
   }
 
+  .columns.person-name-columns {
+    padding: 0;
+  }
+
+  .person-data-container-header {
+    padding: 35px var(--mobile-side-padding) 12px;
+  }
+
   .columns {
     flex-direction: column;
   }
@@ -373,7 +381,39 @@ export default {
     display: block;
     width: 100%;
     max-width: 100% !important;
-    padding: 40px 0 0 0;
+    padding: 0;
+    background-color: transparent;
+  }
+
+  .columns.details-column > .column:first-child {
+    padding-bottom: 20px;
+  }
+
+  .columns.details-column {
+    position: relative;
+    padding-bottom: 100px;
+    margin-bottom: 100px;
+  }
+
+  .columns.details-column > .column {
+    position: unset;
+  }
+
+  .columns.details-column:not(.has-carousel) > .column:last-child {
+    padding-bottom: 0;
+  }
+
+  .person-name {
+    font-size: 30px;
+  }
+
+  .section-title {
+    margin-top: 0;
+  }
+
+  .wrapper-db-link {
+    border: none;
+    justify-content: center;
   }
 }
 

@@ -231,11 +231,66 @@ nav.pagination {
   display: inline-block;
   width: 28px;
   height: 23px;
-  background-image: url("@/assets/images/b_fleche.svg");
+  background: url("@/assets/images/b_fleche.svg") center / cover no-repeat;
 }
 
 .pagination-previous:before {
   transform: scaleX(-1);
+}
+
+
+
+@media screen and (max-width: 1024px) {
+
+  .pagination-link {
+    min-width: 51px;
+    height: 58px;
+    font-size: 26px;
+  }
+
+  nav.pagination {
+    margin-top: 1px;
+  }
+
+  .pagination-previous,
+  .pagination-next {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    width: 53px;
+    height: 45px;
+    padding: 0;
+  }
+
+  .pagination-previous {
+    transform: translateX(-82px);
+  }
+
+  .pagination-previous:before,
+  .pagination-next:before {
+    display: inline-block;
+    width: 53px;
+    height: 45px;
+  }
+
+  .pagination-panel .label,
+  .pagination-panel .items-by-page-input {
+    display: none;
+  }
+
+  .pagination-box {
+    margin-top: 0;
+  }
+
+  .pagination-list {
+    margin-left: 0;
+  }
+
+  .pagination-ellipsis {
+    font-size: 2em;
+    padding-left: 0.2em;
+    padding-right: 0.2em;
+  }
 }
 
 </style>

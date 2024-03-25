@@ -184,6 +184,7 @@ ul.menu-list > li:not(:last-child)::after {
     position: absolute;
     z-index: 2;
     top: 100px;
+    left: 5%;
     width: 90%;
     margin: 0 auto;
     background-color: #4B080BF2;
