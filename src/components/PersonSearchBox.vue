@@ -15,7 +15,7 @@
               @keyup.enter="launchSearch"
               v-model="personQuery">
         </p>
-        <p class="control">
+        <p class="control control-button">
           <button class="button is-info" @click="launchSearch">
             <span>Recherche</span>
           </button>
@@ -272,6 +272,37 @@ input[type="text"]::placeholder {
 .slider::-moz-range-thumb:active {
   box-shadow: 0 0 2px 19px rgba(231, 101, 101, 0.3);
   transition: box-shadow 0.3s;
+}
+
+@media screen and (max-width: 1024px) {
+
+  .container-search {
+    padding-bottom: 150px;
+  }
+
+  .container-search > .control {
+    margin-bottom: 0;
+  }
+
+  .field.has-addons {
+    position: unset;
+  }
+
+  .field.has-addons > :not(:last-child) {
+    margin-right: 0;
+  }
+
+  .control-slider {
+    justify-content: center;
+    padding: 0;
+  }
+
+  .control-button {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
 
 </style>

@@ -2,7 +2,7 @@
   <div class="app-content">
     <div class="column is-align-items-center app-sidebar__menu">
       <AppNavBar/>
-      <AppMenuAside :class="{ 'is-opened': isMobileMenuOpen }" />
+      <AppMenuAside :class="{ 'is-opened': isMobileMenuOpen, 'is-home': isHome }" />
       <BurgerButton @click="toggleMobileMenu($event)" class="burger-button" :class="{ 'is-opened': isMobileMenuOpen }" />
     </div>
     <div class="column is-full app-main-content__area">
@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import {ref, watch} from "vue";
+import {computed, ref, watch} from "vue";
 import {useRoute} from "vue-router";
 import AppNavBar from "@/components/AppNavbar.vue";
 import AppMenuAside from "@/components/AppMenuAside.vue";
@@ -30,6 +30,10 @@ const toggleMobileMenu = function($event) {
 const route = useRoute();
 watch(route, () => {
   isMobileMenuOpen.value = false;
+});
+
+const isHome = computed(() => {
+  return route.name === "home";
 });
 
 </script>
@@ -84,7 +88,7 @@ body {
   .column.app-sidebar__menu {
     position: sticky;
     top: 0;
-    z-index: 2;
+    z-index: 100;
   }
 
   .burger-button {

@@ -164,6 +164,11 @@ body {
     z-index: 1;
   }
 
+  .column .columns {
+    z-index: 1;
+    position: relative;
+  }
+
 }
 
 

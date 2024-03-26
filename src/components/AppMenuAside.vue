@@ -183,11 +183,17 @@ ul.menu-list > li:not(:last-child)::after {
   .menu {
     position: absolute;
     z-index: 2;
-    top: 50px;
+    top: 100px;
+    left: 5%;
     width: 90%;
     margin: 0 auto;
     background-color: #4B080BF2;
   }
+
+  .menu.is-home {
+    top: 50px;
+  }
+
 
   .menu.is-flex {
     display: none !important;

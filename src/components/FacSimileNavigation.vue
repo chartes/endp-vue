@@ -387,8 +387,17 @@ nav menu, nav ul {
     justify-content: space-between;
   }
 
+  .is-opened .main__title__toc {
+    background: #A53605;
+  }
+
   .fac-simile__toc ul {
     display: none;
+  }
+
+  .fac-simile__toc > ul {
+    max-height: unset;
+    overflow-y: unset;
   }
 
   .fac-simile__toc.is-opened ul {

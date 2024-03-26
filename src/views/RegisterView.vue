@@ -9,8 +9,13 @@
 
   <!-- Main grid  -->
   <div class="columns is-multiline" :class="{ 'facets-box-collapsed' : isFacetsBoxCollapsed }">
+
     <!-- Filters column (facets, histogram etc.) -->
-    <div class="column is-12-mobile is-5-tablet is-5-desktop">
+    <div class="column box-facets-column is-12-mobile is-5-tablet is-5-desktop">
+
+      <!-- Filters toggle for mobile -->
+      <a class="collapse-facets-box-toggle" @click="_collapseFacetsBox()">Filtres</a>
+
       <!-- Create a single component for this box facets ? -->
       <div class="box box-facets" >
         <!-- Date slider container -->
@@ -46,6 +51,19 @@
         <RegisterNoSketchSearchBox
             :year-range="yearRange"
         />
+
+        <!-- Mobile : results count on facets box -->
+        <div class="mobile-total-of-registers">
+          <RegisterMetadataBox
+              :total-of-registers="totalRegisters"
+              :with-legend="false"
+              class="register-meta-box"
+          />
+
+          <!-- Filters close button for mobile -->
+          <a class="collapse-facets-box-close" @click="_collapseFacetsBox()">Voir</a>
+        </div>
+
         <!-- histogram viz box -->
         <RegisterHistogramChartBox
             :startYearProp="yearRange[0]"
@@ -59,9 +77,10 @@
     <!-- Results column -->
     <div class="column column-results is-12-mobile is-7-tablet is-7-desktop">
       <div class="column-results-header">
-        <a class="collapseFacetsBoxToggle" @click="_collapseFacetsBox()">Filtres</a>
+        <a class="collapse-facets-box-toggle" @click="_collapseFacetsBox()">Filtres</a>
         <RegisterMetadataBox
             :total-of-registers="totalRegisters"
+            class="register-meta-box"
         />
       </div>
       <div class="container card-navigation-container">
@@ -428,7 +447,7 @@ export default {
   background-color: var(--panel-bg-color);
 }
 
-.collapseFacetsBoxToggle {
+.collapse-facets-box-toggle {
   display: inline-block;
   width: 25px;
   height: 25px;
@@ -436,7 +455,11 @@ export default {
   text-indent: -9999px;
 }
 
-.columns.facets-box-collapsed .collapseFacetsBoxToggle {
+.box-facets-column .collapse-facets-box-toggle {
+  display: none;
+}
+
+.columns.facets-box-collapsed .collapse-facets-box-toggle {
   background-image: url("@/assets/images/b_closeW.svg");
 }
 
@@ -460,6 +483,10 @@ export default {
 
 .box-facets > .box-histogram {
   padding: 0 10px 0 0;
+}
+
+.mobile-total-of-registers {
+  display: none;
 }
 
 .subtitle {
@@ -526,10 +553,6 @@ export default {
     border-bottom: solid 1px #D0D0D0;
   }
 
-  .columns .column:first-child {
-    padding-top: 90px !important;
-  }
-
   .columns.facets-box-collapsed .column:first-child {
     display: none;
   }
@@ -537,8 +560,12 @@ export default {
   .columns.facets-box-collapsed .column.column-results,
   .columns .column.column-results {
     width: 100% !important;
-    padding-top: 55px !important;
     background-color: #ffffff;
+  }
+
+  .box-facets {
+    position: relative;
+    padding-top: 20px;
   }
 
   .box-facets > .box-container-facets__date-interval,
@@ -549,33 +576,59 @@ export default {
   .box-facets > p {
     padding: 0;
   }
-  .columns .collapseFacetsBoxToggle {
-    position: absolute;
-    top: 0;
-    text-indent: 0;
-    margin: 25px 0 0;
 
+  .column-results .collapse-facets-box-toggle {
+    display: none;
+  }
+
+  .box-facets-column .collapse-facets-box-toggle {
+    display: block;
+  }
+
+  .collapse-facets-box-toggle {
     font-family: var(--font-secondary);
     font-size: 18px;
     font-weight: 400;
-    text-transform: uppercase;
     line-height: 1;
-    color: #303030;
+    text-transform: uppercase;
+    text-indent: 0;
   }
 
-  .columns .collapseFacetsBoxToggle {
+  .box-facets-column .collapse-facets-box-toggle {
+    position: relative;
     display: block;
     width: calc(100% - 2 * var(--mobile-side-padding));
     height: auto;
     padding: 8px 0;
-    background: transparent url('~@/assets/images/b_Close_liste.svg') right center / 30px auto no-repeat;
+    margin: 25px 0 0;
+    background: transparent url('~@/assets/images/b_Close_liste.svg') right 20px center / 30px auto no-repeat;
     box-sizing: border-box;
+    color: #303030;
   }
 
-  .columns.facets-box-collapsed .collapseFacetsBoxToggle {
+  .columns:not(.facets-box-collapsed) .box-facets-column {
+    padding-top: 0 !important;
+  }
+
+  .columns:not(.facets-box-collapsed) .collapse-facets-box-toggle {
+    position: sticky;
+    top:102px;
+    z-index: 10;
+    transform: translateX(-25px);
+
+    box-sizing: border-box;
+    width: 100vw;
+    margin-top: 0;
+    padding: 30px 20px;
+    background-color: #FFF;
+  }
+
+  .columns.facets-box-collapsed .collapse-facets-box-toggle {
+    position: relative;
     display: inline-block;
     width: auto;
     height: auto;
+    margin-top: 50px;
     padding: 8px 32px;
     background-color: #7B0C12;
     background-image: none;
@@ -583,8 +636,75 @@ export default {
     color: #ffffff;
   }
 
+  .column-results-header {
+    background: #FFF;
+  }
+
+  .columns.facets-box-collapsed {
+    margin-top: -80px;
+  }
+
+  .columns.facets-box-collapsed .column-results-header {
+    height: 350px;
+  }
+
+  .columns:not(.facets-box-collapsed) .column-results-header {
+    position: unset;
+    height: 0;
+  }
+
+  .columns:not(.facets-box-collapsed) .column-results .register-meta-box,
+  .columns:not(.facets-box-collapsed) .card-navigation-container {
+    display: none;
+  }
+
+  .mobile-total-of-registers {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding-top: 10px;
+    border-bottom: solid 1px #D0D0D0;
+    padding-bottom: 30px;
+  }
+
+  .mobile-total-of-registers a.collapse-facets-box-close {
+    background-color: #303030;
+    border-radius: 2px;
+    padding: 10px 70px;
+
+    font-family: var(--font-secondary);
+    font-size: 18px;
+    color: #FFFFFF;
+    text-align: center;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .mobile-total-of-registers a.collapse-facets-box-close:hover {
+    background-color: var(--light-brown-alt);
+  }
+
+  :deep(.box-facets .register-meta-box) {
+    padding: 0;
+  }
+
+  :deep(.box-facets .register-meta-box .result-container-total) {
+    border-bottom: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  :deep(.box-facets .register-meta-box .resultCanvas) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
   .card-navigation-container {
-    margin: 0 0 25px;
+    max-width: 100%;
+    margin: 50px 0 25px;
   }
 }
 

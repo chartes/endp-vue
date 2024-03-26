@@ -217,7 +217,7 @@ nav a .icon {
   h1.title {
     border: none;
     margin-bottom: 0;
-    padding: 5px 0 8px;
+    padding: 15px 0 8px;
   }
 
   h1.title .subtitle {

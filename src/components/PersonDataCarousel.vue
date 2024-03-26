@@ -212,11 +212,11 @@ li.carousel__slide a::after {
   z-index: 2;
 }
 
-:deep .carousel__slide--active {
+:deep(.carousel__slide--active) {
   position: relative;
 }
 
-:deep .carousel__slide--active:after {
+:deep(.carousel__slide--active:after) {
   content:"";
   position: absolute;
   bottom: 76px;
@@ -227,16 +227,16 @@ li.carousel__slide a::after {
   z-index: 6;
 }
 
-:deep .carousel__prev {
+:deep(.carousel__prev) {
   transform: translate(-175%, 46px) scaleX(-1);
 }
 
-:deep .carousel__next {
+:deep(.carousel__next) {
   transform: translate(-5%, 46px);
 }
 
-:deep .carousel__prev,
-:deep .carousel__next {
+:deep(.carousel__prev),
+:deep(.carousel__next) {
   position: absolute;
   left:50%;
   bottom: 0;
@@ -252,17 +252,17 @@ li.carousel__slide a::after {
   opacity: 0.8;
 }
 
-:deep .carousel__prev > svg,
-:deep .carousel__next > svg {
+:deep(.carousel__prev svg),
+:deep(.carousel__next svg) {
   display: none;
 }
 
 
-:deep .carousel__pagination {
+:deep(.carousel__pagination) {
   display: none;
 }
 
-:deep .carousel__viewport {
+:deep(.carousel__viewport) {
   background-color: #555555;
 }
 
