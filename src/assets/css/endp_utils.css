@@ -27,8 +27,33 @@ body {
 }
 
 .input:focus {
+  border: none;
+  border-bottom: solid 1px var(--light-brown)
+}
+
+.input[type="number"],
+.input[type="search"],
+.input[type="text"] {
+  box-sizing: border-box;
+}
+
+.input[type="number"]:focus,
+.input[type="search"]:focus,
+.input[type="text"]:focus {
   outline: none;
   box-shadow: none;
+  border-width: 2px;
+}
+
+.input[type="search"]:focus,
+.input[type="text"]:focus {
+  padding-top: 9px;
+  padding-bottom: 9px;
+}
+
+.input[type="number"]:focus {
+  padding-top: 1px;
+  padding-bottom: 1px;
 }
 
 /* Banner style */

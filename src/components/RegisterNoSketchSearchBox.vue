@@ -162,6 +162,11 @@ button.is-info {
   text-transform: uppercase;
 }
 
+button.is-info {
+  background-color: var(--light-brown) !important;
+}
+
+
 .open-nosketch-search {
   display: inline-block;
   width: 27px;

@@ -76,8 +76,12 @@
     <!-- end Filters column -->
     <!-- Results column -->
     <div class="column column-results is-12-mobile is-7-tablet is-7-desktop">
-      <div class="column-results-header">
+
+      <div  class="collapse-facets-box-toggle-wrapper">
         <a class="collapse-facets-box-toggle" @click="_collapseFacetsBox()">Filtres</a>
+      </div>
+
+      <div class="column-results-header">
         <RegisterMetadataBox
             :total-of-registers="totalRegisters"
             class="register-meta-box"
@@ -453,6 +457,7 @@ export default {
   height: 25px;
   background-image: url("@/assets/images/b_openW.svg");
   text-indent: -9999px;
+  margin-top: 25px;
 }
 
 .box-facets-column .collapse-facets-box-toggle {
@@ -517,6 +522,7 @@ export default {
 }
 
 .btn-reset-date:hover {
+  background-image: url("@/assets/images/b_Recherche_reset_over.svg");
 }
 
 .btn-reset-date .fa-undo {
@@ -592,6 +598,7 @@ export default {
     line-height: 1;
     text-transform: uppercase;
     text-indent: 0;
+    margin: 0;
   }
 
   .box-facets-column .collapse-facets-box-toggle {
@@ -600,7 +607,6 @@ export default {
     width: calc(100% - 2 * var(--mobile-side-padding));
     height: auto;
     padding: 8px 0;
-    margin: 25px 0 0;
     background: transparent url('~@/assets/images/b_Close_liste.svg') right 20px center / 30px auto no-repeat;
     box-sizing: border-box;
     color: #303030;
@@ -610,25 +616,35 @@ export default {
     padding-top: 0 !important;
   }
 
+  .columns:not(.facets-box-collapsed) .box-facets-column  .collapse-facets-box-toggle {
+    position: sticky;
+    top: 102px;
+    z-index: 10;
+  }
+
   .columns:not(.facets-box-collapsed) .collapse-facets-box-toggle {
+    width: 100vw;
+    background-color: #FFF;
+    box-sizing: border-box;
+    transform: translateX(-25px);
+    margin-top: 0;
+    padding: 30px;
+  }
+
+  .columns.facets-box-collapsed .collapse-facets-box-toggle-wrapper {
     position: sticky;
     top:102px;
     z-index: 10;
-    transform: translateX(-25px);
-
-    box-sizing: border-box;
     width: 100vw;
-    margin-top: 0;
-    padding: 30px 20px;
+    padding: 20px 0;
+    margin: -20px 0;
     background-color: #FFF;
   }
 
   .columns.facets-box-collapsed .collapse-facets-box-toggle {
-    position: relative;
     display: inline-block;
     width: auto;
     height: auto;
-    margin-top: 50px;
     padding: 8px 32px;
     background-color: #7B0C12;
     background-image: none;
@@ -637,6 +653,7 @@ export default {
   }
 
   .column-results-header {
+    position: relative;
     background: #FFF;
   }
 

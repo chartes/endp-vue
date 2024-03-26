@@ -117,8 +117,8 @@ export default {
 }
 .control-input-date {
   width: 58px;
-  border-bottom: solid 1px var(--light-brown);
 }
+
 .control-input-date input {
   padding: 5px 0 4px;
   font-family: var(--font-secondary);
@@ -127,6 +127,12 @@ export default {
   color: #4A4A4A;
   text-align: center;
   height: auto;
+  border-bottom: solid 1px var(--light-brown);
+}
+
+.control-input-date input:focus {
+  padding: 5px 0 3px;
+  border-width: 2px !important;
 }
 
 .control.has-icons-left .select select {
