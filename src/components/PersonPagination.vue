@@ -165,6 +165,7 @@ nav.pagination {
   margin-left: 10px;
   margin-bottom: 5px;
   transform: translateY(-4px);
+  border: none;
   border-bottom: solid 1px var(--light-brown);
   border-radius: 0;
 

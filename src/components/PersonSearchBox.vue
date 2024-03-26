@@ -120,6 +120,7 @@ export default {
 
 .container-search > p:last-child {
   padding: 0;
+  transform: translateY(35px);
 }
 
 .field.has-addons {
@@ -198,13 +199,21 @@ button.button.is-info {
 }
 
 .btn-reset {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 0.3rem;
   margin-top: 1rem !important;
-  margin-bottom: 0.3rem !important;
+  background: url("@/assets/images/b_Recherche_reset.svg") center / cover;
+  border: none;
 }
 
 .btn-reset:hover {
-  background-color: #8d1919 !important;
-  color: white !important;
+  background-image: url("@/assets/images/b_Recherche_reset_over.svg");
+}
+
+.btn-reset .icon {
+  display: none;
 }
 
 .button-reset-search {
