@@ -7,18 +7,16 @@
     <h1>Contact</h1>
   </div>
 
-  <div class="columns">
+  <div class="columns container-text">
     <div class="column">
       <p>Le travail sur le site et le corpus est toujours en cours d'évolution. Pour toute remarque, suggestion ou
         demande d'informations complémentaires, vous pouvez contacter l'équipe technique de la Mission projets
         numériques de l'École nationale des chartes.
       </p>
       <!--<p class="title-h2">mpn [at] chartes [.] psl [.] eu</p>-->
-      <p>En contactant l'équipe du site e-NDP, vous consentez au traitement des données que vous transmeterez dans votre
-        mail.
-      </p>
-      <p>La Règlementation générale sur la protection des données (RGPD) vous permet d'exercer vos droits d'accès, de
-        rectification, de modification ou de suppression de vos données personnelles. En savoir plus.
+      <p class="rgpd-info">En contactant l'équipe du site e-NDP, vous consentez au traitement des données que vous transmeterez dans votre
+        mail. La Règlementation générale sur la protection des données (RGPD) vous permet d'exercer vos droits d'accès, de
+        rectification, de modification ou de suppression de vos données personnelles à la Mission projets numériques de l'École nationale des chartes. En savoir plus. <!-- lien mention légales -->
       </p>
     </div>
   </div>
@@ -81,6 +79,15 @@ h2, h3 {
 
 h3, h4 {
   color: var(--light-brown-alt)
+}
+
+.container-text {
+  text-align: justify;
+}
+
+.rgpd-info {
+  font-size:12pt;
+  font-style: italic;
 }
 
 @media screen and (max-width: 1024px) {
