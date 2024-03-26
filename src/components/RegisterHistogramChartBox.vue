@@ -189,7 +189,7 @@ export default {
 <style scoped>
 #histogram {
   max-width: 580px;
-  margin: -50px -50px 0 -40px;
+  margin: -55px -50px 0 -40px;
   padding: 0 0.1px 0 10px;
 }
 

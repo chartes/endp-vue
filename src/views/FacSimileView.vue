@@ -28,13 +28,13 @@
         </div>
         <div class="card-content" v-if="metadataCardsState.card1">
           <p>
-            <span class="card-content-label">Citation url du fac simile courant : </span>
+            <span class="card-content-label">Citer la <span v-if="registerPageDate">page du fac-similé</span><span v-if="!registerPageDate">la collection des registres</span> : </span>
             <a :href="citationUrl">{{ citationUrl }}</a>
           </p>
           <br>
           <div class="columns nakala-metadata-wrapper is-vcentered">
             <p>
-              <span class="card-content-label">Source de l'image sur Nakala</span>
+              <span class="card-content-label">Citer <span v-if="registerPageDate">l'image</span><span v-if="!registerPageDate">la collection d'images</span> sur Nakala : </span>
               <a target="_blank" :href="imageNakalaSrc">{{ imageNakalaSrc }}</a>
             </p>
           </div>
@@ -49,10 +49,7 @@
           </p>
         </div>
         <div class="card-content" v-if="metadataCardsState.card2">
-          <p class="warning">Le taux de reconnaissance de ce fac-simile est de X%
-            (Le texte affiché peut comporter un certain nombre d'erreurs. En effet, la couche texte de ce facsimile a
-            été
-            généré automatiquement par un programme de reconnaissance des écritures manuscrites (HTR).)</p>
+          <p class="warning">Le texte du fac-similé a été généré automatiquement (HTR) et comporte des erreurs.<br> Le taux de reconnaissance moyen est de 94.1 %</p>
         </div>
       </div>
       <FacSimileNavigation
@@ -553,6 +550,8 @@ export default {
 .card-content span.card-content-label,
 .warning {
   color: var(--light-brown-alt);
+  /* justify the text */
+  text-align: justify;
 }
 
 .raw-prediction-text {

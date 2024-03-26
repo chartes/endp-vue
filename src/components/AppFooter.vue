@@ -23,7 +23,10 @@
             <a href="#">Mentions Légales</a> <!-- /termsofservice -->
           </li>
           <li>
-            <a href="#">Licence CC-BY-SA 4.0</a>
+            <a href="https://www.huma-num.fr/" target="_blank">Huma-Num</a> <!-- /termsofservice -->
+          </li>
+          <li>
+            <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode.fr" target="_blank">Licence CC-BY-SA 4.0</a>
           </li>
         </ul>
       </div>
@@ -185,6 +188,12 @@ footer .columns .column:last-child {
   font-weight: 400;
   color: #FFFFFF;
   text-transform: uppercase;
+}
+
+.footer-links li a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: var(--light-brown-alt);
 }
 
 
