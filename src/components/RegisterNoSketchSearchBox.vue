@@ -162,7 +162,7 @@ button.is-info {
   text-transform: uppercase;
 }
 
-button.is-info {
+button.is-info:hover {
   background-color: var(--light-brown) !important;
 }
 
