@@ -14,9 +14,10 @@
       </div>
       <div class="column">
         <div class="footer-description">
-          Développée par la Mission projets numériques de l'École nationale des chartes en collaboration
-          avec le Laboratoire de médiévistique occidentale de Paris (UMR 8589/ CNRS-Paris 1), les Archives nationales,
-          la BnF et la bibliothèque Mazarine.
+          Développée par la Mission projets numériques de l'École nationale des chartes dans le cadre du projet ANR e-NDP,
+          mené par le laboratoire ICT-Les Europes dans le monde (UR 337 / université Paris Cité), le Laboratoire de
+          médiévistique occidentale de Paris (UMR 8589 / CNRS-Paris 1), le centre Jean-Mabillon (École nationale des chartes - PSL),
+          les Archives nationales, la Bibliothèque nationale de France et la bibliothèque Mazarine.
         </div>
         <ul class="footer-links">
           <li>
@@ -161,6 +162,7 @@ footer .columns .column:last-child {
   font-weight: 400;
   line-height: 30px;
   color: #FFFFFF;
+  text-align: justify;
 }
 
 .footer-links{
