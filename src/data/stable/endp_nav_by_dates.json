@@ -1552,7 +1552,7 @@
       "volume": "LL106A",
       "firstPage": "FRAN_0393_09729",
       "lastPage": "FRAN_0393_09738",
-      "firstPageCanvasIdx": 1,
+      "firstPageCanvasIdx": 6,
       "lastPageCanvasIdx": 10,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_130"
@@ -2188,7 +2188,7 @@
       "volume": "LL106B",
       "firstPage": "FRAN_0393_00002",
       "lastPage": "FRAN_0393_00009",
-      "firstPageCanvasIdx": 1,
+      "firstPageCanvasIdx": 8,
       "lastPageCanvasIdx": 8,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_186"
@@ -2512,7 +2512,7 @@
       "volume": "LL107",
       "firstPage": "FRAN_0393_10062",
       "lastPage": "FRAN_0393_10079",
-      "firstPageCanvasIdx": 1,
+      "firstPageCanvasIdx": 8,
       "lastPageCanvasIdx": 17,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_214"
@@ -3052,7 +3052,7 @@
       "volume": "LL108A",
       "firstPage": "FRAN_0393_10713",
       "lastPage": "FRAN_0393_10718",
-      "firstPageCanvasIdx": 1,
+      "firstPageCanvasIdx": 2,
       "lastPageCanvasIdx": 5,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_260"
@@ -3400,7 +3400,7 @@
       "volume": "LL108B",
       "firstPage": "FRAN_0393_00294",
       "lastPage": "FRAN_0393_00304",
-      "firstPageCanvasIdx": 1,
+      "firstPageCanvasIdx": 6,
       "lastPageCanvasIdx": 11,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_290"
@@ -3674,8 +3674,8 @@
       "volume": "LL109A",
       "firstPage": "FRAN_0393_00524",
       "lastPage": "FRAN_0393_00532",
-      "firstPageCanvasIdx": 1,
-      "lastPageCanvasIdx": 9,
+      "firstPageCanvasIdx": 6,
+      "lastPageCanvasIdx": 10,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_314"
       }
@@ -4056,7 +4056,7 @@
       "volume": "LL109B",
       "firstPage": "FRAN_0393_00746",
       "lastPage": "FRAN_0393_00753",
-      "firstPageCanvasIdx": 1,
+      "firstPageCanvasIdx": 8,
       "lastPageCanvasIdx": 8,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_347"
@@ -4582,7 +4582,7 @@
       "volume": "LL109C",
       "firstPage": "FRAN_0393_01050",
       "lastPage": "FRAN_0393_01060",
-      "firstPageCanvasIdx": 1,
+      "firstPageCanvasIdx": 8,
       "lastPageCanvasIdx": 11,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_392"
@@ -4820,7 +4820,7 @@
       "volume": "LL110",
       "firstPage": "FRAN_0393_01254",
       "lastPage": "FRAN_0393_01270",
-      "firstPageCanvasIdx": 1,
+      "firstPageCanvasIdx": 10,
       "lastPageCanvasIdx": 17,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_417"
@@ -5530,7 +5530,7 @@
       "volume": "LL111",
       "firstPage": "FRAN_0393_01934",
       "lastPage": "FRAN_0393_01948",
-      "firstPageCanvasIdx": 1,
+      "firstPageCanvasIdx": 8,
       "lastPageCanvasIdx": 15,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_474"
@@ -5876,7 +5876,7 @@
       "volume": "LL112",
       "firstPage": "FRAN_0393_02341",
       "lastPage": "FRAN_0393_02361",
-      "firstPageCanvasIdx": 1,
+      "firstPageCanvasIdx": 18,
       "lastPageCanvasIdx": 20,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_504"
@@ -7422,7 +7422,7 @@
       "volume": "LL113",
       "firstPage": "FRAN_0393_02888",
       "lastPage": "FRAN_0393_02895",
-      "firstPageCanvasIdx": 1,
+      "firstPageCanvasIdx": 8,
       "lastPageCanvasIdx": 8,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_634"
@@ -8584,7 +8584,7 @@
       "volume": "LL114",
       "firstPage": "FRAN_0393_03282",
       "lastPage": "FRAN_0393_03322",
-      "firstPageCanvasIdx": 1,
+      "firstPageCanvasIdx": 8,
       "lastPageCanvasIdx": 41,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_732"
@@ -9256,7 +9256,7 @@
       "volume": "LL115",
       "firstPage": "FRAN_0393_03642",
       "lastPage": "FRAN_0393_03652",
-      "firstPageCanvasIdx": 1,
+      "firstPageCanvasIdx": 6,
       "lastPageCanvasIdx": 11,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_789"
@@ -9890,7 +9890,7 @@
       "volume": "LL116",
       "firstPage": "FRAN_0393_04352",
       "lastPage": "FRAN_0393_04357",
-      "firstPageCanvasIdx": 1,
+      "firstPageCanvasIdx": 6,
       "lastPageCanvasIdx": 6,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_843"
@@ -10742,7 +10742,7 @@
       "volume": "LL117",
       "firstPage": "FRAN_0393_05206",
       "lastPage": "FRAN_0393_05215",
-      "firstPageCanvasIdx": 1,
+      "firstPageCanvasIdx": 6,
       "lastPageCanvasIdx": 10,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_915"
@@ -11064,7 +11064,7 @@
       "volume": "LL118",
       "firstPage": "FRAN_0393_10989",
       "lastPage": "FRAN_0393_11009",
-      "firstPageCanvasIdx": 1,
+      "firstPageCanvasIdx": 4,
       "lastPageCanvasIdx": 20,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_957"
@@ -11694,7 +11694,7 @@
       "volume": "LL119",
       "firstPage": "FRAN_0393_11819",
       "lastPage": "FRAN_0393_11836",
-      "firstPageCanvasIdx": 1,
+      "firstPageCanvasIdx": 4,
       "lastPageCanvasIdx": 17,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_999"
@@ -12256,7 +12256,7 @@
       "volume": "LL120",
       "firstPage": "FRAN_0393_13002",
       "lastPage": "FRAN_0393_13025",
-      "firstPageCanvasIdx": 1,
+      "firstPageCanvasIdx": 10,
       "lastPageCanvasIdx": 24,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_1047"
@@ -13010,7 +13010,7 @@
       "volume": "LL121",
       "firstPage": "FRAN_0393_05724",
       "lastPage": "FRAN_0393_05733",
-      "firstPageCanvasIdx": 1,
+      "firstPageCanvasIdx": 6,
       "lastPageCanvasIdx": 10,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_1111"
@@ -14378,7 +14378,7 @@
       "volume": "LL122",
       "firstPage": "FRAN_0393_06582",
       "lastPage": "FRAN_0393_06592",
-      "firstPageCanvasIdx": 1,
+      "firstPageCanvasIdx": 6,
       "lastPageCanvasIdx": 11,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_1226"
@@ -15300,7 +15300,7 @@
       "volume": "LL123-LL124",
       "firstPage": "FRAN_0393_07126",
       "lastPage": "FRAN_0393_07136",
-      "firstPageCanvasIdx": 1,
+      "firstPageCanvasIdx": 8,
       "lastPageCanvasIdx": 11,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_1304"
@@ -16522,7 +16522,7 @@
       "volume": "LL125",
       "firstPage": "FRAN_0393_07936",
       "lastPage": "FRAN_0393_07947",
-      "firstPageCanvasIdx": 1,
+      "firstPageCanvasIdx": 6,
       "lastPageCanvasIdx": 12,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_1407"
@@ -17086,7 +17086,7 @@
       "volume": "LL126",
       "firstPage": "FRAN_0393_08392",
       "lastPage": "FRAN_0393_08412",
-      "firstPageCanvasIdx": 1,
+      "firstPageCanvasIdx": 10,
       "lastPageCanvasIdx": 21,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_1455"
@@ -17624,7 +17624,7 @@
       "volume": "LL127-LL128",
       "firstPage": "FRAN_0393_13733",
       "lastPage": "FRAN_0393_13746",
-      "firstPageCanvasIdx": 1,
+      "firstPageCanvasIdx": 6,
       "lastPageCanvasIdx": 13,
       "links": {
         "siv_link": "http://www.siv.archives-nationales.culture.gouv.fr/siv/UD/FRAN_IR_059635/Delib_1508"
