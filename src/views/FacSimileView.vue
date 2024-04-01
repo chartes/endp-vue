@@ -540,6 +540,7 @@ export default {
 }
 
 .card-content a {
+  word-break: break-word;
   color: #303030;
 }
 
@@ -749,7 +750,7 @@ tspan {
   }
 
   .facsimile-columns > .column:last-child > div {
-    padding-top: 30px;
+    padding: 30px 35px 30px 15px;
   }
 
   .card-header-title {

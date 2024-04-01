@@ -5,7 +5,7 @@
         <span>Rechercher des personnes</span>
       </p>
     </div>
-    <div class="container-search">
+    <div class="container-search" :class="{'has-button-reset': resetBtn}">
       <div class="control field has-addons">
         <p class="control">
           <input
@@ -286,7 +286,12 @@ input[type="text"]::placeholder {
 @media screen and (max-width: 1024px) {
 
   .container-search {
-    padding-bottom: 150px;
+    padding-bottom: 220px;
+    text-align: center;
+  }
+
+  .container-search.has-button-reset {
+    padding-bottom: 220px;
   }
 
   .container-search > .control {
@@ -308,7 +313,14 @@ input[type="text"]::placeholder {
 
   .control-button {
     position: absolute;
-    bottom: 30px;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .btn-reset {
+    position: absolute;
+    bottom: -176px;
     left: 50%;
     transform: translateX(-50%);
   }

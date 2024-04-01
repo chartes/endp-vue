@@ -6,6 +6,7 @@
     </div>
     <div class="box-content">
       <Carousel :itemsToShow="ItemsShowed"
+                :breakpoints="breakpoints"
                 :wrapAround="true"
                 :transition="500">
         <Slide v-for="link in collectaItems" :key="link">
@@ -47,6 +48,20 @@ export default {
   data() {
     return {
       isOpened: true,
+      breakpoints: {
+        300: {
+          itemsToShow: 1.5,
+          itemsToScroll: 1
+        },
+        700: {
+          itemsToShow: 2,
+          itemsToScroll: 2
+        },
+        1024: {
+          itemsToShow: 3,
+          itemsToScroll: 3
+        },
+      },
     }
   },
   computed: {
@@ -103,6 +118,7 @@ export default {
 .box-iconography-collecta.is-opened .box-content {
   background-color: var(--panel-bg-color);
   margin-bottom: var(--right-column-bottom-padding-desktop);
+  width: 100%;
 }
 
 .box-header {
@@ -117,6 +133,7 @@ export default {
   font-style: italic;
   color: #272727;
   margin-bottom: 6px;
+  padding-right: 25px;
 }
 
 .logo-collecta {
@@ -189,14 +206,14 @@ li.carousel__slide a {
 li.carousel__slide a:before {
   content: "";
   display: block;
-  width: 100%;
-  height: 100%;
+  width: 50%;
+  height: 50%;
   background-color: #3b3b3b;
   position: absolute;
-  top: -114px;
-  left: 67px;
-  transform-origin: bottom center;
-  transform: scale(0.4) rotate3d(1, -0.2, 0.4, 25deg);
+  top: 58%;
+  left: 35%;
+  transform-origin: bottom right;
+  transform: translateY(-50%) skewX(-10deg);
   z-index: 1;
 }
 
@@ -274,8 +291,13 @@ li.carousel__slide a::after {
 }
 
 @media screen and (max-width: 1024px) {
+
   .box-iconography-collecta .box-header {
     padding: 0 var(--mobile-side-padding) var(--right-column-bottom-padding-mobile) !important;
+  }
+
+  .box-iconography-collecta.is-opened  .box-header {
+    padding: 0 var(--mobile-side-padding) 0 !important;
   }
 
 }

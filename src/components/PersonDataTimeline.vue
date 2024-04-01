@@ -1,61 +1,67 @@
 <template>
-  <div class="timeline-legend">
-    <span class="legend-item"><span class="dot neutral"></span> Cliquer/Survoler pour faire apparaître</span>
-    <span class="legend-item"><span class="dot without-date"></span> Date de l'événement inconnue</span>
-  </div>
-  <button class="button btn-scroll btn-scroll-up" @mousedown="startScroll(-50)" @mouseup="stopScroll"
-          :disabled="isAtTop"></button>
-  <div class="timeline-scroll-container" ref="scrollContainer">
-    <div class="timeline-container">
-      <div v-for="group in groupedEvents" :key="group.date" class="timeline-item" :class="{ 'dot-selected': selectedDate === group.date }">
-        <div @click="togglePopup(group.date)" class="timeline-dot"
-             :class="{ 'without-date': group.date === 'date_inconnue' || group.date === 'Date inconnue' }"></div>
+  <div class="timeline-parent" :class="{ 'timeline-collapsed' : isTimelineCollapsed }">
+    <button class="button button-toggle" @click="_collapseTimeline()">VOIR</button>
 
-        <div :class="['timeline-date', { active: hover === group.date || clicked === group.date }]"
-             @click="togglePopup(group.date)">
-          {{ formatDate(group.date) }}
-        </div>
-        <div v-if="clicked === group.date" class="popup-group">
-          <div class="popup-group-content">
+    <div class="timeline-legend">
+      <span class="legend-item"><span class="dot neutral"></span> Cliquer/Survoler pour faire apparaître</span>
+      <span class="legend-item"><span class="dot without-date"></span> Date de l'événement inconnue</span>
+    </div>
+    <button class="button btn-scroll btn-scroll-up" @mousedown="startScroll(-85)" @mouseup="stopScroll"
+            :disabled="isAtTop"></button>
+    <div class="timeline-scroll-container" ref="scrollContainer">
+      <div class="timeline-container">
+        <div v-for="group in groupedEvents" :key="group.date" class="timeline-item" :class="{ 'dot-selected': selectedDate === group.date }">
+          <div @click="togglePopup(group.date)" class="timeline-dot"
+               :class="{ 'without-date': group.date === 'date_inconnue' || group.date === 'Date inconnue' }"></div>
 
-            <div class="popup-and-navigation"
-                 v-for="(event, index) in group.events"
-                 :key="event._id_endp"
-                 :class="{ 'is-active': activePopupIndex[group.date] === index }">
-              <div class="timeline-popup"
-                   v-show="activePopupIndex[group.date] === index">
-                <div class="popup-content">
-                  <div class="popup-date">{{ event.type }}</div>
-                  <div class="popup-description">
-                <span v-if="event.thesaurus_term_person" class="event-term"><u>{{
-                    event.thesaurus_term_person.topic
-                  }} : </u>{{ event.thesaurus_term_person.term_fr }} ({{ event.thesaurus_term_person.term_la }})</span>
-                    <br v-if="event.thesaurus_term_person">
-                    <span v-if="event.place_term" class="event-place"><u>Lieu</u> : {{
-                        event.place_term.term_fr
-                      }} ({{ event.place_term.term_la }})</span>
+          <div :class="['timeline-date', { active: hover === group.date || clicked === group.date }]"
+               @click="togglePopup(group.date)">
+            {{ formatDate(group.date) }}
+          </div>
+          <div v-if="clicked === group.date" class="popup-group">
+            <div class="popup-group-content">
+
+              <div class="popup-and-navigation"
+                   v-for="(event, index) in group.events"
+                   :key="event._id_endp"
+                   :class="{ 'is-active': activePopupIndex[group.date] === index }">
+                <div class="timeline-popup"
+                     v-show="activePopupIndex[group.date] === index">
+                  <div class="popup-content">
+                    <div class="popup-date">{{ event.type }}</div>
+                    <div class="popup-description">
+                  <span v-if="event.thesaurus_term_person" class="event-term"><u>{{
+                      event.thesaurus_term_person.topic
+                    }} : </u>{{ event.thesaurus_term_person.term_fr }} ({{ event.thesaurus_term_person.term_la }})</span>
+                      <br v-if="event.thesaurus_term_person">
+                      <span v-if="event.place_term" class="event-place"><u>Lieu</u> : {{
+                          event.place_term.term_fr
+                        }} ({{ event.place_term.term_la }})</span>
+                    </div>
+                    <router-link :to="`/facsimile/${formatImageIdentifiers(event.image_url)}`" target="_blank">
+                      <span v-if="event.image_url"><!--icon book --><i class="fas fa-book"></i></span>
+                      Aller au Fac-simile
+                    </router-link>
                   </div>
-                  <span v-if="event.image_url"><!--icon book --><i class="fas fa-book"></i>
-                  <router-link :to="`/facsimile/${formatImageIdentifiers(event.image_url)}`" target="_blank"> Aller au Fac-simile</router-link>
-                </span>
-
+                </div>
+                <!-- Carousel Navigation: Shown if there's more than one event -->
+                <div v-if="group.events.length > 1" class="popup-navigation" :style="{ zIndex: 101 }">
+                  <button @click="navigateInCarousel(group, -1)" class="button nav-left"/>
+                  <span class="popup-counter">{{ activePopupIndex[group.date] + 1 }}/{{ group.events.length }}</span>
+                  <button @click="navigateInCarousel(group, 1)" class="button nav-right"/>
                 </div>
               </div>
-              <!-- Carousel Navigation: Shown if there's more than one event -->
-              <div v-if="group.events.length > 1" class="popup-navigation" :style="{ zIndex: 101 }">
-                <button @click="navigateInCarousel(group, -1)" class="button nav-left"/>
-                <span class="popup-counter">{{ activePopupIndex[group.date] + 1 }}/{{ group.events.length }}</span>
-                <button @click="navigateInCarousel(group, 1)" class="button nav-right"/>
-              </div>
-            </div>
 
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <button class="button btn-scroll btn-scroll-down" @mousedown="startScroll(85)" @mouseup="stopScroll"
+            :disabled="isAtBottom"></button>
+
+    <button class="button button-toggle button-close" @click="_collapseTimeline()">FERMER</button>
   </div>
-  <button class="button btn-scroll btn-scroll-down" @mousedown="startScroll(50)" @mouseup="stopScroll"
-          :disabled="isAtBottom"></button>
 </template>
 
 <script>
@@ -78,6 +84,7 @@ export default {
       isAtBottom: false,
       activePopupIndex: {},
       selectedDate: null,
+      isTimelineCollapsed: true
     };
   },
   computed: {
@@ -162,7 +169,7 @@ export default {
 
   mounted() {
     this.$refs.scrollContainer.addEventListener('scroll', this.handleScroll);
-    this.$refs.scrollContainer.addEventListener('wheel', this.handleWheel, {passive: false});
+    // this.$refs.scrollContainer.addEventListener('wheel', this.handleWheel, {passive: false});
   }
   ,
   methods: {
@@ -290,6 +297,15 @@ export default {
       }
     }
     ,
+
+    /**
+     * Collapse Timeline on mobile
+     * @returns {void}
+     * @private
+     */
+    _collapseTimeline() {
+      this.isTimelineCollapsed = ! this.isTimelineCollapsed;
+    },
   }
 }
 ;
@@ -355,8 +371,8 @@ export default {
 
 .timeline-item:not(.dot-selected) .timeline-dot:hover {
   transform: translate(-50%, -50%) scale(1.2);
-  background: #BB062D;
-  border: #BB062D;
+  background: #303030;
+  border: #303030;
 }
 
 .timeline-item.dot-selected {
@@ -375,13 +391,29 @@ export default {
 }
 
 .timeline-scroll-container {
-  /*
   max-height: 30rem;
   overflow-y: auto;
-   */
   border-top: 1px solid #A7A7A7;
   border-bottom: 1px solid #A7A7A7;
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--light-brown-alt) #DFDEDE;
 }
+
+.timeline-scroll-container::-webkit-scrollbar {
+  width: 9px;
+}
+
+.timeline-scroll-container::-webkit-scrollbar-track {
+  background: #DFDEDE;
+}
+
+.timeline-scroll-container::-webkit-scrollbar-thumb {
+  background-color: var(--light-brown-alt);
+  border-radius: 3px;
+  border: #303030;
+}
+
 
 .timeline-legend {
   margin-bottom: 32px;
@@ -403,10 +435,14 @@ export default {
   margin-right: 10px;
 }
 
+.button.button-toggle {
+  display: none;
+}
+
 .button.btn-scroll {
   bottom: 0;
   right: 0;
-  left: 50%;
+  left: calc(50% - 4px);
   transform: translateX(-50%);
 
   width: 49px;
@@ -430,6 +466,7 @@ export default {
 .popup-group {
   transform: translateX(-50%) translateY(80px);
   width: 343px;
+  max-width: 90vw;
   margin-bottom: 40px;
 }
 
@@ -490,6 +527,23 @@ export default {
   color: #A53605;
 }
 
+.popup-content a {
+  display: inline-block;
+  margin-top: 2px;
+  font-family: var(--font-secondary);
+  font-size: 20px;
+  color: #000000;
+  text-decoration: none;
+}
+
+.popup-content a:hover {
+  color: #BB062D;
+}
+
+.popup-content .fas {
+  margin-right: 2px;
+}
+
 .nav-left, .nav-right {
   width: 30px;
   height: 30px;
@@ -505,5 +559,95 @@ export default {
   transform-origin: 50% 50%;
 }
 
+@media screen and (max-width: 1024px) {
+
+  .timeline-parent {
+    position: relative;
+  }
+
+  .button.btn-scroll {
+    display: none;
+  }
+
+  .timeline-scroll-container,
+  .timeline-legend {
+    display: none;
+  }
+
+  .timeline-parent {
+    border-top: 1px solid #A7A7A7;
+  }
+
+  .timeline-parent:not(.timeline-collapsed) {
+    margin: 0 -20px;
+    background-color: #F2F2F2;
+    padding: 60px 20px 90px;
+    box-shadow: inset 0px 20px 20px 0 #0000003A;
+  }
+
+  .timeline-parent:not(.timeline-collapsed)::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 60px;
+    box-shadow: inset 0px 20px 20px 0 #0000003A;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform: rotate(180deg);
+  }
+
+  .timeline-parent:not(.timeline-collapsed) .timeline-legend {
+    display: block;
+  }
+
+  .timeline-parent:not(.timeline-collapsed) .timeline-scroll-container {
+    display: block;
+  }
+
+  .timeline-scroll-container {
+    max-height: unset;
+    overflow-y: unset;
+    border: none;
+  }
+
+  .button.button-toggle {
+    position: absolute;
+    left: 50%;
+    top: -28px;
+    z-index: 10;
+    transform: translateX(-50%);
+
+    display: inline-block;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    text-align: center;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  .button.button-toggle.button-close {
+    display: none;
+  }
+
+  .timeline-parent:not(.timeline-collapsed) .button.button-toggle.button-close {
+    display: inline-block;
+    top: unset;
+    bottom: -28px;
+  }
+
+  .timeline-parent:not(.timeline-collapsed) .button.button-toggle.button-close,
+  .timeline-parent:not(.timeline-collapsed) .button.button-toggle {
+    text-indent: -9999px;
+    background: #FFFFFF url('~@/assets/images/b_Close_liste.svg') center / 22px auto no-repeat;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .timeline-date {
+    font-size: 16px;
+  }
+}
 
 </style>
