@@ -244,7 +244,7 @@ nav.pagination {
 @media screen and (max-width: 1024px) {
 
   .pagination-link {
-    min-width: 51px;
+    min-width: 40px;
     height: 58px;
     font-size: 26px;
   }

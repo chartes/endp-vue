@@ -366,12 +366,13 @@ h2.subtitle {
     display: block;
     width: 100%;
     height: 68px;
-    background: transparent url('~@/assets/images/b_Open_liste.svg') right 20px top 23px / 25px auto no-repeat;
+    background: transparent url('~@/assets/images/b_Open_liste.svg') right 10px top 23px / 25px auto no-repeat;
     cursor: pointer;
   }
 
   .box-search-person-facets.is-opened .box-search-header {
     background-image: url('~@/assets/images/b_Close_liste.svg');
+    background-position: right 6px top 23px;
   }
 
   .box-search-person-facets:not(.is-opened) .box-search-header {
@@ -379,7 +380,7 @@ h2.subtitle {
   }
 
   .box-search-person-facets .box-content .checkbox-canon {
-    bottom: 88px;
+    bottom: 155px;
     right: 50%;
     transform: translateX(50%);
   }
@@ -392,6 +393,10 @@ h2.subtitle {
   .box-search-person-facets:not(.is-opened) .box-content .checkbox-canon,
   :deep(.box-search-person-facets:not(.is-opened) .box-content .container-search) {
     display: none;
+  }
+
+  .box-search-person-facets.is-opened .box-content .container-search {
+    position: relative;
   }
 
   /* Second column */
@@ -412,8 +417,7 @@ h2.subtitle {
     padding-top: 30px;
   }
 
-
-    .is-searchbox-opened .column-results-header.is-sticky {
+  .is-searchbox-opened .column-results-header.is-sticky {
     top: 452px;
     padding-top: 20px;
   }

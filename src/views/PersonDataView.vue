@@ -330,6 +330,11 @@ export default {
   color: #6E6E6E;
 }
 
+.link-list li a:hover {
+  color: #BB062D;
+}
+
+
 .wrapper-db-link {
   position: absolute;
   left: 0;
@@ -393,6 +398,9 @@ export default {
     position: relative;
     padding-bottom: 100px;
     margin-bottom: 100px;
+
+    max-width: 100vw;
+    overflow-x: hidden;
   }
 
   .columns.details-column > .column {
