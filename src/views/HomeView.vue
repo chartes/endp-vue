@@ -136,7 +136,7 @@ nav a .icon {
   padding: 70px 95px;
   background: linear-gradient(#F7F7F7CC 0%, #F7F7F7 11.94090256424186%, #F7F7F7 100%, #FCFCFC 100%);
   /* justify text */
-  text-align: justify;
+  text-align: left;
 }
 
 .container > *:last-child {

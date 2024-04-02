@@ -38,9 +38,8 @@
                           event.place_term.term_fr
                         }} ({{ event.place_term.term_la }})</span>
                     </div>
-                    <router-link :to="`/facsimile/${formatImageIdentifiers(event.image_url)}`" target="_blank">
-                      <span v-if="event.image_url"><!--icon book --><i class="fas fa-book"></i></span>
-                      Aller au Fac-simile
+                    <router-link :to="`/facsimile/${formatImageIdentifiers(event.image_url)}`" target="_blank" v-if="event.image_url">
+                      <span><i class="fas fa-book"></i> Aller au fac-similé</span>
                     </router-link>
                   </div>
                 </div>
