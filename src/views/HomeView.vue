@@ -150,7 +150,7 @@ nav a .icon {
   line-height: 27px;
   color: var(--dark-grey);
   -webkit-hyphens: none;
-  text-align: justify;
+  text-align: left;
 }
 
 .block a {

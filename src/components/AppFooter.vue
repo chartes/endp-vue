@@ -209,6 +209,8 @@ footer .columns .column:last-child {
   text-underline-offset: 3px;
 }
 
+/* TODO (@Denis) : ancienne version pour .logos-container
+
 .logos-container {
   justify-content: flex-start;
   align-items: center;
@@ -217,6 +219,21 @@ footer .columns .column:last-child {
   flex-wrap: wrap;
 
   --logo-scale: 0.75;
+}*/
+
+/* TODO (@Denis) : version proposée pour .logos-container à adapter ? */
+
+.logos-container {
+  justify-content: flex-start;
+  align-items: center;
+  gap: 40px; /* augmenté de 5px pour avoir un peu plus d'espace */
+  display: flex;
+  flex-wrap: wrap;
+
+  padding-top: 70px; /* ajouté pour centrer les logos dans le footer */
+  margin-left: 5px; /* ajouté pour espacer un peu le block de logo du texte du footer */
+
+  --logo-scale: 0.75; /* réduit de 0.05 pour avoir un peu plus d'espace et avoir seulement 2 lignes de logos en Desktop */
 }
 
 .logos-container a {
