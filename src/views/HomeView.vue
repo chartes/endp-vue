@@ -150,6 +150,7 @@ nav a .icon {
   line-height: 27px;
   color: var(--dark-grey);
   -webkit-hyphens: none;
+  text-align: justify;
 }
 
 .block a {
@@ -166,14 +167,18 @@ nav a .icon {
   vertical-align: top;
   font-weight: 700;
 
-  margin-left: -7px;
-  margin-top: 18px;
+  margin-left: 0;
+  margin-top: 13px;
   padding-right: 0.2em;
   float: left;
 }
 
 
 @media screen and (max-width: 1024px) {
+
+  #banner-image::before {
+    background-position: center left -300px;
+  }
 
   .columns {
     flex-direction: column;

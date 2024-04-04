@@ -32,7 +32,7 @@
         </ul>
       </div>
       <div class="column">
-        <div class="logos-container is-flex is-justify-content-center">
+        <div class="logos-container is-flex">
 
           <a href="https://www.chartes.psl.eu/fr/rubrique-centre-jean-mabillon/centre-jean-mabillon" target="_blank">
             <img src="@/assets/partners_logo/Logo-CMJ.png" alt="Logo Centre Jean Mabillon" class="logo logo-cmj"/>
@@ -71,7 +71,7 @@
           </a>
 
           <a href="https://www.bibliotheque-mazarine.fr/fr/" target="_blank">
-            <img src="@/assets/partners_logo/Logo_mazarine_sansfond 6B6B6B.svg" alt="Logo Bibliothèque Mazarine" class="logo mazarine"/>
+            <img src="@/assets/partners_logo/Logo_mazarine_sansfond 6B6B6B.svg" alt="Logo Bibliothèque Mazarine" class="logo logo-mazarine"/>
           </a>
 
         </div>
@@ -107,7 +107,7 @@ footer .columns {
 }
 
 footer .columns .column {
-  padding: 55px 40px 8px;
+  padding: 55px 40px 30px;
   background-color: #4C4949;
 }
 
@@ -124,7 +124,7 @@ footer .columns .column:nth-child(2) {
 
 footer .columns .column:last-child {
   padding-left: 0;
-  padding-top: 40px;
+  padding-top: 45px;
 }
 
 
@@ -165,8 +165,13 @@ footer .columns .column:last-child {
   text-align: justify;
 }
 
-.footer-links{
-  display: flex;
+.footer-links {
+  display: inline-block;
+}
+
+.footer-links li {
+  position: relative;
+  display: inline;
 }
 
 .footer-links li,
@@ -175,13 +180,20 @@ footer .columns .column:last-child {
   line-height: 1;
 }
 
+.footer-links li:not(:last-child) {
+  margin-right: 10px;
+  padding-right: 10px;
+}
+
 .footer-links li:not(:last-child):after {
   content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
   display: inline-block;
   width: 1px;
   height: 80%;
   border-right: solid #ffffff 1px;
-  margin: 0 10px;
   transform: translateY(2px);
 }
 
@@ -195,16 +207,25 @@ footer .columns .column:last-child {
 .footer-links li a:hover {
   text-decoration: underline;
   text-underline-offset: 3px;
-  color: var(--light-brown-alt);
 }
 
-
-
 .logos-container {
+  justify-content: flex-start;
   align-items: center;
   gap: 40px;
   display: flex;
   flex-wrap: wrap;
+
+  --logo-scale: 0.75;
+}
+
+.logos-container a {
+  transform-origin: 50% 50%;
+  transition: transform ease-in-out 0.35s;
+}
+
+.logos-container a:hover {
+  transform: scale(1.25);
 }
 
 .logo {
@@ -213,43 +234,43 @@ footer .columns .column:last-child {
 }
 
 .logo-cmj {
-  width: 178px;
+  width: calc( 178px * var(--logo-scale));
 }
 
 .logo-enc {
-  width: 256px;
+  width: calc( 256px * var(--logo-scale));
 }
 
 .logo-anr {
-  width: 183px;
+  width: calc( 183px * var(--logo-scale));
 }
 
 .logo-lamop {
-  width: 145px;
+  width: calc( 145px * var(--logo-scale));
 }
 
 .logo-paris1 {
-  width: 74px;
+  width: calc( 74px * var(--logo-scale));
 }
 
 .logo-cnrs {
-  width: 82px;
+  width: calc( 82px * var(--logo-scale));
 }
 
 .logo-pariscite {
-  width: 177px;
+  width: calc( 177px * var(--logo-scale));
 }
 
 .logo-an {
-  width: 223px;
+  width: calc( 223px * var(--logo-scale));
 }
 
 .logo-bnf {
-  width: 160px;
+  width: calc( 160px * var(--logo-scale));
 }
 
 .logo-mazarine {
-  width: 110px;
+  width: calc( 110px * var(--logo-scale));
 }
 
 

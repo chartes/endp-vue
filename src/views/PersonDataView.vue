@@ -328,6 +328,7 @@ export default {
   font-size: 20px;
   line-height: 1.15;
   color: #6E6E6E;
+  word-break: break-word;
 }
 
 .link-list li a:hover {

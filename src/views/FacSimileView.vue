@@ -603,6 +603,10 @@ button.copy-button {
   cursor: pointer;
 }
 
+button.copy-button:hover {
+  background-image: url('~@/assets/images/b_Copier_over.svg');
+}
+
 #mirador {
   position: relative;
   height: 100vh;
@@ -737,7 +741,7 @@ tspan {
     max-width: 100% !important;
   }
 
-  .facsimile-columns > .column:last-child > div.header {
+  .facsimile-columns > .column:last-child > div.header p.facsimile-title {
     display: none;
   }
 
@@ -763,6 +767,10 @@ tspan {
     margin-bottom: 30px;
     padding-top: 0;
     padding-bottom: 0;
+  }
+
+  .card-content.raw-prediction-text {
+    padding-bottom: 50px;
   }
 
   .btn-expanded-nav {

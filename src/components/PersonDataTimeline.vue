@@ -391,12 +391,14 @@ export default {
 
 .timeline-scroll-container {
   max-height: 30rem;
-  overflow-y: auto;
+  overflow-y: hidden;
   border-top: 1px solid #A7A7A7;
   border-bottom: 1px solid #A7A7A7;
 
+  /*
   scrollbar-width: thin;
   scrollbar-color: var(--light-brown-alt) #DFDEDE;
+   */
 }
 
 .timeline-scroll-container::-webkit-scrollbar {
@@ -459,7 +461,7 @@ export default {
 }
 
 .button.btn-scroll[disabled] {
-  opacity: 1;
+  opacity: 0.25;
 }
 
 .popup-group {

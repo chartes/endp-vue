@@ -239,6 +239,9 @@ export default {
      */
     _collapseFacetsBox() {
       this.isFacetsBoxCollapsed = ! this.isFacetsBoxCollapsed;
+
+      // Scroll Page to the top
+      window.scrollTo(0, 0);
     },
     /**
      * Test if years in range are equals
@@ -521,6 +524,11 @@ export default {
   border: none;
 }
 
+.btn-reset-date:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 .btn-reset-date:hover {
   background-image: url("@/assets/images/b_Recherche_reset_over.svg");
 }
@@ -636,6 +644,7 @@ export default {
     top:102px;
     z-index: 10;
     width: 100vw;
+    max-width: 100%;
     padding: 20px 0;
     margin: -20px 0;
     background-color: #FFF;

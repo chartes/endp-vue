@@ -1,5 +1,5 @@
 <template>
-  <div class="pagination-box box">
+  <div class="pagination-box box" :class="{ 'top-pagination' : topPagination }">
     <nav class="pagination">
       <a class="pagination-previous" :class="{ 'disabled': currentPage === 1 }"
          @click="handleChangePage(currentPage - 1)">
@@ -52,7 +52,7 @@
         </span>
       </a>
     </nav>
-    <div class="pagination-panel">
+    <div class="pagination-panel" :class="{ 'results-by-page-control' : resultsByPageControl }">
       <input id="limit-results" class="input items-by-page-input" type="number" placeholder="50"
              :min="itemsByPageMinDisplay" :max="itemsByPageMaxDisplay" step="10"
              v-model="itemsByPageDisplay" @change="handleItemsPerPageChange">
@@ -71,6 +71,8 @@ export default {
     itemsByPageDefault: Number,
     itemsByPageMax: Number,
     itemsByPageMin: Number,
+    topPagination: Boolean,
+    resultsByPageControl: Boolean
   },
   data() {
     return {
@@ -141,6 +143,10 @@ nav.pagination {
 }
 
 .pagination-panel {
+  display: none;
+}
+
+.pagination-panel.results-by-page-control {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -184,7 +190,7 @@ nav.pagination {
 
 .disabled {
   pointer-events: none;
-  opacity: 0.5;
+  opacity: 0.15;
 }
 
 .pagination-list {
@@ -225,6 +231,11 @@ nav.pagination {
   display: none;
 }
 
+.pagination-previous:active,
+.pagination-next:active {
+  box-shadow: none;
+}
+
 .pagination-previous:before,
 .pagination-next:before {
   content: "";
@@ -255,16 +266,8 @@ nav.pagination {
 
   .pagination-previous,
   .pagination-next {
-    position: absolute;
-    top: 45px;
-    right: 0;
     width: 53px;
     height: 45px;
-    padding: 0;
-  }
-
-  .pagination-previous {
-    transform: translateX(-82px);
   }
 
   .pagination-previous:before,
@@ -272,6 +275,18 @@ nav.pagination {
     display: inline-block;
     width: 53px;
     height: 45px;
+  }
+
+  .top-pagination .pagination-previous,
+  .top-pagination .pagination-next {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    padding: 0;
+  }
+
+  .top-pagination .pagination-previous {
+    transform: translateX(-82px);
   }
 
   .pagination-panel .label,
