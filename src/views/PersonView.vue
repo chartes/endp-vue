@@ -36,6 +36,8 @@
             :items-by-page-default="limit"
             :items-by-page-min="50"
             :items-by-page-max="100"
+            :top-pagination="true"
+            :results-by-page-control="true"
             @update:change-page="changePage"
             @change:items-by-page-display="handleItemsPerPageChange"/>
       </div>
@@ -46,6 +48,20 @@
             :person="person"/>
         </li>
       </ul>
+
+      <PersonPagination
+          v-if="persons.length"
+          class="pagination-bottom"
+          :currentPage="currentPage"
+          :totalPages="totalPages"
+          :items-by-page-default="limit"
+          :items-by-page-min="50"
+          :items-by-page-max="100"
+          :top-pagination="false"
+          :results-by-page-control="false"
+          @update:change-page="changePage"
+          @change:items-by-page-display="handleItemsPerPageChange"/>
+
     </div>
   </div>
 </template>
@@ -103,6 +119,13 @@ export default {
   methods: {
     handleUpdateQuery({query, search_type}) {
       console.log("From parent : ", query, search_type);
+
+      // Close Searchbox on mobile
+      this.searchBoxOpenState = false;
+
+      // Scroll Page to the top
+      window.scrollTo(0, 0);
+
       this.currentPage = 1;
       this.selectSearchType = search_type;
       this.query = query;
@@ -233,7 +256,7 @@ export default {
 
 .box-search-person-facets .box-content .checkbox-canon {
   position: absolute;
-  bottom: 50px;
+  bottom: 60px;
   right: 30px;
   padding: 20px 40px 20px 0;
   background: url("@/assets/images/picto_chanoine_liste.svg") center right / auto 50px no-repeat;
@@ -305,6 +328,10 @@ h2.subtitle {
   margin-bottom: 0;
   font-size: 20px;
   font-style: italic;
+}
+
+.pagination-bottom {
+  display: none;
 }
 
 
@@ -414,7 +441,7 @@ h2.subtitle {
   }
 
   .is-searchbox-opened .column-results-header {
-    padding-top: 30px;
+    padding-top: 50px;
   }
 
   .is-searchbox-opened .column-results-header.is-sticky {
@@ -437,6 +464,11 @@ h2.subtitle {
     padding-top: 40px;
   }
 
+  .pagination-bottom {
+    display: block;
+    margin-top: 100px;
+  }
+
   .loader-wrapper {
     position: relative;
     height: 20px;
@@ -452,6 +484,7 @@ h2.subtitle {
     height: 20px;
     width: 20px;
   }
+
 }
 
 </style>

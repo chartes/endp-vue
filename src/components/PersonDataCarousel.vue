@@ -55,11 +55,11 @@ export default {
         },
         700: {
           itemsToShow: 2,
-          itemsToScroll: 2
+          itemsToScroll: 1
         },
         1024: {
           itemsToShow: 3,
-          itemsToScroll: 3
+          itemsToScroll: 1
         },
       },
     }
@@ -166,6 +166,8 @@ export default {
 }
 
 .box-content .active-slide-caption {
+  display: none;
+
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -233,12 +235,12 @@ li.carousel__slide a::after {
   position: relative;
 }
 
-:deep(.carousel__slide--active:after) {
+:deep(.carousel__slide--active::after) {
   content:"";
   position: absolute;
   bottom: 76px;
   display: block;
-  border: 7px solid white;
+  border: 7px solid var(--light-brown);
   width: 100%;
   transform:  scale(0.7);
   z-index: 6;
@@ -298,6 +300,10 @@ li.carousel__slide a::after {
 
   .box-iconography-collecta.is-opened  .box-header {
     padding: 0 var(--mobile-side-padding) 0 !important;
+  }
+
+  :deep(.carousel__slide--active::after) {
+    display: none;
   }
 
 }

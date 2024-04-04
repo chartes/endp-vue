@@ -26,6 +26,11 @@ body {
   font-family: var(--font-primary);
 }
 
+button:focus {
+  outline: none;
+  box-shadow: none !important;
+}
+
 .input:focus {
   border: none;
   border-bottom: solid 1px var(--light-brown)

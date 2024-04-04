@@ -100,7 +100,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   background-color: var(--panel-bg-color);
-  padding-bottom: 50px;
+  padding-bottom: 60px;
 }
 
 .container-search > div {
@@ -119,15 +119,17 @@ export default {
 }
 
 .container-search > p:last-child {
+  position: absolute;
+  bottom:10px;
+  left:25px;
   padding: 0;
-  transform: translateY(35px);
 }
 
 .field.has-addons {
   display: flex;
   align-items: center;
   margin-top: 0.5em;
-  padding: 20px 25px 25px;
+  padding: 20px 25px 20px;
 }
 
 .field.has-addons > *:not(:last-child) {
@@ -184,7 +186,6 @@ input[type='range'].slider {
   white-space: nowrap;
 }
 
-
 button.button.is-info {
   height: auto;
   background-color: #303030;
@@ -214,6 +215,12 @@ button.button.is-info {
 
 .btn-reset .icon {
   display: none;
+}
+
+.btn-reset:focus,
+button.button.is-info:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 .button-reset-search {
@@ -318,10 +325,15 @@ input[type="text"]::placeholder {
     transform: translateX(-50%);
   }
 
-  .btn-reset {
+  .container-search > p:last-child {
+    width: 100%;
     position: absolute;
-    bottom: -176px;
-    left: 50%;
+    bottom: 10px;
+    left: 0;
+    margin-left: 20px;
+  }
+
+  .btn-reset {
     transform: translateX(-50%);
   }
 }

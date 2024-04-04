@@ -143,6 +143,11 @@ export default {
   display: none;
 }
 
+.control.has-icons-left .select select:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 
 
 @media screen and (max-width: 1024px) {
