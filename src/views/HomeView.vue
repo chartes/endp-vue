@@ -1,4 +1,20 @@
 <template>
+  <!-- splash screen -->
+  <div id="splash-screen" class="splash-screen">
+    <div class="move-round-point"></div>
+    <div>
+      <img id="splash-screen__banner" src="@/assets/images/splash-screen.jpg"/>
+    </div>
+    <div class="splash-screen__content">
+      <h1 class="title">
+        e-NDP<br/>
+        Notre-Dame de Paris et son cloître<br>
+        <span class="subtitle">Les lieux, les gens, la vie</span>
+        <span class="period">1326-1504</span>
+      </h1>
+    </div>
+  </div>
+
   <!-- banner -->
   <div id="banner-image" class="container is-fluid"></div>
 
@@ -34,10 +50,11 @@
         donnent accès à toutes les décisions prises par les chanoines sur l'administration de la cathédrale, sur la
         gestion de leurs droits et de leur patrimoine, et sur la société du cloître.</p>
       <p class="block lettrine">Ces registres sont désormais accessibles grâce à la numérisation de leurs 14605 pages
-      et à l'utilisation de la reconnaissance automatique de l'écriture manuscrite (HTR), qui permet d'en fournir une
-      transcription. Celle-ci permet d'exhumer une source majeure pour l'histoire et la vie des hommes, des femmes et
-      des enfants qui ont composé la société active à l'ombre de la cathédrale Notre-Dame et ont fait de cette dernière
-      un modèle pour l'architecture, la liturgie, les arts et la vie intellectuelle et scientifique.</p>
+        et à l'utilisation de la reconnaissance automatique de l'écriture manuscrite (HTR), qui permet d'en fournir une
+        transcription. Celle-ci permet d'exhumer une source majeure pour l'histoire et la vie des hommes, des femmes et
+        des enfants qui ont composé la société active à l'ombre de la cathédrale Notre-Dame et ont fait de cette
+        dernière
+        un modèle pour l'architecture, la liturgie, les arts et la vie intellectuelle et scientifique.</p>
     </div>
   </div>
   <!-- end banner -->
@@ -46,11 +63,32 @@
 <script>
 export default {
   name: 'HomeView',
+  mounted() {
+    function setSplashScreenTimming(splashScreenElement, time) {
+      if (splashScreenElement) {
+        setTimeout(() => {
+          splashScreenElement.style.opacity = 0;
+          setTimeout(() => {
+            splashScreenElement.style.display = 'none';
+            localStorage.setItem('splashScreenDisplayed', 'true');
+          }, time);
+        }, time);
+      }
+    }
+    let splashScreen = document.getElementById('splash-screen');
+    if (!localStorage.getItem('splashScreenDisplayed')) {
+      // if the splash screen has not been displayed yet, display it during 2 seconds
+      setSplashScreenTimming(splashScreen, 2000);
+    } else {
+      // if the splash screen has already been displayed, display it during 0.5 seconds
+      setSplashScreenTimming(splashScreen, 900);
+    }
+  }
 }
 </script>
 <style src="@/assets/css/endp_utils.css"></style>
+<style src="@/assets/css/splash_screen.css" scoped></style>
 <style scoped>
-
 #banner-image {
   height: 330px;
 }
