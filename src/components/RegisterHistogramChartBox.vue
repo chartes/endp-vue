@@ -196,7 +196,7 @@ export default {
   overflow: hidden;
 }
 
-:deep(.plotly) {
+:deep(.js-plotly-plot .plotly) {
   margin: -65px -50px 0 -30px;
 }
 
@@ -214,7 +214,7 @@ export default {
     height: 460px;
   }
 
-  :deep(.plotly) {
+  :deep(.js-plotly-plot .plotly) {
     margin: -55px 0 0 -40px;
   }
 }
