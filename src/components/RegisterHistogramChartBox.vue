@@ -187,37 +187,36 @@ export default {
 </script>
 
 <style scoped>
+
 #histogram {
-  max-width: 580px;
-  margin: -55px -50px 0 -40px;
-  padding: 0 0.1px 0 10px;
+  width: 120%;
+  max-height: 460px;
+  height: calc( 100vh - 400px );
+  padding: 0;
+  overflow: hidden;
+}
+
+:deep(.plotly) {
+  margin: -65px -50px 0 -30px;
+}
+
+:deep(.svg-container) {
 }
 
 :deep(.main-svg) {
   background-color: transparent !important;
 }
 
-@media screen and (max-width: 1015px) {
+@media screen and (max-width: 1023px) {
+
   #histogram {
-    margin: 0 -50px;
-    max-width: 150%;
-    padding: 0 1px 0 1px;
+    width: calc( 99vw + 61px ); /* Interpolation 1023, w:1080px => 320, 380px */
+    height: 460px;
+  }
+
+  :deep(.plotly) {
+    margin: -55px 0 0 -40px;
   }
 }
 
-@media screen and (max-width: 970px) {
-  #histogram {
-    margin: 0 0 0 -50px;
-    max-width: 160%;
-    padding: 0 1px 0 1px;
-  }
-}
-
-@media screen and (max-width: 850px) {
-  #histogram {
-    margin: 0 0 0 -50px;
-    width: 120%;
-    padding: 0 1px 0 1px;
-  }
-}
 </style>
