@@ -80,8 +80,8 @@ export default {
       // if the splash screen has not been displayed yet, display it during 2 seconds
       setSplashScreenTimming(splashScreen, 2000);
     } else {
-      // if the splash screen has already been displayed, display it during 0.5 seconds
-      setSplashScreenTimming(splashScreen, 900);
+      // if the splash screen has already been displayed, hide it immediately
+      splashScreen.style.display = 'none';
     }
   }
 }
