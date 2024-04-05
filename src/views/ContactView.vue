@@ -55,9 +55,6 @@ a:hover {
   text-decoration: underline;
 }
 
-p {
-  margin-bottom: 20px;
-}
 
 h2, h3 {
   font-family: var(--font-primary);
@@ -73,13 +70,38 @@ h2, h3 {
   margin-bottom: 40px;
 }
 
+.column h2 b {
+  font-weight: 400;
+}
+
 h2, h3 {
   font-style: italic;
 }
 
 h3, h4 {
-  color: var(--light-brown-alt)
+  color: var(--brown);
+  font-size: 22px;
+  line-height: 1.3;
 }
+
+h3 {
+  margin: 15px 0 10px;
+}
+
+h2 + h4,
+h3 + h4,
+h2 + h3 {
+  margin-top: 0;
+}
+
+h4 {
+  margin: 20px 0 10px;
+}
+
+p, li {
+  margin-bottom: 10px;
+}
+
 
 .container-text {
   text-align: justify;

@@ -490,7 +490,7 @@ export default {
 }
 
 .box-facets > .box-histogram {
-  padding: 0 10px 0 0;
+  padding: 0 10px;
 }
 
 .mobile-total-of-registers {

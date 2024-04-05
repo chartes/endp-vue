@@ -163,6 +163,7 @@ export default {
 .is-opened .box-content {
   display: block;
   position: relative;
+  max-height: 65vh;
 }
 
 .box-content .active-slide-caption {
@@ -223,10 +224,10 @@ li.carousel__slide a::after {
   content: "";
   position: absolute;
   left:0;
-  top: -10px;
+  top: -10%;
   display: block;
   width: 110%;
-  height: 50%;
+  height: 60%;
   background-color: var(--panel-bg-color);
   z-index: 2;
 }
@@ -275,7 +276,6 @@ li.carousel__slide a::after {
 :deep(.carousel__next svg) {
   display: none;
 }
-
 
 :deep(.carousel__pagination) {
   display: none;

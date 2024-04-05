@@ -230,7 +230,9 @@ footer .columns .column:last-child {
   display: flex;
   flex-wrap: wrap;
 
-  padding-top: 70px; /* ajouté pour centrer les logos dans le footer */
+  padding-top: 10px; /* ajouté pour centrer les logos dans le footer */
+  padding-bottom: 20px;
+
   margin-left: 5px; /* ajouté pour espacer un peu le block de logo du texte du footer */
 
   --logo-scale: 0.75; /* réduit de 0.05 pour avoir un peu plus d'espace et avoir seulement 2 lignes de logos en Desktop */
