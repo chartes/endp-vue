@@ -317,6 +317,10 @@ footer .columns .column:last-child {
     padding: 55px 20px;
   }
 
+  .logos-container {
+    flex-direction: column;
+  }
+
 }
 
 

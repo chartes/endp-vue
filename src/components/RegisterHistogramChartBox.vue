@@ -188,6 +188,10 @@ export default {
 
 <style scoped>
 
+.box-histogram {
+  overflow-x: hidden;
+}
+
 #histogram {
   width: 120%;
   max-height: 460px;
@@ -196,7 +200,7 @@ export default {
   overflow: hidden;
 }
 
-:deep(.plotly) {
+:deep(.js-plotly-plot .plotly) {
   margin: -65px -50px 0 -30px;
 }
 
@@ -214,8 +218,8 @@ export default {
     height: 460px;
   }
 
-  :deep(.plotly) {
-    margin: -55px 0 0 -40px;
+  :deep(.js-plotly-plot .plotly) {
+    margin: -55px 0 0 -36px;
   }
 }
 
