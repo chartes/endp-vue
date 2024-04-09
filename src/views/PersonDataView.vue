@@ -82,9 +82,11 @@
 
 <script>
 import axios from 'axios';
+import {mapState} from "vuex";
+import {spaceAroundCommas} from "@/modules/string_format";
+
 import PersonDataTimeline from "@/components/PersonDataTimeline.vue";
 import PersonDataCarousel from "@/components/PersonDataCarousel.vue";
-import {mapState} from "vuex";
 
 export default {
   name: "PersonDataView",
@@ -141,6 +143,8 @@ export default {
       try {
         const metaData = await this.fetchData(`/persons/person/${this.reference_id}`);
         this.meta_person = metaData;
+        this.meta_person['forename_alt_labels'] = spaceAroundCommas(this.meta_person['forename_alt_labels']);
+        this.meta_person['surname_alt_labels'] = spaceAroundCommas(this.meta_person['surname_alt_labels']);
         this.kb_urls = metaData.related_to.filter(link => link.type !== 'Collecta');
         this.collecta_urls = metaData.related_to.filter(link => link.type === 'Collecta');
 

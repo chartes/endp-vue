@@ -384,13 +384,13 @@ export default {
     /**
      * Handle the mirador update
      * @param canvasID
-     * @param registre
+     * @param register
      * @returns {Promise<void>}
      */
-    async handleMiradorUpdate(canvasID, registre) {
+    async handleMiradorUpdate(canvasID, register) {
       this.canvasId = canvasID;
-      this.endpVolume = registre;
-      this.$store.commit('setEndpVolume', registre);
+      this.endpVolume = register;
+      this.$store.commit('setEndpVolume', register);
       this.$store.commit('setCanvasId', canvasID);
       await this.initMiradorViewer();
       await this.updateUrlParams();

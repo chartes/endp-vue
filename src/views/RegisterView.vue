@@ -84,6 +84,7 @@
       <div class="column-results-header">
         <RegisterMetadataBox
             :total-of-registers="totalRegisters"
+            :with-legend="false"
             class="register-meta-box"
         />
       </div>

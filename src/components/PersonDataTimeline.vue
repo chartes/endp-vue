@@ -32,7 +32,7 @@
                     <div class="popup-description">
                   <span v-if="event.thesaurus_term_person" class="event-term"><u>{{
                       event.thesaurus_term_person.topic
-                    }} : </u>{{ event.thesaurus_term_person.term_fr }} ({{ event.thesaurus_term_person.term_la }})</span>
+                    }} : </u>{{ spaceAroundCommas(event.thesaurus_term_person.term_fr) }} ({{ spaceAroundCommas(event.thesaurus_term_person.term_la) }})</span>
                       <br v-if="event.thesaurus_term_person">
                       <span v-if="event.place_term" class="event-place"><u>Lieu</u> : {{
                           event.place_term.term_fr
@@ -65,6 +65,7 @@
 
 <script>
 import {mapState} from "vuex";
+import {spaceAroundCommas} from "@/modules/string_format";
 
 export default {
   name: "PersonDataTimeline",
@@ -126,7 +127,8 @@ export default {
     groupedEvents() {
       // Parse une date et retourne un objet avec année, mois, jour et un poids pour le tri.
       const parseDate = (date) => {
-        console.log('parseDate', date);
+        // remove tildes from date
+        date = date.replace(/~/g, '');
         const parts = date ? date.split('-').map(Number) : [];
         return {
           year: parts[0] || 0,
@@ -172,6 +174,7 @@ export default {
   }
   ,
   methods: {
+    spaceAroundCommas,
     /**
      * Navigate in the timeline's popup like a carousel
      * @param group

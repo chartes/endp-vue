@@ -10,6 +10,14 @@
   <!-- Main grid  -->
   <div class="columns">
     <div class="column">
+
+      <h2 class="subtitle">Chaîne de traitement</h2>
+      <br>
+
+
+      <img src="@/assets/others/endp_workflow_V1.drawio.svg" alt="Chaîne de traitement" style="width: 100%; max-width: 800px; display: block; margin: 0 auto;" >
+
+      <br>
       <h2 class="subtitle">Liens utiles</h2>
 
       <!--
@@ -132,5 +140,6 @@ p, li {
   }
 
 }
+
 
 </style>

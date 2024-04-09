@@ -11,11 +11,11 @@
               <span class="icon is-small"><i class="fa fa-list"></i></span> Fac-similés
             </a>
           </li>
-          <li>
+          <!--<li>
             <a href="#">
               <span class="icon is-small"><i class="fa fa-list"></i></span> Éditions
             </a>
-          </li>
+          </li>-->
           <li>
             <a href="https://nosketch-engine.lamop.fr/#dashboard?corpname=endp" target="_blank">
               <span class="icon is-small"><i class="fa fa-list"></i></span> No Sketch

@@ -6,12 +6,12 @@
         <span class="card-header-subtitle">{{ period }}</span>
         <span class="card-header-main-title">{{ title }}</span>
         <span class="container-icons-services">
-        <span class="icon book-icon-card" v-if="isEdited">
+        <!--<span class="icon book-icon-card" v-if="isEdited">
         <i class="fas fa-book-open"></i>
       </span>
         <span class="icon book-icon-card" v-if="facSimile">
         <i class="fas fa-book"></i>
-      </span>
+      </span>-->
     </span>
       </p>
       <button class="toggle-btn-wrapper">
@@ -27,31 +27,31 @@
         <p class="ressource-title">Accéder aux ressources</p>
         <p>Lien vers la salle de lecture virtuelle des AN : <a :href="AnSivLink" target="_blank">ici</a>
         </p>
-        <p>Lien vers facsimile : <router-link :to="`/facsimile/${volume}/0`" @click="navigateToFacSimile">ici</router-link></p>
+        <p>Lien vers le fac-similé du registre {{ volume }} : <router-link :to="`/facsimile/${volume}/1`" @click="navigateToFacSimile">ici</router-link></p>
       </div>
 
       <div class="available-ressources">
         <div>
           <div>Première page</div>
           <div v-if="facSimile">
-            <span class="icon book-icon-card"><i class="fas fa-book"></i></span>
+            <span class="icon book-icon-card" title="Pages du fac-similé"><i class="fas fa-book"></i></span>
             <router-link :to="`/facsimile/${volume}/${firstCanvasID}`" @click="navigateToFacSimile(firstCanvasID, volume, yearFirstPage)">{{ firstPage }}</router-link>
           </div>
-          <div v-if="isEdited">
+          <!--<div v-if="isEdited">
             <span class="icon book-icon-card"><i class="fas fa-book-open"></i></span>
             <span class="edition-page">{{ firstPage }}</span>
-          </div>
+          </div>-->
         </div>
         <div>
           <div>Dernière page</div>
           <div v-if="facSimile">
-            <span class="icon book-icon-card"><i class="fas fa-book"></i></span>
+            <!--<span class="icon book-icon-card"><i class="fas fa-book"></i></span>-->
             <router-link :to="`/facsimile/${volume}/${lastCanvasID}`" @click="navigateToFacSimile(lastCanvasID, volume, yearLastPage)">{{ lastPage }}</router-link>
           </div>
-          <div v-if="isEdited">
+          <!--<div v-if="isEdited">
             <span class="icon book-icon-card"><i class="fas fa-book-open"></i></span>
             <span class="edition-page">{{ lastPage }}</span>
-          </div>
+          </div>-->
         </div>
       </div>
 
@@ -164,6 +164,19 @@ export default {
 .book-icon-card {
   font-size: 24px;
   color: #000000;
+}
+
+.book-icon-card i:hover {
+  color: var(--light-brown-alt);
+}
+
+/* create a little animation for the book icon : jump a little bit */
+.book-icon-card i {
+  transition: transform 0.2s;
+}
+
+.book-icon-card i:hover {
+  transform: translateY(-5px);
 }
 
 .container-icons-services {

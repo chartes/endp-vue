@@ -6,7 +6,7 @@
     </h1>
     <ul>
       <li v-for="(years, register) in this.navByVolumesJSON" :key="register" class="register">
-        <b @click="toggleRegister(register)" :class="{ 'is-highlighted': openRegisters[register]?.isOpen }">
+        <b @click="toggleRegister(register);updateMirador(register,0,0)" :class="{ 'is-highlighted': openRegisters[register]?.isOpen }">
           <span class="register_name" :class="{ 'span-is-highlighted': openRegisters[register]?.isOpen }">{{
               register
             }}</span>

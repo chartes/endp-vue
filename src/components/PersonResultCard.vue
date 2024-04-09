@@ -47,7 +47,7 @@ export default {
     toggleContent(person, event) {
       person.isOpened = !person.isOpened;
       event.preventDefault();
-    }
+    },
   }
 }
 </script>

@@ -69,6 +69,7 @@
 <script>
 import axios from "axios";
 import {mapState} from "vuex";
+import {spaceAroundCommas} from "@/modules/string_format";
 
 import PersonSearchBox from "@/components/PersonSearchBox.vue";
 import PersonPagination from "@/components/PersonPagination.vue";
@@ -117,6 +118,7 @@ export default {
   },
 
   methods: {
+    spaceAroundCommas,
     handleUpdateQuery({query, search_type}) {
       console.log("From parent : ", query, search_type);
 
@@ -142,6 +144,13 @@ export default {
         this.searchPersons();
       }
     },
+    formatLabels(persons){
+      return persons.map((person) => ({
+        ...person,
+        forename_alt_labels: this.spaceAroundCommas(person.forename_alt_labels),
+        surname_alt_labels: this.spaceAroundCommas(person.surname_alt_labels),
+      }));
+    },
     async getPersons() {
       this.isLoading = true;
       this.query = "";
@@ -155,6 +164,7 @@ export default {
               ...person,
               isOpened: false,
             }));
+            this.persons = this.formatLabels(this.persons);
             this.total = response.data.total;
             if (this.currentPage > this.totalPages) {
               this.currentPage = 1;
@@ -181,6 +191,7 @@ export default {
               ...person,
               isOpened: false,
             }));
+            this.persons = this.formatLabels(this.persons);
             this.total = response.data.total;
           })
           .finally(() => {
