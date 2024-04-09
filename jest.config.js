@@ -9,6 +9,9 @@ module.exports = {
        customExportConditions: ["node", "node-addons"],
     },
     moduleFileExtensions: ['js', 'json', 'ts', 'vue'],
+    moduleNameMapper: {
+        '^@/(.*)$': '<rootDir>/src/$1'
+    },
     transform: {
         '^.+\\.vue$': '@vue/vue3-jest',
         '^.+\\.js$': 'babel-jest'
