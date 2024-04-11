@@ -6,6 +6,8 @@ import PersonDataView from "@/views/PersonDataView.vue";
 import RangeRegisterPrototype from "@/views/RegisterView.vue";
 import FacSimileView from "@/views/FacSimileView.vue";
 import ContactView from "@/views/ContactView.vue";
+import CreditView from "@/views/CreditView.vue";
+import TermsOfServiceView from "@/views/TermsOfServiceView.vue";
 
 const rootURL = `${process.env.VUE_APP_APP_ROOT_URL}`
 
@@ -45,6 +47,16 @@ const routes = [
     path:'/contact',
     name: 'contact',
     component: ContactView,
+  },
+  {
+    path:'/credits',
+    name: 'credits',
+    component: CreditView,
+  },
+  {
+    path:'/termsofservice',
+    name: 'termsofservice',
+    component: TermsOfServiceView
   }
 
 ]

@@ -16,7 +16,7 @@
       <!--<p class="title-h2">mpn [at] chartes [.] psl [.] eu</p>-->
       <p class="rgpd-info">En contactant l'équipe du site e-NDP, vous consentez au traitement des données que vous transmeterez dans votre
         mail. La Règlementation générale sur la protection des données (RGPD) vous permet d'exercer vos droits d'accès, de
-        rectification, de modification ou de suppression de vos données personnelles à la Mission projets numériques de l'École nationale des chartes. En savoir plus. <!-- lien mention légales -->
+        rectification, de modification ou de suppression de vos données personnelles à la Mission projets numériques de l'École nationale des chartes. <router-link to="/termsofservice">En savoir plus</router-link>.
       </p>
     </div>
   </div>
@@ -43,7 +43,7 @@ export default {
   font-family: var(--font-secondary);
 }
 
-p, ul, li, a {
+p, ul, li {
   font-size: 22px;
 }
 

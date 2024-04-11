@@ -33,11 +33,12 @@
           Ressources
         </router-link>
       </li>
+      <!--
       <li>
         <router-link class="nav-link active" to="/contact"><span class="icon"><i class="fa fa-envelope"></i></span>
           Contact
         </router-link>
-      </li>
+      </li>-->
     </ul>
   </aside>
 </template>

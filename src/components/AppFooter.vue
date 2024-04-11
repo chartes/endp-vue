@@ -21,7 +21,13 @@
         </div>
         <ul class="footer-links">
           <li>
-            <a href="#">Mentions Légales</a> <!-- /termsofservice -->
+            <router-link to="/contact">Contact</router-link>
+          </li>
+          <li>
+            <router-link to="/credits">Crédits</router-link>
+          </li>
+          <li>
+            <router-link to="/termsofservice">Mentions légales</router-link>
           </li>
           <li>
             <a href="https://www.huma-num.fr/" target="_blank">Huma-Num</a> <!-- /termsofservice -->
