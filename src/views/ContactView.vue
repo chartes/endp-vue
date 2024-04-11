@@ -13,10 +13,10 @@
         demande d'informations complémentaires, vous pouvez contacter l'équipe technique de la Mission projets
         numériques de l'École nationale des chartes.
       </p>
-      <!--<p class="title-h2">mpn [at] chartes [.] psl [.] eu</p>-->
-      <p class="rgpd-info">En contactant l'équipe du site e-NDP, vous consentez au traitement des données que vous transmeterez dans votre
+      <p class="title-h2">xxx [at] chartes [.] psl [.] eu</p>
+      <p class="rgpd-info">En contactant l'équipe du site eNDP, vous consentez au traitement des données que vous transmeterez dans votre
         mail. La Règlementation générale sur la protection des données (RGPD) vous permet d'exercer vos droits d'accès, de
-        rectification, de modification ou de suppression de vos données personnelles à la Mission projets numériques de l'École nationale des chartes. <router-link to="/termsofservice">En savoir plus</router-link>.
+        rectification, de modification ou de suppression de vos données personnelles à l'École nationale des chartes. <router-link to="/termsofservice">En savoir plus</router-link>.
       </p>
     </div>
   </div>

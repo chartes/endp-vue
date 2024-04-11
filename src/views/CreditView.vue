@@ -10,15 +10,11 @@
   <div class="columns container-text">
     <div class="column">
       <ul>
-        <li>Coordination du projet ANR e-NDP: Julie Claustre, professeure d’histoire du Moyen Âge au laboratoire ICT (Identités, Cultures, Territoires) - Les Europes dans le monde (UR 337 / Université Paris Cité), et Darwin Smith, directeur de recherche émérite au Laboratoire de médiévistique occidentale de Paris (UMR 8589/ CNRS-Paris 1)</li>
-        <li>Direction du projet de l'application : Centre Jean Mabillon (EA 3624), École nationale des chartes</li>
-        <li>Direction scientifique : xxx</li>
         <li>Direction technique : Vincent Jolivet, chef de la mission projets numériques (École nationale des chartes),
           Lucas&nbsp;Terriel, ingénieur en développement logiciel (École nationale des chartes)</li>
-        <li>Chaîne de traitement des données : Vincent Jolivet, Sergio Torrès Aguilar (Université du Luxembourg), Lucas Terriel</li>
-        <li>Développement et maintenance de l'application : Lucas Terriel, Denis Chiron</li>
-        <li>Maquette graphique : Mika Cixous</li>
-        <li>Financements : <a href="https://anr.fr/Projet-ANR-20-CE27-0012" target="_blank">Agence nationale de la recherche (ANR)</a></li>
+        <li>Développement et maintenance de l'application : Lucas Terriel, xxx</li>
+        <li>Maquette graphique : xxx</li>
+        <li>Financements : <a href="https://anr.fr/Projet-ANR-20-CE27-0012" target="_blank">Agence nationale de la recherche (ANR) - ANR-20-CE27-0012</a></li>
         <li>Hébergement : IR* Huma-Num</li>
       </ul>
     </div>
