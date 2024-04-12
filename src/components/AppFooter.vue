@@ -21,7 +21,7 @@
         </div>
         <ul class="footer-links">
           <li>
-            <router-link to="/contact">Contact</router-link>
+            <a href="https://www.chartes.psl.eu/contact" target="_blank">Contact</a>
           </li>
           <li>
             <router-link to="/credits">Crédits</router-link>
@@ -32,9 +32,9 @@
           <li>
             <a href="https://www.huma-num.fr/" target="_blank">Huma-Num</a> <!-- /termsofservice -->
           </li>
-          <li>
-            <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode.fr" target="_blank">Licence CC-BY-SA 4.0</a>
-          </li>
+          <!--<li>
+            <a href="https://creativecommons.org/licenses/by/4.0/legalcode.fr" target="_blank">Licence CC-BY 4.0</a>
+          </li>-->
         </ul>
       </div>
       <div class="column">

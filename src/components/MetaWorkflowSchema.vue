@@ -2,7 +2,7 @@
   <div class="card" :class="{ 'is-opened': isOpened }">
     <header class="card-header" @click="toggleContent">
       <p class="card-header-title">
-        <span class="card-header-main-title">Diagramme des traitements</span>
+        <span class="card-header-main-title">Accès rapide aux ressources</span>
       </p>
       <button class="toggle-btn-wrapper">
             <span class="icon">

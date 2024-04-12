@@ -4,18 +4,17 @@
   <!-- end banner -->
 
   <div class="page-title">
-    <h1>Crédits</h1>
+    <h1>Crédits de l'application</h1>
   </div>
 
   <div class="columns container-text">
     <div class="column">
+      <p>L'application eNDP (endp.chartes.psl.eu) est une réalisation de la mission projet numériques de l'École nationale des chartes - PSL, développée
+      dans le cadre du projet ANR e-NDP, «&nbsp;Notre-Dame de Paris et son cloître : les lieux, les gens, la vie&nbsp;».</p>
       <ul>
-        <li>Direction technique : Vincent Jolivet, chef de la mission projets numériques (École nationale des chartes),
-          Lucas&nbsp;Terriel, ingénieur en développement logiciel (École nationale des chartes)</li>
-        <li>Développement et maintenance de l'application : Lucas Terriel, xxx</li>
-        <li>Maquette graphique : xxx</li>
-        <li>Financements : <a href="https://anr.fr/Projet-ANR-20-CE27-0012" target="_blank">Agence nationale de la recherche (ANR) - ANR-20-CE27-0012</a></li>
-        <li>Hébergement : IR* Huma-Num</li>
+        <li>Conception et développement de l'application : Vincent Jolivet, Lucas Terriel.</li>
+        <li>Financements : <a href="https://anr.fr/Projet-ANR-20-CE27-0012" target="_blank">Agence nationale de la recherche (ANR) - ANR-20-CE27-0012</a>.</li>
+        <li>Hébergement : <a href="ttps://www.huma-num.fr/" target="_blank">IR* Huma-Num</a>.</li>
       </ul>
     </div>
   </div>

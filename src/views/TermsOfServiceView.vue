@@ -11,6 +11,68 @@
     <div class="column">
       <p class="tos-last-maj-date">Dernière mise à jour de la page : 11 avril 2024.</p>
 
+      <h2>Éditeur</h2>
+
+      <p>
+        École nationale des chartes, établissement public administratif<br>
+        65, rue de Richelieu<br>
+        12, rue des Petits-Champs<br>
+        75002 Paris<br>
+        Tél. + 33 (0)1 55 42 75 00<br>
+        Siret : 19753478700043</p>
+
+      <h2>Hébergement</h2>
+
+      <p>
+        IR* Huma-Num<br>
+        Bâtiment de recherche Nord<br>
+        14, cours des humanités<br>
+        93322 Aubervilliers cedex
+      </p>
+
+      <h2>Responsable de publication</h2>
+      <p>
+        Michelle Bubenicek, directrice de l'École<br>
+        secretariat@chartes.psl.eu
+      </p>
+
+      <h3>Données personnelles</h3>
+
+      <p>Consulter la page <a href="https://www.chartes.psl.eu/politique-de-confidentialite" target="_blank">« Politique de confidentialité »</a> de l'École nationale des chartes - PSL.</p>
+
+      <h3>Propriété intellectuelle du site et de ses contenus</h3>
+
+      <p>Sauf mention contraire, les contenus du site eNDP (endp.chartes.psl.eu) et les données accessibles via ses API
+         sont partagés sous licence ouverte (<a href="https://creativecommons.org/licenses/by/4.0/legalcode.fr" target="_blank">CC-BY 4.0</a>).</p>
+
+      <h3>Crédits photographiques</h3>
+
+      <p>Les sources des bannières des pages du site eNDP (endp.chartes.psl.eu) sont les
+        suivantes :</p>
+      <ul>
+        <li>
+          page d'accueil&nbsp;: «&nbsp;Olivier Truschet, Germain Hoyau&nbsp;; Plan de Paris vers 1550&nbsp;», Domaine public, <a href="https://commons.wikimedia.org/wiki/File:Plan_de_Paris_vers_1550_color.jpg">Wikimedia Commons</a>&nbsp;;
+        </li>
+        <li>
+          page personnes&nbsp;: «&nbsp;Unité de décor - f. 108r, Liturgie&nbsp;: service funèbre&nbsp;», <a href="https://mandragore.bnf.fr/ark:/12148/cgfbt209696b" target="_blank">BnF-Mandragore</a>, <a href="https://gallica.bnf.fr/edit/und/conditions-dutilisation-des-contenus-de-gallica" target="_blank">conditions de réutilisation</a>&nbsp;;
+        </li>
+        <li>
+          page registres&nbsp;: «&nbsp;Détail du <a href="https://nakala.fr/10.34847/nkl.8bdfe89g" target="_blank">registre capitulaire LL105</a>&nbsp;», <a href="https://creativecommons.org/licenses/by/4.0/legalcode.fr" target="_blank">CC-BY 4.0</a>&nbsp;;</li>
+        <li>
+          page ressources, mentions légales  et contacts&nbsp;: «&nbsp;Détail de la rosace ouest de la Cathédrale Notre-Dame de Paris&nbsp;», Cyril Preiss, <a href="https://www.culture.gouv.fr/Mentions-legales" target="_blank">conditions de réutilisation</a>.
+        </li>
+      </ul>
+
+      <p>L'icône <a href="https://icon-icons.com/pack/Business-Solid---The-Capitalism-icon-set/2534" target="_blank">«&nbsp;Processing&nbsp;»</a> présente dans le schéma de la page ressources du site est partagé sous licence <a href="https://creativecommons.org/licenses/by/4.0/legalcode.fr" target="_blank">CC-BY 4.0</a>.</p>
+
+      <p>Les crédits photographiques et autres mentions relatives aux droits d'auteur, tels que spécifiés sur ce site, doivent être respectés.</p>
+
+      <hr>
+      <p class="tos-last-maj-date">Cette notice d’information est susceptible d’être modifiée. La date de la dernière
+        mise à jour est indiquée au début de la page.</p>
+      <!-- ancien texte -->
+
+      <!--
       <p>Le site « eNDP » (endp.chartes.psl.eu) est édité par l'École nationale des chartes, 65 Rue de Richelieu, 75002
         Paris (tél. 01 55 42 75 00) et a pour directrice
         Michelle Bubenicek. Il est hébergé par l'Infrastructure Huma-Num, Bâtiment de recherche Nord, 14, cours des
@@ -102,7 +164,7 @@
 
       <hr>
       <p class="tos-last-maj-date">Cette notice d’information est susceptible d’être modifiée. La date de la dernière
-        mise à jour est indiquée au début de la page.</p>
+        mise à jour est indiquée au début de la page.</p>-->
       <!--
       Réalisation du site
 
@@ -243,6 +305,7 @@ h2, h3 {
   font-style: italic;
   box-shadow: 0 3px 0 0 currentColor;
   margin-bottom: 40px;
+  margin-top: 20px;
 }
 
 .column h2 b {
@@ -260,7 +323,7 @@ h3, h4 {
 }
 
 h3 {
-  margin: 15px 0 10px;
+  margin: 40px 0 10px;
 }
 
 h2 + h4,
