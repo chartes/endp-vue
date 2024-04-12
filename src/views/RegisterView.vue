@@ -672,7 +672,7 @@ export default {
   }
 
   .columns.facets-box-collapsed .column-results-header {
-    height: 350px;
+    height: 228px;
   }
 
   .columns:not(.facets-box-collapsed) .column-results-header {

@@ -325,11 +325,6 @@ hr,
     margin-bottom: 12px;
   }
 
-
-  .available-ressources {
-    flex-direction: column;
-  }
-
   .available-ressources > div:first-child > div[data-v-572ca977]:first-child {
     padding-left: 0;
   }
@@ -339,5 +334,32 @@ hr,
   }
 
 }
+
+
+@media screen and (max-width: 640px) {
+
+  .available-ressources[data-v-572ca977] {
+    gap: 20px;
+  }
+
+  .available-ressources > div {
+    font-size: 18px;
+  }
+
+  .available-ressources .icon[data-v-572ca977] {
+    padding-left: 5px;
+    padding-right: 32px;
+  }
+
+}
+
+@media screen and (max-width: 360px) {
+
+  .available-ressources > div {
+    font-size: 16px;
+  }
+
+}
+
 
 </style>
