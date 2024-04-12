@@ -43,6 +43,7 @@ const isHome = computed(() => {
 </script>
 
 <style>
+
 html,
 body,
 .app-main-content__area,
