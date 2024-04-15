@@ -28,9 +28,12 @@ const toggleMobileMenu = function($event) {
 }
 
 const route = useRoute();
-watch(route, () => {
+watch(route, (nextRoute, previousRoute) => {
   isMobileMenuOpen.value = false;
-  window.scrollTo(0,0);
+  console.log(nextRoute.name, previousRoute.name);
+  if (nextRoute.name !== "facsimile" || previousRoute.name !== "facsimile") {
+    window.scrollTo(0,0);
+  }
 });
 
 const isHome = computed(() => {

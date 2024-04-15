@@ -145,7 +145,7 @@ h1.title .period {
 }
 
 .columns > .container.column:last-child {
-  padding-bottom: 875px;
+  padding-bottom: 400px;
 }
 
 nav li {
@@ -236,7 +236,7 @@ nav a .icon {
   }
 
   .columns > .container.column:last-child {
-    padding-bottom: 500px;
+    padding-bottom: 400px;
   }
 
   nav {

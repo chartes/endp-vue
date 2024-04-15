@@ -287,7 +287,8 @@ li.register .is-highlighted,
 }
 
 .fac-simile__toc > ul {
-  max-height: 60vh;
+  min-height: 100vh;
+  max-height: 100vh;
   overflow-y: scroll;
   margin: 0;
   padding: 30px 0;
@@ -295,7 +296,7 @@ li.register .is-highlighted,
 
 .main__title__toc {
   display: block;
-  margin: 21px 0 10px;
+  margin: 28px 0 10px;
 
   font-size: 24px;
   font-weight: 400;
@@ -396,6 +397,7 @@ nav menu, nav ul {
   }
 
   .fac-simile__toc > ul {
+    min-height: 200px;
     max-height: unset;
     overflow-y: unset;
   }

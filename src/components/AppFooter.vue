@@ -193,14 +193,13 @@ footer .columns .column:last-child {
 
 .footer-links li:not(:last-child):after {
   content: "";
-  position: absolute;
+  position: relative;
   top: 0;
-  right: 0;
-  display: inline-block;
+  right: -9px;
+  display: inline;
   width: 1px;
-  height: 80%;
+  font-size: 80%;
   border-right: solid #ffffff 1px;
-  transform: translateY(2px);
 }
 
 .footer-links li a {

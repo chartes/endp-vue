@@ -6,16 +6,16 @@
       <span class="legend-item"><span class="dot neutral"></span> Cliquer/Survoler pour faire apparaître</span>
       <span class="legend-item"><span class="dot without-date"></span> Date de l'événement inconnue</span>
     </div>
-    <button class="button btn-scroll btn-scroll-up" @mousedown="startScroll(-85)" @mouseup="stopScroll"
+    <button class="button btn-scroll btn-scroll-up" @mousedown="startScroll(-100)" @mouseup="stopScroll"
             :disabled="isAtTop"></button>
     <div class="timeline-scroll-container" ref="scrollContainer">
       <div class="timeline-container">
         <div v-for="group in groupedEvents" :key="group.date" class="timeline-item" :class="{ 'dot-selected': selectedDate === group.date }">
-          <div @click="togglePopup(group.date)" class="timeline-dot"
+          <div @click="togglePopup($event, group.date)" class="timeline-dot"
                :class="{ 'without-date': group.date === 'date_inconnue' || group.date === 'Date inconnue' }"></div>
 
           <div :class="['timeline-date', { active: hover === group.date || clicked === group.date }]"
-               @click="togglePopup(group.date)">
+               @click="togglePopup($event, group.date)">
             {{ formatDate(group.date) }}
           </div>
           <div v-if="clicked === group.date" class="popup-group">
@@ -56,8 +56,8 @@
         </div>
       </div>
     </div>
-    <button class="button btn-scroll btn-scroll-down" @mousedown="startScroll(85)" @mouseup="stopScroll"
-            :disabled="isAtBottom"></button>
+    <button class="button btn-scroll btn-scroll-down" @mousedown="startScroll(100)" @mouseup="stopScroll"
+            :disabled="isAtBottom || hasNoScroll"></button>
 
     <button class="button button-toggle button-close" @click="_collapseTimeline()">FERMER</button>
   </div>
@@ -82,6 +82,7 @@ export default {
       scrollInterval: null,
       isAtTop: true,
       isAtBottom: false,
+      hasNoScroll: false,
       activePopupIndex: {},
       selectedDate: null,
       isTimelineCollapsed: true
@@ -169,10 +170,17 @@ export default {
   },
 
   mounted() {
-    this.$refs.scrollContainer.addEventListener('scroll', this.handleScroll);
+    this.hasNoScroll = this.$refs.scrollContainer.scrollHeight === this.$refs.scrollContainer.clientHeight;
+    if (!this.hasNoScroll) {
+      this.$refs.scrollContainer.addEventListener('scroll', this.handleScroll);
+    }
     // this.$refs.scrollContainer.addEventListener('wheel', this.handleWheel, {passive: false});
-  }
-  ,
+
+    document.body.addEventListener("click", this._deselectDate);
+  },
+  unmounted() {
+    document.body.removeEventListener("click", this._deselectDate);
+  },
   methods: {
     spaceAroundCommas,
     /**
@@ -228,13 +236,21 @@ export default {
     ,
 
     /**
-     * Toggle the popup of an event
+     * Start scrolling
      * @param amount
      */
     startScroll(amount) {
       this.stopScroll();
       this.scroll(amount);
-      this.scrollInterval = setInterval(() => this.scroll(amount), 100);
+      this.scrollInterval = setInterval(() => {
+        console.log(amount, this.isAtTop, this.isAtBottom)
+        if ((this.isAtTop && amount < 0) || (this.isAtBottom && amount > 0)) {
+          this.stopScroll();
+        } else {
+          this.scroll(amount)
+        }
+
+      }, 100);
     }
     ,
 
@@ -288,7 +304,8 @@ export default {
      * Toggle the popup of an event
      * @param date
      */
-    togglePopup(date) {
+    togglePopup($event, date) {
+      $event.stopPropagation();
       if (this.clicked === date) {
         this.clicked = null; // Ferme le groupe si déjà ouvert
         this.selectedDate = null; // Désélectionne le dot
@@ -308,6 +325,19 @@ export default {
     _collapseTimeline() {
       this.isTimelineCollapsed = ! this.isTimelineCollapsed;
     },
+
+    /**
+     * Deselect active date
+     * @returns {void}
+     * @private
+     */
+    _deselectDate($event) {
+      if (!$event.target.closest('.popup-group')) {
+        this.selectedDate = null;
+        this.clicked = null
+      }
+    },
+
   }
 }
 ;
@@ -382,7 +412,6 @@ export default {
 }
 
 .timeline-item.dot-selected .popup-group-content {
-  padding-bottom: 40px;
 }
 
 .timeline-item.dot-selected .timeline-dot {
@@ -394,18 +423,16 @@ export default {
 
 .timeline-scroll-container {
   max-height: 30rem;
-  overflow-y: hidden;
+  overflow-y: auto;
   border-top: 1px solid #A7A7A7;
   border-bottom: 1px solid #A7A7A7;
 
-  /*
-  scrollbar-width: thin;
-  scrollbar-color: var(--light-brown-alt) #DFDEDE;
-   */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE 10+
 }
 
 .timeline-scroll-container::-webkit-scrollbar {
-  width: 9px;
+  background: transparent; /* Chrome/Safari/Webkit */
 }
 
 .timeline-scroll-container::-webkit-scrollbar-track {
@@ -465,13 +492,17 @@ export default {
 
 .button.btn-scroll[disabled] {
   opacity: 0.25;
+  cursor: default;
 }
 
 .popup-group {
   transform: translateX(-50%) translateY(80px);
   width: 343px;
   max-width: 90vw;
-  margin-bottom: 40px;
+}
+
+.popup-group-content {
+  margin-bottom: 80px;
 }
 
 .timeline-popup {

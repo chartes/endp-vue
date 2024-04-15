@@ -129,6 +129,23 @@ ul li {
 
   .column {
     padding: 40px 20px;
+    line-height: 1.35;
+  }
+
+  ul {
+    padding-left: 0;
+  }
+
+  ul li[data-v-3485ec17] {
+    margin-left: 0;
+  }
+
+  p {
+    margin-bottom: 15px;
+  }
+
+  a {
+    word-break: break-word;
   }
 
 }

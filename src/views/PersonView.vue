@@ -315,7 +315,7 @@ export default {
   top:52px;
   z-index: 1;
   width: 100%;
-  height: 232px;
+  height: 222px;
   padding-top: 20px;
   background-color: var(--panel-bg-color);
 }
