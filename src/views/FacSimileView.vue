@@ -56,6 +56,7 @@
           :selected-nav="selectedNav"
           :register-to-open="endpVolume"
           :year-to-open="registerPageDate"
+          :class="{ 'has-warning': registerPageDate }"
           @update-mirador="handleMiradorUpdate"/>
     </div>
 
@@ -451,6 +452,12 @@ export default {
 .facsimile-columns > .column:last-child > div.raw-prediction-card-parent {
   padding: 26px 0  var(--right-column-bottom-padding-desktop);
 }
+
+:deep(.fac-simile__toc.has-warning > ul) {
+  min-height: calc(100vh - 75px);
+  max-height: calc(100vh - 75px);
+}
+
 
 .container-mirador {
   width: 100%;
