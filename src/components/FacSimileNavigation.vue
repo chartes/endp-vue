@@ -294,6 +294,7 @@ li.register .is-highlighted,
   padding: 30px 0;
 }
 
+
 .main__title__toc {
   display: block;
   margin: 28px 0 10px;
