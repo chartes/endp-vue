@@ -6,6 +6,8 @@ node_modules
 # conf nginx
 endp
 
+deploiment-process.md
+
 # local env files
 .env.local
 .env.*.local
