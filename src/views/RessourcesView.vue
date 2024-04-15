@@ -252,7 +252,7 @@ p, li {
 
 ul {
   list-style-type: "•";
-  padding-left: 50px;
+  /* padding-left: 50px;*/
 }
 
 ul li {

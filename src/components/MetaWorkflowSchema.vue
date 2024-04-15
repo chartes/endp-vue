@@ -879,7 +879,7 @@ rect:hover {
 /* specific for card */
 
 .card {
-  padding-bottom: 10px;
+  padding-bottom: 5px;
   border-bottom: solid 6px #D74A52;
 }
 
@@ -894,9 +894,9 @@ rect:hover {
 .card-header-title {
   display: inline;
   align-items: center;
-  padding: 0;
   font-family: var(--font-secondary) !important;
-  font-weight: 500;
+  font-weight: 400;
+  padding: 0;
 }
 
 .card-header-title > * {
