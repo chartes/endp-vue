@@ -34,7 +34,7 @@
         <div>
           <div>Première page</div>
           <div v-if="facSimile">
-            <span class="icon book-icon-card" title="Pages du fac-similé"><i class="fas fa-book"></i></span>
+            <span class="icon book-icon-card" aria-description="Pages du fac-similé"><i class="fas fa-book"></i></span>
             <router-link :to="`/facsimile/${volume}/${firstCanvasID}`" @click="navigateToFacSimile(firstCanvasID, volume, yearFirstPage)">{{ firstPage }}</router-link>
           </div>
           <!--<div v-if="isEdited">
@@ -166,6 +166,37 @@ export default {
   color: #000000;
 }
 
+.book-icon-card i {
+  position: relative;
+}
+
+.book-icon-card i::after {
+  content: "Pages du fac-similé";
+
+  position: absolute;
+  bottom: -40px;
+  left: 0;
+  z-index: 2;
+
+  display: inline-block;
+  padding: 3px 7px 8px;
+  background-color: #000000;
+  font-family: var(--font-secondary) !important;
+  font-weight: normal;
+  font-size: 16px;
+  color: #FFFFFF;
+  white-space: nowrap;
+
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all ease-in-out 0.35s;
+}
+
+.book-icon-card i:hover::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .book-icon-card i:hover {
   color: var(--light-brown-alt);
 }
@@ -289,7 +320,7 @@ hr,
 .card-content {
   max-height: 0;
   padding: 0;
-  overflow: hidden;
+  /* overflow: hidden; */
   transition: max-height 0.5s ease-out; /* La transition se fera sur la hauteur max */
 }
 
