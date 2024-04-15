@@ -3,7 +3,7 @@
   <div id="splash-screen" class="splash-screen">
     <div class="move-round-point"></div>
     <div>
-      <img id="splash-screen__banner" src="@/assets/images/splash-screen.jpg"/>
+      <div id="splash-screen__banner"/>
     </div>
     <div class="splash-screen__content">
       <h1 class="title">
@@ -78,7 +78,7 @@ export default {
     let splashScreen = document.getElementById('splash-screen');
     if (!localStorage.getItem('splashScreenDisplayed')) {
       // if the splash screen has not been displayed yet, display it during 2 seconds
-      setSplashScreenTimming(splashScreen, 2000);
+      setSplashScreenTimming(splashScreen, 3000);
     } else {
       // if the splash screen has already been displayed, hide it immediately
       splashScreen.style.display = 'none';

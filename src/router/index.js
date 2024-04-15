@@ -8,6 +8,7 @@ import FacSimileView from "@/views/FacSimileView.vue";
 import ContactView from "@/views/ContactView.vue";
 import CreditView from "@/views/CreditView.vue";
 import TermsOfServiceView from "@/views/TermsOfServiceView.vue";
+import NotFoundPage from "@/views/NotFoundPage.vue";
 
 const rootURL = `${process.env.VUE_APP_APP_ROOT_URL}`
 
@@ -57,6 +58,10 @@ const routes = [
     path:'/termsofservice',
     name: 'termsofservice',
     component: TermsOfServiceView
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    component: NotFoundPage
   }
 
 ]
