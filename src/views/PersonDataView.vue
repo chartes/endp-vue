@@ -31,7 +31,7 @@
           <b>Nom(s) - Cognomen :</b>
           {{ meta_person['surname_alt_labels'] }}
         </p>
-        <h4 class="section-subtitle">Présence dans les registres</h4>
+        <h4 class="section-subtitle">Mentions dans les registres</h4>
         <p>
           <b>Première mention :</b>
           {{ formatDate(meta_person['first_mention_date']) }}

@@ -3,8 +3,8 @@
     <button class="button button-toggle" @click="_collapseTimeline()">VOIR</button>
 
     <div class="timeline-legend">
-      <span class="legend-item"><span class="dot neutral"></span> Cliquer/Survoler pour faire apparaître</span>
-      <span class="legend-item"><span class="dot without-date"></span> Date de l'événement inconnue</span>
+      <span class="legend-item"><span class="dot neutral"></span> Cliquer pour afficher l'événement</span>
+      <!--<span class="legend-item"><span class="dot without-date"></span> Date de l'événement inconnue</span>-->
     </div>
     <button class="button btn-scroll btn-scroll-up" @mousedown="startScroll(-100)" @mouseup="stopScroll"
             :disabled="isAtTop"></button>
