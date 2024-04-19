@@ -128,7 +128,7 @@ export default {
       canvasID: null,
     },
       metadataCardsState: {
-        card1: true,
+        card1: false,
         card2: false,
         card3: false,
       },
@@ -558,8 +558,7 @@ export default {
 .card-content span.card-content-label,
 .warning {
   color: var(--light-brown-alt);
-  /* justify the text */
-  text-align: justify;
+  text-align: left;
 }
 
 .raw-prediction-text {

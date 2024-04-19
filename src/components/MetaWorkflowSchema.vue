@@ -950,7 +950,7 @@ rect:hover {
 
 button.toggle-btn-wrapper {
   position: absolute;
-  bottom: 0;
+  bottom: 8px;
   right: 5px;
 
   border: none;

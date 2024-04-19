@@ -104,7 +104,7 @@ p, li {
 
 
 .container-text {
-  text-align: justify;
+  text-align: left;
 }
 
 .rgpd-info {

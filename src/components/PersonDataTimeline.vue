@@ -19,14 +19,15 @@
             {{ formatDate(group.date) }}
           </div>
           <div v-if="clicked === group.date" class="popup-group">
-            <div class="popup-group-content">
+            <div class="popup-group-content" ref="timelinePopup">
 
               <div class="popup-and-navigation"
                    v-for="(event, index) in group.events"
                    :key="event._id_endp"
                    :class="{ 'is-active': activePopupIndex[group.date] === index }">
                 <div class="timeline-popup"
-                     v-show="activePopupIndex[group.date] === index">
+                     v-show="activePopupIndex[group.date] === index"
+                >
                   <div class="popup-content">
                     <div class="popup-date">{{ event.type }}</div>
                     <div class="popup-description">
@@ -170,12 +171,7 @@ export default {
   },
 
   mounted() {
-    this.hasNoScroll = this.$refs.scrollContainer.scrollHeight === this.$refs.scrollContainer.clientHeight;
-    if (!this.hasNoScroll) {
-      this.$refs.scrollContainer.addEventListener('scroll', this.handleScroll);
-    }
-    // this.$refs.scrollContainer.addEventListener('wheel', this.handleWheel, {passive: false});
-
+    this.initScroll();
     document.body.addEventListener("click", this._deselectDate);
   },
   unmounted() {
@@ -191,7 +187,7 @@ export default {
      */
     navigateInCarousel(group, direction) {
       //console.log(group)
-      console.log('navigateInCarousel', group.events);
+      // console.log('navigateInCarousel', group.events);
       const totalEvents = group.events.length;
       let currentIndex = this.activePopupIndex[group.date] || 0;
       let newIndex = currentIndex + direction;
@@ -202,6 +198,12 @@ export default {
       }
       this.activePopupIndex[group.date] = newIndex;
       this.activePopupIndex = {...this.activePopupIndex};
+
+      this.$nextTick(() => {
+        this.initScroll();
+        this.scrollIfPopUpOverflow();
+        this.handleScroll();
+      });
     }
     ,
     /**
@@ -227,11 +229,40 @@ export default {
     ,
 
     /**
+     * Initialize the scroll event
+     */
+    initScroll() {
+      this.hasNoScroll = Math.abs(this.$refs.scrollContainer.scrollHeight - this.$refs.scrollContainer.clientHeight) < 1;
+
+      if (! this.hasNoScroll) this.$refs.scrollContainer.addEventListener('scroll', this.handleScroll)
+      else this.$refs.scrollContainer.removeEventListener('scroll', this.handleScroll)
+
+      // this.$refs.scrollContainer.addEventListener('wheel', this.handleWheel, {passive: false});
+    }
+    ,
+
+    /**
      * Handle the scroll event to know if the user is at the top or bottom of the timeline
      */
     handleScroll() {
-      this.isAtTop = this.$refs.scrollContainer.scrollTop === 0;
+      this.isAtTop = this.$refs.scrollContainer.scrollTop < 1;
       this.isAtBottom = this.$refs.scrollContainer.scrollHeight - this.$refs.scrollContainer.scrollTop === this.$refs.scrollContainer.clientHeight;
+      console.log(this.isAtTop);
+    }
+    ,
+
+    /**
+     * Scroll if the popup is partially hidden at bottom
+     */
+    scrollIfPopUpOverflow() {
+      if (this.$refs.timelinePopup.length) {
+        const timelinePopupRect = this.$refs.timelinePopup[0].getBoundingClientRect()
+        const scrollContainerRect = this.$refs.scrollContainer.getBoundingClientRect();
+        const overflow = timelinePopupRect.bottom - scrollContainerRect.bottom;
+        if (overflow > 0) {
+          this.scroll(overflow + 100, 'instant');
+        }
+      }
     }
     ,
 
@@ -266,10 +297,10 @@ export default {
      * Scroll the timeline
      * @param amount
      */
-    scroll(amount) {
+    scroll(amount, behavior = 'smooth') {
       const container = this.$refs.scrollContainer;
       if (container) {
-        container.scrollBy({top: amount, behavior: 'smooth'});
+        container.scrollBy({top: amount, behavior});
       }
     }
     ,
@@ -314,6 +345,12 @@ export default {
         this.selectedDate = date; // Sélectionne le nouveau dot
         this.activePopupIndex[date] = this.activePopupIndex[date] || 0;
       }
+
+      this.$nextTick(() => {
+        this.initScroll();
+        this.scrollIfPopUpOverflow();
+        this.handleScroll();
+      });
     }
     ,
 
@@ -422,7 +459,8 @@ export default {
 }
 
 .timeline-scroll-container {
-  max-height: 30rem;
+  min-height: 160px;
+  max-height: min( 50rem, calc(100vh - 200px));
   overflow-y: auto;
   border-top: 1px solid #A7A7A7;
   border-bottom: 1px solid #A7A7A7;
@@ -447,7 +485,7 @@ export default {
 
 
 .timeline-legend {
-  margin-bottom: 32px;
+  margin-bottom: 15px;
 }
 
 .legend-item {
@@ -473,7 +511,7 @@ export default {
 .button.btn-scroll {
   bottom: 0;
   right: 0;
-  left: calc(50% - 4px);
+  left: 50%;
   transform: translateX(-50%);
 
   width: 49px;
@@ -641,6 +679,7 @@ export default {
   }
 
   .timeline-scroll-container {
+    min-height: unset;
     max-height: unset;
     overflow-y: unset;
     border: none;
