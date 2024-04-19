@@ -459,7 +459,7 @@ export default {
 }
 
 .timeline-scroll-container {
-  min-height: 160px;
+  min-height: 86px;
   max-height: min( 50rem, calc(100vh - 200px));
   overflow-y: auto;
   border-top: 1px solid #A7A7A7;
