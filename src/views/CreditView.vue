@@ -112,7 +112,7 @@ ul li {
 }
 
 .container-text {
-  text-align: justify;
+  text-align: left;
 }
 
 @media screen and (max-width: 1024px) {

@@ -168,7 +168,6 @@ footer .columns .column:last-child {
   font-weight: 400;
   line-height: 30px;
   color: #FFFFFF;
-  text-align: justify;
 }
 
 .footer-links {
