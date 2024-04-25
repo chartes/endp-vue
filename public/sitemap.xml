@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://www.endp.chartes.psl.eu</loc>
+    </url>
+    <url>
+        <loc>https://www.endp.chartes.psl.eu/registres</loc>
+    </url>
+    <url>
+        <loc>https://www.endp.chartes.psl.eu/persons</loc>
+    </url>
+    <url>
+        <loc>https://www.endp.chartes.psl.eu/ressources</loc>
+    </url>
+    <url>
+        <loc>https://www.endp.chartes.psl.eu/facsimile/collection/top</loc>
+    </url>
+    <url>
+        <loc>https://www.endp.chartes.psl.eu/contact</loc>
+    </url>
+    <url>
+        <loc>https://www.endp.chartes.psl.eu/credits</loc>
+    </url>
+    <url>
+        <loc>https://www.endp.chartes.psl.eu/termsofservice</loc>
+    </url>
+</urlset>

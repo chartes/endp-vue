@@ -25,6 +25,7 @@ export default createStore({
             {iso_code: '11', name: 'Novembre'},
             {iso_code: '12', name: 'Décembre'}
         ],
+        btnCollectionClicked: false,
         // Data-driven JSON
         navByDatesJSON: navByDatesJSON,
         navByVolumesJSON: navByVolumesJSON,
@@ -50,6 +51,9 @@ export default createStore({
         },
         setEndpVolume(state, volume) {
             state.endpVolume = volume;
+        },
+        setBtnCollectionClicked(state, value) {
+            state.btnCollectionClicked = value;
         }
     },
 });

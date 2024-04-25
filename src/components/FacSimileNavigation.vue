@@ -60,12 +60,23 @@ export default {
     };
   },
   computed: {
-    ...mapState(["navByVolumesJSON"]),
+    ...mapState(["navByVolumesJSON", "canvasId"]),
   },
   watch: {
+    canvasId(newVal) {
+      if (newVal) {
+        if (newVal === 'top') {
+          this.openRegisters = {};
+          this.highlighted = null;
+          this.navItemsSelected = {};
+        } else {
+          this.highlightAndUnfoldSelectedNav();
+
+        }
+      }
+    },
     selectedNav(newVal) {
       if (newVal) {
-        //console.log('selectedNav.canvasID changed', newVal);
         this.highlightAndUnfoldSelectedNav();
       }
     },
@@ -74,6 +85,7 @@ export default {
 
     highlightAndUnfoldSelectedNav() {
       const {register, canvas, year} = this.selectedNav;
+      console.log('highlightAndUnfoldSelectedNav', register, canvas, year);
       if (!register || !canvas || !year) return;
 
       // close all years except the one clicked
@@ -82,6 +94,8 @@ export default {
           this.openRegisters[register][key] = false;
         }
       }
+
+      this.openRegisters = {};
 
       // Assurer que le registre et l'année sont ouverts
       this.ensureOpenRegisterAndYear(register, year.split(' ')[1]);

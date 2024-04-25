@@ -147,7 +147,7 @@
         retracer leur parcours. Chaque mention d’un événement est autant que possible liée à son attestation dans le
         fac-similé.</p>
 
-      <p>Ce travail collaboratif au long cours, initié par Darwin Smith est partagé. Toutes les informations sont accessibles par le biai d'une <a href="https://endp.chartes.psl.eu/endp-person/api/docs" target="_blank">API ouverte</a> documentée.</p>
+      <p>Ce travail collaboratif au long cours, initié par Darwin Smith est partagé. Toutes les informations sont accessibles par le biais d'une <a href="https://endp.chartes.psl.eu/endp-person/api/docs" target="_blank">API ouverte</a> documentée.</p>
 
       <br>
       <h2 class="subtitle">Autres ressources</h2>

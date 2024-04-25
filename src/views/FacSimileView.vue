@@ -9,9 +9,9 @@
 
   <!-- Mobile Title section -->
   <div class="mobile-header header">
-    <p class="facsimile-title" v-if="!registerPageDate">Collection des fac-similés de registres de conclusions capitulaires</p>
-    <p class="facsimile-title" v-if="registerPageDate">Fac-similé du registre de conclusions capitulaires {{ endpVolume }} de
-      Notre-Dame de Paris - <span class="date-title">{{ registerPageDate }}</span></p>
+    <p class="facsimile-title" v-if="canvasId === 'top'">Collection des fac-similés de registres de conclusions capitulaires</p>
+    <p class="facsimile-title" v-if="canvasId !== 'top'">Fac-similé du registre de conclusions capitulaires {{ endpVolume }} de
+      Notre-Dame de Paris <span v-if="registerPageDate">- <span class="date-title">{{ registerPageDate }}</span></span></p>
   </div>
 
   <!-- Main grid  -->
@@ -66,9 +66,9 @@
 
       <!-- Desktop Title section -->
       <div class="header">
-        <p class="facsimile-title" v-if="!registerPageDate">Collection des fac-similés de registres de conclusions capitulaires</p>
-        <p class="facsimile-title" v-if="registerPageDate">Fac-similé du registre de conclusions capitulaires {{ endpVolume }} de
-          Notre-Dame de Paris - <span class="date-title">{{ registerPageDate }}</span></p>
+        <p class="facsimile-title" v-if="canvasId === 'top'">Collection des fac-similés de registres de conclusions capitulaires</p>
+        <p class="facsimile-title" v-if="canvasId !== 'top'">Fac-similé du registre de conclusions capitulaires {{ endpVolume }} de
+          Notre-Dame de Paris <span v-if="registerPageDate">- <span class="date-title">{{ registerPageDate }}</span></span></p>
       </div>
 
       <!-- Mirador viewer section -->
@@ -143,6 +143,7 @@ export default {
       showCopyError: false,
       loadPredictionText: false,
       isNavOpen: true,
+      //btnCollectionClicked: false,
       endpVolumeManifest() {
         return this.endpVolume === "collection" || this.canvasId === "top"
             ? `${this.iiifEncService}collection/top`
@@ -187,6 +188,7 @@ export default {
   computed: {
     ...mapState(
         [
+          'btnCollectionClicked',
           'canvasId',
           'endpVolume',
           'miradorSettings',
@@ -280,7 +282,7 @@ export default {
             document: {
               collectionDialogOn: false,
             }
-          }],
+          }]
       }, [...textOverlayPlugin]);
       this.viewer.store.subscribe(() => {
         this.storeState = this.viewer.store.getState();
@@ -300,7 +302,16 @@ export default {
         // test if canvasObject is empty
         if (Object.keys(canvasObject).length === 0) {
           this.imageNakalaSrc = `${this.nakalaAppService}collection/${this.nakalaDoiImages}`;
-
+          /* A quick fix to disabled modal collection for first pass */
+          if (!this.btnCollectionClicked) {
+            try {
+              document.querySelector('.MuiButtonBase-root.MuiButton-root.MuiButton-text').click();
+              this.$store.commit('setBtnCollectionClicked', true);
+              //this.btnCollectionClicked = true;
+            } catch (e) {
+              /* do nothing */
+            }
+          }
         } else {
           this.imageNakalaSrc = nakalaUrlImageSrc;
         }
@@ -408,6 +419,7 @@ export default {
     this.$store.commit('setEndpVolume', this.$route.params.volumeIndex);
     this.$store.commit('setCanvasId', this.$route.params.canvasIndex);
     this.endpVolume = this.$route.params.volumeIndex;
+    this.$store.commit('setBtnCollectionClicked', false);
     this.initMiradorViewer();
   },
   beforeUnmount() {
@@ -714,6 +726,19 @@ tspan {
   word-break: break-word;
 }
 
+
+.raw-prediction-card-parent  {
+  background-color: #ffffff;
+}
+
+
+.raw-prediction-card-parent .card-header {
+  background-color: #ffffff;
+}
+
+.facsimile-columns  .column:last-child  div.raw-prediction-card-parent {
+  padding: 0 0 !important;
+}
 
 @media screen and (max-width: 1024px) {
 
