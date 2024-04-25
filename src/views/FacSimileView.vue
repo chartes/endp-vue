@@ -277,6 +277,9 @@ export default {
             id: this.windowId,
             canvasIndex: this.canvasId,
             loadedManifest: this.endpVolumeManifest(),
+            document: {
+              collectionDialogOn: false,
+            }
           }],
       }, [...textOverlayPlugin]);
       this.viewer.store.subscribe(() => {
@@ -297,6 +300,7 @@ export default {
         // test if canvasObject is empty
         if (Object.keys(canvasObject).length === 0) {
           this.imageNakalaSrc = `${this.nakalaAppService}collection/${this.nakalaDoiImages}`;
+
         } else {
           this.imageNakalaSrc = nakalaUrlImageSrc;
         }
@@ -400,12 +404,14 @@ export default {
     },
 
   },
-
   mounted() {
     this.$store.commit('setEndpVolume', this.$route.params.volumeIndex);
     this.$store.commit('setCanvasId', this.$route.params.canvasIndex);
     this.endpVolume = this.$route.params.volumeIndex;
     this.initMiradorViewer();
+  },
+  beforeUnmount() {
+      this.viewer.unmount();
   },
 };
 
@@ -795,6 +801,5 @@ tspan {
     background-color: #ffffff;
   }
 }
-
 
 </style>

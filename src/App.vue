@@ -30,6 +30,7 @@ const toggleMobileMenu = function($event) {
 const route = useRoute();
 watch(() => route.name, (nextRoute, previousRoute) => {
   isMobileMenuOpen.value = false;
+  console.log(nextRoute, previousRoute);
   if (nextRoute !== "facsimile" || previousRoute !== "facsimile") {
     window.scrollTo(0,0);
   }
