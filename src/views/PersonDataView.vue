@@ -57,7 +57,7 @@
             <ul>
               <li v-for="link in kb_urls" :key="link">
                 <span><img class="logo__kb_icon" :src="mapping_kb_icons[link['type']]"></span>
-                <a :href="link['url']" alt="{{link['type']}}" target="_blank">{{ link['url'] }}</a>
+                <a :href="formatlinks(link['url'])" alt="{{link['type']}}" target="_blank">{{ formatlinks(link['url']) }}</a>
               </li>
             </ul>
           </div>
@@ -138,6 +138,9 @@ export default {
       const [year, monthCode, day] = date.split('-');
       const month = this.$store.state.months.find(m => m.iso_code === monthCode)?.name || '';
       return `${day ? `${day} ` : ''}${month} ${year}`;
+    },
+    formatlinks(link) {
+      return !link.startsWith('http') ? `https://${link}` : link;
     },
     async fetchPersonData() {
       try {
