@@ -140,7 +140,7 @@
       <br>
       <h2 class="subtitle">La base des personnes</h2>
 
-      <p>☞ <a href="https://endp.chartes.psl.eu/persons" target="_blank">https://endp.chartes.psl.eu/persons</a></p>
+      <p>☞&nbsp;<a href="https://endp.chartes.psl.eu/persons" target="_blank">https://endp.chartes.psl.eu/persons</a></p>
 
       <p>Les registres constituent une source incomparable sur la société du cloître : les très nombreuses mentions de
         personnes, chanoines mais pas uniquement, sont consignées progressivement dans une base de données qui permet de
@@ -272,7 +272,6 @@ ul li {
   color: var(--dark-grey);
   font-family: var(--font-primary);
   font-size: 16px;
-  text-align: justify;
 }
 
 .citation-block p a {
