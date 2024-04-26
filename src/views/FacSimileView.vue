@@ -824,6 +824,7 @@ tspan {
 
   .raw-prediction-card-parent .card-header {
     background-color: #ffffff;
+    padding: 20px;
   }
 }
 
