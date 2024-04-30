@@ -476,7 +476,6 @@ export default {
   max-height: calc(100vh - 75px);
 }
 
-
 .container-mirador {
   width: 100%;
   padding: 0;
@@ -766,7 +765,7 @@ tspan {
     margin-bottom: 0;
   }
 
-    .columns {
+  .columns {
     flex-direction: column;
     padding: 0;
   }
@@ -820,6 +819,11 @@ tspan {
 
   .facsimile-title {
     margin: 0 0 45px 0;
+  }
+
+  :deep(.fac-simile__toc.has-warning > ul) {
+    min-height: unset;
+    max-height: unset;
   }
 
   .raw-prediction-card-parent .card-header {
