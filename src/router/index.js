@@ -6,7 +6,7 @@ import PersonDataView from "@/views/PersonDataView.vue";
 import RangeRegisterPrototype from "@/views/RegisterView.vue";
 import FacSimileView from "@/views/FacSimileView.vue";
 import ContactView from "@/views/ContactView.vue";
-import CreditView from "@/views/CreditView.vue";
+import AboutView from "@/views/AboutView.vue";
 import TermsOfServiceView from "@/views/TermsOfServiceView.vue";
 import NotFoundPage from "@/views/NotFoundPage.vue";
 
@@ -50,9 +50,9 @@ const routes = [
     component: ContactView,
   },
   {
-    path:'/credits',
-    name: 'credits',
-    component: CreditView,
+    path:'/about',
+    name: 'about',
+    component: AboutView,
   },
   {
     path:'/termsofservice',

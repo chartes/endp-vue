@@ -4,26 +4,31 @@
   <!-- end banner -->
 
   <div class="page-title">
-    <h1>Crédits de l'application</h1>
+    <h1>À propos</h1>
   </div>
 
   <div class="columns container-text">
     <div class="column">
+      <h2>Crédits de l'application</h2>
       <p>L'application eNDP (endp.chartes.psl.eu) est une réalisation de la mission projet numériques de l'École nationale des chartes - PSL, développée
-      dans le cadre du projet ANR e-NDP, «&nbsp;Notre-Dame de Paris et son cloître : les lieux, les gens, la vie&nbsp;».</p>
+      dans le cadre du projet ANR e-NDP, «&nbsp;Notre-Dame de Paris et son cloître : les lieux, les gens, la vie&nbsp;»  (coordination Julie Claustre et Darwin Smith).</p>
       <ul>
         <li>Conception et développement de l'application : Vincent Jolivet, Lucas Terriel.</li>
         <li>Financements : <a href="https://anr.fr/Projet-ANR-20-CE27-0012" target="_blank">Agence nationale de la recherche (ANR) - ANR-20-CE27-0012</a>.</li>
         <li>Hébergement : <a href="ttps://www.huma-num.fr/" target="_blank">IR* Huma-Num</a>.</li>
       </ul>
+      <br>
+      <h2>Ont participé au projet e-NDP</h2>
+      <p>Isabelle Bretthauer, Pierre Brochard, Olivier Canteaut, Julie Claustre, Émilie Cottereau-Gabillet, Fabrice Delivré, Mathilde Denglos, Vincent Jolivet, Véronique Julerot, Thierry Kouamé, Élisabeth Lusset, Anne Massoni, Sébastien Nadiras, Nicolas Perreaux, Hugo Regazzi, Darwin Smith, Lucas Terriel, Sergio Torres Aguilar, Mathilde Treglia</p>
     </div>
+
   </div>
 </template>
 
 
 <script>
 export default {
-  name: "CreditView"
+  name: "AboutView"
 }
 </script>
 

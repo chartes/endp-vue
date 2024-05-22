@@ -24,7 +24,7 @@
             <a href="https://www.chartes.psl.eu/contact" target="_blank">Contact</a>
           </li>
           <li>
-            <router-link to="/credits">Crédits</router-link>
+            <router-link to="/about">À propos</router-link>
           </li>
           <li>
             <router-link to="/termsofservice">Mentions légales</router-link>

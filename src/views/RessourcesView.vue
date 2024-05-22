@@ -80,6 +80,11 @@
       <p>Le corpus, distribué sous licence CC-BY, est disponible sur Zenodo :
         <a href="https://zenodo.org/records/7575693" target="_blank">https://zenodo.org/records/7575693</a></p>
 
+      <div class="citation-block">
+        <p>Bretthauer, Isabelle ; Brochard, Pierre ; Canteaut, Olivier ; Claustre, Julie ; Cottereau-Gabillet, Émilie ; Delivré, Fabrice ; Denglos, Mathilde ; Jolivet, Vincent ; Julerot, Véronique ; Kouamé, Thierry ; Lusset, Élisabeth ; Massoni, Anne ; Nadiras, Sébastien ; Perreaux, Nicolas ; Regazzi, Hugo ; Smith, Darwin ; Torres Aguilar, Sergio ; Treglia, Mathilde. <i>The e-ndp project : collaborative digital edition of the chapter registers of notre-dame of paris (1326-1504). ground-truth for handwriting text recognition (HTR) on late medieval manuscripts</i>, Zenodo, 2&nbsp;février 2023 -
+          <a href="https://doi.org/10.5281/zenodo.7575693" target="_blank">https://doi.org/10.5281/zenodo.7575693</a>.</p>
+      </div>
+
       <h3>Les modèles HTR</h3>
 
       <p>Différents modèles HTR ont été produits et testés selon une <a href="https://github.com/chartes/e-NDP_HTR"
@@ -100,10 +105,9 @@
       </ul>
 
       <div class="citation-block">
-        <p>Sergio Torres Aguilar; Vincent Jolivet, La reconnaissance de l'écriture pour les manuscrits
-          documentaires du Moyen Âge, jdmdh:10484 - <i>Journal of Data Mining & Digital Humanities</i>, 22 décembre
-          2023,
-          Documents historiques et reconnaissance automatique de texte -
+        <p>Jolivet, Vincent ; Torres Aguilar, Sergio. La reconnaissance de l'écriture pour les manuscrits
+          documentaires du Moyen Âge, <i>Journal of Data Mining & Digital Humanities</i>, 22 décembre
+          2023 -
           <a href="https://doi.org/10.46298/jdmdh.10484" target="_blank">https://doi.org/10.46298/jdmdh.10484</a>.</p>
       </div>
       <h3>La prédiction</h3>
