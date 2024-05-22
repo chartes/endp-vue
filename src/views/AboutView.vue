@@ -19,7 +19,7 @@
       </ul>
       <br>
       <h2>Ont participé au projet e-NDP</h2>
-      <p>Isabelle Bretthauer, Pierre Brochard, Olivier Canteaut, Julie Claustre, Émilie Cottereau-Gabillet, Fabrice Delivré, Mathilde Denglos, Vincent Jolivet, Véronique Julerot, Thierry Kouamé, Élisabeth Lusset, Anne Massoni, Sébastien Nadiras, Nicolas Perreaux, Hugo Regazzi, Darwin Smith, Lucas Terriel, Sergio Torres Aguilar, Mathilde Treglia</p>
+      <p>Isabelle Bretthauer, Pierre Brochard, Olivier Canteaut, Julie Claustre, Émilie Cottereau-Gabillet, Fabrice Delivré, Mathilde Denglos, Vincent Jolivet, Véronique Julerot, Thierry Kouamé, Élisabeth Lusset, Anne Massoni, Sébastien Nadiras, Nicolas Perreaux, Hugo Regazzi, Darwin Smith, Lucas Terriel, Sergio Torres Aguilar, Mathilde Treglia.</p>
     </div>
 
   </div>
