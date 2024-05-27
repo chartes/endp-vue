@@ -25,7 +25,7 @@
         <p class="main-label">{{ mainLabel }}</p>
         <hr>
         <p class="ressource-title">Accéder aux ressources</p>
-        <p>Lien vers la salle de lecture virtuelle des AN : <a :href="AnSivLink" target="_blank">ici</a>
+        <p>Lien vers la salle de lecture virtuelle des Archives nationales : <a :href="AnSivLink" target="_blank">ici</a>
         </p>
         <p>Lien vers le fac-similé du registre {{ volume }} : <router-link :to="`/facsimile/${volume}/1`" @click="navigateToFacSimile">ici</router-link></p>
       </div>

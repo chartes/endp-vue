@@ -46,7 +46,11 @@ export default {
      * @returns {string}
      */
     _prepareNoSketchRequest() {
-      let cqlQuery = encodeURIComponent(`[word="${this.NoSketchTermSearch}"] within <doc (date >="${this.yearRange[0]}") & (date<="${this.yearRange[1]}") />`);
+      let wordsSplitted = this.NoSketchTermSearch.split(" ");
+      let wordsPrepared = wordsSplitted.map(word => `[word="${word}"]`).join("")
+      // if wordsPrepared contains [word=""] then we remove all occurences be careful to Unnecessary escape character: \"
+      wordsPrepared = wordsPrepared.replace(/\[word=""]/g, "");
+      let cqlQuery = encodeURIComponent(`${wordsPrepared} within <doc (date >="${this.yearRange[0]}") & (date<="${this.yearRange[1]}") />`);
       let baseNoSketchUrl = `${this.noSketchService}#concordance`;
       let queryParams = `corpname=endp&tab=advanced&queryselector=cql&attrs=word&viewmode=kwic&attr_allpos=all&refs_up=0&shorten_refs=1&glue=1&gdexcnt=300&show_gdex_scores=0&itemsPerPage=20&structs=s%2Cg&refs=%3Ddoc.id&default_attr=word&cql=${cqlQuery}&showresults=1&showTBL=0&tbl_template=&gdexconf=&f_tab=basic&f_showrelfrq=1&f_showperc=0&f_showreldens=0&f_showreltt=0&c_custom=`;
       return `${baseNoSketchUrl}?${queryParams}`;

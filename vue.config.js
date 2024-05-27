@@ -10,6 +10,6 @@ module.exports = {
   devServer: {
     port: 9091,
   },
-  // publicPath: process.env.NODE_ENV === 'production' ? "/endp" : "/"
-  publicPath: process.env.NODE_ENV === 'production' ? "/" : "/"
+  publicPath: process.env.NODE_ENV === 'production' ? "/endp" : "/"
+  // publicPath: process.env.NODE_ENV === 'production' ? "/" : "/"
 }
