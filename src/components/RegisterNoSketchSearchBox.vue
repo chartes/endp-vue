@@ -48,7 +48,6 @@ export default {
     _prepareNoSketchRequest() {
       let wordsSplitted = this.NoSketchTermSearch.split(" ");
       let wordsPrepared = wordsSplitted.map(word => `[word="${word}"]`).join("")
-      // if wordsPrepared contains [word=""] then we remove all occurences be careful to Unnecessary escape character: \"
       wordsPrepared = wordsPrepared.replace(/\[word=""]/g, "");
       let cqlQuery = encodeURIComponent(`${wordsPrepared} within <doc (date >="${this.yearRange[0]}") & (date<="${this.yearRange[1]}") />`);
       let baseNoSketchUrl = `${this.noSketchService}#concordance`;
