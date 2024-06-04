@@ -28,12 +28,12 @@
     <div class="column column-result is-12-mobile is-7-tablet is-7-desktop"  :class="{ 'is-searchbox-opened': searchBoxOpenState }">
       <div class="column-results-header">
         <h2 class="subtitle is-4">
-          <span class="results-count">{{ total }}</span> Résultats
+          <span class="results-count">{{ totalResults }}</span> Résultats
         </h2>
         <PersonPagination
             :currentPage="currentPage"
             :totalPages="totalPages"
-            :items-by-page-default="limit"
+            :items-by-page-default="itemsPerPage"
             :items-by-page-min="50"
             :items-by-page-max="100"
             :top-pagination="true"
@@ -43,18 +43,18 @@
       </div>
       <ul>
 
-        <li v-for="person in persons" :key="person._id_endp" class="li--person">
+        <li v-for="person in personsItems" :key="person._id_endp" class="li--person">
         <PersonResultCard
             :person="person"/>
         </li>
       </ul>
 
       <PersonPagination
-          v-if="persons.length"
+          v-if="personsItems.length"
           class="pagination-bottom"
           :currentPage="currentPage"
           :totalPages="totalPages"
-          :items-by-page-default="limit"
+          :items-by-page-default="itemsPerPage"
           :items-by-page-min="50"
           :items-by-page-max="100"
           :top-pagination="false"
@@ -84,11 +84,11 @@ export default {
   },
   data() {
     return {
-      persons: [], // a renommer en personsItems
+      personsItems: [],
       currentPage: 1,
-      limit: 50, // a renommer en itemsPerPage
-      total: 0, // a renommer en totalResults
-      query: "", // a renommer en searchQuery
+      itemsPerPage: 50,
+      totalResults: 0,
+      searchQuery: "",
       isLoading: false,
       showCanon: false,
       selectSearchType: "exact",
@@ -99,7 +99,7 @@ export default {
     ...mapState(["personDbApi"]),
 
     totalPages() {
-      return Math.ceil(this.total / this.limit);
+      return Math.ceil(this.totalResults / this.itemsPerPage);
     },
 
   },
@@ -108,7 +108,7 @@ export default {
       this.currentPage = 1;
       this.handleDefaultSearch();
     },
-    query(newValue) {
+    searchQuery(newValue) {
       if (newValue.trim() === "") {
         this.getPersons();
       } else {
@@ -120,8 +120,6 @@ export default {
   methods: {
     spaceAroundCommas,
     handleUpdateQuery({query, search_type}) {
-      console.log("From parent : ", query, search_type);
-
       // Close Searchbox on mobile
       this.searchBoxOpenState = false;
 
@@ -130,7 +128,7 @@ export default {
 
       this.currentPage = 1;
       this.selectSearchType = search_type;
-      this.query = query;
+      this.searchQuery = query;
       this.handleDefaultSearch();
     },
     handleResetQuery() {
@@ -138,7 +136,7 @@ export default {
       this.getPersons();
     },
     handleDefaultSearch() {
-      if (this.query.trim() === "") {
+      if (this.searchQuery.trim() === "") {
         this.getPersons();
       } else {
         this.searchPersons();
@@ -151,67 +149,58 @@ export default {
         surname_alt_labels: this.spaceAroundCommas(person.surname_alt_labels),
       }));
     },
-    async getPersons() {
+    async handlePersonsQuery(type) {
       this.isLoading = true;
-      this.query = "";
+      let url = "";
+      if (type === "all") {
+        this.searchQuery = "";
+        url = `${this.personDbApi}/persons/?size=${this.itemsPerPage}&page=${this.currentPage}&only_canon=${this.showCanon}`;
+      } else if (type === "search") {
+        url = `${this.personDbApi}/persons/search?query=${this.searchQuery}&type_query=${this.selectSearchType}&only_canon=${this.showCanon}&page=${this.currentPage}&size=${this.itemsPerPage}`;
+      }
       await axios
-          .get(`${this.personDbApi}/persons/?size=${this.limit}&page=${this.currentPage}&only_canon=${this.showCanon}`,
+          .get(url,
               {
                 withCredentials: false,
               })
           .then((response) => {
-            this.persons = response.data.items.map((person) => ({
+            this.personsItems = response.data.items.map((person) => ({
               ...person,
               isOpened: false,
             }));
-            this.persons = this.formatLabels(this.persons);
-            this.total = response.data.total;
+            this.personsItems = this.formatLabels(this.personsItems);
+            this.totalResults = response.data.total;
             if (this.currentPage > this.totalPages) {
               this.currentPage = 1;
             }
           }).finally(() => {
             this.isLoading = false;
           }).catch(() => {
-                this.persons = [];
-                this.total = 0;
+                this.personsItems = [];
+                this.totalResults = 0;
                 this.isLoading = false;
               },
           );
+    },
+    async getPersons() {
+      await this.handlePersonsQuery("all");
     },
     async searchPersons() {
-      this.isLoading = true;
-      this.currentPage = 1;
-      await axios
-          .get(`${this.personDbApi}/persons/search?query=${this.query}&type_query=${this.selectSearchType}&only_canon=${this.showCanon}`,
-              {
-                withCredentials: false,
-              })
-          .then((response) => {
-            this.persons = response.data.results.map((person) => ({
-              ...person,
-              isOpened: false,
-            }));
-            this.persons = this.formatLabels(this.persons);
-            this.total = response.data.total;
-          })
-          .finally(() => {
-            this.isLoading = false;
-          }).catch(() => {
-                this.persons = [];
-                this.total = 0;
-                this.isLoading = false;
-              },
-          );
+      await this.handlePersonsQuery("search");
     },
     async handleItemsPerPageChange(limit) {
-      this.limit = limit;
+      this.itemsPerPage = limit;
       this.currentPage = 1;
       this.handleDefaultSearch();
     },
     changePage(page) {
       if (page >= 1 && page <= this.totalPages) {
         this.currentPage = page;
+        if (this.searchQuery.trim() === "") {
         this.getPersons();
+      } else {
+        this.searchPersons();
+      }
       }
     },
     toggleSearchBox(event) {

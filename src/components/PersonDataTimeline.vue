@@ -10,7 +10,8 @@
             :disabled="isAtTop"></button>
     <div class="timeline-scroll-container" ref="scrollContainer">
       <div class="timeline-container">
-        <div v-for="group in groupedEvents" :key="group.date" class="timeline-item" :class="{ 'dot-selected': selectedDate === group.date }">
+        <div v-for="group in groupedEvents" :key="group.date" class="timeline-item"
+             :class="{ 'dot-selected': selectedDate === group.date }">
           <div @click="togglePopup($event, group.date)" class="timeline-dot"
                :class="{ 'without-date': group.date === 'date_inconnue' || group.date === 'Date inconnue' }"></div>
 
@@ -33,13 +34,20 @@
                     <div class="popup-description">
                   <span v-if="event.thesaurus_term_person" class="event-term"><u>{{
                       event.thesaurus_term_person.topic
-                    }} : </u>{{ spaceAroundCommas(event.thesaurus_term_person.term_fr) }} ({{ spaceAroundCommas(event.thesaurus_term_person.term_la) }})</span>
+                    }} : </u>{{
+                      spaceAroundCommas(event.thesaurus_term_person.term_fr)
+                    }} ({{ spaceAroundCommas(event.thesaurus_term_person.term_la) }})</span>
                       <br v-if="event.thesaurus_term_person">
                       <span v-if="event.place_term" class="event-place"><u>Lieu</u> : {{
                           event.place_term.term_fr
                         }} ({{ event.place_term.term_la }})</span>
+                      <br v-if="event.place_term">
+                      <span v-if="event.comment"><u>Note</u> :
+                        {{ strippedContent(event.comment) }}
+                      </span>
                     </div>
-                    <router-link :to="`/facsimile/${formatImageIdentifiers(event.image_url)}`" target="_blank" v-if="event.image_url">
+                    <router-link :to="`/facsimile/${formatImageIdentifiers(event.image_url)}`" target="_blank"
+                                 v-if="event.image_url">
                       <span><i class="fas fa-book"></i> Aller au fac-similé</span>
                     </router-link>
                   </div>
@@ -179,6 +187,9 @@ export default {
   },
   methods: {
     spaceAroundCommas,
+    strippedContent(content) {
+      return content.replace(/<[^>]+>/g, '');
+    },
     /**
      * Navigate in the timeline's popup like a carousel
      * @param group
@@ -234,7 +245,7 @@ export default {
     initScroll() {
       this.hasNoScroll = Math.abs(this.$refs.scrollContainer.scrollHeight - this.$refs.scrollContainer.clientHeight) < 1;
 
-      if (! this.hasNoScroll) this.$refs.scrollContainer.addEventListener('scroll', this.handleScroll)
+      if (!this.hasNoScroll) this.$refs.scrollContainer.addEventListener('scroll', this.handleScroll)
       else this.$refs.scrollContainer.removeEventListener('scroll', this.handleScroll)
 
       // this.$refs.scrollContainer.addEventListener('wheel', this.handleWheel, {passive: false});
@@ -360,7 +371,7 @@ export default {
      * @private
      */
     _collapseTimeline() {
-      this.isTimelineCollapsed = ! this.isTimelineCollapsed;
+      this.isTimelineCollapsed = !this.isTimelineCollapsed;
     },
 
     /**
@@ -460,13 +471,14 @@ export default {
 
 .timeline-scroll-container {
   min-height: 86px;
-  max-height: min( 50rem, calc(100vh - 200px));
+  max-height: min(50rem, calc(100vh - 200px));
   overflow-y: auto;
   border-top: 1px solid #A7A7A7;
   border-bottom: 1px solid #A7A7A7;
 
   scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* IE 10+
+  -ms-overflow-style: none;
+  /* IE 10+
 }
 
 .timeline-scroll-container::-webkit-scrollbar {
@@ -545,7 +557,7 @@ export default {
 
 .timeline-popup {
   width: 100%;
-  background: rgba(255,255,255, 0.95);
+  background: rgba(255, 255, 255, 0.95);
   padding: 20px 20px 60px;
   box-shadow: 0px 0px 12px 0 #00000033;
   border-radius: 10px;

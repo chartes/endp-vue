@@ -81,7 +81,10 @@
         <a href="https://zenodo.org/records/7575693" target="_blank">https://zenodo.org/records/7575693</a></p>
 
       <div class="citation-block">
-        <p>Bretthauer, Isabelle ; Brochard, Pierre ; Canteaut, Olivier ; Claustre, Julie ; Cottereau-Gabillet, Émilie ; Delivré, Fabrice ; Denglos, Mathilde ; Jolivet, Vincent ; Julerot, Véronique ; Kouamé, Thierry ; Lusset, Élisabeth ; Massoni, Anne ; Nadiras, Sébastien ; Perreaux, Nicolas ; Regazzi, Hugo ; Smith, Darwin ; Torres Aguilar, Sergio ; Treglia, Mathilde. <i>The e-ndp project : collaborative digital edition of the chapter registers of notre-dame of paris (1326-1504). ground-truth for handwriting text recognition (HTR) on late medieval manuscripts</i>, Zenodo, 2&nbsp;février 2023 -
+        <p>Claustre, Julie ; Smith, Darwin ; Torres Aguilar, Sergio ; Bretthauer, Isabelle ; Brochard, Pierre ; Canteaut, Olivier ; Cottereau, Emilie;
+          Delivré, Fabrice ; Denglos, Mathilde ; Jolivet, Vincent ; Julerot, Véronique ;
+          Kouamé, Thierry ; Lusset, Elisabeth ; Massoni, Anne ; Nadiras, Sebastien ; Perreaux, Nicolas ;
+          Regazzi, Hugo ; Treglia, Mathilde. <i>The e-ndp project : collaborative digital edition of the chapter registers of notre-dame of paris (1326-1504). ground-truth for handwriting text recognition (HTR) on late medieval manuscripts</i>, Zenodo, 2&nbsp;février 2023 -
           <a href="https://doi.org/10.5281/zenodo.7575693" target="_blank">https://doi.org/10.5281/zenodo.7575693</a>.</p>
       </div>
 

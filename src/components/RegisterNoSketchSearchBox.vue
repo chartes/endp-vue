@@ -4,17 +4,27 @@
       <p class="subtitle nosketch_search-container__label is-5" @click="toggleBox">
         <span>Recherche dans les registres</span>
       </p>
-      <button @click="toggleBox($event)" class="open-nosketch-search" :class="isBoxExpanded ? 'is-opened' : ''" />
+      <button @click="toggleBox($event)" class="open-nosketch-search" :class="isBoxExpanded ? 'is-opened' : ''"/>
     </div>
     <div class="container-search" v-if="isBoxExpanded">
       <div class="help">Pour la période {{ yearRange[0] }}-{{ yearRange[1] }}</div>
       <div class="control">
-          <input class="input" type="text" placeholder="Votre recherche" v-model="NoSketchTermSearch">
+        <input class="input" type="text" placeholder="Votre recherche" v-model="NoSketchTermSearch"
+               @focus="showHelp = true"
+               @input="showHelp = false">
+        <div class="popup" v-if="showHelp">
+            <div class="chevron"></div>
+            <div class="popup-content">
+              <!-- add cross to close the popup -->
+              <div class="close-info-popup" @click="closeInfoPopup"></div>
+              <u>Note</u> : La recherche est sensible à la casse et supporte les expressions régulières (regex).
+            </div>
+          </div>
       </div>
       <p class="control">
         <button class="button is-info" @click="goNoSketchResults">Rechercher</button>
       </p>
-      <img src="@/assets/icons/no-sketch-engine-logo.png" alt="Logo" class="image sketch-image" />
+      <img src="@/assets/icons/no-sketch-engine-logo.png" alt="Logo" class="image sketch-image"/>
     </div>
   </div>
 </template>
@@ -34,6 +44,7 @@ export default {
     return {
       NoSketchTermSearch: "",
       isBoxExpanded: false,
+      showHelp: false,
     }
   },
   computed: {
@@ -69,7 +80,11 @@ export default {
     toggleBox(event) {
       event.stopPropagation();
       this.isBoxExpanded = !this.isBoxExpanded;
+      this.showHelp = false;
     },
+    closeInfoPopup() {
+      this.showHelp = false;
+    }
   }
 }
 </script>
@@ -190,4 +205,64 @@ button.is-info:hover {
   }
 
 }
+
+.help {
+  width: 100%;
+  margin: 40px 0 30px;
+  font-family: var(--font-secondary);
+  font-size: 18px;
+  font-weight: 500;
+  color: #4A4A4A;
+  text-align: center;
+}
+
+.popup {
+  position: absolute;
+  top: 55px; /* Adjust based on the height of the input field */
+  left: 0;
+  width: calc(100% - 12px);
+  background: white;
+  border: 1px solid var(--light-brown);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  font-size: 15px;
+  z-index: 1000;
+  border-radius: 4px;
+}
+
+.popup::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 20px; /* Adjust to align the chevron with the input */
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid var(--light-brown);
+}
+
+.popup::after {
+  content: "";
+  position: absolute;
+  top: -11px;
+  left: 19px; /* Adjust to align the chevron with the input */
+  border-left: 11px solid transparent;
+  border-right: 11px solid transparent;
+  border-bottom: 11px solid var(--light-brown);
+}
+
+.popup-content {
+  text-align: left;
+}
+
+.close-info-popup {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 12px;
+  height: 12px;
+  background: url("@/assets/images/b_Close_20x20.svg") center / cover;
+  cursor: pointer;
+}
+
+
 </style>
