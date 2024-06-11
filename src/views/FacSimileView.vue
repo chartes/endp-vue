@@ -9,9 +9,12 @@
 
   <!-- Mobile Title section -->
   <div class="mobile-header header">
-    <p class="facsimile-title" v-if="canvasId === 'top'">Collection des fac-similés de registres de conclusions capitulaires</p>
-    <p class="facsimile-title" v-if="canvasId !== 'top'">Fac-similé du registre de conclusions capitulaires {{ endpVolume }} de
-      Notre-Dame de Paris <span v-if="registerPageDate">- <span class="date-title">{{ registerPageDate }}</span></span></p>
+    <p class="facsimile-title" v-if="canvasId === 'top'">Collection des fac-similés de registres de conclusions
+      capitulaires</p>
+    <p class="facsimile-title" v-if="canvasId !== 'top'">Fac-similé du registre de conclusions capitulaires
+      {{ endpVolume }} de
+      Notre-Dame de Paris <span v-if="registerPageDate">- <span class="date-title">{{ registerPageDate }}</span></span>
+    </p>
   </div>
 
   <!-- Main grid  -->
@@ -23,18 +26,20 @@
         <div class="card-header" @click="toggleCard('card1')">
           <p class="card-header-title">
             Métadonnées
-            <button class="card-header-toggle" />
+            <button class="card-header-toggle"/>
           </p>
         </div>
         <div class="card-content" v-if="metadataCardsState.card1">
           <p>
-            <span class="card-content-label">Citer la <span v-if="registerPageDate">page du fac-similé</span><span v-if="!registerPageDate">la collection des registres</span> : </span>
+            <span class="card-content-label">Citer la <span v-if="registerPageDate">page du fac-similé</span><span
+                v-if="!registerPageDate">la collection des registres</span> : </span>
             <a :href="citationUrl">{{ citationUrl }}</a>
           </p>
           <br>
           <div class="columns nakala-metadata-wrapper is-vcentered">
             <p>
-              <span class="card-content-label">Citer <span v-if="registerPageDate">l'image</span><span v-if="!registerPageDate">la collection d'images</span> sur Nakala : </span>
+              <span class="card-content-label">Citer <span v-if="registerPageDate">l'image</span><span
+                  v-if="!registerPageDate">la collection d'images</span> sur Nakala : </span>
               <a target="_blank" :href="imageNakalaSrc">{{ imageNakalaSrc }}</a>
             </p>
           </div>
@@ -45,11 +50,12 @@
         <div class="card-header" @click="toggleCard('card2')">
           <p class="card-header-title">
             Avertissement
-            <button class="card-header-toggle" />
+            <button class="card-header-toggle"/>
           </p>
         </div>
         <div class="card-content" v-if="metadataCardsState.card2">
-          <p class="warning">Le texte du fac-similé a été généré automatiquement (HTR) et comporte des erreurs.<br> Le taux de reconnaissance moyen est de 94.1 %</p>
+          <p class="warning">Le texte du fac-similé a été généré automatiquement (HTR) et comporte des erreurs.<br> Le
+            taux de reconnaissance moyen est de 94.1 %</p>
         </div>
       </div>
       <FacSimileNavigation
@@ -62,26 +68,35 @@
 
     <div class='column'>
       <!-- Toggle left column button -->
-      <button @click="toggleNav" class="btn-expanded-nav"  />
+      <button @click="toggleNav" class="btn-expanded-nav"/>
 
       <!-- Desktop Title section -->
       <div class="header">
-        <p class="facsimile-title" v-if="canvasId === 'top'">Collection des fac-similés de registres de conclusions capitulaires</p>
-        <p class="facsimile-title" v-if="canvasId !== 'top'">Fac-similé du registre de conclusions capitulaires {{ endpVolume }} de
-          Notre-Dame de Paris <span v-if="registerPageDate">- <span class="date-title">{{ registerPageDate }}</span></span></p>
+        <p class="facsimile-title" v-if="canvasId === 'top'">Collection des fac-similés de registres de conclusions
+          capitulaires</p>
+        <p class="facsimile-title" v-if="canvasId !== 'top'">Fac-similé du registre de conclusions capitulaires
+          {{ endpVolume }} de
+          Notre-Dame de Paris <span v-if="registerPageDate">- <span class="date-title">{{
+              registerPageDate
+            }}</span></span></p>
       </div>
 
       <!-- Mirador viewer section -->
       <div class='container-mirador'>
+        <p>Rechercher dans la page</p>
+        <br>
+        <input type="text" id="searchFacSimile" placeholder="Recherchez...">
+        <button @click="searchText">Rechercher</button>
+        <button @click="removeSearchHighlight">Effacer</button>
         <div id='mirador'></div>
       </div>
       <!-- Raw predictions section -->
       <div class="header raw-prediction-card-parent">
-        <div class="card" v-if="endpVolume"  :class="{ 'is-opened': metadataCardsState.card3 }">
+        <div class="card" v-if="endpVolume" :class="{ 'is-opened': metadataCardsState.card3 }">
           <div class="card-header" @click="toggleCard('card3')">
             <p class="card-header-title">
               Accéder à la prédiction texte brut
-              <button class="card-header-toggle" />
+              <button class="card-header-toggle"/>
             </p>
           </div>
           <div class="card-content raw-prediction-text" v-if="metadataCardsState.card3">
@@ -91,7 +106,7 @@
               <p v-else>Impossible de copier le texte dans le presse-papiers ! Veuillez réessayer plus tard.</p>
             </div>
             <div class="header">
-              <button @click="copyToClipboard" class="button copy-button" />
+              <button @click="copyToClipboard" class="button copy-button"/>
               <p>
                 Note : L'ordre des lignes de texte peut ne pas correspondre à l'ordre des lignes du fac-similé.
               </p>
@@ -123,10 +138,10 @@ export default {
   data() {
     return {
       selectedNav: {
-      register: null,
-      year: null,
-      canvasID: null,
-    },
+        register: null,
+        year: null,
+        canvasID: null,
+      },
       metadataCardsState: {
         card1: false,
         card2: false,
@@ -202,6 +217,81 @@ export default {
     ),
   },
   methods: {
+    removeSearchHighlight() {
+      const svg = document.querySelector('.PageTextDisplay-textOverlay-76');
+      const words = svg.querySelectorAll('tspan');
+      words.forEach(word => {
+        word.innerHTML = word.textContent;
+      });
+      // clear the search input
+      document.getElementById('searchFacSimile').value = '';
+    },
+
+    /**
+     * Recherche et met en évidence le texte dans la zone spécifique
+     */
+    searchText() {
+      let expandedSelection = "";
+      try{
+        expandedSelection = document.querySelector('[aria-label="Expand text overlay options"]');
+      }catch (e) {
+        expandedSelection = document.querySelector('[aria-label="Collapse text overlay options"]');
+      }
+      try {
+        if (expandedSelection.getAttribute('aria-expanded') === "false") {
+          expandedSelection.click();
+          const textSelectable = document.querySelector('[aria-label="Text selectable"]')
+          if (textSelectable.getAttribute('aria-pressed') === "false") {
+            textSelectable.click();
+          }
+        } else {
+          const textSelectable = document.querySelector('[aria-label="Text selectable"]')
+          console.log("ici 1")
+          if (textSelectable.getAttribute('aria-pressed') === "false") {
+            console.log("ici")
+            textSelectable.click();
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
+
+      function search() {
+        try {
+          const svg = document.querySelector('.PageTextDisplay-textOverlay-76');
+          // get all word in svg and generate a span tag wirh class highlight and id with sha1
+          const words = svg.querySelectorAll('tspan');
+          words.forEach(word => {
+            word.innerHTML = word.textContent;
+          });
+          // create a hook to crtl+f to search the text in mirador in tspan text tag
+          const searchFacSimile = document.getElementById('searchFacSimile');
+          //const searchButton = document.getElementById('searchButton');
+          const searchValue = searchFacSimile.value;
+          // get svg with class "PageTextDisplay-textOverlay-76"
+          words.forEach(word => {
+            if (word.textContent.toLowerCase().includes(searchValue.toLowerCase().trim())) {
+              word.innerHTML = `<tspan style="fill:red; font-weight: bold" id="${word.id}">${word.textContent}</tspan>`;
+            }
+          });
+          // if the search value is empty, remove all span tag with class highlight
+          if (searchValue === '') {
+            words.forEach(word => {
+              word.innerHTML = word.textContent;
+            });
+          }
+        } catch (e) {
+          console.error(e);
+          setTimeout(() => {
+            search();
+          }, 1000);
+        }
+      }
+      search();
+
+    },
+
+
     /**
      * Format the prediction text with HTML markup to plain text
      * @param html
@@ -322,10 +412,10 @@ export default {
         this.$store.commit('setCanvasId', canvasObject['canvas_index']);
         this.registerPageDate = canvasObject['date_full'];
         this.selectedNav = {
-        'register': this.endpVolume,
-        'canvas': this.canvasId,
-        'year': this.registerPageDate,
-      }
+          'register': this.endpVolume,
+          'canvas': this.canvasId,
+          'year': this.registerPageDate,
+        }
       });
     },
 
@@ -423,7 +513,7 @@ export default {
     this.initMiradorViewer();
   },
   beforeUnmount() {
-      this.viewer.unmount();
+    this.viewer.unmount();
   },
 };
 
@@ -468,7 +558,7 @@ export default {
 }
 
 .facsimile-columns > .column:last-child > div.raw-prediction-card-parent {
-  padding: 26px 0  var(--right-column-bottom-padding-desktop);
+  padding: 26px 0 var(--right-column-bottom-padding-desktop);
 }
 
 :deep(.fac-simile__toc.has-warning > ul) {
@@ -612,7 +702,7 @@ export default {
 .raw-prediction-text .header button {
   position: absolute;
   right: 27px;
-  top:27px;
+  top: 27px;
 }
 
 button.copy-button {
@@ -726,7 +816,7 @@ tspan {
 }
 
 
-.raw-prediction-card-parent  {
+.raw-prediction-card-parent {
   background-color: #ffffff;
 }
 
@@ -735,7 +825,7 @@ tspan {
   background-color: #ffffff;
 }
 
-.facsimile-columns  .column:last-child  div.raw-prediction-card-parent {
+.facsimile-columns .column:last-child div.raw-prediction-card-parent {
   padding: 0 0 !important;
 }
 
@@ -748,7 +838,7 @@ tspan {
 
   .header.mobile-header {
     position: sticky;
-    top:102px;
+    top: 102px;
     z-index: 2;
 
     display: block;
@@ -831,5 +921,14 @@ tspan {
     padding: 20px;
   }
 }
+
+
+tspan.highlight {
+  background-color: #f6d766;
+  z-index: 1000;
+  fill: red;
+  font: bold 20px sans-serif;
+}
+
 
 </style>
