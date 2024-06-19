@@ -83,11 +83,11 @@
 
       <!-- Mirador viewer section -->
       <div class='container-mirador'>
-        <p>Rechercher dans la page</p>
+        <!--<p>Rechercher dans la page</p>
         <br>
         <input type="text" id="searchFacSimile" placeholder="Recherchez...">
         <button @click="searchText">Rechercher</button>
-        <button @click="removeSearchHighlight">Effacer</button>
+        <button @click="removeSearchHighlight">Effacer</button>-->
         <div id='mirador'></div>
       </div>
       <!-- Raw predictions section -->
