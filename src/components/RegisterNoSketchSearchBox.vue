@@ -12,25 +12,62 @@
         <input class="input" type="text" placeholder="Votre recherche" v-model="NoSketchTermSearch"
                @focus="showHelp = true"
                @input="showHelp = false">
-        <div class="popup" v-if="showHelp">
-            <div class="chevron"></div>
-            <div class="popup-content">
-              <!-- add cross to close the popup -->
-              <div class="close-info-popup" @click="closeInfoPopup"></div>
-              <u>Note</u> : La recherche est sensible à la casse et supporte les expressions régulières (regex).
-            </div>
+        <div class="popup" v-if="showHelp & !fuzzySearch">
+          <div class="chevron"></div>
+          <div class="popup-content">
+            <!-- add cross to close the popup -->
+            <div class="close-info-popup" @click="closeInfoPopup"></div>
+            <u>Note</u> : la recherche est actuellement sensible à la casse et supporte les expressions régulières (regex).
           </div>
+        </div>
       </div>
       <p class="control">
+        <!-- checkbox for fuzzy search -->
         <button class="button is-info" @click="goNoSketchResults">Rechercher</button>
       </p>
-      <img src="@/assets/icons/no-sketch-engine-logo.png" alt="Logo" class="image sketch-image"/>
+      <input type="checkbox" id="fuzzy-search" name="fuzzy-search" v-model="fuzzySearch">
+      <label for="fuzzy-search"> Recherche floue</label>
+      <!-- Fieldset for fuzzy search parameters -->
+       <fieldset v-if="fuzzySearch" class="fuzzy-search-parameters-section">
+        <legend class="fuzzy-search-section-title">Paramètres</legend>
+
+        <div class="fuzzy-search-parameter">
+          <p class="control control-slider">
+            <input
+              id="slider"
+              name="slider"
+              type="range"
+              class="slider"
+              min="0"
+              max="2"
+              v-model.number="selectedThreshold"
+            >
+            <label for="slider" class="slider-label control-add">
+              <span class="slider-label__value">{{ thresholdConverted[selectedThreshold] }}</span>
+            </label>
+          </p>
+        </div>
+
+        <div class="fuzzy-search-parameter">
+          <label for="candidates">Nombre de candidats</label>
+          <select id="candidates" v-model="selectedCandidate" class="fuzzy-select-candidates">
+            <option v-for="candidate in candidatesChoices" :key="candidate" :value="candidate">
+              {{ candidate }}
+            </option>
+          </select>
+        </div>
+
+      </fieldset>
+      <a href="https://www.sketchengine.eu/quick-start-guide/" target="_blank" title="Guide utilisateur de NoSketch">
+        <img src="@/assets/icons/no-sketch-engine-logo.png" alt="Logo" class="image sketch-image"/>
+      </a>
     </div>
   </div>
 </template>
 
 <script>
 import {mapState} from "vuex";
+import Fuse from "fuse.js";
 
 export default {
   name: "RegisterNoSketchSearchBox",
@@ -45,10 +82,41 @@ export default {
       NoSketchTermSearch: "",
       isBoxExpanded: false,
       showHelp: false,
+      fuzzySearch: false,
+      fuse: null,
+      terms: [],
+      candidatesChoices: [
+        10, 20, 50, 100
+      ],
+      thresholdChoices: {
+        "faible": "0.3",
+        "moyenne": "0.5",
+        "élevée": "0.8"
+      },
+      thresholdConverted: ["faible", "moyenne", "élevée"],
+      selectedCandidate: 20,
+      selectedThreshold: 1 // Par défaut à "moyenne" (index 1 dans thresholdConverted)
     }
   },
   computed: {
-    ...mapState(["noSketchService"]),
+    ...mapState(["noSketchService", "fuseIndexJSON", "fuseTermsJSON"])
+  },
+  created() {
+    try {
+      this.terms = this.fuseTermsJSON;
+      const index = this.fuseIndexJSON;
+      const fuseIndex = Fuse.parseIndex(index);
+
+      // Show doc for default values: https://www.fusejs.io/api/options.html#keys
+      const options = {
+        keys: ["title"],
+        threshold: this.thresholdChoices[this.selectedThreshold], // Threshold for the fuzzy search. 0.0 is perfect match, 1.0 would match anything.
+        //distance: 100, // Maximum distance from the pattern. set to default value.
+      };
+      this.fuse = new Fuse(this.terms, options, fuseIndex);
+    } catch (error) {
+      console.error("Failed to initialize Fuse:", error);
+    }
   },
   methods: {
     /**
@@ -58,7 +126,7 @@ export default {
      */
     _prepareNoSketchRequest() {
       let wordsSplitted = this.NoSketchTermSearch.split(" ");
-      let wordsPrepared = wordsSplitted.map(word => `[word="${word}"]`).join("")
+      let wordsPrepared = wordsSplitted.map(word => `[${(this.fuzzySearch) ? "lc" : "word"}="${word}"]`).join("")
       wordsPrepared = wordsPrepared.replace(/\[word=""]/g, "");
       let cqlQuery = encodeURIComponent(`${wordsPrepared} within <doc (date >="${this.yearRange[0]}") & (date<="${this.yearRange[1]}") />`);
       let baseNoSketchUrl = `${this.noSketchService}#concordance`;
@@ -70,7 +138,20 @@ export default {
      * @returns {Window}
      */
     goNoSketchResults() {
-      window.open(this._prepareNoSketchRequest(), "_blank");
+      if (this.fuzzySearch && this.fuse) {
+        let tempNoSketchTermSearch = this.NoSketchTermSearch;
+        const results = this.fuse
+            .search(this.NoSketchTermSearch, {limit: this.selectedCandidate})
+            .map((result) => result.item);
+        console.log("Results:", results)
+        this.NoSketchTermSearch = results.map((result) => result.title).join("|");
+        window.open(this._prepareNoSketchRequest(), "_blank");
+        this.NoSketchTermSearch = tempNoSketchTermSearch;
+      } else if (!this.fuzzySearch) {
+        window.open(this._prepareNoSketchRequest(), "_blank");
+      } else {
+        console.error("Fuse is not initialized");
+      }
     },
     /**
      * Toggle the box
@@ -264,5 +345,125 @@ button.is-info:hover {
   cursor: pointer;
 }
 
+.fuzzy-search-parameters-section {
+  margin-top: 10px;
+  padding: 13px;
+  border-radius: 10px;
+  background-color: #f5f5f5;
+  border-top: 1px solid #D0D0D0;
+}
+
+@media screen and (max-width: 1024px) {
+  .fuzzy-search-parameters-section {
+    padding: 5px;
+  }
+}
+
+.fuzzy-search-section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #4A4A4A;
+  padding: 0 5px;
+}
+
+.fuzzy-search-parameter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 15px;
+}
+
+.fuzzy-select-candidates {
+  width: 100px;
+  height: 30px;
+  border: 1px solid var(--light-brown);
+  border-radius: 4px;
+  padding: 0 5px;
+  font-size: 15px;
+}
+
+.control-slider {
+  display: flex;
+  align-items: center;
+}
+
+.slider {
+  width: 96px;
+  height: 1px;
+  margin: 0;
+  background-color: var(--light-brown) !important;
+}
+
+input[type='range'].slider {
+  -webkit-appearance: none;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--light-brown) !important;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: var(--light-brown) !important;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* augment a little bit the size of the slider */
+.slider {
+  width: 100px;
+  height: 2px;
+}
+
+/* Chrome, Safari, et d'autres navigateurs WebKit */
+.slider::-webkit-slider-thumb {
+  /* remove border color */
+  border: none;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 2px 13px rgba(231, 101, 101, 0.3);
+  transition: box-shadow 0.3s;
+}
+
+.slider::-webkit-slider-thumb:active {
+  box-shadow: 0 0 2px 19px rgba(231, 101, 101, 0.3);
+  transition: box-shadow 0.3s;
+}
+
+/* Firefox */
+.slider::-moz-range-thumb {
+  border: none;
+}
+
+.slider::-moz-range-thumb:hover {
+  box-shadow: 0 0 2px 13px rgba(231, 101, 101, 0.3);
+  transition: box-shadow 0.3s;
+}
+
+.slider::-moz-range-thumb:active {
+  box-shadow: 0 0 2px 19px rgba(231, 101, 101, 0.3);
+  transition: box-shadow 0.3s;
+}
+
+.slider-label {
+  padding: 0.25em 0.5em;
+
+  font-family: var(--font-secondary);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1;
+  color: #6E6E6E;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
 
 </style>
