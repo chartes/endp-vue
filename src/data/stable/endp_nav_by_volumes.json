@@ -677,74 +677,88 @@
       {
         "month": "novembre",
         "canvasID": 17,
-        "pagination": "19"
+        "pagination": "12"
       }
     ],
     "1357_1": [
       {
         "month": "février",
         "canvasID": 22,
-        "pagination": "30"
+        "pagination": "17"
       }
     ],
     "1356_2": [
       {
         "month": "novembre",
-        "canvasID": 24
+        "canvasID": 24,
+        "pagination": "19"
       },
       {
         "month": "décembre",
-        "canvasID": 25
+        "canvasID": 25,
+        "pagination": "20"
       }
     ],
     "1357_2": [
       {
         "month": "janvier",
-        "canvasID": 30
+        "canvasID": 30,
+        "pagination": "25"
       },
       {
         "month": "février",
-        "canvasID": 35
+        "canvasID": 35,
+        "pagination": "30"
       },
       {
         "month": "mars",
-        "canvasID": 36
+        "canvasID": 36,
+        "pagination": "31"
       },
       {
         "month": "avril",
-        "canvasID": 42
+        "canvasID": 42,
+        "pagination": "37"
       },
       {
         "month": "mai",
-        "canvasID": 44
+        "canvasID": 44,
+        "pagination": "39"
       },
       {
         "month": "juin",
-        "canvasID": 48
+        "canvasID": 48,
+        "pagination": "43"
       },
       {
         "month": "juillet",
-        "canvasID": 52
+        "canvasID": 52,
+        "pagination": "47"
       },
       {
         "month": "août",
-        "canvasID": 58
+        "canvasID": 58,
+        "pagination": "53"
       },
       {
         "month": "septembre",
-        "canvasID": 63
+        "canvasID": 63,
+        "pagination": "58"
       },
       {
         "month": "octobre",
-        "canvasID": 68
+        "canvasID": 68,
+        "pagination": "63"
       },
       {
         "month": "novembre",
-        "canvasID": 72
+        "canvasID": 72,
+        "pagination": "67"
       },
       {
         "month": "décembre",
-        "canvasID": 79
+        "canvasID": 79,
+        "pagination": "74"
       }
     ],
     "1358_1": [
