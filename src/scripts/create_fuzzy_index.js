@@ -3,7 +3,7 @@ const fs = require('fs');
 const Fuse = require('fuse.js');
 
 // Lire le fichier texte
-const filePath = '/Users/lucaterre/Documents/pro/Travail_courant/DEV/PROJETS/ANR-ENDP/on_github/endp-vue/src/data/ext/endp_forms.txt';
+const filePath = '/Users/lucaterre/Documents/pro/Travail_courant/DEV/PROJETS/ANR-ENDP/on_github/endp-vue/src/data/ext/processed_endp_forms.txt';
 const fileContent = fs.readFileSync(filePath, 'utf8');
 
 // Diviser le contenu du fichier en une liste de termes (par exemple, par ligne)
