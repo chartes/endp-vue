@@ -1,10 +1,8 @@
 <template>
   <div id="banner-image" class="container is-fluid"></div>
-
   <div class="page-title">
     <h1>Personnes</h1>
   </div>
-
   <div class="columns is-multiline">
     <div class="column is-12-mobile is-5-tablet is-5-desktop">
       <div class="box box-search-person-facets" :class="{ 'is-opened': searchBoxOpenState }">
@@ -15,10 +13,9 @@
               @reset:query="handleResetQuery"
           />
           <div class="checkbox-canon box">
-            <input id="checkbox-canon" type="checkbox" v-model="showCanon">
+            <input id="checkbox-canon" type="checkbox" v-model="onlyCanons">
             <label for="checkbox-canon"> Chanoines</label>
           </div>
-
         </div>
         <div class="loader-wrapper" :class="{'is-active': !isLoading}">
           <div class="loader is-loading"></div>
@@ -31,9 +28,9 @@
           <span class="results-count">{{ totalResults }}</span> Résultats
         </h2>
         <PersonPagination
-            :currentPage="currentPage"
+            :currentPage="actualPage"
             :totalPages="totalPages"
-            :items-by-page-default="itemsPerPage"
+            :items-by-page-default="itemsDisplayedPerPage"
             :items-by-page-min="50"
             :items-by-page-max="100"
             :top-pagination="true"
@@ -42,35 +39,31 @@
             @change:items-by-page-display="handleItemsPerPageChange"/>
       </div>
       <ul>
-
         <li v-for="person in personsItems" :key="person._id_endp" class="li--person">
         <PersonResultCard
             :person="person"/>
         </li>
       </ul>
-
       <PersonPagination
           v-if="personsItems.length"
           class="pagination-bottom"
-          :currentPage="currentPage"
+          :currentPage="actualPage"
           :totalPages="totalPages"
-          :items-by-page-default="itemsPerPage"
+          :items-by-page-default="itemsDisplayedPerPage"
           :items-by-page-min="50"
           :items-by-page-max="100"
           :top-pagination="false"
           :results-by-page-control="false"
           @update:change-page="changePage"
           @change:items-by-page-display="handleItemsPerPageChange"/>
-
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import {mapState} from "vuex";
+import {mapState, mapActions} from "vuex";
 import {spaceAroundCommas} from "@/modules/string_format";
-
 import PersonSearchBox from "@/components/PersonSearchBox.vue";
 import PersonPagination from "@/components/PersonPagination.vue";
 import PersonResultCard from "@/components/PersonResultCard.vue";
@@ -84,59 +77,76 @@ export default {
   },
   data() {
     return {
-      personsItems: [],
-      currentPage: 1,
-      itemsPerPage: 50,
-      totalResults: 0,
-      searchQuery: "",
       isLoading: false,
-      showCanon: false,
       selectSearchType: "exact",
       searchBoxOpenState: false
     };
   },
   computed: {
+    ...mapState("personSearch",
+        ["personQuery",
+          "searchType",
+          "showCanon",
+          "currentPage",
+          "itemsPerPage",
+          "persons",
+          "totalResults"]),
     ...mapState(["personDbApi"]),
-
-    totalPages() {
-      return Math.ceil(this.totalResults / this.itemsPerPage);
+    personsItems: {
+      get() { return this.persons;},
+      set(value) { this.updateResults({persons: value, total: this.totalResults}); },
     },
-
+    onlyCanons: {
+      get() { return this.showCanon; },
+      set(value) { this.updateCanonFilter({value: value}); },
+    },
+    itemsDisplayedPerPage: {
+      get() { return this.itemsPerPage;},
+      set(value) { this.itemsPerPage = value;},
+    },
+    actualPage: {
+      get() { return this.currentPage; },
+      set(value) { this.updatePagination({page: value, limit: this.itemsDisplayedPerPage}); },
+    },
+    totalPages() {
+      return Math.ceil(this.totalResults / this.itemsDisplayedPerPage);
+    },
   },
   watch: {
-    showCanon() {
-      this.currentPage = 1;
+    onlyCanons() {
+      this.actualPage = 1;
+      console.log("on est la :", this.onlyCanons);
       this.handleDefaultSearch();
     },
-    searchQuery(newValue) {
-      if (newValue.trim() === "") {
-        this.getPersons();
-      } else {
-        this.handleDefaultSearch();
-      }
-    },
   },
-
   methods: {
+    ...mapActions("personSearch",
+        ["updateQuery",
+          "updateCanonFilter",
+          "updatePagination",
+          "updateResults"]
+    ),
     spaceAroundCommas,
-    handleUpdateQuery({query, search_type}) {
+    handleUpdateQuery({query, searchType}) {
       // Close Searchbox on mobile
       this.searchBoxOpenState = false;
 
       // Scroll Page to the top
       window.scrollTo(0, 0);
 
-      this.currentPage = 1;
-      this.selectSearchType = search_type;
-      this.searchQuery = query;
+      this.actualPage = 1;
+      this.selectSearchType = searchType;
+      this.updateQuery({query, searchType});
       this.handleDefaultSearch();
     },
     handleResetQuery() {
-      this.currentPage = 1;
+      this.actualPage = 1;
+      this.updateQuery({query: "", searchType: "exact"});
+      this.updateCanonFilter({value: false})
       this.getPersons();
     },
     handleDefaultSearch() {
-      if (this.searchQuery.trim() === "") {
+      if (this.personQuery.trim() === "") {
         this.getPersons();
       } else {
         this.searchPersons();
@@ -153,10 +163,10 @@ export default {
       this.isLoading = true;
       let url = "";
       if (type === "all") {
-        this.searchQuery = "";
-        url = `${this.personDbApi}/persons/?size=${this.itemsPerPage}&page=${this.currentPage}&only_canon=${this.showCanon}`;
+        this.personQuery = "";
+        url = `${this.personDbApi}/persons/?size=${this.itemsDisplayedPerPage}&page=${this.currentPage}&only_canon=${this.onlyCanons}`;
       } else if (type === "search") {
-        url = `${this.personDbApi}/persons/search?query=${this.searchQuery}&type_query=${this.selectSearchType}&only_canon=${this.showCanon}&page=${this.currentPage}&size=${this.itemsPerPage}`;
+        url = `${this.personDbApi}/persons/search?query=${this.personQuery}&type_query=${this.searchType}&only_canon=${this.onlyCanons}&page=${this.currentPage}&size=${this.itemsDisplayedPerPage}`;
       }
       await axios
           .get(url,
@@ -164,20 +174,17 @@ export default {
                 withCredentials: false,
               })
           .then((response) => {
-            this.personsItems = response.data.items.map((person) => ({
+            this.updateResults({persons: this.formatLabels(response.data.items.map((person) => ({
               ...person,
               isOpened: false,
-            }));
-            this.personsItems = this.formatLabels(this.personsItems);
-            this.totalResults = response.data.total;
-            if (this.currentPage > this.totalPages) {
-              this.currentPage = 1;
+            }))), total: response.data.total});
+            if (this.actualPage > this.totalPages) {
+              this.actualPage = 1;
             }
           }).finally(() => {
             this.isLoading = false;
           }).catch(() => {
-                this.personsItems = [];
-                this.totalResults = 0;
+                this.updateResults({persons: [], total: 0})
                 this.isLoading = false;
               },
           );
@@ -189,14 +196,13 @@ export default {
       await this.handlePersonsQuery("search");
     },
     async handleItemsPerPageChange(limit) {
-      this.itemsPerPage = limit;
-      this.currentPage = 1;
+      this.updatePagination({page: 1, limit: limit});
       this.handleDefaultSearch();
     },
     changePage(page) {
       if (page >= 1 && page <= this.totalPages) {
-        this.currentPage = page;
-        if (this.searchQuery.trim() === "") {
+        this.updatePagination({page: page, limit: this.itemsDisplayedPerPage});
+        if (this.personQuery.trim() === "") {
         this.getPersons();
       } else {
         this.searchPersons();
@@ -213,7 +219,6 @@ export default {
   },
 };
 </script>
-
 
 <style scoped>
 /* Set image banner */

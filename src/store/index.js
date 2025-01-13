@@ -1,5 +1,7 @@
 import {createStore} from 'vuex';
 
+import personSearch from "./modules/personSearch";
+
 import navByDatesJSON from '@/data/stable/endp_nav_by_dates.json';
 import navByVolumesJSON from "@/data/stable/endp_nav_by_volumes.json";
 import metadataVolumesJSON from '@/data/stable/endp_volumes_metadata.json';
@@ -10,6 +12,9 @@ import FuseIndex from '@/data/stable/fuse-index.json';
 import FuseTerms from '@/data/stable/terms.json';
 
 export default createStore({
+    modules: {
+        personSearch,
+    },
     state: {
         // Utils
         canvasId: 0,
@@ -60,6 +65,6 @@ export default createStore({
         },
         setBtnCollectionClicked(state, value) {
             state.btnCollectionClicked = value;
-        }
+        },
     },
 });

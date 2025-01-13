@@ -31,6 +31,10 @@
           <b>Nom(s) - Cognomen :</b>
           {{ meta_person['surname_alt_labels'] }}
         </p>
+        <h4 class="section-subtitle">Date de décès</h4>
+        <p>
+          {{ meta_person['death_date'] ? formatDate(meta_person['death_date']) : "Non renseigné" }}
+        </p>
         <h4 class="section-subtitle">Mentions dans les registres</h4>
         <p>
           <b>Première mention :</b>
@@ -83,7 +87,7 @@
 <script>
 import axios from 'axios';
 import {mapState} from "vuex";
-import {spaceAroundCommas} from "@/modules/string_format";
+import {spaceAroundCommas, formatDate} from "@/modules/string_format";
 
 import PersonDataTimeline from "@/components/PersonDataTimeline.vue";
 import PersonDataCarousel from "@/components/PersonDataCarousel.vue";
@@ -114,7 +118,6 @@ export default {
   },
   computed: {
     ...mapState(["personDbApi", "personDbAdminShow"]),
-
     isFamilyEmpty() {
       return !this.family_relations.relatives || this.family_relations.relatives.length === 0;
     },
@@ -133,12 +136,7 @@ export default {
     }
   },
   methods: {
-    formatDate(date) {
-      if (!date) return 'Date non renseignée';
-      const [year, monthCode, day] = date.split('-');
-      const month = this.$store.state.months.find(m => m.iso_code === monthCode)?.name || '';
-      return `${day ? `${day} ` : ''}${month} ${year}`;
-    },
+    formatDate,
     formatlinks(link) {
       return !link.startsWith('http') ? `https://${link}` : link;
     },

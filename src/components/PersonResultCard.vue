@@ -19,9 +19,12 @@
               <p><b>Nom(s) - Cognomen :</b>
                 {{ person.surname_alt_labels }}
               </p>
+              <p><b>Date de décès :</b>
+                {{ person.death_date ? formatDate(person.death_date) : "Non renseigné" }}
+              </p>
               <p class="dates"><b>Dates extrêmes d'apparition dans les registres</b>
-                {{ person.first_mention_date ? person.first_mention_date : "Non renseigné" }} -
-                {{ person.last_mention_date ? person.last_mention_date : "Non renseigné" }}</p>
+                {{ person.first_mention_date ? formatDate(person.first_mention_date) : "Non renseigné" }} -
+                {{ person.last_mention_date ? formatDate(person.last_mention_date) : "Non renseigné" }}</p>
               <p>
                 <router-link class="button  btn-person-data-link" :to="`/persons/${person._id_endp}`">
                   <span>Accéder à la fiche</span>
@@ -35,6 +38,7 @@
 </template>
 
 <script>
+import {formatDate} from "@/modules/string_format";
 export default {
   name: "PersonResultCard",
   props: {
@@ -44,6 +48,7 @@ export default {
     }
   },
   methods: {
+    formatDate,
     toggleContent(person, event) {
       person.isOpened = !person.isOpened;
       event.preventDefault();
