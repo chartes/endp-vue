@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve --port 9091",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "create_fuzzy_index": "node ./src/scripts/create_fuzzy_index.js",
+    "create_fuzzy_index": "node src/scripts/minisearch_create_index.js",
     "test::unit": "jest --no-cache --verbose"
   },
   "dependencies": {
@@ -16,6 +16,7 @@
     "core-js": "^3.35.0",
     "d3": "^7.8.5",
     "fuse.js": "^7.0.0",
+    "minisearch": "^7.1.2",
     "mirador": "^3.3.0",
     "mirador-textoverlay": "^0.3.8",
     "plotly.js-dist": "^2.28.0",

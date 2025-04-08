@@ -9,55 +9,47 @@
     <div class="container-search" v-if="isBoxExpanded">
       <div class="help">Pour la période {{ yearRange[0] }}-{{ yearRange[1] }}</div>
       <div class="control">
-        <input class="input" type="text" placeholder="Votre recherche" v-model="NoSketchTermSearch"
+        <input class="input" type="text" placeholder="Votre recherche"
+               v-model="NoSketchTermSearch"
                @focus="showHelp = true"
-               @input="showHelp = false">
+               @input="showHelp = false"
+               :class="{'input-fuzzy': fuzzySearch, 'input-normal': !fuzzySearch}"
+        >
         <div class="popup" v-if="showHelp & !fuzzySearch">
           <div class="chevron"></div>
           <div class="popup-content">
             <!-- add cross to close the popup -->
             <div class="close-info-popup" @click="closeInfoPopup"></div>
-            <u>Note</u> : la recherche est actuellement sensible à la casse et supporte les expressions régulières (regex).
+            <u>Note</u> : la recherche est actuellement sensible à la casse et supporte les expressions régulières
+            (regex).
           </div>
         </div>
       </div>
-      <p class="control">
-        <!-- checkbox for fuzzy search -->
-        <button class="button is-info" @click="goNoSketchResults">Rechercher</button>
-      </p>
-      <input type="checkbox" id="fuzzy-search" name="fuzzy-search" v-model="fuzzySearch">
-      <label for="fuzzy-search"> Recherche floue</label>
-      <!-- Fieldset for fuzzy search parameters -->
-       <fieldset v-if="fuzzySearch" class="fuzzy-search-parameters-section">
-        <legend class="fuzzy-search-section-title">Paramètres</legend>
-
-        <div class="fuzzy-search-parameter">
-          <p class="control control-slider">
-            <input
+      <div class="control fuzzy-search-parameter">
+        <label class="switch-label">
+          <input type="checkbox" v-model="fuzzyEnabled">
+          <span class="switch-slider"></span>
+          <span class="switch-text">Recherche floue</span>
+        </label>
+        <p class="control control-slider" v-if="fuzzySearch">
+          <input
               id="slider"
               name="slider"
               type="range"
-              class="slider"
+              class="slider slider-fuzzy"
               min="0"
               max="2"
               v-model.number="selectedThreshold"
-            >
-            <label for="slider" class="slider-label control-add">
-              <span class="slider-label__value">{{ thresholdConverted[selectedThreshold] }}</span>
-            </label>
-          </p>
-        </div>
-
-        <div class="fuzzy-search-parameter">
-          <label for="candidates">Nombre de candidats</label>
-          <select id="candidates" v-model="selectedCandidate" class="fuzzy-select-candidates">
-            <option v-for="candidate in candidatesChoices" :key="candidate" :value="candidate">
-              {{ candidate }}
-            </option>
-          </select>
-        </div>
-
-      </fieldset>
+          >
+          <label for="slider" class="slider-label control-add">
+            <span class="slider-label__value">{{ thresholdConverted[selectedThreshold] }}</span><span
+              v-if="fuzzySearch"></span>
+          </label>
+        </p>
+      </div>
+      <p class="control">
+        <button class="button is-info" @click="goNoSketchResults">Rechercher</button>
+      </p>
       <a href="https://www.sketchengine.eu/quick-start-guide/" target="_blank" title="Guide utilisateur de NoSketch">
         <img src="@/assets/icons/no-sketch-engine-logo.png" alt="Logo" class="image sketch-image"/>
       </a>
@@ -67,7 +59,7 @@
 
 <script>
 import {mapState} from "vuex";
-import Fuse from "fuse.js";
+import MiniSearch from "minisearch";
 
 export default {
   name: "RegisterNoSketchSearchBox",
@@ -82,43 +74,37 @@ export default {
       NoSketchTermSearch: "",
       isBoxExpanded: false,
       showHelp: false,
-      fuzzySearch: false,
-      fuse: null,
       terms: [],
-      candidatesChoices: [
-        10, 20, 50, 100
-      ],
+      fuzzyEnabled: false,
       thresholdChoices: {
-        "faible": "0.3",
-        "moyenne": "0.5",
-        "élevée": "0.8"
+        "faible": 0.15,
+        "moyenne": 0.25,
+        "élevée": 0.4
       },
+      miniSearchInstance: null,
       thresholdConverted: ["faible", "moyenne", "élevée"],
-      selectedCandidate: 20,
-      selectedThreshold: 1 // Par défaut à "moyenne" (index 1 dans thresholdConverted)
+      selectedCandidate: 3000,
+      selectedThreshold: 0
     }
   },
   computed: {
-    ...mapState(["noSketchService", "fuseIndexJSON", "fuseTermsJSON"])
-  },
-  created() {
-    try {
-      this.terms = this.fuseTermsJSON;
-      const index = this.fuseIndexJSON;
-      const fuseIndex = Fuse.parseIndex(index);
-
-      // Show doc for default values: https://www.fusejs.io/api/options.html#keys
-      const options = {
-        keys: ["title"],
-        threshold: this.thresholdChoices[this.selectedThreshold], // Threshold for the fuzzy search. 0.0 is perfect match, 1.0 would match anything.
-        //distance: 100, // Maximum distance from the pattern. set to default value.
-      };
-      this.fuse = new Fuse(this.terms, options, fuseIndex);
-    } catch (error) {
-      console.error("Failed to initialize Fuse:", error);
+    ...mapState(["noSketchService", "StructTermsSearchIndexJSON", "miniSearchInstanceCache"]),
+    fuzzySearch() {
+      return this.fuzzyEnabled;
     }
   },
   methods: {
+    initMiniSearchIfNeeded() {
+      if (!this.miniSearchInstance) {
+        const json = JSON.stringify(this.StructTermsSearchIndexJSON)
+        let miniSearchInstance = MiniSearch.loadJSONAsync(
+            json,
+            {
+              fields: ['text'],
+            })
+        this.$store.commit("setMiniSearchInstanceCache", miniSearchInstance);
+      }
+    },
     /**
      * Prepare the NoSketch request
      * @private
@@ -133,18 +119,32 @@ export default {
       let queryParams = `corpname=endp&tab=advanced&queryselector=cql&attrs=word&viewmode=kwic&attr_allpos=all&refs_up=0&shorten_refs=1&glue=1&gdexcnt=300&show_gdex_scores=0&itemsPerPage=20&structs=s%2Cg&refs=%3Ddoc.id&default_attr=word&cql=${cqlQuery}&showresults=1&showTBL=0&tbl_template=&gdexconf=&f_tab=basic&f_showrelfrq=1&f_showperc=0&f_showreldens=0&f_showreltt=0&c_custom=`;
       return `${baseNoSketchUrl}?${queryParams}`;
     },
+
     /**
      * Open the NoSketch request in a new tab
      * @returns {Window}
      */
     goNoSketchResults() {
-      if (this.fuzzySearch && this.fuse) {
+      if (this.fuzzySearch) {
+        if (!this.miniSearchInstanceCache) {
+          this.initMiniSearchIfNeeded();
+        }
+        const label = this.thresholdConverted[this.selectedThreshold];
+        const threshold = this.thresholdChoices[label];
+
         let tempNoSketchTermSearch = this.NoSketchTermSearch;
-        const results = this.fuse
-            .search(this.NoSketchTermSearch, {limit: this.selectedCandidate})
-            .map((result) => result.item);
-        console.log("Results:", results)
-        this.NoSketchTermSearch = results.map((result) => result.title).join("|");
+
+        let results = this.miniSearchInstanceCache.search(
+            this.NoSketchTermSearch,
+            {fuzzy: threshold}
+        ).slice(
+            0,
+            this.selectedCandidate
+        ).map(
+            (result) => result.text
+        )
+
+        this.NoSketchTermSearch = results.join("|");
         window.open(this._prepareNoSketchRequest(), "_blank");
         this.NoSketchTermSearch = tempNoSketchTermSearch;
       } else if (!this.fuzzySearch) {
@@ -226,11 +226,18 @@ export default {
   text-align: center;
 }
 
-.input {
+.input-normal {
   width: calc(100% - 12px);
   height: 2.75em;
   border: none;
   border-bottom: 1px solid var(--light-brown);
+}
+
+.input-fuzzy {
+  width: calc(100% - 12px);
+  height: 2.75em;
+  border: none;
+  border-bottom: 1px solid #3bb163 !important;
 }
 
 input::placeholder {
@@ -240,6 +247,7 @@ input::placeholder {
   color: #B4B4B4;
   opacity: 0.75;
 }
+
 
 .control {
   text-align: center;
@@ -299,7 +307,7 @@ button.is-info:hover {
 
 .popup {
   position: absolute;
-  top: 55px; /* Adjust based on the height of the input field */
+  top: 55px;
   left: 0;
   width: calc(100% - 12px);
   background: white;
@@ -315,7 +323,7 @@ button.is-info:hover {
   content: "";
   position: absolute;
   top: -10px;
-  left: 20px; /* Adjust to align the chevron with the input */
+  left: 20px;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
   border-bottom: 10px solid var(--light-brown);
@@ -325,7 +333,7 @@ button.is-info:hover {
   content: "";
   position: absolute;
   top: -11px;
-  left: 19px; /* Adjust to align the chevron with the input */
+  left: 19px;
   border-left: 11px solid transparent;
   border-right: 11px solid transparent;
   border-bottom: 11px solid var(--light-brown);
@@ -370,7 +378,8 @@ button.is-info:hover {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 8px;
+  margin-top: 30px;
+  padding: 6px 15px 8px;
   font-size: 15px;
 }
 
@@ -388,12 +397,20 @@ button.is-info:hover {
   align-items: center;
 }
 
-.slider {
+.slider-normal {
   width: 96px;
   height: 1px;
   margin: 0;
   background-color: var(--light-brown) !important;
 }
+
+.slider-fuzzy {
+  width: 96px;
+  height: 1px;
+  margin: 0;
+  background-color: #3bb163 !important; /* vert */
+}
+
 
 input[type='range'].slider {
   -webkit-appearance: none;
@@ -464,6 +481,86 @@ input[type='range'].slider {
   color: #6E6E6E;
   text-transform: capitalize;
   white-space: nowrap;
+}
+
+.slider-normal::-webkit-slider-thumb {
+  background: var(--light-brown) !important;
+}
+
+.slider-normal::-moz-range-thumb {
+  background: var(--light-brown) !important;
+}
+
+.slider-fuzzy::-webkit-slider-thumb {
+  background: #3bb163 !important; /* vert */
+}
+
+.slider-fuzzy::-moz-range-thumb {
+  background: #3bb163 !important; /* vert */
+}
+
+.slider-fuzzy::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 2px 13px rgba(59, 177, 99, 0.3);
+}
+
+.slider-fuzzy::-webkit-slider-thumb:active {
+  box-shadow: 0 0 2px 19px rgba(59, 177, 99, 0.3);
+}
+
+.slider-fuzzy::-moz-range-thumb:hover {
+  box-shadow: 0 0 2px 13px rgba(59, 177, 99, 0.3);
+}
+
+.slider-fuzzy::-moz-range-thumb:active {
+  box-shadow: 0 0 2px 19px rgba(59, 177, 99, 0.3);
+}
+
+.switch-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.switch-slider {
+  width: 40px;
+  height: 20px;
+  background-color: #ccc;
+  border-radius: 20px;
+  position: relative;
+  transition: background-color 0.2s;
+}
+
+.switch-slider::before {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  left: 1px;
+  top: 1px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="checkbox"] + .switch-slider {
+  background-color: #ccc;
+}
+
+input[type="checkbox"]:checked + .switch-slider {
+  background-color: #3bb163;
+}
+
+input[type="checkbox"]:checked + .switch-slider::before {
+  transform: translateX(20px);
+}
+
+.switch-text {
+  font-size: 16px;
 }
 
 </style>

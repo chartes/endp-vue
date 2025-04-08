@@ -55,10 +55,10 @@ npm run build
 
 ## Rebuilt specific index for fuzzy search in NoSketch
 
-1. Run the script `create_fuzzy_index.js` in the `src/scripts` folder (change parameters if needed)
+1. Run the script `fuse_create_fuzzy_index.js` in the `src/scripts` folder (change parameters if needed)
 
 ```bash
-node create_fuzzy_index.js
+node fuse_create_fuzzy_index.js
 ```
 
 2. Check the `src/data/stable/fuse-index.json` and `src/data/stable/terms.json` files 

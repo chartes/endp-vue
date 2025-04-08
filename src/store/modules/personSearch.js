@@ -2,13 +2,17 @@
 export default {
     namespaced: true,
     state: {
-        personQuery: "", // Défaut : chaîne vide
+        personQuery: "",
         searchType: "exact",
         showCanon: false,
         currentPage: 1,
         itemsPerPage: 50,
         totalResults: 0,
         persons: [],
+        filterList: {
+            place_ids: [],
+            person_term_ids: [],
+        }
     },
     mutations: {
         SET_PERSON_QUERY(state, query) {
@@ -32,6 +36,9 @@ export default {
         SET_PERSONS(state, persons) {
             state.persons = persons;
         },
+        SET_FILTER_LIST(state, filterList) {
+            state.filterList = filterList;
+        },
     },
     actions: {
         updateQuery({commit}, {query, searchType}) {
@@ -49,5 +56,8 @@ export default {
             commit("SET_PERSONS", persons);
             commit("SET_TOTAL_RESULTS", total);
         },
+        updateFilters({commit}, {filterList}) {
+            commit("SET_FILTER_LIST", filterList);
     },
-};
+    },
+}

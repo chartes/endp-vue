@@ -38,7 +38,11 @@
         </label>
       </p>
       <p class="control">
-        <button class="button is-outlined btn-reset" :class="{'button-reset-search': !resetBtn}" @click="resetSearch">
+        <button
+            class="button is-outlined btn-reset"
+            :class="{ 'button-reset-search': !hasActiveFilters }"
+            @click="resetSearch"
+        >
           <span class="icon is-small"><i class="fas fa-undo"></i></span>
         </button>
       </p>
@@ -58,19 +62,37 @@ export default {
       typeOptionsTranslated: ["exacte", "floue", "très floue"],
     };
   },
+  props: {
+    hasActiveFilters: {
+      type: Boolean,
+      default: false,
+    },
+  },
   computed: {
     ...mapState("personSearch", ["personQuery", "searchType"]),
     query: {
-      get() { return this.personQuery; },
-      set(value) { this.updateQuery({query: value, searchType: this.typeOptions[this.sType]}); },
+      get() {
+        return this.personQuery;
+      },
+      set(value) {
+        this.updateQuery({query: value, searchType: this.typeOptions[this.sType]});
+      },
     },
     sType: {
-      get() { return this.typeOptions.indexOf(this.searchType);},
-      set(value) { this.updateQuery({query: this.personQuery, searchType: this.typeOptions[value]});},
+      get() {
+        return this.typeOptions.indexOf(this.searchType);
+      },
+      set(value) {
+        this.updateQuery({query: this.personQuery, searchType: this.typeOptions[value]});
+      },
     },
     CanonFilter: {
-      get() { return this.showCanon; },
-      set(value) { this.updateCanonFilter({value: value}); },
+      get() {
+        return this.showCanon;
+      },
+      set(value) {
+        this.updateCanonFilter({value: value});
+      },
     },
   },
   watch: {

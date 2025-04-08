@@ -8,8 +8,8 @@ import metadataVolumesJSON from '@/data/stable/endp_volumes_metadata.json';
 import mappingSha1VolumesJSON from '@/data/stable/endp_mapping_nakala_sha1_img_volumes.json';
 import miradorSettings from "@/settings/mirador.conf.json";
 
-import FuseIndex from '@/data/stable/fuse-index.json';
-import FuseTerms from '@/data/stable/terms.json';
+
+import StructTermsSearchIndex from '@/data/stable/minisearch-endp-index.json';
 
 export default createStore({
     modules: {
@@ -40,8 +40,8 @@ export default createStore({
         metadataVolumesJSON: metadataVolumesJSON,
         mappingSha1VolumesJSON: mappingSha1VolumesJSON,
         // Fuzzy search specific
-        fuseIndexJSON: FuseIndex,
-        fuseTermsJSON: FuseTerms,
+        StructTermsSearchIndexJSON: StructTermsSearchIndex,
+        miniSearchInstanceCache: null,
         // Configuration files
         miradorSettings: miradorSettings,
         // constants services endpoints
@@ -65,6 +65,9 @@ export default createStore({
         },
         setBtnCollectionClicked(state, value) {
             state.btnCollectionClicked = value;
+        },
+        setMiniSearchInstanceCache(state, instance) {
+            state.miniSearchInstanceCache = instance;
         },
     },
 });

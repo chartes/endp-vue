@@ -9,6 +9,7 @@
         <div class="box-search-header" @click="toggleSearchBox($event)"></div>
         <div class="box-content">
           <PersonSearchBox
+              :has-active-filters="hasActiveFilters"
               @update:query="handleUpdateQuery"
               @reset:query="handleResetQuery"
           />
@@ -17,12 +18,29 @@
             <label for="checkbox-canon"> Chanoines</label>
           </div>
         </div>
+        <FacetFilter
+            title="LIEUX"
+            filterType="places"
+            apiUrl="https://endp.chartes.psl.eu/endp-person/api/persons/thesauri/terms?thesaurus_type=places"
+            @update:selectedTerms="handleSelectedTerms"
+            :reset="resetFiltersSignal"
+            :initialSelectedIds="filterList.place_ids"
+        />
+        <FacetFilter
+            title="TERMES"
+            filterType="persons_terms"
+            apiUrl="https://endp.chartes.psl.eu/endp-person/api/persons/thesauri/terms?thesaurus_type=persons_terms"
+            @update:selectedTerms="handleSelectedTerms"
+            :reset="resetFiltersSignal"
+            :initialSelectedIds="filterList.person_term_ids"
+        />
         <div class="loader-wrapper" :class="{'is-active': !isLoading}">
           <div class="loader is-loading"></div>
         </div>
       </div>
     </div>
-    <div class="column column-result is-12-mobile is-7-tablet is-7-desktop"  :class="{ 'is-searchbox-opened': searchBoxOpenState }">
+    <div class="column column-result is-12-mobile is-7-tablet is-7-desktop"
+         :class="{ 'is-searchbox-opened': searchBoxOpenState }">
       <div class="column-results-header">
         <h2 class="subtitle is-4">
           <span class="results-count">{{ totalResults }}</span> Résultats
@@ -40,8 +58,8 @@
       </div>
       <ul>
         <li v-for="person in personsItems" :key="person._id_endp" class="li--person">
-        <PersonResultCard
-            :person="person"/>
+          <PersonResultCard
+              :person="person"/>
         </li>
       </ul>
       <PersonPagination
@@ -67,6 +85,7 @@ import {spaceAroundCommas} from "@/modules/string_format";
 import PersonSearchBox from "@/components/PersonSearchBox.vue";
 import PersonPagination from "@/components/PersonPagination.vue";
 import PersonResultCard from "@/components/PersonResultCard.vue";
+import FacetFilter from "@/components/FacetFilter.vue";
 
 export default {
   name: "PersonView",
@@ -74,12 +93,14 @@ export default {
     PersonResultCard,
     PersonSearchBox,
     PersonPagination,
+    FacetFilter,
   },
   data() {
     return {
       isLoading: false,
       selectSearchType: "exact",
-      searchBoxOpenState: false
+      searchBoxOpenState: false,
+      resetFiltersSignal: false,
     };
   },
   computed: {
@@ -90,23 +111,47 @@ export default {
           "currentPage",
           "itemsPerPage",
           "persons",
+          "filterList",
           "totalResults"]),
     ...mapState(["personDbApi"]),
+    hasActiveFilters() {
+      return (
+          this.personQuery.trim() !== "" ||
+          this.filterList.place_ids.length > 0 ||
+          this.filterList.person_term_ids.length > 0
+      );
+    },
     personsItems: {
-      get() { return this.persons;},
-      set(value) { this.updateResults({persons: value, total: this.totalResults}); },
+      get() {
+        return this.persons;
+      },
+      set(value) {
+        this.updateResults({persons: value, total: this.totalResults});
+      },
     },
     onlyCanons: {
-      get() { return this.showCanon; },
-      set(value) { this.updateCanonFilter({value: value}); },
+      get() {
+        return this.showCanon;
+      },
+      set(value) {
+        this.updateCanonFilter({value: value});
+      },
     },
     itemsDisplayedPerPage: {
-      get() { return this.itemsPerPage;},
-      set(value) { this.itemsPerPage = value;},
+      get() {
+        return this.itemsPerPage;
+      },
+      set(value) {
+        this.itemsPerPage = value;
+      },
     },
     actualPage: {
-      get() { return this.currentPage; },
-      set(value) { this.updatePagination({page: value, limit: this.itemsDisplayedPerPage}); },
+      get() {
+        return this.currentPage;
+      },
+      set(value) {
+        this.updatePagination({page: value, limit: this.itemsDisplayedPerPage});
+      },
     },
     totalPages() {
       return Math.ceil(this.totalResults / this.itemsDisplayedPerPage);
@@ -124,16 +169,27 @@ export default {
         ["updateQuery",
           "updateCanonFilter",
           "updatePagination",
+          "updateFilters",
           "updateResults"]
     ),
     spaceAroundCommas,
+    handleSelectedTerms({type, terms}) {
+      const newFilterList = {...this.filterList};
+
+      if (type === "places") {
+        newFilterList.place_ids = terms;
+      } else if (type === "persons_terms") {
+        newFilterList.person_term_ids = terms;
+      }
+
+      this.updateFilters({filterList: newFilterList});
+
+      this.actualPage = 1;
+      this.handleDefaultSearch();
+    },
     handleUpdateQuery({query, searchType}) {
-      // Close Searchbox on mobile
       this.searchBoxOpenState = false;
-
-      // Scroll Page to the top
       window.scrollTo(0, 0);
-
       this.actualPage = 1;
       this.selectSearchType = searchType;
       this.updateQuery({query, searchType});
@@ -142,17 +198,28 @@ export default {
     handleResetQuery() {
       this.actualPage = 1;
       this.updateQuery({query: "", searchType: "exact"});
-      this.updateCanonFilter({value: false})
+      this.updateCanonFilter({value: false});
+
+      this.updateFilters({
+        filterList: {
+          place_ids: [],
+          person_term_ids: [],
+        },
+      });
+      this.resetFiltersSignal = true;
       this.getPersons();
+      this.$nextTick(() => {
+        this.resetFiltersSignal = false;
+      });
     },
     handleDefaultSearch() {
-      if (this.personQuery.trim() === "") {
+      if (this.personQuery.trim() === "" && this.filterList.place_ids.length === 0 && this.filterList.person_term_ids.length === 0) {
         this.getPersons();
       } else {
         this.searchPersons();
       }
     },
-    formatLabels(persons){
+    formatLabels(persons) {
       return persons.map((person) => ({
         ...person,
         forename_alt_labels: this.spaceAroundCommas(person.forename_alt_labels),
@@ -162,32 +229,40 @@ export default {
     async handlePersonsQuery(type) {
       this.isLoading = true;
       let url = "";
+
       if (type === "all") {
-        this.personQuery = "";
         url = `${this.personDbApi}/persons/?size=${this.itemsDisplayedPerPage}&page=${this.currentPage}&only_canon=${this.onlyCanons}`;
       } else if (type === "search") {
-        url = `${this.personDbApi}/persons/search?query=${this.personQuery}&type_query=${this.searchType}&only_canon=${this.onlyCanons}&page=${this.currentPage}&size=${this.itemsDisplayedPerPage}`;
+        const params = new URLSearchParams({
+          query: this.personQuery,
+          type_query: this.searchType,
+          only_canon: this.onlyCanons,
+          page: this.currentPage,
+          size: this.itemsDisplayedPerPage
+        });
+
+        this.filterList.place_ids.forEach(id => params.append("place_ids", id));
+        this.filterList.person_term_ids.forEach(id => params.append("person_term_ids", id));
+
+        url = `${this.personDbApi}/persons/search?${params.toString()}`;
       }
-      await axios
-          .get(url,
-              {
-                withCredentials: false,
-              })
-          .then((response) => {
-            this.updateResults({persons: this.formatLabels(response.data.items.map((person) => ({
-              ...person,
-              isOpened: false,
-            }))), total: response.data.total});
-            if (this.actualPage > this.totalPages) {
-              this.actualPage = 1;
-            }
-          }).finally(() => {
-            this.isLoading = false;
-          }).catch(() => {
-                this.updateResults({persons: [], total: 0})
-                this.isLoading = false;
-              },
-          );
+
+      await axios.get(url).then((response) => {
+        this.updateResults({
+          persons: this.formatLabels(response.data.items.map((p) => ({
+            ...p,
+            isOpened: false,
+          }))),
+          total: response.data.total,
+        });
+        if (this.actualPage > this.totalPages) {
+          this.actualPage = 1;
+        }
+      }).catch(() => {
+        this.updateResults({persons: [], total: 0});
+      }).finally(() => {
+        this.isLoading = false;
+      });
     },
     async getPersons() {
       await this.handlePersonsQuery("all");
@@ -203,10 +278,10 @@ export default {
       if (page >= 1 && page <= this.totalPages) {
         this.updatePagination({page: page, limit: this.itemsDisplayedPerPage});
         if (this.personQuery.trim() === "") {
-        this.getPersons();
-      } else {
-        this.searchPersons();
-      }
+          this.getPersons();
+        } else {
+          this.searchPersons();
+        }
       }
     },
     toggleSearchBox(event) {
@@ -306,7 +381,7 @@ export default {
 
 .column-results-header {
   position: sticky;
-  top:52px;
+  top: 52px;
   z-index: 1;
   width: 100%;
   height: 222px;
@@ -391,8 +466,8 @@ h2.subtitle {
 
   .box-search-person-facets .box-search-header {
     position: absolute;
-    top:0;
-    left:0;
+    top: 0;
+    left: 0;
     z-index: 2;
 
     display: block;
@@ -432,7 +507,6 @@ h2.subtitle {
   }
 
   /* Second column */
-
   .column-results-header {
     position: relative;
     top: 8px;
