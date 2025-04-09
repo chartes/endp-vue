@@ -19,6 +19,7 @@
     "allowMaximize": false,
     "hideWindowTitle": true,
     "defaultView": "single",
+    "defaultSideBarPanel": "info",
     "views": [
       {
         "key": "single",

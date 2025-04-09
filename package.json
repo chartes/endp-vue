@@ -18,6 +18,7 @@
     "fuse.js": "^7.0.0",
     "minisearch": "^7.1.2",
     "mirador": "^3.3.0",
+    "mirador-image-tools": "^0.11.0",
     "mirador-textoverlay": "^0.3.8",
     "plotly.js-dist": "^2.28.0",
     "react": "^17.0.2",

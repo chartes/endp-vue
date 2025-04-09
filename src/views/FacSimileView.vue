@@ -9,9 +9,12 @@
 
   <!-- Mobile Title section -->
   <div class="mobile-header header">
-    <p class="facsimile-title" v-if="canvasId === 'top'">Collection des fac-similés de registres de conclusions capitulaires</p>
-    <p class="facsimile-title" v-if="canvasId !== 'top'">Fac-similé du registre de conclusions capitulaires {{ endpVolume }} de
-      Notre-Dame de Paris <span v-if="registerPageDate">- <span class="date-title">{{ registerPageDate }}</span></span></p>
+    <p class="facsimile-title" v-if="canvasId === 'top'">Collection des fac-similés de registres de conclusions
+      capitulaires</p>
+    <p class="facsimile-title" v-if="canvasId !== 'top'">Fac-similé du registre de conclusions capitulaires
+      {{ endpVolume }} de
+      Notre-Dame de Paris <span v-if="registerPageDate">- <span class="date-title">{{ registerPageDate }}</span></span>
+    </p>
   </div>
 
   <!-- Main grid  -->
@@ -23,18 +26,20 @@
         <div class="card-header" @click="toggleCard('card1')">
           <p class="card-header-title">
             Métadonnées
-            <button class="card-header-toggle" />
+            <button class="card-header-toggle"/>
           </p>
         </div>
         <div class="card-content" v-if="metadataCardsState.card1">
           <p>
-            <span class="card-content-label">Citer la <span v-if="registerPageDate">page du fac-similé</span><span v-if="!registerPageDate">la collection des registres</span> : </span>
+            <span class="card-content-label">Citer la <span v-if="registerPageDate">page du fac-similé</span><span
+                v-if="!registerPageDate">la collection des registres</span> : </span>
             <a :href="citationUrl">{{ citationUrl }}</a>
           </p>
           <br>
           <div class="columns nakala-metadata-wrapper is-vcentered">
             <p>
-              <span class="card-content-label">Citer <span v-if="registerPageDate">l'image</span><span v-if="!registerPageDate">la collection d'images</span> sur Nakala : </span>
+              <span class="card-content-label">Citer <span v-if="registerPageDate">l'image</span><span
+                  v-if="!registerPageDate">la collection d'images</span> sur Nakala : </span>
               <a target="_blank" :href="imageNakalaSrc">{{ imageNakalaSrc }}</a>
             </p>
           </div>
@@ -45,11 +50,12 @@
         <div class="card-header" @click="toggleCard('card2')">
           <p class="card-header-title">
             Avertissement
-            <button class="card-header-toggle" />
+            <button class="card-header-toggle"/>
           </p>
         </div>
         <div class="card-content" v-if="metadataCardsState.card2">
-          <p class="warning">Le texte du fac-similé a été généré automatiquement (HTR) et comporte des erreurs.<br> Le taux de reconnaissance moyen est de 94.1 %</p>
+          <p class="warning">Le texte du fac-similé a été généré automatiquement (HTR) et comporte des erreurs.<br> Le
+            taux de reconnaissance moyen est de 94.1 %</p>
         </div>
       </div>
       <FacSimileNavigation
@@ -62,13 +68,17 @@
 
     <div class='column'>
       <!-- Toggle left column button -->
-      <button @click="toggleNav" class="btn-expanded-nav"  />
+      <button @click="toggleNav" class="btn-expanded-nav"/>
 
       <!-- Desktop Title section -->
       <div class="header">
-        <p class="facsimile-title" v-if="canvasId === 'top'">Collection des fac-similés de registres de conclusions capitulaires</p>
-        <p class="facsimile-title" v-if="canvasId !== 'top'">Fac-similé du registre de conclusions capitulaires {{ endpVolume }} de
-          Notre-Dame de Paris <span v-if="registerPageDate">- <span class="date-title">{{ registerPageDate }}</span></span></p>
+        <p class="facsimile-title" v-if="canvasId === 'top'">Collection des fac-similés de registres de conclusions
+          capitulaires</p>
+        <p class="facsimile-title" v-if="canvasId !== 'top'">Fac-similé du registre de conclusions capitulaires
+          {{ endpVolume }} de
+          Notre-Dame de Paris <span v-if="registerPageDate">- <span class="date-title">{{
+              registerPageDate
+            }}</span></span></p>
       </div>
 
       <!-- Mirador viewer section -->
@@ -77,11 +87,11 @@
       </div>
       <!-- Raw predictions section -->
       <div class="header raw-prediction-card-parent">
-        <div class="card" v-if="endpVolume"  :class="{ 'is-opened': metadataCardsState.card3 }">
+        <div class="card" v-if="endpVolume" :class="{ 'is-opened': metadataCardsState.card3 }">
           <div class="card-header" @click="toggleCard('card3')">
             <p class="card-header-title">
               Transcription automatique
-              <button class="card-header-toggle" />
+              <button class="card-header-toggle"/>
             </p>
           </div>
           <div class="card-content raw-prediction-text" v-if="metadataCardsState.card3">
@@ -91,7 +101,7 @@
               <p v-else>Impossible de copier le texte dans le presse-papiers ! Veuillez réessayer plus tard.</p>
             </div>
             <div class="header">
-              <button @click="copyToClipboard" class="button copy-button" />
+              <button @click="copyToClipboard" class="button copy-button"/>
               <p>
                 Note : L'ordre des lignes de texte peut ne pas correspondre à l'ordre des lignes du fac-similé.
               </p>
@@ -114,6 +124,7 @@ import {mapState} from 'vuex';
 
 import Mirador from 'mirador/dist/es/src/index';
 import textOverlayPlugin from 'mirador-textoverlay/es';
+import {miradorImageToolsPlugin} from 'mirador-image-tools';
 
 import FacSimileNavigation from "@/components/FacSimileNavigation.vue";
 
@@ -123,10 +134,10 @@ export default {
   data() {
     return {
       selectedNav: {
-      register: null,
-      year: null,
-      canvasID: null,
-    },
+        register: null,
+        year: null,
+        canvasID: null,
+      },
       metadataCardsState: {
         card1: false,
         card2: false,
@@ -279,11 +290,13 @@ export default {
             id: this.windowId,
             canvasIndex: this.canvasId,
             loadedManifest: this.endpVolumeManifest(),
+            imageToolsEnabled: true,
+            imageToolsOpen: false,
             document: {
               collectionDialogOn: false,
             }
           }]
-      }, [...textOverlayPlugin]);
+      }, [...textOverlayPlugin, ...miradorImageToolsPlugin]);
       this.viewer.store.subscribe(() => {
         this.storeState = this.viewer.store.getState();
 
@@ -322,10 +335,10 @@ export default {
         this.$store.commit('setCanvasId', canvasObject['canvas_index']);
         this.registerPageDate = canvasObject['date_full'];
         this.selectedNav = {
-        'register': this.endpVolume,
-        'canvas': this.canvasId,
-        'year': this.registerPageDate,
-      }
+          'register': this.endpVolume,
+          'canvas': this.canvasId,
+          'year': this.registerPageDate,
+        }
       });
     },
 
@@ -423,7 +436,7 @@ export default {
     this.initMiradorViewer();
   },
   beforeUnmount() {
-      this.viewer.unmount();
+    this.viewer.unmount();
   },
 };
 
@@ -468,7 +481,7 @@ export default {
 }
 
 .facsimile-columns > .column:last-child > div.raw-prediction-card-parent {
-  padding: 26px 0  var(--right-column-bottom-padding-desktop);
+  padding: 26px 0 var(--right-column-bottom-padding-desktop);
 }
 
 :deep(.fac-simile__toc.has-warning > ul) {
@@ -612,7 +625,7 @@ export default {
 .raw-prediction-text .header button {
   position: absolute;
   right: 27px;
-  top:27px;
+  top: 27px;
 }
 
 button.copy-button {
@@ -726,7 +739,7 @@ tspan {
 }
 
 
-.raw-prediction-card-parent  {
+.raw-prediction-card-parent {
   background-color: #ffffff;
 }
 
@@ -735,7 +748,7 @@ tspan {
   background-color: #ffffff;
 }
 
-.facsimile-columns  .column:last-child  div.raw-prediction-card-parent {
+.facsimile-columns .column:last-child div.raw-prediction-card-parent {
   padding: 0 0 !important;
 }
 
@@ -748,7 +761,7 @@ tspan {
 
   .header.mobile-header {
     position: sticky;
-    top:102px;
+    top: 102px;
     z-index: 2;
 
     display: block;
