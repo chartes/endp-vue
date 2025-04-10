@@ -25,7 +25,7 @@
                    :class="{ 'is-highlighted': isHighlighted(register, month.canvasID) }">
                   <span class="month_name" :class="{ 'span-is-highlighted': isHighlighted(register, month.canvasID) }">{{
                       month.month
-                    }}</span>
+                    }} <span class="pagination-register">(p. {{month.pagination}})</span></span>
                 </a>
               </li>
             </ul>
@@ -438,6 +438,13 @@ nav menu, nav ul {
     filter: brightness(100);
   }
 
+}
+
+.pagination-register {
+  font-size: 0.95em;
+  color: #000000;
+  /* lowercase */
+  text-transform: none;
 }
 
 </style>

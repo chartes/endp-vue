@@ -83,11 +83,6 @@
 
       <!-- Mirador viewer section -->
       <div class='container-mirador'>
-        <!--<p>Rechercher dans la page</p>
-        <br>
-        <input type="text" id="searchFacSimile" placeholder="Recherchez...">
-        <button @click="searchText">Rechercher</button>
-        <button @click="removeSearchHighlight">Effacer</button>-->
         <div id='mirador'></div>
       </div>
       <!-- Raw predictions section -->
@@ -95,7 +90,7 @@
         <div class="card" v-if="endpVolume" :class="{ 'is-opened': metadataCardsState.card3 }">
           <div class="card-header" @click="toggleCard('card3')">
             <p class="card-header-title">
-              Accéder à la prédiction texte brut
+              Transcription automatique
               <button class="card-header-toggle"/>
             </p>
           </div>
@@ -129,6 +124,7 @@ import {mapState} from 'vuex';
 
 import Mirador from 'mirador/dist/es/src/index';
 import textOverlayPlugin from 'mirador-textoverlay/es';
+import {miradorImageToolsPlugin} from 'mirador-image-tools';
 
 import FacSimileNavigation from "@/components/FacSimileNavigation.vue";
 
@@ -217,81 +213,6 @@ export default {
     ),
   },
   methods: {
-    removeSearchHighlight() {
-      const svg = document.querySelector('.PageTextDisplay-textOverlay-76');
-      const words = svg.querySelectorAll('tspan');
-      words.forEach(word => {
-        word.innerHTML = word.textContent;
-      });
-      // clear the search input
-      document.getElementById('searchFacSimile').value = '';
-    },
-
-    /**
-     * Recherche et met en évidence le texte dans la zone spécifique
-     */
-    searchText() {
-      let expandedSelection = "";
-      try{
-        expandedSelection = document.querySelector('[aria-label="Expand text overlay options"]');
-      }catch (e) {
-        expandedSelection = document.querySelector('[aria-label="Collapse text overlay options"]');
-      }
-      try {
-        if (expandedSelection.getAttribute('aria-expanded') === "false") {
-          expandedSelection.click();
-          const textSelectable = document.querySelector('[aria-label="Text selectable"]')
-          if (textSelectable.getAttribute('aria-pressed') === "false") {
-            textSelectable.click();
-          }
-        } else {
-          const textSelectable = document.querySelector('[aria-label="Text selectable"]')
-          console.log("ici 1")
-          if (textSelectable.getAttribute('aria-pressed') === "false") {
-            console.log("ici")
-            textSelectable.click();
-          }
-        }
-      } catch (e) {
-        console.log(e);
-      }
-
-      function search() {
-        try {
-          const svg = document.querySelector('.PageTextDisplay-textOverlay-76');
-          // get all word in svg and generate a span tag wirh class highlight and id with sha1
-          const words = svg.querySelectorAll('tspan');
-          words.forEach(word => {
-            word.innerHTML = word.textContent;
-          });
-          // create a hook to crtl+f to search the text in mirador in tspan text tag
-          const searchFacSimile = document.getElementById('searchFacSimile');
-          //const searchButton = document.getElementById('searchButton');
-          const searchValue = searchFacSimile.value;
-          // get svg with class "PageTextDisplay-textOverlay-76"
-          words.forEach(word => {
-            if (word.textContent.toLowerCase().includes(searchValue.toLowerCase().trim())) {
-              word.innerHTML = `<tspan style="fill:red; font-weight: bold" id="${word.id}">${word.textContent}</tspan>`;
-            }
-          });
-          // if the search value is empty, remove all span tag with class highlight
-          if (searchValue === '') {
-            words.forEach(word => {
-              word.innerHTML = word.textContent;
-            });
-          }
-        } catch (e) {
-          console.error(e);
-          setTimeout(() => {
-            search();
-          }, 1000);
-        }
-      }
-      search();
-
-    },
-
-
     /**
      * Format the prediction text with HTML markup to plain text
      * @param html
@@ -369,11 +290,13 @@ export default {
             id: this.windowId,
             canvasIndex: this.canvasId,
             loadedManifest: this.endpVolumeManifest(),
+            imageToolsEnabled: true,
+            imageToolsOpen: false,
             document: {
               collectionDialogOn: false,
             }
           }]
-      }, [...textOverlayPlugin]);
+      }, [...textOverlayPlugin, ...miradorImageToolsPlugin]);
       this.viewer.store.subscribe(() => {
         this.storeState = this.viewer.store.getState();
 
@@ -921,14 +844,5 @@ tspan {
     padding: 20px;
   }
 }
-
-
-tspan.highlight {
-  background-color: #f6d766;
-  z-index: 1000;
-  fill: red;
-  font: bold 20px sans-serif;
-}
-
 
 </style>

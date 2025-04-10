@@ -1,12 +1,20 @@
 import {createStore} from 'vuex';
 
+import personSearch from "./modules/personSearch";
+
 import navByDatesJSON from '@/data/stable/endp_nav_by_dates.json';
 import navByVolumesJSON from "@/data/stable/endp_nav_by_volumes.json";
 import metadataVolumesJSON from '@/data/stable/endp_volumes_metadata.json';
 import mappingSha1VolumesJSON from '@/data/stable/endp_mapping_nakala_sha1_img_volumes.json';
 import miradorSettings from "@/settings/mirador.conf.json";
 
+
+import StructTermsSearchIndex from '@/data/stable/minisearch-endp-index.json';
+
 export default createStore({
+    modules: {
+        personSearch,
+    },
     state: {
         // Utils
         canvasId: 0,
@@ -31,6 +39,9 @@ export default createStore({
         navByVolumesJSON: navByVolumesJSON,
         metadataVolumesJSON: metadataVolumesJSON,
         mappingSha1VolumesJSON: mappingSha1VolumesJSON,
+        // Fuzzy search specific
+        StructTermsSearchIndexJSON: StructTermsSearchIndex,
+        miniSearchInstanceCache: null,
         // Configuration files
         miradorSettings: miradorSettings,
         // constants services endpoints
@@ -54,6 +65,9 @@ export default createStore({
         },
         setBtnCollectionClicked(state, value) {
             state.btnCollectionClicked = value;
-        }
+        },
+        setMiniSearchInstanceCache(state, instance) {
+            state.miniSearchInstanceCache = instance;
+        },
     },
 });

@@ -1,40 +1,57 @@
 <template>
-    <div class="card" :class="{ 'is-opened': person.isOpened }">
-      <header class="card-header" @click="toggleContent(person, $event)">
-        <div class="card-header-title">
-          <span class="canon-icon" v-if="person.is_canon"></span>
-          <span class="secular-people-icon" v-else></span>
-          <span style="text-align: center; flex-grow: 1; display: flex">{{ person.pref_label }}</span>
-        </div>
-        <a class="toggle-btn" :class="{ 'is-opened': person.isOpened }"></a>
-      </header>
-      <div class="card-content" v-if="person.isOpened">
-        <div class="content">
-          <div class="columns is-multiline">
-            <div class="column is-7 block has-text-left">
-              <p>
-                <b>Prénom(s) - Nomen :</b>
-                {{ person.forename_alt_labels }}
-              </p>
-              <p><b>Nom(s) - Cognomen :</b>
-                {{ person.surname_alt_labels }}
-              </p>
-              <p class="dates"><b>Dates extrêmes d'apparition dans les registres</b>
-                {{ person.first_mention_date ? person.first_mention_date : "Non renseigné" }} -
-                {{ person.last_mention_date ? person.last_mention_date : "Non renseigné" }}</p>
-              <p>
-                <router-link class="button  btn-person-data-link" :to="`/persons/${person._id_endp}`">
-                  <span>Accéder à la fiche</span>
-                </router-link>
-              </p>
+  <div class="card" :class="{ 'is-opened': person.isOpened }">
+    <header class="card-header" @click="toggleContent(person, $event)">
+      <div class="card-header-title">
+        <span class="canon-icon" v-if="person.is_canon"></span>
+        <span class="secular-people-icon" v-else></span>
+        <span class="card-header-person-pref-label">{{ person.pref_label }}</span>
+      </div>
+      <a class="toggle-btn" :class="{ 'is-opened': person.isOpened }"></a>
+    </header>
+    <div class="card-content" v-if="person.isOpened">
+      <div class="content">
+        <div class="columns is-multiline">
+          <div class="column is-7 block has-text-left">
+            <div class="columns is-multiline">
+              <div class="column">
+                <p>
+                  <b>Prénom(s) - Nomen :</b>
+                  {{ person.forename_alt_labels }}
+                </p>
+              </div>
+              <div class="column">
+                <p><b>Nom(s) - Cognomen :</b>
+                  {{ person.surname_alt_labels }}
+                </p>
+              </div>
             </div>
+            <div class="columns is-multiline">
+              <div class="column">
+                <p class="dates"><b>Date de décès :</b>
+                  {{ person.death_date ? formatDate(person.death_date) : "Non renseigné" }}
+                </p>
+              </div>
+              <div class="column">
+                <p class="dates"><b>Dates extrêmes d'apparition dans les registres</b>
+                  {{ person.first_mention_date ? formatDate(person.first_mention_date) : "Non renseigné" }} -
+                  {{ person.last_mention_date ? formatDate(person.last_mention_date) : "Non renseigné" }}</p>
+              </div>
+            </div>
+            <p>
+              <router-link class="button  btn-person-data-link" :to="`/persons/${person._id_endp}`">
+                <span>Accéder à la fiche</span>
+              </router-link>
+            </p>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
+import {formatDate} from "@/modules/string_format";
+
 export default {
   name: "PersonResultCard",
   props: {
@@ -44,6 +61,7 @@ export default {
     }
   },
   methods: {
+    formatDate,
     toggleContent(person, event) {
       person.isOpened = !person.isOpened;
       event.preventDefault();
@@ -61,13 +79,13 @@ export default {
   font-size: 20px;
 }
 
-.card-content .column  {
+.card-content .column {
   width: 100%;
   padding: 0;
 }
 
 .card-content .column p {
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   position: relative;
   color: #6E6E6E;
 }
@@ -153,6 +171,12 @@ header {
   background-image: url('~@/assets/images/b_Close_liste.svg');
 }
 
+.card-header-person-pref-label {
+  text-align: center;
+  flex-grow: 1;
+  display: flex;
+}
+
 @media screen and (max-width: 1024px) {
 
   header,
@@ -161,5 +185,4 @@ header {
   }
 
 }
-
 </style>

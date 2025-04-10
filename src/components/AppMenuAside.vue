@@ -8,7 +8,7 @@
         <ul class="submenu">
           <li>
             <a @click="navigateToFacSimile">
-              <span class="icon is-small"><i class="fa fa-list"></i></span> Fac-similés
+              <span class="icon is-small"><i class="fa fa-list"></i></span> <span class="label-tight-spacing">Fac-similés <br class="br-sublabel"><span class="subtitle-nav-item">Images & textes</span></span>
             </a>
           </li>
           <!--<li>
@@ -18,7 +18,7 @@
           </li>-->
           <li>
             <a href="https://nosketch-engine.lamop.fr/#dashboard?corpname=endp" target="_blank">
-              <span class="icon is-small"><i class="fa fa-list"></i></span> No Sketch
+              <span class="icon is-small"><i class="fa fa-list"></i></span> <span class="label-tight-spacing">Recherche <br class="br-sublabel"><span class="subtitle-nav-item">No Sketch</span></span>
             </a>
           </li>
         </ul>
@@ -261,5 +261,19 @@ ul.menu-list > li:not(:last-child)::after {
 
 }
 
+.label-tight-spacing {
+  text-align: center;
+}
 
+.subtitle-nav-item {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 0.2 !important;
+}
+
+.br-sublabel {
+   display: block !important; /* makes it have a width */
+            content: "" !important; /* clears default height */
+            margin-top: -1.5em !important; /* change this to whatever height you want it */
+}
 </style>

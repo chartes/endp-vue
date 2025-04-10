@@ -13,7 +13,8 @@
               type="text"
               placeholder="Votre recherche"
               @keyup.enter="launchSearch"
-              v-model="personQuery">
+              v-model="query"
+          />
         </p>
         <p class="control control-button">
           <button class="button is-info" @click="launchSearch">
@@ -22,22 +23,26 @@
         </p>
       </div>
       <p class="control control-slider">
-          <input
-              id="slider"
-              name="slider"
-              type="range"
-              class="slider"
-              min="0"
-              max="2"
-              v-model="searchType"
-          >
-          <label for="slider"
-                 class="slider-label control-add">
-            <span class="slider-label__value">{{ typeOptionsTranslated[searchType] }}</span>
-          </label>
-        </p>
+        <input
+            id="slider"
+            name="slider"
+            type="range"
+            class="slider"
+            min="0"
+            max="2"
+            v-model="sType"
+        >
+        <label for="slider"
+               class="slider-label control-add">
+          <span class="slider-label__value">{{ typeOptionsTranslated[sType] }}</span>
+        </label>
+      </p>
       <p class="control">
-        <button class="button is-outlined btn-reset" :class="{'button-reset-search': !resetBtn}" @click="resetSearch">
+        <button
+            class="button is-outlined btn-reset"
+            :class="{ 'button-reset-search': !hasActiveFilters }"
+            @click="resetSearch"
+        >
           <span class="icon is-small"><i class="fas fa-undo"></i></span>
         </button>
       </p>
@@ -46,27 +51,62 @@
 </template>
 
 <script>
+import {mapState, mapActions} from "vuex";
+
 export default {
   name: "PersonSearchBox",
   data() {
     return {
       resetBtn: false,
-      personQuery: "",
-      searchType: 0,
       typeOptions: ["exact", "fuzzy", "very_fuzzy"],
       typeOptionsTranslated: ["exacte", "floue", "très floue"],
     };
+  },
+  props: {
+    hasActiveFilters: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    ...mapState("personSearch", ["personQuery", "searchType"]),
+    query: {
+      get() {
+        return this.personQuery;
+      },
+      set(value) {
+        this.updateQuery({query: value, searchType: this.typeOptions[this.sType]});
+      },
+    },
+    sType: {
+      get() {
+        return this.typeOptions.indexOf(this.searchType);
+      },
+      set(value) {
+        this.updateQuery({query: this.personQuery, searchType: this.typeOptions[value]});
+      },
+    },
+    CanonFilter: {
+      get() {
+        return this.showCanon;
+      },
+      set(value) {
+        this.updateCanonFilter({value: value});
+      },
+    },
   },
   watch: {
     personQuery(val) {
       if (val.trim() !== "") {
         this.resetBtn = true;
       } else {
+        this.resetBtn = false;
         this.resetSearch();
       }
     }
   },
   methods: {
+    ...mapActions("personSearch", ["updateQuery"]),
     /**
      * Launch the search
      * @emits update:query
@@ -74,9 +114,13 @@ export default {
     launchSearch() {
       const trimmedQuery = this.personQuery.trim();
       if (trimmedQuery) {
+        this.updateQuery({
+          query: trimmedQuery,
+          searchType: this.typeOptions[this.sType],
+        });
         this.$emit("update:query", {
           query: trimmedQuery,
-          search_type: this.typeOptions[this.searchType],
+          searchType: this.typeOptions[this.sType]
         });
       }
     },
@@ -86,11 +130,15 @@ export default {
      * @emits reset:query
      */
     resetSearch() {
-      this.resetBtn = false;
-      this.personQuery = "";
+      this.updateQuery({query: "", searchType: "exact"});
       this.$emit("reset:query");
     },
   },
+  mounted() {
+    if (this.personQuery.trim() !== "") {
+      this.resetBtn = true;
+    }
+  }
 };
 </script>
 
@@ -120,8 +168,8 @@ export default {
 
 .container-search > p:last-child {
   position: absolute;
-  bottom:10px;
-  left:25px;
+  bottom: 10px;
+  left: 25px;
   padding: 0;
 }
 
