@@ -94,10 +94,10 @@ export default {
     }
   },
   methods: {
-    initMiniSearchIfNeeded() {
+    async initMiniSearchIfNeeded() {
       if (!this.miniSearchInstance) {
         const json = JSON.stringify(this.StructTermsSearchIndexJSON)
-        let miniSearchInstance = MiniSearch.loadJSONAsync(
+        let miniSearchInstance = await MiniSearch.loadJSONAsync(
             json,
             {
               fields: ['text'],
@@ -124,10 +124,10 @@ export default {
      * Open the NoSketch request in a new tab
      * @returns {Window}
      */
-    goNoSketchResults() {
+    async goNoSketchResults() {
       if (this.fuzzySearch) {
         if (!this.miniSearchInstanceCache) {
-          this.initMiniSearchIfNeeded();
+          await this.initMiniSearchIfNeeded();
         }
         const label = this.thresholdConverted[this.selectedThreshold];
         const threshold = this.thresholdChoices[label];
