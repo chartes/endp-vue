@@ -7,6 +7,14 @@
   ]"
     >
   {{ title }}
+      <a class="index-link"
+        :href="[
+          title === 'TERMES'
+            ? `${this.personDbAdminShow}/admin/thesaurusterm/`
+            : `${this.personDbAdminShow}/admin/placesterm/`
+        ]"
+        target="_blank"
+      >INDEX</a>
 </span>
     <div class="search-bar">
       <input
@@ -48,6 +56,8 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
+
 export default {
   name: "FacetFilter",
   props: {
@@ -82,6 +92,9 @@ export default {
       isLoading: false,
       showDropdown: false,
     };
+  },
+  computed: {
+    ...mapState(["personDbAdminShow"])
   },
   watch: {
     selectedTerms: {
@@ -283,8 +296,8 @@ input[type="text"]::placeholder {
 .advanced_search_header {
   font-family: var(--font-secondary);
   font-weight: 400;
-  font-size: 15px;
-  padding-left: 30px;
+  font-size: 18px;
+  padding-left: 35px;
   padding-top: 8px;
   padding-bottom: 8px;
 }
@@ -346,5 +359,21 @@ input[type="text"]::placeholder {
   .active-tags-labels {
     font-size: 0.5em;
   }
+}
+
+.index-link {
+  font-family: var(--font-secondary);
+  font-weight: 400;
+  font-size: 18px;
+  text-decoration: none;
+  color: #6E6E6E;
+  /* align on right */
+  float: right;
+}
+
+.index-link:hover {
+  transition: 0.3s;
+  color: var(--light-brown);
+
 }
 </style>
