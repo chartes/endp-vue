@@ -3,6 +3,8 @@ import HomeView from '../views/HomeView.vue'
 import PersonView from "@/views/PersonView.vue";
 import RessourcesView from "@/views/RessourcesView.vue";
 import PersonDataView from "@/views/PersonDataView.vue";
+import PlaceView from "@/views/PlaceView.vue";
+import PlaceDataView from "@/views/PlaceDataView.vue";
 import RangeRegisterPrototype from "@/views/RegisterView.vue";
 import FacSimileView from "@/views/FacSimileView.vue";
 import ContactView from "@/views/ContactView.vue";
@@ -32,6 +34,16 @@ const routes = [
     path:'/persons/:id',
     name: 'person',
     component: PersonDataView
+    },
+    {
+    path: '/places',
+    name: 'places',
+    component:PlaceView,
+  },
+  {
+    path:'/places/:id',
+    name: 'place',
+    component: PlaceDataView
     },
   {
     path: '/ressources',

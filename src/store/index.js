@@ -1,6 +1,7 @@
 import {createStore} from 'vuex';
 
 import personSearch from "./modules/personSearch";
+import placeSearch from "./modules/placeSearch";
 
 import navByDatesJSON from '@/data/stable/endp_nav_by_dates.json';
 import navByVolumesJSON from "@/data/stable/endp_nav_by_volumes.json";
@@ -14,6 +15,7 @@ import StructTermsSearchIndex from '@/data/stable/minisearch-endp-index.json';
 export default createStore({
     modules: {
         personSearch,
+        placeSearch,
     },
     state: {
         // Utils

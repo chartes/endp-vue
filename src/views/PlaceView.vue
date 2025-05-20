@@ -1,40 +1,21 @@
 <template>
   <div id="banner-image" class="container is-fluid"></div>
   <div class="page-title">
-    <h1>Personnes</h1>
+    <h1>Lieux</h1>
   </div>
   <div class="columns is-multiline">
     <div class="column is-12-mobile is-5-tablet is-5-desktop">
       <div class="box box-search-person-facets" :class="{ 'is-opened': searchBoxOpenState }">
         <div class="box-search-header" @click="toggleSearchBox($event)"></div>
         <div class="box-content">
-          <PersonSearchBox
+          <PlaceSearchBox
               :has-active-filters="hasActiveFilters"
               @update:query="handleUpdateQuery"
               @reset:query="handleResetQuery"
+              @update:filter="handleUpdateFilter"
           />
-          <div class="checkbox-canon box">
-            <input id="checkbox-canon" type="checkbox" v-model="onlyCanons">
-            <label for="checkbox-canon"> Chanoines</label>
-          </div>
         </div>
-        <FacetFilter
-            title="LIEUX"
-            filterType="places"
-            apiUrl="https://endp.chartes.psl.eu/endp-person/api/persons/thesauri/terms?thesaurus_type=places"
-            @update:selectedTerms="handleSelectedTerms"
-            :reset="resetFiltersSignal"
-            :initialSelectedIds="filterList.place_ids"
-        />
-        <FacetFilter
-            title="TERMES"
-            filterType="persons_terms"
-            apiUrl="https://endp.chartes.psl.eu/endp-person/api/persons/thesauri/terms?thesaurus_type=persons_terms"
-            @update:selectedTerms="handleSelectedTerms"
-            :reset="resetFiltersSignal"
-            :initialSelectedIds="filterList.person_term_ids"
-        />
-        <div class="loader-wrapper" :class="{'is-active': !isLoading}">
+        <div class="loader-wrapper" :class="{ 'is-active': !isLoading }">
           <div class="loader is-loading"></div>
         </div>
       </div>
@@ -46,25 +27,29 @@
           <span class="results-count">{{ totalResults }}</span> Résultats
         </h2>
         <VPagination
-            v-if="personsItems.length"
+            v-if="placesItems.length"
+            class="pagination-bottom"
             :currentPage="actualPage"
             :totalPages="totalPages"
             :items-by-page-default="itemsDisplayedPerPage"
             :items-by-page-min="50"
             :items-by-page-max="100"
-            :top-pagination="true"
-            :results-by-page-control="true"
+            :top-pagination="false"
+            :results-by-page-control="false"
             @update:change-page="changePage"
             @change:items-by-page-display="handleItemsPerPageChange"/>
       </div>
       <ul>
-        <li v-for="person in personsItems" :key="person._id_endp" class="li--person">
-          <PersonResultCard
-              :person="person"/>
-        </li>
+        <PlaceResultCard
+            v-for="place in placesItems"
+            :key="place._id_endp"
+            :place="place"
+            />
+
+
       </ul>
       <VPagination
-          v-if="personsItems.length"
+          v-if="placesItems.length"
           class="pagination-bottom"
           :currentPage="actualPage"
           :totalPages="totalPages"
@@ -81,69 +66,47 @@
 
 <script>
 import axios from "axios";
-import {mapState, mapActions} from "vuex";
-import {spaceAroundCommas} from "@/modules/string_format";
-import PersonSearchBox from "@/components/PersonSearchBox.vue";
+import PlaceSearchBox from "@/components/PlaceSearchBox.vue";
 import VPagination from "@/components/VPagination.vue";
-import PersonResultCard from "@/components/PersonResultCard.vue";
-import FacetFilter from "@/components/FacetFilter.vue";
+import PlaceResultCard from "@/components/PlaceResultCard.vue";
+import {mapState, mapActions} from "vuex";
 
 export default {
-  name: "PersonView",
+  name: "PlaceView",
   components: {
-    PersonResultCard,
-    PersonSearchBox,
+    PlaceSearchBox,
     VPagination,
-    FacetFilter,
+    PlaceResultCard
   },
   data() {
     return {
       isLoading: false,
-      selectSearchType: "exact",
-      searchBoxOpenState: false,
-      resetFiltersSignal: false,
     };
   },
   computed: {
-    ...mapState("personSearch",
-        ["personQuery",
-          "searchType",
-          "showCanon",
+     ...mapState("placeSearch",
+        ["placeQuery",
+          "topicType",
           "currentPage",
           "itemsPerPage",
-          "persons",
-          "filterList",
+          "totalResults",
+          "places",
           "totalResults"]),
     ...mapState(["personDbApi"]),
+    totalPages() {
+      return Math.ceil(this.totalResults / this.itemsPerPage);
+    },
     hasActiveFilters() {
       return (
-          this.personQuery.trim() !== "" ||
-          this.filterList.place_ids.length > 0 ||
-          this.filterList.person_term_ids.length > 0
+          this.placeQuery.trim() !== ""
       );
     },
-    personsItems: {
+    placesItems: {
       get() {
-        return this.persons;
+        return this.places;
       },
       set(value) {
-        this.updateResults({persons: value, total: this.totalResults});
-      },
-    },
-    onlyCanons: {
-      get() {
-        return this.showCanon;
-      },
-      set(value) {
-        this.updateCanonFilter({value: value});
-      },
-    },
-    itemsDisplayedPerPage: {
-      get() {
-        return this.itemsPerPage;
-      },
-      set(value) {
-        this.itemsPerPage = value;
+        this.updateResults( {places: value, total: this.totalResults} );
       },
     },
     actualPage: {
@@ -151,155 +114,87 @@ export default {
         return this.currentPage;
       },
       set(value) {
-        this.updatePagination({page: value, limit: this.itemsDisplayedPerPage});
+        this.updatePagination({page: value, limit: this.itemsPerPage});
       },
     },
-    totalPages() {
-      return Math.ceil(this.totalResults / this.itemsDisplayedPerPage);
-    },
-  },
-  watch: {
-    onlyCanons() {
-      this.actualPage = 1;
-      console.log("on est la :", this.onlyCanons);
-      this.handleDefaultSearch();
+    itemsDisplayedPerPage: {
+      get() {
+        return this.itemsPerPage;
+      },
+      set(value) {
+        this.updatePagination({page: this.currentPage, limit: value});
+      },
     },
   },
   methods: {
-    ...mapActions("personSearch",
-        ["updateQuery",
-          "updateCanonFilter",
-          "updatePagination",
-          "updateFilters",
-          "updateResults"]
-    ),
-    spaceAroundCommas,
-    handleSelectedTerms({type, terms}) {
-      const newFilterList = {...this.filterList};
-
-      if (type === "places") {
-        newFilterList.place_ids = terms;
-      } else if (type === "persons_terms") {
-        newFilterList.person_term_ids = terms;
-      }
-
-      this.updateFilters({filterList: newFilterList});
-
-      this.actualPage = 1;
-      this.handleDefaultSearch();
-    },
-    handleUpdateQuery({query, searchType}) {
-      this.searchBoxOpenState = false;
-      window.scrollTo(0, 0);
-      this.actualPage = 1;
-      this.selectSearchType = searchType;
-      this.updateQuery({query, searchType});
-      this.handleDefaultSearch();
-    },
-    handleResetQuery() {
-      this.actualPage = 1;
-      this.updateQuery({query: "", searchType: "exact"});
-      this.updateCanonFilter({value: false});
-
-      this.updateFilters({
-        filterList: {
-          place_ids: [],
-          person_term_ids: [],
-        },
-      });
-      this.resetFiltersSignal = true;
-      this.getPersons();
-      this.$nextTick(() => {
-        this.resetFiltersSignal = false;
-      });
-    },
-    handleDefaultSearch() {
-      if (this.personQuery.trim() === "" && this.filterList.place_ids.length === 0 && this.filterList.person_term_ids.length === 0) {
-        this.getPersons();
-      } else {
-        this.searchPersons();
-      }
-    },
-    formatLabels(persons) {
-      return persons.map((person) => ({
-        ...person,
-        forename_alt_labels: this.spaceAroundCommas(person.forename_alt_labels),
-        surname_alt_labels: this.spaceAroundCommas(person.surname_alt_labels),
-      }));
-    },
-    async handlePersonsQuery(type) {
+    ...mapActions("placeSearch", [
+      "updateQuery",
+      "updateTopic",
+      "updatePagination",
+      "updateResults"
+    ]),
+    async fetchPlaces() {
       this.isLoading = true;
-      let url = "";
-
-      if (type === "all") {
-        url = `${this.personDbApi}/persons/?size=${this.itemsDisplayedPerPage}&page=${this.currentPage}&only_canon=${this.onlyCanons}`;
-      } else if (type === "search") {
-        const params = new URLSearchParams({
-          query: this.personQuery,
-          type_query: this.searchType,
-          only_canon: this.onlyCanons,
-          page: this.currentPage,
-          size: this.itemsDisplayedPerPage
-        });
-
-        this.filterList.place_ids.forEach(id => params.append("place_ids", id));
-        this.filterList.person_term_ids.forEach(id => params.append("person_term_ids", id));
-
-        url = `${this.personDbApi}/persons/search?${params.toString()}`;
-      }
-
-      await axios.get(url).then((response) => {
-        this.updateResults({
-          persons: this.formatLabels(response.data.items.map((p) => ({
-            ...p,
-            isOpened: false,
-          }))),
-          total: response.data.total,
-        });
-        if (this.actualPage > this.totalPages) {
-          this.actualPage = 1;
-        }
-      }).catch(() => {
-        this.updateResults({persons: [], total: 0});
-      }).finally(() => {
-        this.isLoading = false;
+      const params = new URLSearchParams({
+        topic: this.topicType,
+        query: this.placeQuery,
+        page: this.currentPage,
+        size: this.itemsPerPage,
       });
-    },
-    async getPersons() {
-      await this.handlePersonsQuery("all");
-    },
-    async searchPersons() {
-      await this.handlePersonsQuery("search");
-    },
-    async handleItemsPerPageChange(limit) {
-      this.updatePagination({page: 1, limit: limit});
-      this.handleDefaultSearch();
-    },
-    changePage(page) {
-      if (page >= 1 && page <= this.totalPages) {
-        this.updatePagination({page: page, limit: this.itemsDisplayedPerPage});
-        if (this.personQuery.trim() === "") {
-          this.getPersons();
-        } else {
-          this.searchPersons();
-        }
+
+      try {
+        const res = await axios.get(`${this.personDbApi}/places?${params.toString()}`);
+        this.updateResults({places: res.data.items, total: res.data.total});
+      } catch {
+        this.updateResults({places: [], total: 0});
+      } finally {
+        this.isLoading = false;
       }
     },
-    toggleSearchBox(event) {
-      event.preventDefault();
-      this.searchBoxOpenState = !this.searchBoxOpenState;
+
+    handleUpdateQuery({query, topic}) {
+      this.updateQuery({query});
+      this.updateTopic({topic});
+      this.updatePagination({page: 1, limit: this.itemsPerPage});
+      this.fetchPlaces();
+    },
+
+    handleResetQuery() {
+      this.updateQuery({query: ""});
+      this.updateTopic({ topic: "Chapelle" });
+      this.updatePagination({page: 1, limit: this.itemsPerPage});
+      this.fetchPlaces();
+    },
+
+    handleUpdateFilter(topic) {
+      this.updateTopic({topic});
+      this.updatePagination({page: 1, limit: this.itemsPerPage});
+      this.fetchPlaces();
+    },
+
+    handleItemsPerPageChange(newLimit) {
+      this.updatePagination({page: 1, limit: newLimit});
+      this.fetchPlaces();
+    },
+
+    changePage(page) {
+      this.updatePagination({page, limit: this.itemsPerPage});
+      this.fetchPlaces();
     },
   },
   mounted() {
-    this.handleDefaultSearch();
+    // update topic with default value
+    this.updateTopic({topic: "Chapelle"});
+    this.fetchPlaces();
   },
 };
 </script>
 
+
 <style scoped>
 /* Set image banner */
 .page-title, #banner-image::before {
-  background-image: url("@/assets/banners/band_Personnes.png");
+  /*background-image: url("@/assets/banners/");*/
 }
 
 .columns {
@@ -411,9 +306,7 @@ h2.subtitle {
   font-style: italic;
 }
 
-.pagination-bottom {
-  display: none;
-}
+
 
 
 @media screen and (max-width: 1024px) {

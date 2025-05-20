@@ -64,7 +64,7 @@
 
 <script>
 export default {
-  name: 'PaginationComponent',
+  name: 'VPagination',
   props: {
     currentPage: Number,
     totalPages: Number,

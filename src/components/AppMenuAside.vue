@@ -29,6 +29,11 @@
         </router-link>
       </li>
       <li>
+        <router-link class="nav-link active" to="/places"><span class="icon"><i class="fa fa-user"></i></span>
+          Lieux
+        </router-link>
+      </li>
+      <li>
         <router-link class="nav-link active" to="/ressources"><span class="icon"><i class="fa fa-link"></i></span>
           Ressources
         </router-link>
