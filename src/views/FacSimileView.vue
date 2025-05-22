@@ -18,7 +18,7 @@
   </div>
 
   <!-- Main grid  -->
-  <div class="columns facsimile-columns" :class="{ 'is-collapsed': isNavOpen }">
+  <div class="columns facsimile-columns" :class="{ 'is-collapsed': isNavOpen, 'is-prediction-aside': metadataCardsState.card3 }">
 
     <div class='column' v-if="isNavOpen">
       <!-- Metadata card section -->
@@ -67,8 +67,12 @@
     </div>
 
     <div class='column'>
-      <!-- Toggle left column button -->
-      <button @click="toggleNav" class="btn-expanded-nav"/>
+      <div class="is-flex is-justify-content-space-between is-align-items-center">
+        <!-- Toggle left column button -->
+        <button @click="toggleNav" class="btn-expanded-nav"/>
+        <!-- Toggle transcription button -->
+        <button @click="togglePredictionAside"  class="btn-toggle-prediction">Transcription</button>
+      </div>
 
       <!-- Desktop Title section -->
       <div class="header">
@@ -270,7 +274,7 @@ export default {
     toggleCard(card) {
       // fetch alto only if the card is opened
       if (card === "card3" && !this.metadataCardsState[card]) {
-        this.fetchAndDisplayXML();
+          this.fetchAndDisplayXML();
       }
       this.metadataCardsState[card] = !this.metadataCardsState[card];
     },
@@ -408,6 +412,15 @@ export default {
     toggleNav(event) {
       event.preventDefault();
       this.isNavOpen = !this.isNavOpen;
+    },
+
+    /**
+     * Toggle the prediction window (when nav is closed)
+     * @param event
+     */
+    togglePredictionAside(event) {
+      event.preventDefault();
+      this.toggleCard("card3");
     },
 
     /**
@@ -560,6 +573,10 @@ export default {
   background-image: url('~@/assets/images/b_Close_liste.svg');
 }
 
+.card-header {
+  background-color: transparent;
+}
+
 .card-header:hover {
   cursor: pointer;
 }
@@ -613,7 +630,7 @@ export default {
 }
 
 :deep(.raw-prediction-text p) {
-  font-size: 22px;
+  font-size: 18px;
   margin-bottom: 12px;
 }
 
@@ -624,14 +641,15 @@ export default {
 
 .raw-prediction-text .header button {
   position: absolute;
-  right: 27px;
-  top: 27px;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 button.copy-button {
   display: inline-block;
-  width: 52px;
-  height: 52px;
+  width: 40px;
+  height: 40px;
   padding: 0;
   background: transparent url('~@/assets/images/b_Copier.svg') center / cover no-repeat;
   border: none;
@@ -682,13 +700,92 @@ tspan {
   cursor: pointer;
 }
 
+.is-collapsed .btn-toggle-prediction {
+  display: none;
+}
+
+.btn-toggle-prediction {
+  display: inline-block;
+  margin: 26px 16px 0 0;
+  background: transparent;
+  border: #303030 solid 2px;
+  font-family: var(--font-secondary), sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #303030;
+  text-align: center;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.facsimile-columns:not(.is-collapsed).is-prediction-aside .btn-toggle-prediction {
+  border-color: var(--light-brown-alt);
+  color: var(--light-brown-alt);
+}
+
+.facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+.facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child > * {
+  flex: 100% 0 0;
+}
+
+.facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child > .container-mirador {
+  flex: 60% 0 0;
+}
+
+.facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child > .raw-prediction-card-parent {
+  flex: 40% 0 0;
+  padding: 0 35px !important;
+  background: var(--panel-bg-color);
+  border-bottom: #D6D6D6 solid 6px;
+}
+
+.facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child > .raw-prediction-card-parent .card-content > div:last-child {
+  padding: 15px 0;
+  height: calc(100vh - 175px);
+  overflow-y: auto;
+}
+
+.facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child div.raw-prediction-card-parent .card .card-header {
+  padding-bottom: 36px;
+  background: var(--panel-bg-color);
+  pointer-events: none;
+}
+
+.facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child .raw-prediction-text .header {
+  margin-bottom: 0;
+  padding: 12px 40px 12px  0;
+  border-top: #D6D6D6 solid 2px;
+  border-bottom: #D6D6D6 solid 6px;
+}
+
+.facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child .raw-prediction-text {
+  margin-bottom: 0;
+}
+
+.facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child .raw-prediction-text .header button {
+  right: 4px;
+}
+
+.facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child div.raw-prediction-card-parent .card .card-header-toggle {
+  display: none;
+}
+
+.facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child div.raw-prediction-card-parent .card-header-title {
+  padding: 0;
+}
+
 .notification {
   padding: 30px;
   border-radius: 0;
 }
 
 :deep(.notification p) {
-  font-family: var(--font-secondary);
+  font-family: var(--font-secondary), sans-serif;
   font-size: 20px !important;
   color: #000000;
   margin-bottom: 0;
@@ -770,6 +867,15 @@ tspan {
     background-color: #FFF;
   }
 
+  .btn-toggle-prediction {
+    display: none;
+  }
+
+  .is-prediction-aside .column:last-child > .container-mirador,
+  .is-prediction-aside .column:last-child > .raw-prediction-card-parent {
+    flex: 100% 0 0;
+  }
+
   .facsimile-title::after {
     margin-bottom: 0;
   }
@@ -806,6 +912,11 @@ tspan {
     padding: 30px 35px 30px 15px;
   }
 
+  .facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child {
+    display: block;
+  }
+
+  .facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child div.raw-prediction-card-parent .card-header-title,
   .card-header-title {
     padding: 20px;
     border-top: solid 1px #D0D0D0;
@@ -822,12 +933,23 @@ tspan {
     padding-bottom: 50px;
   }
 
+  .raw-prediction-text .header {
+    border-top: #D6D6D6 solid 2px;
+    border-bottom: #D6D6D6 solid 6px;
+  }
+
   .btn-expanded-nav {
     display: none;
   }
 
   .header.raw-prediction-card-parent {
     background: #ffffff;
+  }
+
+  .facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child > .raw-prediction-card-parent {
+    padding: 0 0 !important;
+    background: #FFF;
+    border-bottom: none;
   }
 
   .facsimile-title {
@@ -841,7 +963,32 @@ tspan {
 
   .raw-prediction-card-parent .card-header {
     background-color: #ffffff;
+    padding: 20px 0;
+  }
+
+  .raw-prediction-text .header,
+  .raw-prediction-card-parent .card-header p,
+  .raw-prediction-text div {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child div.raw-prediction-card-parent .card .card-header {
+    background: transparent;
+    padding-bottom: 0;
+  }
+
+  .facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child > .raw-prediction-card-parent .card-content > div:last-child {
+    height: auto;
+  }
+
+  .facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child > .raw-prediction-card-parent .card-content > div:last-child,
+  .facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child .raw-prediction-text .header {
     padding: 20px;
+  }
+
+  .facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child .raw-prediction-text .header button {
+    right: 27px;
   }
 }
 
