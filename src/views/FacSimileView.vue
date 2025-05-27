@@ -557,6 +557,7 @@ export default {
 
 .raw-prediction-card-parent > .card.is-visible.is-opened {
   display: block;
+  border-bottom: #D6D6D6 solid 6px;
 }
 
 .card-header-title {
@@ -753,19 +754,17 @@ tspan {
   flex: 40% 0 0;
   padding: 0 15px 0 35px !important;
   background: var(--panel-bg-color);
-  border-bottom: #D6D6D6 solid 6px;
 }
 
 .facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child > .raw-prediction-card-parent .card-content > div:last-child {
   padding: 15px 0;
-  height: calc(100vh - 175px);
+  height: calc(100vh - 156px);
   overflow-y: auto;
 }
 
 .facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child div.raw-prediction-card-parent .card .card-header {
   padding-bottom: 36px;
   background: var(--panel-bg-color);
-  pointer-events: none;
 }
 
 .facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child .raw-prediction-text .header {
@@ -943,6 +942,10 @@ tspan {
 
   .card-content.raw-prediction-text {
     padding-bottom: 50px;
+  }
+
+  .card-header-toggle {
+    display: inline-block !important;
   }
 
   .raw-prediction-text .header {
