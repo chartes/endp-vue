@@ -12,7 +12,7 @@
       <div class="content">
         <div class="columns is-multiline">
           <div class="column is-7 block has-text-left">
-            <div class="columns is-multiline">
+            <div class="columns is-multiline is-flex-direction-column">
               <div class="column">
                 <p>
                   <b>Prénom(s) - Nomen :</b>
@@ -25,7 +25,7 @@
                 </p>
               </div>
             </div>
-            <div class="columns is-multiline">
+            <div class="columns is-multiline is-flex-direction-column">
               <div class="column">
                 <p class="dates"><b>Date de décès :</b>
                   {{ person.death_date ? formatDate(person.death_date) : "Non renseigné" }}
@@ -79,6 +79,15 @@ export default {
   font-size: 20px;
 }
 
+.card-content .columns.is-multiline {
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.card-content .columns.is-multiline + p {
+  margin-top: 26px;
+}
+
 .card-content .column {
   width: 100%;
   padding: 0;
@@ -89,11 +98,6 @@ export default {
   position: relative;
   color: #6E6E6E;
 }
-
-.card-content .column p.dates {
-  margin-top: 25px;
-}
-
 
 .card-content .column p > b {
   display: block;
