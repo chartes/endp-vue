@@ -41,8 +41,8 @@
     </div>
     <div class="selected-terms" v-if="selectedTerms.length > 0">
       <span class="active-tags">
-        <button @click="selectedTerms = []" class="active-tags-delete-btn">x</button>
         <span class="active-tags-labels">filtres actifs</span>
+        <button @click="selectedTerms = []" class="active-tags-delete-btn">✖</button>
       </span>
       <div class="tags">
         <span v-for="term in selectedTerms" :key="term._id_endp" class="tag">
@@ -194,7 +194,7 @@ export default {
   padding-top: 20px;
   padding-left: 25px;
   padding-right: 25px;
-  padding-bottom: 20px;
+  padding-bottom: 60px;
 }
 
 .search-bar {
@@ -276,8 +276,8 @@ input[type="text"]::placeholder {
 .tag button {
   border: none;
   border-radius: 9999px;
-  color: red;
-  font-size: 0.75em;
+  color: #707070;
+  font-size: 10px;
   margin-left: 10px;
   cursor: pointer;
   font-weight: bold;
@@ -287,11 +287,6 @@ input[type="text"]::placeholder {
   width: 15px;
   height: 15px;
 }
-
-.tag button:hover {
-  color: darkred;
-}
-
 
 .advanced_search_header {
   font-family: var(--font-secondary);
@@ -316,26 +311,44 @@ input[type="text"]::placeholder {
   margin-bottom: 10px;
 }
 
+.tag {
+  margin: 0 !important;
+  background-color: #707070;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: 400;
+  color: #FFFFFF;
+}
+
 .active-tags-delete-btn {
-  background: #EFEFEF;
   border: none;
-  border-radius: 9999px;
-  color: #6E6E6E;
-  font-size: 0.75em;
-  margin-right: 10px;
+  background-color: #8C8C8C;
+  border-radius: 50%;
+  color: #FFF;
+  font-size: 10px;
+
   cursor: pointer;
   font-weight: bold;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 20px;
   height: 20px;
+  margin: 0 0 0 15px;
+  padding: 0;
 }
+
+.active-tags-delete-btn:hover,
+.tag button:hover {
+  color: #D74A52;
+}
+
 
 .active-tags-labels {
   font-family: var(--font-secondary);
-  font-size: 0.75em;
   font-weight: 400;
+  text-transform: uppercase;
 }
 
 @media (max-width: 768px) {
