@@ -423,6 +423,7 @@ export default {
       if (this.isNavOpen) {
         // Mirador not in full-width mode : enlarge Mirador and display prediction :
         this.metadataCardsState.card3 = true;
+        this.fetchAndDisplayXML();
       } else {
         // Mirador already in full-width mode : toggle prediction right column
         this.toggleCard("card3");
@@ -970,6 +971,10 @@ tspan {
   :deep(.fac-simile__toc.has-warning > ul) {
     min-height: unset;
     max-height: unset;
+  }
+
+  .raw-prediction-card-parent > .card {
+    display: block !important;
   }
 
   .raw-prediction-card-parent .card-header {
