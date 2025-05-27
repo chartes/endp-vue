@@ -701,7 +701,7 @@ tspan {
   display: inline-block;
   width: 25px;
   height: 25px;
-  margin: 26px 0 0 36px;
+  margin: 26px 0 0 20px;
   background: transparent url('~@/assets/images/b_closeW.svg') center / cover no-repeat;
   border: none;
 }
