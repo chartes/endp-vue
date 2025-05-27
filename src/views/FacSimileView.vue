@@ -91,7 +91,7 @@
       </div>
       <!-- Raw predictions section -->
       <div class="header raw-prediction-card-parent">
-        <div class="card" v-if="endpVolume" :class="{ 'is-opened': metadataCardsState.card3 }">
+        <div class="card" v-if="endpVolume" :class="{ 'is-opened': metadataCardsState.card3, 'is-visible': ! this.isNavOpen }">
           <div class="card-header" @click="toggleCard('card3')">
             <p class="card-header-title">
               Transcription automatique
@@ -420,7 +420,14 @@ export default {
      */
     togglePredictionAside(event) {
       event.preventDefault();
-      this.toggleCard("card3");
+      if (this.isNavOpen) {
+        // Mirador not in full-width mode : enlarge Mirador and display prediction :
+        this.metadataCardsState.card3 = true;
+      } else {
+        // Mirador already in full-width mode : toggle prediction right column
+        this.toggleCard("card3");
+      }
+      this.isNavOpen = false;
     },
 
     /**
@@ -541,6 +548,14 @@ export default {
 
 .raw-prediction-card-parent > * {
   width: 100%;
+}
+
+.raw-prediction-card-parent > .card {
+  display: none;
+}
+
+.raw-prediction-card-parent > .card.is-visible.is-opened {
+  display: block;
 }
 
 .card-header-title {
@@ -692,7 +707,7 @@ tspan {
 
 .is-collapsed .btn-expanded-nav {
   background-image: url('~@/assets/images/b_openW.svg');
-  margin-left: 26px;
+  margin-left: 10px;
 }
 
 .btn-expanded-nav:hover {
@@ -700,13 +715,9 @@ tspan {
   cursor: pointer;
 }
 
-.is-collapsed .btn-toggle-prediction {
-  display: none;
-}
-
 .btn-toggle-prediction {
   display: inline-block;
-  margin: 26px 16px 0 0;
+  margin: 26px 0 0 0;
   background: transparent;
   border: #303030 solid 2px;
   font-family: var(--font-secondary), sans-serif;
@@ -739,7 +750,7 @@ tspan {
 
 .facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child > .raw-prediction-card-parent {
   flex: 40% 0 0;
-  padding: 0 35px !important;
+  padding: 0 15px 0 35px !important;
   background: var(--panel-bg-color);
   border-bottom: #D6D6D6 solid 6px;
 }
