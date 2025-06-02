@@ -6,6 +6,7 @@
       </p>
     </div>
     <div class="container-search" :class="{'has-button-reset': resetBtn}">
+      <div>Filtres</div>
       <div class="filters-toggle field has-addons">
         <p class="control">
           <button
@@ -135,11 +136,19 @@ export default {
   display: flex;
   flex-wrap: wrap;
   background-color: var(--panel-bg-color);
-  padding-bottom: 60px;
+  padding: 15px 25px 25px 25px;
 }
 
 .container-search > div {
   flex: 100% 0 0;
+}
+
+.container-search > div:first-child {
+  font-family: var(--font-secondary);
+  font-size: 18px;
+  color: #707070;
+  font-weight: 500;
+  text-transform: uppercase;
 }
 
 .container-search > p {
@@ -163,8 +172,6 @@ export default {
 .field.has-addons {
   display: flex;
   align-items: center;
-  margin-top: 0.5em;
-  padding: 20px 25px 20px;
 }
 
 .field.has-addons > *:not(:last-child) {
@@ -375,23 +382,28 @@ input[type="text"]::placeholder {
 
 .filters-toggle {
   display: flex;
-  gap: 10px;
+  margin: 10px 0 55px;
+}
+
+.filters-toggle .control {
+  display: flex;
+  gap: 14px;
 }
 
 .toggle-btn {
-  background: #f5f5f5;
-  color: #444;
-  padding: 6px 12px;
+  background: #EAEAEA;
+  padding: 4px 13px;
   border: none;
   border-radius: 4px;
   font-family: var(--font-secondary);
-  font-size: 16px;
+  font-size: 20px;
+  color: #444;
   cursor: pointer;
   transition: background 0.3s;
 }
 
 .toggle-btn.active {
-  background-color: #666;
+  background-color: #707070;
   color: #fff;
 }
 

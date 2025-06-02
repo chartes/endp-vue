@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20.1069574px" height="20.1666667px" viewBox="0 0 20.1069574 20.1666667" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>lieux_tab_open</title>
+    <g id="*2025-LIEUX" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+        <g id="Lieux-sans-Plan" transform="translate(-1412.376428, -1227.916667)" stroke="#424242">
+            <g id="lieux_tab_open" transform="translate(1412.876428, 1228.000000)">
+                <line x1="9.55347871" y1="0.416666667" x2="9.55347871" y2="19.5833333" id="Line-6"></line>
+                <line x1="9.55347871" y1="0.446521288" x2="9.55347871" y2="19.5534787" id="Line-6" transform="translate(9.553479, 10.000000) rotate(-90.000000) translate(-9.553479, -10.000000) "></line>
+            </g>
+        </g>
+    </g>
+</svg>

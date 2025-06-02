@@ -358,11 +358,11 @@ input[type="text"]::placeholder {
   }
 
   .search-header-terms {
-    padding-left: 20px;
+    padding-left: 30px;
   }
 
   .search-header-places {
-    padding-left: 20px;
+    padding-left: 30px;
   }
 
   .active-tags-delete-btn {

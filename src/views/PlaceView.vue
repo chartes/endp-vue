@@ -15,6 +15,15 @@
               @update:filter="handleUpdateFilter"
           />
         </div>
+        <div class="box-interactive-map" :class="{ 'is-visible': topicType === 'Chapelle' }">
+          <div class="box-content">
+            <div class="box-header">
+              <p class="subtitle is-5"><span>Plan interactif</span></p>
+            </div>
+            <div class="box-body">
+            </div>
+          </div>
+        </div>
         <div class="loader-wrapper" :class="{ 'is-active': !isLoading }">
           <div class="loader is-loading"></div>
         </div>
@@ -24,29 +33,28 @@
          :class="{ 'is-searchbox-opened': searchBoxOpenState }">
       <div class="column-results-header">
         <h2 class="subtitle is-4">
-          <span class="results-count">{{ totalResults }}</span> Résultats
+          <span class="results-count">{{ totalResults }}</span>
+          <span class="results-count-label">Lieux disponibles</span>
         </h2>
-        <VPagination
-            v-if="placesItems.length"
-            class="pagination-bottom"
-            :currentPage="actualPage"
-            :totalPages="totalPages"
-            :items-by-page-default="itemsDisplayedPerPage"
-            :items-by-page-min="50"
-            :items-by-page-max="100"
-            :top-pagination="false"
-            :results-by-page-control="false"
-            @update:change-page="changePage"
-            @change:items-by-page-display="handleItemsPerPageChange"/>
       </div>
-      <ul>
+      <VPagination
+          v-if="placesItems.length"
+          class="pagination-top"
+          :currentPage="actualPage"
+          :totalPages="totalPages"
+          :items-by-page-default="itemsDisplayedPerPage"
+          :items-by-page-min="50"
+          :items-by-page-max="100"
+          :top-pagination="false"
+          :results-by-page-control="false"
+          @update:change-page="changePage"
+          @change:items-by-page-display="handleItemsPerPageChange"/>
+      <ul class="results-list">
         <PlaceResultCard
             v-for="place in placesItems"
             :key="place._id_endp"
             :place="place"
             />
-
-
       </ul>
       <VPagination
           v-if="placesItems.length"
@@ -81,6 +89,7 @@ export default {
   data() {
     return {
       isLoading: false,
+      searchBoxOpenState: false,
     };
   },
   computed: {
@@ -181,6 +190,12 @@ export default {
       this.updatePagination({page, limit: this.itemsPerPage});
       this.fetchPlaces();
     },
+
+    toggleSearchBox(event) {
+      event.preventDefault();
+      this.searchBoxOpenState = !this.searchBoxOpenState;
+    },
+
   },
   mounted() {
     // update topic with default value
@@ -193,9 +208,11 @@ export default {
 
 <style scoped>
 /* Set image banner */
-.page-title, #banner-image::before {
-  /*background-image: url("@/assets/banners/");*/
+#banner-image::before {
+  background-size: 1920px auto;
+  background-image: url("@/assets/banners/band_Lieux.png");
 }
+
 
 .columns {
   gap: var(--column-gap-desktop);
@@ -203,7 +220,7 @@ export default {
 
 .columns .column:first-child {
   width: 465px;
-  padding: 10px 0 23px;
+  padding: 0 0 23px;
 }
 
 .columns .column:last-child {
@@ -214,7 +231,9 @@ export default {
 .box-search-person-facets {
   position: sticky;
   top: 0;
-  padding: 100px 0 0;
+  padding: 100px 0 1.5rem;
+  margin-bottom: 0;
+  background-color: #ffffff;
 }
 
 .box-search-person-facets .box {
@@ -266,11 +285,37 @@ export default {
   min-height: 110px;
 }
 
+.box-interactive-map {
+  display: none;
+}
+
+.box-interactive-map.is-visible {
+  display: block;
+  padding: 45px 0 20px;
+}
+
+.box-interactive-map .box-header {
+  background-color: #ffffff;
+  border-bottom: solid 6px #000000;
+}
+
+.box-interactive-map .box-body {
+  padding: 0 0 120px;
+}
+
+.subtitle {
+  padding-bottom: 12px;
+  font-size: 24px;
+  color: #272727;
+  font-weight: 400;
+  font-style: italic;
+}
+
 .is-active {
   opacity: 0;
 }
 
-.columns .column:last-child,
+.columns .column,
 .checkbox-canon {
   background-color: var(--panel-bg-color);
 }
@@ -280,24 +325,17 @@ export default {
   top: 52px;
   z-index: 1;
   width: 100%;
-  height: 222px;
-  padding-top: 20px;
+  padding: 20px 0 12px;
   background-color: var(--panel-bg-color);
+  border-bottom: solid 6px #000000;
 }
 
-.results-count {
-  display: inline-block;
-  width: 74px;
-  height: 137px;
-  background: url("@/assets/images/picto_perso_titre.svg") center / cover;
-  padding-top: 50px;
-  margin-right: 5px;
+.pagination-box + .results-list {
+  margin-top: 40px;
+}
 
-  font-size: 22px;
-  font-weight: 700;
-  font-style: normal;
-  color: #FFFFFF;
-  text-align: center;
+.results-list {
+  margin-top: 80px;
 }
 
 h2.subtitle {
@@ -306,10 +344,45 @@ h2.subtitle {
   font-style: italic;
 }
 
+.results-count {
+  display: inline-block;
+  width: 71px;
+  height: 113px;
+  background: url("@/assets/images/fond_maison.svg") center / cover;
+  padding-top: 32px;
+  margin-right: 10px;
 
+  font-size: 40px;
+  font-weight: 400;
+  font-style: normal;
+  color: #FFFFFF;
+  text-align: center;
+}
 
+.results-count-label {
+  display: inline-block;
+  width: 120px;
+  padding-top: 30px;
+  font-size: 20px;
+}
+
+:deep(.pagination-box) {
+  padding-right: 30px;
+}
+
+:deep(.pagination-box.pagination-top) {
+  margin-top: 10px;
+}
+
+:deep(.pagination-box.pagination-bottom) {
+  margin-top: 20px;
+}
 
 @media screen and (max-width: 1024px) {
+
+  :deep(.pagination-box .pagination-previous) {
+    padding-right: 30px;
+  }
 
   #banner-image::before {
     background-color: #000000CC;
@@ -398,6 +471,10 @@ h2.subtitle {
 
   .box-search-person-facets.is-opened .box-content .container-search {
     position: relative;
+  }
+
+  .box-interactive-map .box-body {
+    padding: 0;
   }
 
   /* Second column */
