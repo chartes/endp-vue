@@ -23,16 +23,13 @@
         <h3 class="section-title">Métadonnées</h3>
 
         <p v-if="meta_place['map_place_label_id']">
-          <b>Nomenclature : {{ meta_place['map_place_label_id'] }}</b>
-
+          <b>Nomenclature :</b> {{ meta_place['map_place_label_id'] }}
         </p>
         <p>
-          <b>Label actuel : {{ meta_place['term_fr']}}</b>
-
+          <b>Label actuel :</b> {{ meta_place['term_fr']}}
         </p>
         <p>
-          <b>Label ancien : {{ meta_place['term']}}</b>
-
+          <b>Label ancien :</b> {{ meta_place['term']}}
         </p>
         <p>
           <a :href="meta_place['map_place_before_restore_url']">Modèle 3D (avant restauration)</a>
@@ -51,13 +48,42 @@
     <div class="column is-full">
       <div class="person-metadata-wrapper">
         <h3 class="section-title">Mentions remarquables</h3>
+        <ul>
+          <li><a href="">Lien 1</a></li>
+          <li><a href="">Lien 2</a></li>
+        </ul>
       </div>
     </div>
     <div class="column is-full" v-if="meta_place['events_count'] > 0">
       <div class="person-metadata-wrapper">
-        <h3 class="section-title">Événements</h3>
-        <p>total : {{ meta_place['events_count'] }}</p>
-        <p>événements : {{ meta_place['events'] }}</p>
+        <div class="is-flex is-justify-content-space-between is-align-items-center">
+          <h3 class="section-title">Événements</h3>
+          <div class="place-events-count">{{ meta_place['events_count'] }}</div>
+        </div>
+        <!-- p>événements : {{ meta_place['events'] }}</p -->
+        <table class="place-events-list">
+          <thead>
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Personne</th>
+            <th>Commentaire</th>
+            <th>FacSimile</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="event in meta_place['events']" v-bind:key="event.id_endp">
+            <td>{{ event.date ? event.date : "Sans" }}</td>
+            <td class="place-events-type">{{ event.type }}</td>
+            <td class="place-events-person">{{ event.person.pref_label }}</td>
+            <td class="place-events-comment" v-html=" event.comment"></td>
+            <td class="place-events-facsimile">
+              <a v-if="event.facsimile_url" :href="event.facsimile_url">Lien</a>
+              <span v-else>N/A</span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
@@ -111,8 +137,9 @@ export default {
 <style scoped>
 
 /* Set image banner */
-.page-title, #banner-image::before {
-  /*background-image: url("@/assets/banners/band_Personnes.png");*/
+#banner-image::before {
+  background-size: 1920px auto;
+  background-image: url("@/assets/banners/band_Lieux.png");
 }
 
 .person-name-columns {
@@ -144,8 +171,12 @@ export default {
   padding: 8px 50px;
 }
 
-.columns.details-column > .column:first-child {
-  padding-bottom: 80px;
+.columns.details-column > .column:nth-child(1) {
+  padding-bottom: 55px;
+}
+
+.columns.details-column > .column:nth-child(2) {
+  padding-bottom: 40px;
 }
 
 .columns.details-column:not(.has-carousel) > .column:last-child {
@@ -158,7 +189,7 @@ export default {
   display: flex;
   flex-direction: column;
   background-color: var(--panel-bg-color);
-  padding: 72px 40px 40px;
+  padding: 72px 40px 80px;
 }
 
 .person-data-container-header::after {
@@ -166,7 +197,7 @@ export default {
   display: block;
   width: 46px;
   height: 8px;
-  margin: 16px 0;
+  margin: 10px 0 16px;
   border-top: solid var(--light-brown-alt) 8px;
 }
 
@@ -202,7 +233,7 @@ export default {
   font-weight: 400;
   font-style: italic;
   text-align: left;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   margin-top: 1rem;
   border-bottom: #303030 solid 3px;
 }
@@ -214,22 +245,98 @@ export default {
   text-align: left;
 }
 
+.person-metadata-wrapper > div:first-child {
+  margin-bottom: 12px;
+}
+
+.person-metadata-wrapper > ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.person-metadata-wrapper ul,
 .person-metadata-wrapper p {
-  margin-bottom: 20px;
   font-family: var(--font-secondary);
   font-size: 20px;
   color: #6E6E6E;
 }
 
+.person-metadata-wrapper ul > li ,
+.person-metadata-wrapper p {
+  margin-bottom: 10px;
+}
+
+.person-metadata-wrapper ul > li > a,
 .person-metadata-wrapper p > a {
   color: #6E6E6E;
+  text-decoration: underline;
+}
+
+.person-metadata-wrapper p > a:hover {
+  color: var(--link-over-color);
 }
 
 .person-metadata-wrapper p > b {
-  display: block;
   font-weight: 400;
   color: var(--light-brown-alt);
 }
+
+.place-events-count {
+  font-family: var(--font-primary);
+  font-size: 40px;
+  color: var(--light-brown-alt);
+  font-weight: 400;
+}
+
+table.place-events-list {
+  width: 100%;
+  border-collapse:separate;
+  border-spacing: 4px;
+  margin-left: -4px;
+  font-family: var(--font-secondary);
+  font-size: 16px;
+}
+
+.place-events-list th {
+  background-color: #6B6B6B;
+  padding: 1px 15px 2px;
+  font-weight: 400;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.place-events-list td {
+  padding: 10px 15px 20px 15px;
+  background-color: #EDEDED;
+  color: #454545;
+}
+
+.place-events-list td.place-events-type {
+  min-width: 170px;
+}
+
+.place-events-list td.place-events-person {
+  min-width: 210px;
+}
+
+.place-events-list td.place-events-comment {
+  padding: 10px 60px 20px 15px;
+}
+
+.place-events-list td.place-events-facsimile {
+  text-align: center;
+}
+
+.place-events-list td.place-events-facsimile a {
+  text-indent: -9999px;
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  background: url("@/assets/images/lieux_tab_goto.svg") center / cover;
+}
+
 
 .logo__kb_icon {
   width: 30px;
@@ -280,7 +387,6 @@ export default {
   color: #BB062D;
 }
 
-
 .wrapper-db-link {
   position: absolute;
   left: 0;
@@ -301,11 +407,12 @@ export default {
   color: #A53605;
 }
 
-
 .link-person-db:hover {
   color: #2a2a2a;
   text-decoration: underline;
 }
+
+
 
 
 @media screen and (max-width: 1024px) {
@@ -327,13 +434,17 @@ export default {
     flex-direction: column;
   }
 
-  .columns .column:first-child,
-  .columns .column:last-child {
+  .columns .column {
     display: block;
     width: 100%;
     max-width: 100% !important;
     padding: 0;
     background-color: transparent;
+  }
+
+  .columns.details-column > .column {
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .columns.details-column > .column:first-child {

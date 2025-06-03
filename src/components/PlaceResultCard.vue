@@ -37,8 +37,12 @@ export default {
   transition: color 0.2s;
 }
 
+.place-item:hover {
+  color: var(--link-over-color);
+}
+
 .place-item:hover .arrow-icon {
-  transform: translateX(3px);
+  /* transform: translateX(3px); */
 }
 
 .place-label {

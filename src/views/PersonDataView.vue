@@ -226,7 +226,7 @@ export default {
   display: block;
   width: 46px;
   height: 8px;
-  margin: 16px 0;
+  margin: 10px 0 16px;
   border-top: solid var(--light-brown-alt) 8px;
 }
 
