@@ -14,6 +14,7 @@
     </div>
   </div>
   <!-- end Place header -->
+
   <div class="columns" :class="{ 'has-map': hasMap }">
     <div v-if="hasMap" class="column-map">
       <PlaceChapelsMap :place="meta_place" class="map" />

@@ -21,8 +21,8 @@
       <!-- Nord -->
       <ul class="chapels choeur-nord">
         <li id="place_chapelle_endp_SmQd80HP" @click="handleClick"></li>
-        <li id=""></li>
         <li id="place_chapelle_endp_MICRWV6w" @click="handleClick"></li>
+        <li id=""></li>
         <li id="place_chapelle_endp_2SEPiZkl" @click="handleClick"></li>
         <li id="place_chapelle_endp_jWlwQBBp" @click="handleClick"></li>
       </ul>
@@ -31,7 +31,7 @@
         <li id="place_chapelle_endp_7QCUUSnF" @click="handleClick"></li>
         <li id="place_chapelle_endp_rFUmppSZ" @click="handleClick"></li>
         <li id="place_chapelle_endp_bPt9xC79" @click="handleClick"></li>
-        <li id=""></li>
+        <li id="place_chapelle_endp_KmzrjcsB" @click="handleClick"></li>
         <li id="place_chapelle_endp_lMSzvBz2" @click="handleClick"></li>
         <li id="place_chapelle_endp_2rK0iGGN" @click="handleClick"></li>
       </ul>
@@ -136,6 +136,10 @@ ul.chapels {
   margin: 0;
   padding: 0;
   cursor: pointer;
+}
+
+.chapels li[id=""] {
+  cursor: default
 }
 
 .chapels li.active {
