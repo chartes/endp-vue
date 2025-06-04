@@ -13,80 +13,87 @@
       </div>
     </div>
   </div>
-
   <!-- end Place header -->
-  <div class="columns is-multiline details-column" >
-
-    <!-- top Place metadata -->
-    <div class="column is-full">
-      <div class="person-metadata-wrapper">
-        <h3 class="section-title">Métadonnées</h3>
-
-        <p v-if="meta_place['map_place_label_id']">
-          <b>Nomenclature :</b> {{ meta_place['map_place_label_id'] }}
-        </p>
-        <p>
-          <b>Label actuel :</b> {{ meta_place['term_fr']}}
-        </p>
-        <p>
-          <b>Label ancien :</b> {{ meta_place['term']}}
-        </p>
-        <p>
-          <a :href="meta_place['map_place_before_restore_url']">Modèle 3D (avant restauration)</a>
-        </p>
-        <p>
-          <a :href="meta_place['map_place_after_restore_url']">Modèle 3D (après restauration)</a>
-        </p>
-
-
-
-
-
-
-      </div>
+  <div class="columns" :class="{ 'has-map': hasMap }">
+    <div v-if="hasMap" class="column-map">
+      <PlaceChapelsMap :place="meta_place" class="map" />
     </div>
-    <div class="column is-full">
-      <div class="person-metadata-wrapper">
-        <h3 class="section-title">Mentions remarquables</h3>
-        <ul>
-          <li><a href="">Lien 1</a></li>
-          <li><a href="">Lien 2</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="column is-full" v-if="meta_place['events_count'] > 0">
-      <div class="person-metadata-wrapper">
-        <div class="is-flex is-justify-content-space-between is-align-items-center">
-          <h3 class="section-title">Événements</h3>
-          <div class="place-events-count">{{ meta_place['events_count'] }}</div>
+    <div class="columns is-multiline details-column" >
+
+      <!-- top Place metadata -->
+      <div class="column is-full">
+        <div class="person-metadata-wrapper">
+          <h3 class="section-title">Métadonnées</h3>
+
+          <p v-if="meta_place['map_place_label_id']">
+            <b>Nomenclature :</b> {{ meta_place['map_place_label_id'] }}
+          </p>
+          <p>
+            <b>Label actuel :</b> {{ meta_place['term_fr']}}
+          </p>
+          <p>
+            <b>Label ancien :</b> {{ meta_place['term']}}
+          </p>
+          <p>
+            <a :href="meta_place['map_place_before_restore_url']">Modèle 3D (avant restauration)</a>
+          </p>
+          <p>
+            <a :href="meta_place['map_place_after_restore_url']">Modèle 3D (après restauration)</a>
+          </p>
+
+
+
+
+
+
         </div>
-        <!-- p>événements : {{ meta_place['events'] }}</p -->
-        <table class="place-events-list">
-          <thead>
-          <tr>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Personne</th>
-            <th>Commentaire</th>
-            <th>FacSimile</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="event in meta_place['events']" v-bind:key="event.id_endp">
-            <td>{{ event.date ? event.date : "Sans" }}</td>
-            <td class="place-events-type">{{ event.type }}</td>
-            <td class="place-events-person">{{ event.person.pref_label }}</td>
-            <td class="place-events-comment" v-html=" event.comment"></td>
-            <td class="place-events-facsimile">
-              <a v-if="event.facsimile_url" :href="event.facsimile_url">Lien</a>
-              <span v-else>N/A</span>
-            </td>
-          </tr>
-          </tbody>
-        </table>
       </div>
-    </div>
+      <div class="column is-full">
+        <div class="person-metadata-wrapper">
+          <h3 class="section-title">Mentions remarquables</h3>
+          <ul>
+            <li><a href="">Lien 1</a></li>
+            <li><a href="">Lien 2</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="column is-full" v-if="meta_place['events_count'] > 0">
+        <div class="person-metadata-wrapper">
+          <div class="is-flex is-justify-content-space-between is-align-items-center">
+            <h3 class="section-title">Événements</h3>
+            <div class="place-events-count">{{ meta_place['events_count'] }}</div>
+          </div>
+          <!-- p>événements : {{ meta_place['events'] }}</p -->
+          <table class="place-events-list">
+            <thead>
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Personne</th>
+              <th>Commentaire</th>
+              <th>FacSimile</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="event in meta_place['events']" v-bind:key="event.id_endp">
+              <td>{{ event.date ? event.date : "Sans" }}</td>
+              <td class="place-events-type">{{ event.type }}</td>
+              <td class="place-events-person">{{ event.person.pref_label }}</td>
+              <td class="place-events-comment" >
+                <div v-html=" event.comment"></div>
+                <button @click="toggleComment($event)">Lire la suite</button>
+              </td>
+              <td class="place-events-facsimile">
+                <a v-if="event.facsimile_url" :href="event.facsimile_url">Lien</a>
+                <span v-else>N/A</span>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
+    </div>
   </div>
 </template>
 
@@ -94,10 +101,12 @@
 <script>
 import axios from 'axios';
 import {mapState} from "vuex";
+import PlaceChapelsMap from "@/components/PlaceChapelsMap.vue";
 
 
 export default {
   name: "PlaceDataView",
+  components: {PlaceChapelsMap},
   data() {
     return {
       reference_id: this.$route.params.id,
@@ -105,6 +114,9 @@ export default {
     };
   },
   computed: {
+    hasMap() {
+      return this.meta_place && this.meta_place.topic === 'Chapelle';
+    },
     ...mapState(["personDbApi"]),
   },
   watch: {
@@ -127,6 +139,15 @@ export default {
       const response = await axios.get(`${this.personDbApi}${endpoint}`);
       return response.data;
     },
+    toggleComment(event) {
+      const button = event.target;
+      const commentElement = button.parentElement;
+      if (commentElement.classList.contains('is-opened')) {
+        commentElement.classList.remove('is-opened');
+      } else {
+        commentElement.classList.add('is-opened');
+      }
+    }
   },
   created() {
     this.fetchPlaceData();
@@ -158,6 +179,10 @@ export default {
   align-items: flex-start;
 }
 
+.columns.has-map {
+  align-items: stretch;
+}
+
 .columns, .column {
   position: relative;
   padding-top: 0;
@@ -169,6 +194,7 @@ export default {
 
 .columns.details-column > .column {
   padding: 8px 50px;
+  overflow-x: hidden;
 }
 
 .columns.details-column > .column:nth-child(1) {
@@ -183,6 +209,14 @@ export default {
   padding-bottom: var(--right-column-bottom-padding-desktop);
 }
 
+.column-map + .columns,
+.column-map {
+  width: calc(50% - 23px);
+}
+
+.column-map {
+  border-top: solid 6px #000000;
+}
 
 /* new styles */
 .person-data-container-header {
@@ -313,6 +347,7 @@ table.place-events-list {
   color: #454545;
 }
 
+/* Table size without map */
 .place-events-list td.place-events-type {
   min-width: 170px;
 }
@@ -321,9 +356,63 @@ table.place-events-list {
   min-width: 210px;
 }
 
+/* Table size with map */
+.column-map + .columns table.place-events-list {
+  margin-left: -50px;
+  margin-right: -50px;
+  width: calc(100% + 100px);
+}
+
+.column-map + .columns .place-events-type,
+.column-map + .columns .place-events-person {
+  min-width: unset;
+}
+
+
 .place-events-list td.place-events-comment {
+  position: relative;
   padding: 10px 60px 20px 15px;
 }
+
+.has-map .place-events-list td.place-events-comment {
+  padding-bottom: 60px;
+}
+
+.place-events-list td.place-events-comment > button {
+  display: none;
+}
+
+.has-map .place-events-list td.place-events-comment > div {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+}
+
+.has-map .place-events-list td.place-events-comment.is-opened > div {
+  overflow: auto;
+  display: block;
+}
+
+.has-map .place-events-list td.place-events-comment > button {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url("@/assets/images/b_Open_20x20.svg") center / cover;
+  border: none;
+  text-indent: -9999px;
+  cursor: pointer;
+}
+
+.has-map .place-events-list td.place-events-comment.is-opened > button {
+  background-image: url("@/assets/images/b_Close_20x20.svg");
+  filter: grayscale(100%);
+}
+
 
 .place-events-list td.place-events-facsimile {
   text-align: center;
@@ -480,6 +569,30 @@ table.place-events-list {
     border: none;
     justify-content: center;
   }
+
+  .column-map + .columns,
+  .column-map {
+    width: 100%;
+  }
+
+  .column-map + .columns table.place-events-list,
+  .columns table.place-events-list {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+  }
+
+  .place-events-list td.place-events-type,
+  .place-events-list td.place-events-person,
+  .columns .place-events-type,
+  .columns .place-events-person {
+    min-width: unset;
+  }
+
+}
+
+@media screen and (max-width: 640px) {
+
 }
 
 </style>
