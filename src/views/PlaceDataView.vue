@@ -172,6 +172,7 @@ export default {
 }
 
 .columns {
+  width: 100%;
   gap: 46px;
 }
 
