@@ -21,6 +21,7 @@
               <p class="subtitle is-5"><span>Plan interactif</span></p>
             </div>
             <div class="box-body">
+              <PlaceChapelsMap class="map" />
             </div>
           </div>
         </div>
@@ -78,10 +79,12 @@ import PlaceSearchBox from "@/components/PlaceSearchBox.vue";
 import VPagination from "@/components/VPagination.vue";
 import PlaceResultCard from "@/components/PlaceResultCard.vue";
 import {mapState, mapActions} from "vuex";
+import PlaceChapelsMap from "@/components/PlaceChapelsMap.vue";
 
 export default {
   name: "PlaceView",
   components: {
+    PlaceChapelsMap,
     PlaceSearchBox,
     VPagination,
     PlaceResultCard
