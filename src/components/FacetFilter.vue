@@ -3,24 +3,24 @@
     <span
         :class="[
     'advanced_search_header',
-    title === 'TERMES' ? 'search-header-terms' : 'search-header-places'
+    title === 'Termes' ? 'search-header-terms' : 'search-header-places'
   ]"
     >
   {{ title }}
       <a class="index-link"
         :href="[
-          title === 'TERMES'
+          title === 'Termes'
             ? `${this.personDbAdminShow}/admin/thesaurusterm/`
             : `${this.personDbAdminShow}/admin/placesterm/`
         ]"
         target="_blank"
-      >INDEX</a>
+      >index</a>
 </span>
     <div class="search-bar">
       <input
           type="text"
           v-model="searchQuery"
-          :placeholder="title === 'TERMES' ? 'Gardien' : 'Chapelle de saint Eutrope'"
+          :placeholder="title === 'Termes' ? 'Gardien' : 'Chapelle de saint Eutrope'"
           @focus="showDropdown = true"
           @input="filterTerms"
           class="input"
@@ -45,10 +45,10 @@
         <button @click="selectedTerms = []" class="active-tags-delete-btn">✖</button>
       </span>
       <div class="tags">
-        <span v-for="term in selectedTerms" :key="term._id_endp" class="tag">
-          {{ term.term_fr || term.term_la }}
+        <div v-for="term in selectedTerms" :key="term._id_endp" class="tag">
+          <span>{{ term.term_fr || term.term_la }}</span>
           <button @click="removeTerm(term)">✖</button>
-        </span>
+        </div>
       </div>
     </div>
     <p v-if="isLoading">Chargement des données...</p>
@@ -268,47 +268,50 @@ input[type="text"]::placeholder {
   background: #e0e0e0;
   padding: 1px 8px;
   border-radius: 5px;
-  font-size: 0.75em;
+  font-size: 18px;
   width: auto;
+  max-width: 100%;
   margin-bottom: 5px;
 }
 
+.tag span {
+  max-width: calc(100% - 20px);
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 .tag button {
-  border: none;
-  border-radius: 9999px;
-  color: #707070;
-  font-size: 10px;
-  margin-left: 10px;
-  cursor: pointer;
-  font-weight: bold;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   width: 15px;
   height: 15px;
+  background: url('~@/assets/images/filtre_close2.svg') center / cover no-repeat;
+  border: none;
+  margin-left: 10px;
+  text-indent: -9999px;
+  cursor: pointer;
 }
 
 .advanced_search_header {
   font-family: var(--font-secondary);
   font-weight: 400;
-  font-size: 18px;
-  padding-left: 35px;
+  font-size: 24px;
+  color: #6E6E6E;
+  padding-left: 41px;
   padding-top: 8px;
   padding-bottom: 8px;
 }
 
 .search-header-terms {
-  background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMzAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0iIzZENzI3OCIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMTEuOTY2IDEzLjY0YzMuNzcgMCA2LjgyLTMuMDUgNi44Mi02LjgyIDAtMy43Ny0zLjA1LTYuODItNi44Mi02LjgyLTMuNzcgMC02LjgyIDMuMDUtNi44MiA2LjgyIDAgMy43NyAzLjA1IDYuODIgNi44MiA2LjgyTTIzLjkzIDI0LjgyYy0yLjAxLTMuNzItNS4xNDQtOC41OTYtMTEuOTY0LTguNTk2UzIuMDEzIDIxLjA5OSAwIDI0LjgxOWMzLjIwNSAzLjc5OSA2Ljc5NCA1LjEyNyAxMS45NjYgNS4xMjcgNS4xNyAwIDguNzYtMS4zMzggMTEuOTY1LTUuMTI3Ii8+PC9nPjwvc3ZnPg==) 0 no-repeat;
+  background: url('~@/assets/images/pic Person.svg') left top / 27px auto no-repeat;
 }
 
 .search-header-places {
-  background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTExLjc4IDBjNi41MDQgMCAxMS43OCA1LjIyIDExLjc4IDExLjY1NSAwIDUuMzA2LTcuMTc4IDE0Ljc1MS0xMC4zMjYgMTguNjQ4YTEuODY2IDEuODY2IDAgMDEtMi45MDggMEM3LjE3OCAyNi40MDYgMCAxNi45NjEgMCAxMS42NTUgMCA1LjIyMSA1LjI3NiAwIDExLjc4IDB6bTAgNy43N2MtMi4xNjYgMC0zLjkyNyAxLjc0Mi0zLjkyNyAzLjg4NXMxLjc2MSAzLjg4NSAzLjkyNyAzLjg4NWMyLjE2NiAwIDMuOTI3LTEuNzQyIDMuOTI3LTMuODg1UzEzLjk0NiA3Ljc3IDExLjc4IDcuNzd6IiBmaWxsPSIjNkQ3Mjc4IiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48L3N2Zz4=) 0 no-repeat;
+  background: url('~@/assets/images/pic Lieu.svg') 0 no-repeat;
 }
 
 .active-tags {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin: 40px 0 15px;
 }
 
 .tag {
@@ -322,21 +325,13 @@ input[type="text"]::placeholder {
 
 .active-tags-delete-btn {
   border: none;
-  background-color: #8C8C8C;
-  border-radius: 50%;
-  color: #FFF;
-  font-size: 10px;
-
   cursor: pointer;
-  font-weight: bold;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   width: 20px;
   height: 20px;
-  margin: 0 0 0 15px;
+  background: url('~@/assets/images/filtre_close.svg') center / cover no-repeat;
+  margin: 0 0 0 13px;
   padding: 0;
+  text-indent: -9999px;
 }
 
 .active-tags-delete-btn:hover,
@@ -348,7 +343,14 @@ input[type="text"]::placeholder {
 .active-tags-labels {
   font-family: var(--font-secondary);
   font-weight: 400;
+  line-height: 1;
   text-transform: uppercase;
+}
+
+@media (max-width: 1024px) {
+  .facet-filter-container {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -357,29 +359,25 @@ input[type="text"]::placeholder {
     padding-right: 10px;
   }
 
-  .search-header-terms {
-    padding-left: 30px;
-  }
-
-  .search-header-places {
-    padding-left: 30px;
-  }
-
   .active-tags-delete-btn {
     font-size: 0.5em;
   }
 
   .active-tags-labels {
-    font-size: 0.5em;
   }
 }
 
 .index-link {
+  background-color: #E0E0E0;
+  border-radius: 4px;
+  padding: 4px 19px 7px;
+  margin-top: 5px;
   font-family: var(--font-secondary);
+  font-size: 20px;
   font-weight: 400;
-  font-size: 18px;
+  line-height: 1;
+  color: #4D4D4D;
   text-decoration: none;
-  color: #6E6E6E;
   /* align on right */
   float: right;
 }

@@ -252,6 +252,10 @@ export default {
   position: relative;
 }
 
+:deep(.box-search-person-facets .box-content .container-search) {
+  padding-bottom: 67px;
+}
+
 .box-search-person-facets .box-content .checkbox-canon {
   position: absolute;
   bottom: 60px;

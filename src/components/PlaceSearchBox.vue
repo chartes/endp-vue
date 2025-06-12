@@ -387,7 +387,11 @@ input[type="text"]::placeholder {
 
 .filters-toggle .control {
   display: flex;
-  gap: 14px;
+  gap: 12px;
+}
+
+.filters-toggle .control > * {
+  flex: calc(25% - 12px) 0 0;
 }
 
 .toggle-btn {
