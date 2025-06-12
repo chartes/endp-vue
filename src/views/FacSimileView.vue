@@ -484,8 +484,7 @@ export default {
 }
 
 .facsimile-columns > .column:last-child {
-  background-color: var(--panel-bg-color);
-  padding: 0 0 var(--right-column-bottom-padding-desktop) 0;
+  padding: 0 0 80px 0;
 }
 
 .facsimile-columns > .column:last-child > div {
