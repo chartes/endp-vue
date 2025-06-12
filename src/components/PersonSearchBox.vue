@@ -170,6 +170,9 @@ export default {
   position: absolute;
   bottom: 10px;
   left: 25px;
+
+  display: block;
+  width: calc(100% - 50px);
   padding: 0;
 }
 

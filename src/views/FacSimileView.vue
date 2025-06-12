@@ -484,6 +484,7 @@ export default {
 }
 
 .facsimile-columns > .column:last-child {
+  background-color: var(--panel-bg-color);
   padding: 0 0 80px 0;
 }
 
@@ -531,6 +532,10 @@ export default {
   font-style: italic;
   line-height: 33px;
   color: #7B0C12;
+}
+
+.facsimile-columns:not(.is-collapsed) .facsimile-title {
+  width: 60%;
 }
 
 .facsimile-title:after {
@@ -733,6 +738,7 @@ tspan {
 .facsimile-columns:not(.is-collapsed).is-prediction-aside .btn-toggle-prediction {
   border-color: var(--light-brown-alt);
   color: var(--light-brown-alt);
+  /* margin-right: 20px; */
 }
 
 .facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child {
@@ -861,6 +867,10 @@ tspan {
 
 @media screen and (max-width: 1024px) {
 
+  .facsimile-title {
+    width: 100%;
+  }
+
   #banner-image::before {
     background-color: #000000CC;
     background-image: none !important;
@@ -915,7 +925,6 @@ tspan {
   }
 
   .facsimile-columns > .column:last-child {
-    padding: 0 0 var(--right-column-bottom-padding-desktop) 0;
   }
 
   .facsimile-columns > .column:last-child > div {
