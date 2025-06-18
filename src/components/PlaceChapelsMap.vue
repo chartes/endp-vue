@@ -1,58 +1,59 @@
 <template>
   <div class="chapels-map">
     <img src="../assets/PLAN_ENDP_nb.jpg" />
-    <div class="chapels-wrapper">
+    <div class="chapels-wrapper" @click.capture="handleClick" @mouseenter.capture="handleMouseHover" @mouseout.capture="handleMouseOut">
       <!-- Choeur (cercle) : 13 chapelles -->
       <ul class="chapels choeur">
-        <li id="place_chapelle_endp_TWtc8LoL" @click="handleClick"></li>
-        <li id="place_chapelle_endp_xmnangA2" @click="handleClick"></li>
-        <li id="place_chapelle_endp_LMpAL5tS" @click="handleClick"></li>
-        <li id="place_chapelle_endp_PSAxA3DP" @click="handleClick"></li>
-        <li id="place_chapelle_endp_e3UyZC3H" @click="handleClick"></li>
-        <li id="place_chapelle_endp_wDSkJ5p6" @click="handleClick"></li>
-        <li id="place_chapelle_endp_hG4dN5wp" @click="handleClick"></li>
-        <li id="place_chapelle_endp_a10VXGAa" @click="handleClick"></li>
-        <li id="place_chapelle_endp_qY3efJPI" @click="handleClick"></li>
-        <li id="place_chapelle_endp_x03bJRpB" @click="handleClick"></li>
-        <li id="place_chapelle_endp_g1DVzjZy" @click="handleClick"></li>
-        <li id="place_chapelle_endp_rFueHa72" @click="handleClick"></li>
-        <li id="place_chapelle_endp_7inqDXDj" @click="handleClick"></li>
+        <li id="place_chapelle_endp_TWtc8LoL" data-name="saint Michel"></li>
+        <li id="place_chapelle_endp_xmnangA2" data-name="saints Martin et Anne"></li>
+        <li id="place_chapelle_endp_LMpAL5tS" data-name="sainte Foy"></li>
+        <li id="place_chapelle_endp_PSAxA3DP" data-name="saint Eutrope"></li>
+        <li id="place_chapelle_endp_e3UyZC3H" data-name="saint Jean Baptiste"></li>
+        <li id="place_chapelle_endp_wDSkJ5p6" data-name="saint Louis"></li>
+        <li id="place_chapelle_endp_hG4dN5wp" data-name="saint Rigobert"></li>
+        <li id="place_chapelle_endp_a10VXGAa" data-name="saint Nicaise"></li>
+        <li id="place_chapelle_endp_qY3efJPI" data-name="saint Etienne Protomartyr"></li>
+        <li id="place_chapelle_endp_x03bJRpB" data-name="saints Crépin et Crépinien"></li>
+        <li id="place_chapelle_endp_g1DVzjZy" data-name="saint Jacques"></li>
+        <li id="place_chapelle_endp_rFueHa72" data-name="saints Pierre et Etienne"></li>
+        <li id="place_chapelle_endp_7inqDXDj" data-name="saint Rémi"></li>
       </ul>
       <!-- Nord -->
       <ul class="chapels choeur-nord">
-        <li id="place_chapelle_endp_SmQd80HP" @click="handleClick"></li>
-        <li id="place_chapelle_endp_MICRWV6w" @click="handleClick"></li>
+        <li id="place_chapelle_endp_SmQd80HP" data-name="saints Ferréol et Ferrucien"></li>
+        <li id="place_chapelle_endp_MICRWV6w" data-name="saints Jean Baptiste et Marie Madeleine"></li>
         <li id=""></li>
-        <li id="place_chapelle_endp_2SEPiZkl" @click="handleClick"></li>
-        <li id="place_chapelle_endp_jWlwQBBp" @click="handleClick"></li>
+        <li id="place_chapelle_endp_2SEPiZkl" data-name="saints Jean Baptiste et Marie Madeleine"></li>
+        <li id="place_chapelle_endp_jWlwQBBp" data-name="saints Jean l'Evangéliste et Agnès"></li>
       </ul>
       <ul class="chapels nef-nord">
-        <li id="place_chapelle_endp_HgZzrFUG" @click="handleClick"></li>
-        <li id="place_chapelle_endp_7QCUUSnF" @click="handleClick"></li>
-        <li id="place_chapelle_endp_rFUmppSZ" @click="handleClick"></li>
-        <li id="place_chapelle_endp_bPt9xC79" @click="handleClick"></li>
-        <li id="place_chapelle_endp_KmzrjcsB" @click="handleClick"></li>
-        <li id="place_chapelle_endp_lMSzvBz2" @click="handleClick"></li>
-        <li id="place_chapelle_endp_2rK0iGGN" @click="handleClick"></li>
+        <li id="place_chapelle_endp_HgZzrFUG" data-name="bienheureux Nicolas"></li>
+        <li id="place_chapelle_endp_7QCUUSnF" data-name="bienheureuse Catherine"></li>
+        <li id="place_chapelle_endp_rFUmppSZ" data-name="saints Julien le Pauvre et Marie l'Egyptienne"></li>
+        <li id="place_chapelle_endp_bPt9xC79" data-name="saint Laurent"></li>
+        <li id="place_chapelle_endp_KmzrjcsB" data-name="sainte Geneviève"></li>
+        <li id="place_chapelle_endp_lMSzvBz2" data-name="saints Georges et Blaise"></li>
+        <li id="place_chapelle_endp_2rK0iGGN" data-name="saint Léonard"></li>
       </ul>
       <!-- Sud -->
       <ul class="chapels choeur-sud">
-        <li id="place_chapelle_endp_ShCl87Ly" @click="handleClick"></li>
-        <li id="place_chapelle_endp_sceGkn9V" @click="handleClick"></li>
+        <li id="place_chapelle_endp_ShCl87Ly" data-name="saint Géraud"></li>
+        <li id="place_chapelle_endp_sceGkn9V" data-name="saints Denis et Georges"></li>
         <li id=""></li>
-        <li id="place_chapelle_endp_jmwXUWLb" @click="handleClick"></li>
-        <li id="place_chapelle_endp_q50GSp7g" @click="handleClick"></li>
+        <li id="place_chapelle_endp_jmwXUWLb" data-name="saint Pierre Martyr"></li>
+        <li id="place_chapelle_endp_q50GSp7g" data-name="saints Pierre et Paul"></li>
       </ul>
       <ul class="chapels nef-sud">
-        <li id="place_chapelle_endp_41uJwmOM" @click="handleClick"></li>
-        <li id="place_chapelle_endp_UQyOelUy" @click="handleClick"></li>
-        <li id="place_chapelle_endp_JMph1CUS" @click="handleClick"></li>
-        <li id="place_chapelle_endp_zRelmASI" @click="handleClick"></li>
-        <li id="place_chapelle_endp_ghGGCfRJ" @click="handleClick"></li>
-        <li id="place_chapelle_endp_W0HhriG9" @click="handleClick"></li>
-        <li id="place_chapelle_endp_PIHU8Wr2" @click="handleClick"></li>
+        <li id="place_chapelle_endp_41uJwmOM" data-name="bienheureuse Marie Madeleine"></li>
+        <li id="place_chapelle_endp_UQyOelUy" data-name="bienheureux Augustin"></li>
+        <li id="place_chapelle_endp_JMph1CUS" data-name="saint Thomas de Canterbury"></li>
+        <li id="place_chapelle_endp_zRelmASI" data-name="saints Michel et Antoine"></li>
+        <li id="place_chapelle_endp_ghGGCfRJ" data-name="saints Philippe et Jacques"></li>
+        <li id="place_chapelle_endp_W0HhriG9" data-name="saints Barthélémy et Vincent"></li>
+        <li id="place_chapelle_endp_PIHU8Wr2" data-name="sainte Anne"></li>
       </ul>
     </div>
+    <div ref="popover" class="popover" :style="{ left: this.popOverLeft, top: this.popOverTop, transform: this.popOverTransform }">{{ popOverTitle }}</div>
   </div>
 </template>
 
@@ -65,9 +66,40 @@ export default {
       required: false
     }
   },
+  data() {
+    return {
+      hover: null,
+      popOverTitle: "",
+      popOverLeft: 0,
+      popOverTop: 0,
+      popOverTransform: "none"
+    };
+  },
   methods: {
     handleClick(event) {
-      this.$router.push(`/places/${event.target.id}`);
+      if (event.target.id) {
+        this.$router.push(`/places/${event.target.id}`);
+      }
+    },
+    handleMouseHover(event) {
+      const target = event.target;
+      if (target.id && target.id.length) {
+        const dataName =target.attributes["data-name"];
+        if (dataName !== undefined) {
+          // Wrapper :
+          const referenceRect = event.currentTarget.getBoundingClientRect();
+          const targetRect = target.getBoundingClientRect();
+          const isOnRightSide = (targetRect.left - referenceRect.left) > 0.5 * (referenceRect.right - referenceRect.left);
+
+          this.popOverTitle = dataName.value;
+          this.popOverLeft = (targetRect.left - referenceRect.left) + "px";
+          this.popOverTop = (targetRect.bottom - referenceRect.top) + "px";
+          this.popOverTransform = isOnRightSide ? "translateX(-100%)" : "translateX(" + targetRect.width + "px)";
+        }
+      }
+    },
+    handleMouseOut() {
+      this.popOverTitle = "";
     },
     activePlace(place, active = true) {
       if (place && place.id_endp) {
@@ -86,6 +118,7 @@ export default {
   },
   mounted() {
     this.activePlace(this.place);
+    console.log(this.$refs.popover)
   },
 };
 </script>
@@ -109,6 +142,25 @@ export default {
   --choeur-height: 17.5%;
 
   --choeur-angle: 0.038turn; /* 180 / 13 chapelles */
+}
+
+.popover:empty {
+  display: none;
+}
+
+.popover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--panel-bg-color);
+  padding: 20px;
+  box-shadow: 4px 4px 3px 0 rgba(0,0,0,0.15);
+  font-size: 1.25em;
+  font-weight: 400;
+  font-style: italic;
+  color: #7B0C12;
+  white-space: nowrap;
+  pointer-events: none;
 }
 
 .chapels-wrapper {
@@ -142,13 +194,18 @@ ul.chapels {
   cursor: default
 }
 
-.chapels li.active {
-  pointer-events: none;
+.chapels li:hover {
+  background: rgba(123,12,18, 0.15)
+}
+
+.chapels li[id=""]:hover {
+  opacity: 0;
 }
 
 .chapels li.active::before {
   content: "";
   position: absolute;
+  z-index: 2;
   top: 50%;
   left: 50%;
   display: inline-block;
@@ -156,6 +213,7 @@ ul.chapels {
   height: 80px;
   background: url("@/assets/images/lieux_cible.svg") center / auto 80px no-repeat;
   transform: translate(-50%, -50%);
+  pointer-events: none;
 }
 
 
@@ -285,43 +343,51 @@ ul.chapels.choeur {
 }
 
 .chapels.choeur > li:nth-child(8) {
-  left: calc(50% - 50% * sin(8 * 0.9 * var(--choeur-angle) + 0.25turn));
-  top: calc(50% + 50% * cos(8 * 0.9 * var(--choeur-angle) + 0.25turn));
+  left: calc(50% - 49% * sin(8 * 0.9 * var(--choeur-angle) + 0.25turn));
+  top: calc(50% + 49% * cos(8 * 0.9 * var(--choeur-angle) + 0.25turn));
   transform: translateX(-20%) rotate(101deg);
 }
 
 .chapels.choeur > li:nth-child(9) {
-  left: calc(50% - 50% * sin(9 * 0.92 * var(--choeur-angle) + 0.25turn));
-  top: calc(50% + 50% * cos(9 * 0.92 * var(--choeur-angle) + 0.25turn));
+  width: 12%;
+  left: calc(50% - 48% * sin(9 * 0.92 * var(--choeur-angle) + 0.25turn));
+  top: calc(50% + 48% * cos(9 * 0.92 * var(--choeur-angle) + 0.25turn));
   transform: translateX(-30%) rotate(117deg);
 }
 
 .chapels.choeur > li:nth-child(10) {
-  left: calc(50% - 50% * sin(10 * 0.93 * var(--choeur-angle) + 0.25turn));
-  top: calc(50% + 50% * cos(10 * 0.93 * var(--choeur-angle) + 0.25turn));
+  left: calc(50% - 48% * sin(10 * 0.93 * var(--choeur-angle) + 0.25turn));
+  top: calc(50% + 48% * cos(10 * 0.93 * var(--choeur-angle) + 0.25turn));
   transform: translateX(-45%) rotate(135deg);
 }
 
 .chapels.choeur > li:nth-child(11) {
-  left: calc(50% - 50% * sin(11 * 0.94 * var(--choeur-angle) + 0.25turn));
-  top: calc(50% + 50% * cos(11 * 0.94 * var(--choeur-angle) + 0.25turn));
+  left: calc(50% - 49% * sin(11 * 0.94 * var(--choeur-angle) + 0.25turn));
+  top: calc(50% + 49% * cos(11 * 0.94 * var(--choeur-angle) + 0.25turn));
   transform: translateX(-60%) rotate(145deg);
 }
 
 .chapels.choeur > li:nth-child(12) {
-  left: calc(50% - 50% * sin(12 * 0.95 * var(--choeur-angle) + 0.25turn));
-  top: calc(50% + 50% * cos(12 * 0.95 * var(--choeur-angle) + 0.25turn));
+  width: 12%;
+  left: calc(50% - 49% * sin(12 * 0.95 * var(--choeur-angle) + 0.25turn));
+  top: calc(50% + 49% * cos(12 * 0.95 * var(--choeur-angle) + 0.25turn));
   transform: translateX(-75%) rotate(165deg);
 }
 
 .chapels.choeur > li:nth-child(13) {
-  left: calc(50% - 50% * sin(13 * 0.95 * var(--choeur-angle) + 0.25turn));
-  top: calc(50% + 50% * cos(13 * 0.95 * var(--choeur-angle) + 0.25turn));
+  width: 12%;
+  left: calc(50% - 49% * sin(13 * 0.95 * var(--choeur-angle) + 0.25turn));
+  top: calc(50% + 49% * cos(13 * 0.95 * var(--choeur-angle) + 0.25turn));
   transform: translateX(-85%) rotate(174deg);
 }
 
 
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 640px) {
+
+  .popover {
+    display: none !important;
+  }
+
 }
 </style>
