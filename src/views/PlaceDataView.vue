@@ -426,6 +426,7 @@ table.place-events-list {
   width: 15px;
   height: 15px;
   background: url("@/assets/images/lieux_tab_goto.svg") center / cover;
+  margin-top: 8px;
 }
 
 
@@ -502,9 +503,6 @@ table.place-events-list {
   color: #2a2a2a;
   text-decoration: underline;
 }
-
-
-
 
 @media screen and (max-width: 1024px) {
 
@@ -595,6 +593,204 @@ table.place-events-list {
 
 @media screen and (max-width: 640px) {
 
+  /* Merges columns 2,3 and 4 (with ou without interactive map) */
+  table.place-events-list {
+
+    thead {
+      display: block;
+
+      tr {
+        display: flex;
+        gap: 4px;
+        margin-bottom: 4px;
+
+        th:nth-child(1) {
+          width: 110px;
+        }
+
+        th:nth-child(2) {
+          width: calc(100% - 208px);
+          text-indent: -9999px;
+        }
+
+        th:nth-child(3),
+        th:nth-child(4) {
+          display: none;
+        }
+
+        th:nth-child(5) {
+          width: 90px;
+        }
+      }
+    }
+
+    tbody {
+      display: block;
+
+      tr {
+        display: grid;
+        gap: 0 4px;
+        margin-bottom: 4px;
+        grid-template-columns: 110px auto 90px;
+        grid-template-rows: auto;
+        grid-template-areas :
+        "place_event_date place_event_type place_event_facsimile"
+        "place_event_date place_event_person place_event_facsimile"
+        "place_event_date place_event_comment place_event_facsimile";
+
+        td {
+          padding-bottom: 5px;
+        }
+
+        td:nth-child(1) {
+          grid-area: place_event_date;
+        }
+
+        td:nth-child(2) {
+          grid-area: place_event_type;
+          &::before {
+            content: "Type :";
+            display: block;
+            font-weight: bold;
+          }
+        }
+
+        td:nth-child(3) {
+          grid-area: place_event_person;
+          &::before {
+            content: "Personne :";
+            display: block;
+            font-weight: bold;
+          }
+        }
+
+        td:nth-child(4) {
+          grid-area: place_event_comment;
+          &::before {
+            content: "Commentaire :";
+            display: block;
+            font-weight: bold;
+          }
+        }
+
+        td:nth-child(5) {
+          grid-area: place_event_facsimile;
+        }
+      }
+    }
+  }
+
+  .has-map .place-events-list td.place-events-comment {
+    padding-bottom: 40px;
+  }
+
+  .place-events-list td.place-events-comment {
+    padding-right: 20px;
+  }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1230px) {
+
+  .has-map {
+    /* With interactive map only : same rules as (max-width: 640px) above  */
+
+    /* Merges columns 2,3 and 4 */
+    table.place-events-list {
+
+      thead {
+        display: block;
+
+        tr {
+          display: flex;
+          gap: 4px;
+          margin-bottom: 4px;
+
+          th:nth-child(1) {
+            width: 110px;
+          }
+
+          th:nth-child(2) {
+            width: calc(100% - 208px);
+            text-indent: -9999px;
+          }
+
+          th:nth-child(3),
+          th:nth-child(4) {
+            display: none;
+          }
+
+          th:nth-child(5) {
+            width: 90px;
+          }
+        }
+      }
+
+      tbody {
+        display: block;
+
+        tr {
+          display: grid;
+          gap: 0 4px;
+          margin-bottom: 4px;
+          grid-template-columns: 110px auto 90px;
+          grid-template-rows: auto;
+          grid-template-areas :
+        "place_event_date place_event_type place_event_facsimile"
+        "place_event_date place_event_person place_event_facsimile"
+        "place_event_date place_event_comment place_event_facsimile";
+
+          td {
+            padding-bottom: 5px;
+          }
+
+          td:nth-child(1) {
+            grid-area: place_event_date;
+          }
+
+          td:nth-child(2) {
+            grid-area: place_event_type;
+            &::before {
+              content: "Type :";
+              display: block;
+              font-weight: bold;
+            }
+          }
+
+          td:nth-child(3) {
+            grid-area: place_event_person;
+            &::before {
+              content: "Personne :";
+              display: block;
+              font-weight: bold;
+            }
+          }
+
+          td:nth-child(4) {
+            grid-area: place_event_comment;
+            &::before {
+              content: "Commentaire :";
+              display: block;
+              font-weight: bold;
+            }
+          }
+
+          td:nth-child(5) {
+            grid-area: place_event_facsimile;
+          }
+        }
+      }
+    }
+  }
+
+  /* Same rules as (max-width: 640px) above;  */
+
+  .has-map .place-events-list td.place-events-comment {
+    padding-bottom: 40px;
+  }
+
+  .place-events-list td.place-events-comment {
+    padding-right: 20px;
+  }
 }
 
 </style>

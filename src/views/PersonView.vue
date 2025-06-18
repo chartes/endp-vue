@@ -19,7 +19,7 @@
           </div>
         </div>
         <FacetFilter
-            title="LIEUX"
+            title="Lieux"
             filterType="places"
             apiUrl="https://endp.chartes.psl.eu/endp-person/api/persons/thesauri/terms?thesaurus_type=places"
             @update:selectedTerms="handleSelectedTerms"
@@ -27,7 +27,7 @@
             :initialSelectedIds="filterList.place_ids"
         />
         <FacetFilter
-            title="TERMES"
+            title="Termes"
             filterType="persons_terms"
             apiUrl="https://endp.chartes.psl.eu/endp-person/api/persons/thesauri/terms?thesaurus_type=persons_terms"
             @update:selectedTerms="handleSelectedTerms"
