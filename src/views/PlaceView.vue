@@ -4,18 +4,21 @@
     <h1>Lieux</h1>
   </div>
   <div class="columns is-multiline">
-    <div class="column is-12-mobile is-5-tablet is-5-desktop">
-      <div class="box box-search-person-facets" :class="{ 'is-opened': searchBoxOpenState }">
-        <div class="box-search-header" @click="toggleSearchBox($event)"></div>
-        <div class="box-content">
-          <PlaceSearchBox
-              :has-active-filters="hasActiveFilters"
-              @update:query="handleUpdateQuery"
-              @reset:query="handleResetQuery"
-              @update:filter="handleUpdateFilter"
-          />
+    <div class="column is-12-mobile is-5-tablet is-5-desktop"  :class="{ 'chapel-panel': topicType === 'Chapelle' }">
+      <div class="box box-search-person-facets">
+        <div class="box-search-parent" :class="{ 'is-opened': searchBoxOpenState }">
+          <div class="box-search-header" @click="toggleSearchBox($event)"></div>
+          <div class="box-content">
+            <PlaceSearchBox
+                :has-active-filters="hasActiveFilters"
+                @update:query="handleUpdateQuery"
+                @reset:query="handleResetQuery"
+                @update:filter="handleUpdateFilter"
+            />
+          </div>
         </div>
-        <div class="box-interactive-map" :class="{ 'is-visible': topicType === 'Chapelle' }">
+        <div class="box-interactive-map" :class="{ 'is-visible': topicType === 'Chapelle', 'is-opened': mapBoxOpenState }">
+          <div class="box-search-header" @click="toggleMapBox($event)"></div>
           <div class="box-content">
             <div class="box-header">
               <p class="subtitle is-5"><span>Plan interactif</span></p>
@@ -93,6 +96,7 @@ export default {
     return {
       isLoading: false,
       searchBoxOpenState: false,
+      mapBoxOpenState: false,
     };
   },
   computed: {
@@ -199,6 +203,11 @@ export default {
       this.searchBoxOpenState = !this.searchBoxOpenState;
     },
 
+    toggleMapBox(event) {
+      event.preventDefault();
+      this.mapBoxOpenState = !this.mapBoxOpenState;
+    },
+
   },
   async mounted() {
     // update topic with default value
@@ -237,6 +246,10 @@ export default {
   padding: 100px 0 1.5rem;
   margin-bottom: 0;
   background-color: #ffffff;
+}
+
+.box-search-parent {
+  position: relative;
 }
 
 .box-search-person-facets .box {
@@ -297,8 +310,10 @@ export default {
 }
 
 .box-interactive-map.is-visible {
+  position: relative;
   display: block;
-  padding: 45px 0 20px;
+  padding: 25px 0 20px;
+  margin-top: 20px;
 }
 
 .box-interactive-map .box-header {
@@ -322,7 +337,8 @@ export default {
   opacity: 0;
 }
 
-.columns .column,
+.columns .column:first-child.chapel-panel,
+.columns .column:last-child,
 .checkbox-canon {
   background-color: var(--panel-bg-color);
 }
@@ -417,9 +433,11 @@ h2.subtitle {
   }
 
   .columns .column:first-child {
+    /*
     position: sticky;
     top: 102px;
     z-index: 2;
+    */
     padding: 0;
     background-color: #FFF;
   }
@@ -427,6 +445,14 @@ h2.subtitle {
   .box-search-person-facets {
     position: relative;
     padding: 0;
+  }
+
+  :deep(.box-search-person-facets .box-content .container-search) {
+    padding-bottom: 100px;
+  }
+
+  :deep(.box-search-person-facets .box-content .container-search .control-button) {
+    bottom: 30px;
   }
 
   .box-search-person-facets {
@@ -451,12 +477,13 @@ h2.subtitle {
     cursor: pointer;
   }
 
-  .box-search-person-facets.is-opened .box-search-header {
+  .box-interactive-map.is-opened  .box-search-header,
+  .box-search-parent.is-opened .box-search-header {
     background-image: url('~@/assets/images/b_Close_liste.svg');
     background-position: right 6px top 23px;
   }
 
-  .box-search-person-facets:not(.is-opened) .box-search-header {
+  .box-search-parent:not(.is-opened) .box-search-header {
     border-bottom: #D0D0D0 solid 1px;
   }
 
@@ -469,15 +496,27 @@ h2.subtitle {
   .box-search-person-facets .box-content .checkbox-canon,
   :deep(.box-search-person-facets .box-content .container-search) {
     display: block;
+    border-bottom: solid 1px #BBBBBB;
   }
 
-  .box-search-person-facets:not(.is-opened) .box-content .checkbox-canon,
-  :deep(.box-search-person-facets:not(.is-opened) .box-content .container-search) {
+  .box-search-parent:not(.is-opened) .box-content .checkbox-canon,
+  :deep(.box-search-parent:not(.is-opened) .box-content .container-search) {
     display: none;
   }
 
-  .box-search-person-facets.is-opened .box-content .container-search {
+  .box-search-parent.is-opened .box-content .container-search {
     position: relative;
+  }
+
+  .box-interactive-map:not(.is-opened) .box-content .box-body {
+    display: none;
+  }
+
+  .box-interactive-map:not(.is-opened) .box-header {
+    border-bottom: #D0D0D0 solid 1px;
+  }
+
+  .box-interactive-map.is-opened .box-header {
   }
 
   .box-interactive-map .box-body {
