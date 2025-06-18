@@ -200,10 +200,10 @@ export default {
     },
 
   },
-  mounted() {
+  async mounted() {
     // update topic with default value
     this.updateTopic({topic: "Chapelle"});
-    this.fetchPlaces();
+    await this.fetchPlaces();
   },
 };
 </script>

@@ -17,9 +17,9 @@
 
   <div class="columns" :class="{ 'has-map': hasMap }">
     <div v-if="hasMap" class="column-map">
-      <PlaceChapelsMap :place="meta_place" class="map" />
+      <PlaceChapelsMap :place="meta_place" class="map"/>
     </div>
-    <div class="columns is-multiline details-column" >
+    <div class="columns is-multiline details-column">
 
       <!-- top Place metadata -->
       <div class="column is-full">
@@ -30,25 +30,23 @@
             <b>Nomenclature :</b> {{ meta_place['map_place_label_id'] }}
           </p>
           <p>
-            <b>Label actuel :</b> {{ meta_place['term_fr']}}
+            <b>Label actuel :</b> {{ meta_place['term_fr'] }}
           </p>
           <p>
-            <b>Label ancien :</b> {{ meta_place['term']}}
+            <b>Label ancien :</b> {{ meta_place['term'] }}
           </p>
-          <p>
+          <p v-if="meta_place['map_place_before_restore_url']">
             <a :href="meta_place['map_place_before_restore_url']">Modèle 3D (avant restauration)</a>
           </p>
-          <p>
+          <p v-if="meta_place['map_place_after_restore_url']">
             <a :href="meta_place['map_place_after_restore_url']">Modèle 3D (après restauration)</a>
           </p>
 
 
-
-
-
-
         </div>
       </div>
+      <!--
+      TODO: évolution possible mais implique évolution du modèle de données
       <div class="column is-full">
         <div class="person-metadata-wrapper">
           <h3 class="section-title">Mentions remarquables</h3>
@@ -57,7 +55,7 @@
             <li><a href="">Lien 2</a></li>
           </ul>
         </div>
-      </div>
+      </div>-->
       <div class="column is-full" v-if="meta_place['events_count'] > 0">
         <div class="person-metadata-wrapper">
           <div class="is-flex is-justify-content-space-between is-align-items-center">
@@ -80,7 +78,7 @@
               <td>{{ event.date ? event.date : "Sans" }}</td>
               <td class="place-events-type">{{ event.type }}</td>
               <td class="place-events-person">{{ event.person.pref_label }}</td>
-              <td class="place-events-comment" >
+              <td class="place-events-comment">
                 <div v-html=" event.comment"></div>
                 <button @click="toggleComment($event)">Lire la suite</button>
               </td>
@@ -112,11 +110,50 @@ export default {
     return {
       reference_id: this.$route.params.id,
       meta_place: {},
+
     };
   },
   computed: {
     hasMap() {
-      return this.meta_place && this.meta_place.topic === 'Chapelle';
+      const chapels_in_ndp = [
+        "place_chapelle_endp_TWtc8LoL",
+        "place_chapelle_endp_xmnangA2",
+        "place_chapelle_endp_LMpAL5tS",
+        "place_chapelle_endp_PSAxA3DP",
+        "place_chapelle_endp_e3UyZC3H",
+        "place_chapelle_endp_wDSkJ5p6",
+        "place_chapelle_endp_hG4dN5wp",
+        "place_chapelle_endp_a10VXGAa",
+        "place_chapelle_endp_qY3efJPI",
+        "place_chapelle_endp_x03bJRpB",
+        "place_chapelle_endp_g1DVzjZy",
+        "place_chapelle_endp_rFueHa72",
+        "place_chapelle_endp_7inqDXDj",
+        "place_chapelle_endp_SmQd80HP",
+        "place_chapelle_endp_MICRWV6w",
+        "place_chapelle_endp_2SEPiZkl",
+        "place_chapelle_endp_jWlwQBBp",
+        "place_chapelle_endp_HgZzrFUG",
+        "place_chapelle_endp_7QCUUSnF",
+        "place_chapelle_endp_rFUmppSZ",
+        "place_chapelle_endp_bPt9xC79",
+        "place_chapelle_endp_KmzrjcsB",
+        "place_chapelle_endp_lMSzvBz2",
+        "place_chapelle_endp_2rK0iGGN",
+        "place_chapelle_endp_ShCl87Ly",
+        "place_chapelle_endp_sceGkn9V",
+        "place_chapelle_endp_jmwXUWLb",
+        "place_chapelle_endp_q50GSp7g",
+        "place_chapelle_endp_41uJwmOM",
+        "place_chapelle_endp_UQyOelUy",
+        "place_chapelle_endp_JMph1CUS",
+        "place_chapelle_endp_zRelmASI",
+        "place_chapelle_endp_ghGGCfRJ",
+        "place_chapelle_endp_W0HhriG9",
+        "place_chapelle_endp_PIHU8Wr2"
+      ]
+      console.log(this.meta_place)
+      return this.meta_place && chapels_in_ndp.includes(this.meta_place.id_endp) && this.meta_place.topic === 'Chapelle';
     },
     ...mapState(["personDbApi"]),
   },
@@ -298,7 +335,7 @@ export default {
   color: #6E6E6E;
 }
 
-.person-metadata-wrapper ul > li ,
+.person-metadata-wrapper ul > li,
 .person-metadata-wrapper p {
   margin-bottom: 10px;
 }
@@ -327,7 +364,7 @@ export default {
 
 table.place-events-list {
   width: 100%;
-  border-collapse:separate;
+  border-collapse: separate;
   border-spacing: 4px;
   margin-left: -4px;
   font-family: var(--font-secondary);
@@ -633,7 +670,7 @@ table.place-events-list {
         margin-bottom: 4px;
         grid-template-columns: 110px auto 90px;
         grid-template-rows: auto;
-        grid-template-areas :
+        grid-template-areas:
         "place_event_date place_event_type place_event_facsimile"
         "place_event_date place_event_person place_event_facsimile"
         "place_event_date place_event_comment place_event_facsimile";
@@ -648,6 +685,7 @@ table.place-events-list {
 
         td:nth-child(2) {
           grid-area: place_event_type;
+
           &::before {
             content: "Type :";
             display: block;
@@ -657,6 +695,7 @@ table.place-events-list {
 
         td:nth-child(3) {
           grid-area: place_event_person;
+
           &::before {
             content: "Personne :";
             display: block;
@@ -666,6 +705,7 @@ table.place-events-list {
 
         td:nth-child(4) {
           grid-area: place_event_comment;
+
           &::before {
             content: "Commentaire :";
             display: block;
@@ -695,6 +735,7 @@ table.place-events-list {
     /* With interactive map only : same rules as (max-width: 640px) above  */
 
     /* Merges columns 2,3 and 4 */
+
     table.place-events-list {
 
       thead {
@@ -734,7 +775,7 @@ table.place-events-list {
           margin-bottom: 4px;
           grid-template-columns: 110px auto 90px;
           grid-template-rows: auto;
-          grid-template-areas :
+          grid-template-areas:
         "place_event_date place_event_type place_event_facsimile"
         "place_event_date place_event_person place_event_facsimile"
         "place_event_date place_event_comment place_event_facsimile";
@@ -749,6 +790,7 @@ table.place-events-list {
 
           td:nth-child(2) {
             grid-area: place_event_type;
+
             &::before {
               content: "Type :";
               display: block;
@@ -758,6 +800,7 @@ table.place-events-list {
 
           td:nth-child(3) {
             grid-area: place_event_person;
+
             &::before {
               content: "Personne :";
               display: block;
@@ -767,6 +810,7 @@ table.place-events-list {
 
           td:nth-child(4) {
             grid-area: place_event_comment;
+
             &::before {
               content: "Commentaire :";
               display: block;
@@ -783,7 +827,6 @@ table.place-events-list {
   }
 
   /* Same rules as (max-width: 640px) above;  */
-
   .has-map .place-events-list td.place-events-comment {
     padding-bottom: 40px;
   }

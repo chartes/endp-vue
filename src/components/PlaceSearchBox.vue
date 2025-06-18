@@ -57,7 +57,7 @@ export default {
     return {
       resetBtn: false,
       selectedFilter: "Chapelle", // valeur par défaut
-      filterOptions: ["Chapelle", "Cloître", "Domaine", "Prévôté"],
+      filterOptions: ["Chapelle", "Cloître", "Domaine"], // "Prévôté"
     };
   },
   props: {
