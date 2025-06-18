@@ -19,6 +19,7 @@
           </div>
         </div>
         <FacetFilter
+            class="places-facets"
             title="Lieux"
             filterType="places"
             apiUrl="https://endp.chartes.psl.eu/endp-person/api/persons/thesauri/terms?thesaurus_type=places"
@@ -27,6 +28,7 @@
             :initialSelectedIds="filterList.place_ids"
         />
         <FacetFilter
+            class="persons-terms-facets"
             title="Termes"
             filterType="persons_terms"
             apiUrl="https://endp.chartes.psl.eu/endp-person/api/persons/thesauri/terms?thesaurus_type=persons_terms"
@@ -444,9 +446,12 @@ h2.subtitle {
   }
 
   .columns .column:first-child {
+    /*
     position: sticky;
     top: 102px;
     z-index: 2;
+     */
+
     padding: 0;
     background-color: #FFF;
   }
@@ -493,11 +498,15 @@ h2.subtitle {
     transform: translateX(50%);
   }
 
+  .box-search-person-facets .persons-terms-facets,
+  .box-search-person-facets .places-facets,
   .box-search-person-facets .box-content .checkbox-canon,
   :deep(.box-search-person-facets .box-content .container-search) {
     display: block;
   }
 
+  .box-search-person-facets:not(.is-opened) .persons-terms-facets,
+  .box-search-person-facets:not(.is-opened) .places-facets,
   .box-search-person-facets:not(.is-opened) .box-content .checkbox-canon,
   :deep(.box-search-person-facets:not(.is-opened) .box-content .container-search) {
     display: none;
@@ -533,6 +542,8 @@ h2.subtitle {
     display: none;
   }
 
+  .box-search-person-facets .persons-terms-facets,
+  .box-search-person-facets .places-facets,
   :deep(.box-search-person-facets.is-opened .box-content  .container-search) {
     border-bottom: solid 1px #BBBBBB;
   }
