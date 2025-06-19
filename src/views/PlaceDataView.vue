@@ -78,7 +78,7 @@
               <td>{{ event.date ? event.date : "Sans" }}</td>
               <td class="place-events-type">{{ event.type }}</td>
               <td class="place-events-person">
-                <a :href="`/persons/${event.person.id_endp}`" class="link-person-db">
+                <a :href="`/endp/persons/${event.person.id_endp}`" class="link-person-db">
                   {{ event.person.pref_label }}
                 </a>
               </td>
