@@ -77,7 +77,11 @@
             <tr v-for="event in meta_place['events']" v-bind:key="event.id_endp">
               <td>{{ event.date ? event.date : "Sans" }}</td>
               <td class="place-events-type">{{ event.type }}</td>
-              <td class="place-events-person">{{ event.person.pref_label }}</td>
+              <td class="place-events-person">
+                <a :href="`/persons/${event.person.id_endp}`" class="link-person-db">
+                  {{ event.person.pref_label }}
+                </a>
+              </td>
               <td class="place-events-comment">
                 <div v-html=" event.comment"></div>
                 <button @click="toggleComment($event)">Lire la suite</button>
@@ -838,5 +842,15 @@ table.place-events-list {
 
 .page-title {
   z-index: 1000 !important;
+}
+
+.link-person-db {
+  color: #2a2a2a;
+  font-weight: 100;
+}
+
+.link-person-db:hover {
+  color: #6E6E6E;
+  text-decoration: underline;
 }
 </style>
