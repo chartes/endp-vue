@@ -390,8 +390,16 @@ input[type="text"]::placeholder {
   gap: 12px;
 }
 
+@media screen and (max-width: 360px) {
+
+  .filters-toggle .control {
+    flex-wrap: wrap;
+  }
+
+}
+
 .filters-toggle .control > * {
-  flex: calc(25% - 12px) 0 0;
+  flex-grow: 1;
 }
 
 .toggle-btn {
