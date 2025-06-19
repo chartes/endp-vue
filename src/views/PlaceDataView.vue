@@ -836,4 +836,7 @@ table.place-events-list {
   }
 }
 
+.page-title {
+  z-index: 1000 !important;
+}
 </style>

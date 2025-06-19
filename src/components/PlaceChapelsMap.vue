@@ -102,19 +102,32 @@ export default {
       this.popOverTitle = "";
     },
     activePlace(place, active = true) {
-      if (place && place.id_endp) {
-        const element = document.getElementById(place.id_endp);
-        if (element) {
-          active ? element.classList.add("active") : element.classList.remove("active");
-        }
+  if (place && place.id_endp) {
+    const element = document.getElementById(place.id_endp);
+    if (element) {
+      if (active) {
+        // Supprime la classe si elle est déjà là
+        element.classList.remove("active");
+        void element.offsetWidth; // Force reflow pour réinitialiser l'animation
+        element.classList.add("active");
+      } else {
+        element.classList.remove("active");
       }
     }
+  }
+}
   },
   watch: {
     place: function(newPlace, oldPlace) {
       this.activePlace(oldPlace, false);
       this.activePlace(newPlace);
     }
+  },
+  beforeUnmount() {
+    // remove active class from previous place
+    this.activePlace(this.place, false);
+    // reset popover
+    this.popOverTitle = "";
   },
   mounted() {
     this.activePlace(this.place);
@@ -214,6 +227,9 @@ ul.chapels {
   background: url("@/assets/images/lieux_cible.svg") center / auto 80px no-repeat;
   transform: translate(-50%, -50%);
   pointer-events: none;
+
+  animation: zoomInOut 0.6s infinite;
+  will-change: transform;
 }
 
 
@@ -389,5 +405,17 @@ ul.chapels.choeur {
     display: none !important;
   }
 
+}
+
+@keyframes zoomInOut {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 </style>
