@@ -87,7 +87,7 @@
                 <button @click="toggleComment($event)">Lire la suite</button>
               </td>
               <td class="place-events-facsimile">
-                <a v-if="event.facsimile_url" :href="event.facsimile_url">Lien</a>
+                <a v-if="event.facsimile_url" :href="adaptUrl(event.facsimile_url)">Lien</a>
                 <span v-else>N/A</span>
               </td>
             </tr>
@@ -156,7 +156,6 @@ export default {
         "place_chapelle_endp_W0HhriG9",
         "place_chapelle_endp_PIHU8Wr2"
       ]
-      console.log(this.meta_place)
       return this.meta_place && chapels_in_ndp.includes(this.meta_place.id_endp) && this.meta_place.topic === 'Chapelle';
     },
     ...mapState(["personDbApi"]),
@@ -178,8 +177,15 @@ export default {
       }
     },
     async fetchData(endpoint) {
+      console.log(this.personDbApi)
       const response = await axios.get(`${this.personDbApi}${endpoint}`);
       return response.data;
+    },
+    adaptUrl(url) {
+      // if this.personDbApi not contains "dev" change base url "https://dev.chartes.psl.eu/endp/facsimile/LL120/120" => "https://endp.chartes.psl.eu/endp/facsimile/LL120/120"
+      if (!this.personDbApi.includes("dev")) {
+        return url.replace("https://dev.chartes.psl.eu/endp/facsimile/", "https://endp.chartes.psl.eu/endp/facsimile/");
+      }
     },
     toggleComment(event) {
       const button = event.target;
