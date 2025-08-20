@@ -61,7 +61,9 @@
             <ul>
               <li v-for="link in kb_urls" :key="link">
                 <span><img class="logo__kb_icon" :src="mapping_kb_icons[link['type']]"></span>
-                <a :href="formatlinks(link['url'])" alt="{{link['type']}}" target="_blank">{{ formatlinks(link['url']) }}</a>
+                <a :href="formatlinks(link['url'])" alt="{{link['type']}}" target="_blank">{{
+                    formatlinks(link['url'])
+                  }}</a>
               </li>
             </ul>
           </div>
@@ -75,7 +77,14 @@
     <!-- Person events timeline -->
     <div class="column timeline-wrapper" v-if="!isEventsEmpty">
       <h3 class="section-title">Parcours</h3>
-      <PersonDataTimeline :events-response="event_relations['events']"/>
+      <!--<PersonDataTimeline :events-response="event_relations['events']"/>-->
+      <PersonDataTimeline
+          :events-response="event_relations['events']"
+          :initial-date="initialDate"
+          :initial-event-id="initialEventId"
+          :start-open="startOpen"
+          :key="reference_id + '-' + (initialDate || 'no-focus')"
+      />
     </div>
     <!-- end Person events timeline -->
 
@@ -106,6 +115,7 @@ export default {
       event_relations: {},
       kb_urls: [],
       collecta_urls: [],
+      startOpen: false,
       mapping_kb_icons: {
         "Wikidata": require("@/assets/icons_kb/wikidata-icon.svg.png"),
         "Biblissima": require("@/assets/icons_kb/biblissima-icon.png"),
@@ -131,6 +141,15 @@ export default {
   watch: {
     '$route.params.id': function (newId) {
       this.reference_id = newId;
+
+      // Si on arrive *depuis Lieux*, on récupère et on consomme le focus du store
+      const focus = this.$store.state.nav?.focus;
+      if (focus) {
+        this.initialDate = focus.focusDate || null;
+        this.initialEventId = focus.focusEventId || null;
+        this.startOpen = Boolean(this.initialDate || this.initialEventId);
+        this.$store.commit('nav/clearFocus');
+      }
       this.fetchPersonData();
       window.scrollTo(0, 0);
     }
@@ -163,6 +182,17 @@ export default {
     },
   },
   created() {
+    //this.fetchPersonData();
+        // 1) lire le focus depuis le store
+    const focus = this.$store.state.nav?.focus;
+    if (focus) {
+      this.initialDate = focus.focusDate || null;
+      this.initialEventId = focus.focusEventId || null;
+      this.startOpen = Boolean(this.initialDate || this.initialEventId);
+      // 2) nettoyer pour éviter un "replay" sur refresh/navigation
+      this.$store.commit('nav/clearFocus');
+    }
+    // 3) charger les données
     this.fetchPersonData();
   },
 }

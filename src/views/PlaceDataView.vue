@@ -62,7 +62,6 @@
             <h3 class="section-title">Événements</h3>
             <div class="place-events-count">{{ meta_place['events_count'] }}</div>
           </div>
-          <!-- p>événements : {{ meta_place['events'] }}</p -->
           <table class="place-events-list">
             <thead>
             <tr>
@@ -78,7 +77,9 @@
               <td>{{ event.date ? event.date : "Sans" }}</td>
               <td class="place-events-type">{{ event.type }}</td>
               <td class="place-events-person">
-                <a :href="`/endp/persons/${event.person.id_endp}`" class="link-person-db">
+                <a href
+                   class="link-person-db"
+                   @click.prevent="goToPerson(event)">
                   {{ event.person.pref_label }}
                 </a>
               </td>
@@ -163,6 +164,7 @@ export default {
   watch: {
     '$route.params.id': function (newId) {
       this.reference_id = newId;
+
       this.fetchPlaceData();
       window.scrollTo(0, 0);
     }
@@ -195,7 +197,16 @@ export default {
       } else {
         commentElement.classList.add('is-opened');
       }
-    }
+    },
+    goToPerson(event) {
+      // Normalise l’id d’événement au cas où la clé varie
+      const eventId = event.id_endp || event._id_endp || null;
+      this.$store.commit('nav/setFocus', {
+        focusDate: event.date || 'Date inconnue',
+        focusEventId: eventId,
+      });
+      this.$router.push({name: 'person', params: {id: event.person.id_endp}});
+    },
   },
   created() {
     this.fetchPlaceData();
