@@ -62,10 +62,27 @@
             <h3 class="section-title">Événements</h3>
             <div class="place-events-count">{{ meta_place['events_count'] }}</div>
           </div>
+          <div v-if="extremeRange" class="extreme-dates">
+            Dates extrêmes :
+            <strong>
+              {{
+                extremeRange.min === extremeRange.max ? extremeRange.min : (extremeRange.min + '–' + extremeRange.max)
+              }}
+            </strong>
+          </div>
+          <div class="is-flex is-align-items-center is-justify-content-space-between" style="margin: 10px 0 16px;">
+
+          </div>
           <table class="place-events-list">
             <thead>
             <tr>
-              <th>Date</th>
+              <th><span class="header-label">
+    <button class="btn-icon" @click="toggleSortOrder">
+      <i v-if="sortOrder === 'asc'" class="fas fa-arrow-up"></i>
+      <i v-else class="fas fa-arrow-down"></i>
+    </button>
+                Date
+  </span></th>
               <th>Type</th>
               <th>Personne</th>
               <th>Commentaire</th>
@@ -73,8 +90,8 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="event in meta_place['events']" v-bind:key="event.id_endp">
-              <td>{{ event.date ? event.date : "Sans" }}</td>
+            <tr v-for="event in sortedEvents" v-bind:key="event.id_endp">
+              <td>{{ formatDate(event.date) }}</td>
               <td class="place-events-type">{{ event.type }}</td>
               <td class="place-events-person">
                 <a href
@@ -84,7 +101,7 @@
                 </a>
               </td>
               <td class="place-events-comment">
-                <div v-html=" event.comment"></div>
+                <div v-html="event.comment"></div>
                 <button @click="toggleComment($event)">Lire la suite</button>
               </td>
               <td class="place-events-facsimile">
@@ -115,7 +132,7 @@ export default {
     return {
       reference_id: this.$route.params.id,
       meta_place: {},
-
+      sortOrder: 'asc' // or 'desc'
     };
   },
   computed: {
@@ -159,6 +176,49 @@ export default {
       ]
       return this.meta_place && chapels_in_ndp.includes(this.meta_place.id_endp) && this.meta_place.topic === 'Chapelle';
     },
+    extremeRange() {
+    const events = (this.meta_place && Array.isArray(this.meta_place.events))
+      ? this.meta_place.events
+      : [];
+
+    // Récupère toutes les années valides
+    const years = events
+      .map(e => this.yearFromDate(e?.date))
+      .filter(y => y !== null);
+
+    if (!years.length) return null;
+
+    const min = Math.min(...years);
+    const max = Math.max(...years);
+    return { min, max };
+  },
+    sortedEvents() {
+      const list = (this.meta_place && Array.isArray(this.meta_place.events))
+          ? this.meta_place.events.slice()
+          : [];
+
+      return list.sort((a, b) => {
+        const da = this.dateKey(a?.date);
+        const db = this.dateKey(b?.date);
+
+        // Dates inconnues toujours en bas
+        if (!da && !db) return 0;
+        if (!da) return 1;
+        if (!db) return -1;
+
+        // Tri asc/desc
+        let cmp = this.sortOrder === 'asc' ? (da.key - db.key) : (db.key - da.key);
+        if (cmp !== 0) return cmp;
+
+        // Même clé -> plus précis d'abord (YYYY-MM-DD > YYYY-MM > YYYY)
+        if (db.precision !== da.precision) return db.precision - da.precision;
+
+        // Même précision -> exact avant approximatif
+        if (da.isApprox !== db.isApprox) return da.isApprox ? 1 : -1;
+
+        return 0;
+      });
+    },
     ...mapState(["personDbApi"]),
   },
   watch: {
@@ -182,6 +242,58 @@ export default {
       console.log(this.personDbApi)
       const response = await axios.get(`${this.personDbApi}${endpoint}`);
       return response.data;
+    },
+    yearFromDate(dateStr) {
+    if (!dateStr) return null;
+    const clean = String(dateStr).trim().replace(/~/g, '');
+    const year = parseInt(clean.split('-')[0], 10);
+    return Number.isFinite(year) ? year : null;
+  },
+    dateKey(dateStr) {
+      if (!dateStr) return null;
+
+      const raw = String(dateStr).trim();
+      const isApprox = raw.startsWith('~');
+      const clean = raw.replace(/~/g, '');
+
+      const parts = clean.split('-').map(p => parseInt(p, 10)).filter(n => !isNaN(n));
+      const [y, m, d] = [parts[0], parts[1], parts[2]];
+      if (!y) return null;
+
+      // Pour des dates partielles, on prend une borne qui dépend du sens de tri
+      const month = (typeof m === 'number') ? m : (this.sortOrder === 'asc' ? 1 : 12);
+      const day = (typeof d === 'number') ? d : (this.sortOrder === 'asc' ? 1 : 31);
+
+      return {
+        key: y * 10000 + month * 100 + day,
+        precision: parts.length, // YYYY=1, YYYY-MM=2, YYYY-MM-DD=3
+        isApprox
+      };
+    },
+    toggleSortOrder() {
+      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+    },
+
+    formatDate(date) {
+      console.log(date);
+      if (!date) return 'Date non renseignée';
+
+      const parts = date.split('-');
+      let formattedDate = '';
+
+      if (parts[0]) {
+        formattedDate = parts[0]; // Année
+      }
+      if (parts[1]) {
+        const month = this.$store.state.months.find(m => m.iso_code === parts[1]);
+        const monthName = month ? month.name : '';
+        formattedDate = monthName + (formattedDate ? ` ${formattedDate}` : '');
+      }
+      if (parts[2]) {
+        formattedDate = `${parts[2]} ${formattedDate}`; // Jour
+      }
+      console.log(formattedDate)
+      return formattedDate;
     },
     adaptUrl(url) {
       // if this.personDbApi not contains "dev" change base url "https://dev.chartes.psl.eu/endp/facsimile/LL120/120" => "https://endp.chartes.psl.eu/endp/facsimile/LL120/120"
@@ -870,4 +982,39 @@ table.place-events-list {
   color: #6E6E6E;
   text-decoration: underline;
 }
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.header-label {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9em;
+  padding: 0;
+  line-height: 1;
+  color: inherit;
+}
+
+.btn-icon:hover {
+  color: #A53605; /* ta couleur accent */
+}
+
+.extreme-dates {
+  margin: 6px 0 14px;
+  font-family: var(--font-secondary);
+  color: #6E6E6E;
+}
+.extreme-dates strong { color: #000; }
 </style>

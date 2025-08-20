@@ -157,7 +157,30 @@ export default {
   methods: {
     formatDate,
     formatlinks(link) {
-      return !link.startsWith('http') ? `https://${link}` : link;
+      if (!link) return "";
+
+      let clean = link.trim();
+
+      // Viaf rule
+    if (/^https?:\/\/viaf\.org\/fr\/(\d+)/.test(clean)) {
+    clean = clean.replace(
+      /^https?:\/\/viaf\.org\/fr\/(\d+)/,
+      "https://viaf.org/viaf/$1"
+    );
+  }
+    else if (/^https?:\/\/viaf\.org\/(\d+)\/?$/.test(clean)) {
+    clean = clean.replace(
+      /^https?:\/\/viaf\.org\/(\d+)\/?$/,
+      "https://viaf.org/viaf/$1"
+    );
+  }
+
+      // Adjust URL scheme if missing
+      if (!/^https?:\/\//i.test(clean)) {
+        clean = "https://" + clean;
+      }
+
+      return clean;
     },
     async fetchPersonData() {
       try {
@@ -183,7 +206,7 @@ export default {
   },
   created() {
     //this.fetchPersonData();
-        // 1) lire le focus depuis le store
+    // 1) lire le focus depuis le store
     const focus = this.$store.state.nav?.focus;
     if (focus) {
       this.initialDate = focus.focusDate || null;
