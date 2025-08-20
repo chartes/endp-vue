@@ -38,9 +38,14 @@
                       spaceAroundCommas(event.thesaurus_term_person.term_fr)
                     }} ({{ spaceAroundCommas(event.thesaurus_term_person.term_la) }})</span>
                       <br v-if="event.thesaurus_term_person">
-                      <span v-if="event.place_term" class="event-place"><u>Lieu</u> : {{
-                          event.place_term.term_fr
-                        }} ({{ event.place_term.term_la }})</span>
+                      <span v-if="event.place_term"><u>Lieu</u> :
+                      <router-link
+                          v-if="event.place_term"
+                          class="event-place"
+                          :to="{ name: 'place', params: { id: event.place_term._id_endp } }"
+                      >
+   {{ event.place_term.term_fr }} ({{ event.place_term.term_la }})
+</router-link></span>
                       <br v-if="event.place_term">
                       <span v-if="event.comment"><u>Note</u> :
                         {{ strippedContent(event.comment) }}
