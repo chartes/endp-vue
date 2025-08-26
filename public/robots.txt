@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://endp.chartes.psl.eu/sitemap.xml
+Sitemap: https://endp.chartes.psl.eu/endp/sitemap.xml
