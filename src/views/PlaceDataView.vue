@@ -546,7 +546,7 @@ table.place-events-list {
   padding: 10px 60px 20px 15px;
 }
 
-.has-map .place-events-list td.place-events-comment {
+.place-events-list td.place-events-comment {
   padding-bottom: 60px;
 }
 
@@ -554,7 +554,7 @@ table.place-events-list {
   display: none;
 }
 
-.has-map .place-events-list td.place-events-comment > div {
+.place-events-list td.place-events-comment > div {
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -562,12 +562,12 @@ table.place-events-list {
   line-clamp: 2;
 }
 
-.has-map .place-events-list td.place-events-comment.is-opened > div {
+.place-events-list td.place-events-comment.is-opened > div {
   overflow: auto;
   display: block;
 }
 
-.has-map .place-events-list td.place-events-comment > button {
+.place-events-list td.place-events-comment > button {
   position: absolute;
   bottom: 10px;
   right: 10px;
@@ -580,7 +580,7 @@ table.place-events-list {
   cursor: pointer;
 }
 
-.has-map .place-events-list td.place-events-comment.is-opened > button {
+.place-events-list td.place-events-comment.is-opened > button {
   background-image: url("@/assets/images/b_Close_20x20.svg");
   filter: grayscale(100%);
 }
