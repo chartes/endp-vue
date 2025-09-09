@@ -45,16 +45,20 @@
         </router-link>
       </li>-->
     </ul>
+    <a v-if="$route.name=='persons'" class="api-link" @click="goToWebsite()">
+      <img :src="logoAPI" alt="API Icon" class="api-btn" />
+    </a>
   </aside>
 </template>
 
 <script>
-
+import logoAPI from '@/assets/logos/enc_api_icon.svg';
 export default {
   name: "AppMenuAside",
   data() {
     return {
-      dbAdminPath: process.env.VUE_APP_DB_ADMIN
+      dbAdminPath: process.env.VUE_APP_DB_ADMIN,
+      logoAPI
     };
   },
   methods: {
@@ -67,6 +71,9 @@ export default {
       this.$store.commit('setBtnCollectionClicked', false);
       this.$router.push('/facsimile/collection/top');
     },
+    goToWebsite() {
+      window.open("https://endp.chartes.psl.eu/endp-person/api/docs  ", '_blank');
+    }
   },
 }
 </script>
@@ -74,6 +81,7 @@ export default {
 <style scoped>
 
 .menu {
+  position: relative;
   width: 100%;
   margin-bottom: 1rem;
   padding: 0.2rem;
@@ -185,6 +193,25 @@ ul.menu-list > li:not(:last-child)::after {
   background: transparent;
 }
 
+.api-link {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.api-btn {
+  color: white;
+  border-radius: 0.5rem;
+  height: 40px;
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+
 @media screen and (max-width: 1024px) {
 
   .menu {
@@ -195,12 +222,12 @@ ul.menu-list > li:not(:last-child)::after {
     width: 90%;
     margin: 0 auto;
     background-color: #4B080BF2;
+    flex-direction: column;
   }
 
   .menu.is-home {
     top: 50px;
   }
-
 
   .menu.is-flex {
     display: none !important;
@@ -262,6 +289,14 @@ ul.menu-list > li:not(:last-child)::after {
   .menu-list > li > a:hover::after,
   .menu-list a.is-active::after {
     border: none;
+  }
+
+  .api-link {
+    position: relative;
+    right: unset;
+    top: unset;
+    transform: none;
+    padding: 10px 0 20px;
   }
 
 }
