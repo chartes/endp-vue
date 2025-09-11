@@ -103,15 +103,12 @@ export default {
       return this.selectedTerms.map((t) => t._id_endp);
     },
     displayedTermsGrouped() {
-      // Si l'utilisateur tape, on affiche la version filtrée existante
       if (this.searchQuery.trim()) return this.filteredTermsGrouped;
 
-      // Sinon, on construit un APERÇU à partir de `this.terms` (déjà en cache)
       const grouped = {};
       for (const t of this.terms) {
         const topic = t.topic || "Autre";
         (grouped[topic] ||= []);
-        // limiter le nombre par topic pour l’aperçu
         if (grouped[topic].length < this.maxPreviewPerGroup) {
           grouped[topic].push(t);
         }
@@ -120,7 +117,6 @@ export default {
     },
   },
   watch: {
-    // Sync depuis le parent vers l'enfant, sans émettre, et seulement si ça change.
     initialSelectedIds: {
       immediate: true,
       handler(newIds) {
@@ -130,25 +126,20 @@ export default {
             this.termCache[id] ||
             this.selectedTerms.find((t) => t._id_endp === id) ||
             this.terms.find((t) => t._id_endp === id) ||
-            // placeholder (le label sera mis à jour dès que fetchTerms alimentera le cache)
             {_id_endp: id, term_fr: id, term_la: id, topic: ""}
         );
 
-        // Remplace uniquement si différent pour éviter un watch inutile
         if (!arraysEqualAsSets(next.map(t => t._id_endp), this.selectedIds)) {
           this.selectedTerms = next;
         }
       },
     },
-
-    // Rafraîchir la liste dispo quand le store change
     "filterList.place_ids"(n, o) {
       if (JSON.stringify(n) !== JSON.stringify(o)) this.fetchTerms();
     },
     "filterList.person_term_ids"(n, o) {
       if (JSON.stringify(n) !== JSON.stringify(o)) this.fetchTerms();
     },
-
     reset(val) {
       if (val) {
         this.selectedTerms = [];
@@ -160,16 +151,12 @@ export default {
   methods: {
     onFocus() {
       this.showDropdown = true;
-      // Pas de requête ici : `terms` est déjà peuplé au mounted / via les watchers.
-      // Si tu veux sécuriser : si jamais vide, relance un fetch.
       if (!this.terms.length) this.fetchTerms();
     },
     onBlur() {
-      // petit délai pour permettre le click sur un item
       setTimeout(() => (this.showDropdown = false), 120);
     },
     onInput() {
-      // ouvrir si l’utilisateur commence à taper
       if (!this.showDropdown) this.showDropdown = true;
       this.filterTerms();
     },
@@ -198,15 +185,13 @@ export default {
           page += 1;
         } while (page <= pages);
 
-        // met à jour le cache
+        // update cache
         all.forEach((t) => (this.termCache[t._id_endp] = t));
 
-        // remplace d’éventuels placeholders dans selectedTerms par les objets complets (sans émettre)
         this.selectedTerms = this.selectedTerms.map(
             (t) => this.termCache[t._id_endp] || t
         );
 
-        // la liste dispo ne contient pas ce qui est déjà sélectionné
         const selected = new Set(this.selectedIds);
         this.terms = all.filter((t) => !selected.has(t._id_endp));
 
@@ -245,14 +230,11 @@ export default {
         this.termCache[term._id_endp] = term;
         await nextTick();
         this.selectedTerms = [...this.selectedTerms, term];
-        this.emitSelection(); // action utilisateur
+        this.emitSelection();
       }
 
-      // nettoyer l’UI et FERMER
       this.searchQuery = "";
       this.showDropdown = false;
-
-      // enlever le curseur / focus dans l’input
       this.$refs.searchInput?.blur();
     },
 
@@ -260,7 +242,7 @@ export default {
       const next = this.selectedTerms.filter((t) => t._id_endp !== term._id_endp);
       if (!arraysEqualAsSets(next.map(t => t._id_endp), this.selectedIds)) {
         this.selectedTerms = next;
-        this.emitSelection(); // <-- idem : action utilisateur
+        this.emitSelection();
       }
     },
     async clearAll() {

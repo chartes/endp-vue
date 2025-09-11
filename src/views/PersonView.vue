@@ -163,7 +163,6 @@ export default {
   watch: {
     onlyCanons() {
       this.actualPage = 1;
-      console.log("on est la :", this.onlyCanons);
       this.handleDefaultSearch();
     },
   },
