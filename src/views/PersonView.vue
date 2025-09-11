@@ -22,7 +22,7 @@
             class="places-facets"
             title="Lieux"
             filterType="places"
-            apiUrl="https://endp.chartes.psl.eu/endp-person/api/persons/thesauri/terms?thesaurus_type=places"
+            :apiUrl="selectThesaurusRightUrl('places')"
             @update:selectedTerms="handleSelectedTerms"
             :reset="resetFiltersSignal"
             :initialSelectedIds="filterList.place_ids"
@@ -31,7 +31,7 @@
             class="persons-terms-facets"
             title="Termes"
             filterType="persons_terms"
-            apiUrl="https://endp.chartes.psl.eu/endp-person/api/persons/thesauri/terms?thesaurus_type=persons_terms"
+            :apiUrl="selectThesaurusRightUrl('persons_terms')"
             @update:selectedTerms="handleSelectedTerms"
             :reset="resetFiltersSignal"
             :initialSelectedIds="filterList.person_term_ids"
@@ -175,6 +175,13 @@ export default {
           "updateFilters",
           "updateResults"]
     ),
+    selectThesaurusRightUrl (type_thesaurus) {
+      if (type_thesaurus === "places") {
+        return `${this.personDbApi}/persons/thesauri/terms?thesaurus_type=places`
+      } else {
+        return `${this.personDbApi}/persons/thesauri/terms?thesaurus_type=persons_terms`
+      }
+    },
     spaceAroundCommas,
     handleSelectedTerms({type, terms}) {
       const newFilterList = {...this.filterList};

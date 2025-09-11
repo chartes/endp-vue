@@ -6,27 +6,30 @@
     title === 'Termes' ? 'search-header-terms' : 'search-header-places'
   ]"
     >
-  {{ title }}
+  {{ title }} <span class="counter-terms">({{ this.terms.length }})</span>
       <a class="index-link"
-        :href="[
+         :href="[
           title === 'Termes'
             ? `${this.personDbAdminShow}/admin/thesaurusterm/`
             : `${this.personDbAdminShow}/admin/placesterm/`
         ]"
-        target="_blank"
+         target="_blank"
       >index</a>
 </span>
     <div class="search-bar">
       <input
+          ref="searchInput"
           type="text"
           v-model="searchQuery"
           :placeholder="title === 'Termes' ? 'Gardien' : 'Chapelle de saint Eutrope'"
-          @focus="showDropdown = true"
-          @input="filterTerms"
+          @focus="onFocus"
+          @blur="onBlur"
+          @input="onInput"
           class="input"
       />
-      <ul v-if="searchQuery !== ''" class="autocomplete-list">
-        <template v-for="(terms, topic) in filteredTermsGrouped" :key="topic">
+
+      <ul v-if="showDropdown" class="autocomplete-list">
+        <template v-for="(terms, topic) in displayedTermsGrouped" :key="topic">
           <li class="topic-header">{{ topic }}</li>
           <li
               v-for="term in terms"
@@ -42,7 +45,7 @@
     <div class="selected-terms" v-if="selectedTerms.length > 0">
       <span class="active-tags">
         <span class="active-tags-labels">filtres actifs</span>
-        <button @click="selectedTerms = []" class="active-tags-delete-btn">✖</button>
+        <button @click="clearAll" class="active-tags-delete-btn">✖</button>
       </span>
       <div class="tags">
         <div v-for="term in selectedTerms" :key="term._id_endp" class="tag">
@@ -51,37 +54,34 @@
         </div>
       </div>
     </div>
-    <p v-if="isLoading">Chargement des données...</p>
+    <p v-if="isLoading"></p>
   </div>
 </template>
 
 <script>
 import {mapState} from "vuex";
+import {nextTick} from "vue";
+
+const arraysEqualAsSets = (a, b) => {
+  if (!Array.isArray(a) || !Array.isArray(b)) return false;
+  if (a.length !== b.length) return false;
+  const A = new Set(a), B = new Set(b);
+  for (const v of A) if (!B.has(v)) return false;
+  return true;
+};
 
 export default {
   name: "FacetFilter",
   props: {
-    title: {
-      type: String,
-      default: "Facette",
-    },
-    apiUrl: {
-      type: String,
-      required: true,
-    },
+    title: {type: String, default: "Facette"},
+    apiUrl: {type: String, required: true},
     filterType: {
       type: String,
       required: true,
-      validator: (value) => ['places', 'persons_terms'].includes(value),
+      validator: (v) => ["places", "persons_terms"].includes(v),
     },
-    reset: {
-      type: Boolean,
-      default: false,
-    },
-    initialSelectedIds: {
-      type: Array,
-      default: () => [],
-    }
+    reset: {type: Boolean, default: false},
+    initialSelectedIds: {type: Array, default: () => []},
   },
   data() {
     return {
@@ -91,93 +91,189 @@ export default {
       selectedTerms: [],
       isLoading: false,
       showDropdown: false,
+      termCache: {}, // {_id_endp: termObj}
+      maxPreviewPerGroup: Infinity,
+
     };
   },
   computed: {
-    ...mapState(["personDbAdminShow"])
+    ...mapState(["personDbAdminShow"]),
+    ...mapState("personSearch", ["filterList"]),
+    selectedIds() {
+      return this.selectedTerms.map((t) => t._id_endp);
+    },
+    displayedTermsGrouped() {
+      // Si l'utilisateur tape, on affiche la version filtrée existante
+      if (this.searchQuery.trim()) return this.filteredTermsGrouped;
+
+      // Sinon, on construit un APERÇU à partir de `this.terms` (déjà en cache)
+      const grouped = {};
+      for (const t of this.terms) {
+        const topic = t.topic || "Autre";
+        (grouped[topic] ||= []);
+        // limiter le nombre par topic pour l’aperçu
+        if (grouped[topic].length < this.maxPreviewPerGroup) {
+          grouped[topic].push(t);
+        }
+      }
+      return grouped;
+    },
   },
   watch: {
-    selectedTerms: {
-      handler(newValue) {
-        this.$emit("update:selectedTerms", {
-          type: this.filterType,
-          terms: newValue.map(t => t._id_endp),
-        });
+    // Sync depuis le parent vers l'enfant, sans émettre, et seulement si ça change.
+    initialSelectedIds: {
+      immediate: true,
+      handler(newIds) {
+        if (arraysEqualAsSets(newIds, this.selectedIds)) return;
+
+        const next = newIds.map((id) =>
+            this.termCache[id] ||
+            this.selectedTerms.find((t) => t._id_endp === id) ||
+            this.terms.find((t) => t._id_endp === id) ||
+            // placeholder (le label sera mis à jour dès que fetchTerms alimentera le cache)
+            {_id_endp: id, term_fr: id, term_la: id, topic: ""}
+        );
+
+        // Remplace uniquement si différent pour éviter un watch inutile
+        if (!arraysEqualAsSets(next.map(t => t._id_endp), this.selectedIds)) {
+          this.selectedTerms = next;
+        }
       },
-      deep: true,
     },
-    reset(newVal) {
-      if (newVal) {
+
+    // Rafraîchir la liste dispo quand le store change
+    "filterList.place_ids"(n, o) {
+      if (JSON.stringify(n) !== JSON.stringify(o)) this.fetchTerms();
+    },
+    "filterList.person_term_ids"(n, o) {
+      if (JSON.stringify(n) !== JSON.stringify(o)) this.fetchTerms();
+    },
+
+    reset(val) {
+      if (val) {
         this.selectedTerms = [];
+        this.emitSelection(); // informer le parent du reset utilisateur
+
       }
-    }
+    },
   },
   methods: {
+    onFocus() {
+      this.showDropdown = true;
+      // Pas de requête ici : `terms` est déjà peuplé au mounted / via les watchers.
+      // Si tu veux sécuriser : si jamais vide, relance un fetch.
+      if (!this.terms.length) this.fetchTerms();
+    },
+    onBlur() {
+      // petit délai pour permettre le click sur un item
+      setTimeout(() => (this.showDropdown = false), 120);
+    },
+    onInput() {
+      // ouvrir si l’utilisateur commence à taper
+      if (!this.showDropdown) this.showDropdown = true;
+      this.filterTerms();
+    },
+    emitSelection() {
+      this.$emit("update:selectedTerms", {
+        type: this.filterType,
+        terms: this.selectedIds,
+      });
+    },
+
     async fetchTerms() {
       try {
         this.isLoading = true;
-        const allTerms = [];
-        let currentPage = 1;
-        let totalPages = 1;
+        const all = [];
+        let page = 1, pages = 1;
 
         do {
-          const response = await fetch(`${this.apiUrl}&page=${currentPage}&size=100`);
-          const data = await response.json();
-          allTerms.push(...data.items);
-          totalPages = data.pages;
-          currentPage += 1;
-        } while (currentPage <= totalPages);
+          const p = new URLSearchParams({size: 100, page});
+          this.filterList.place_ids.forEach((id) => p.append("place_endp_ids", id));
+          this.filterList.person_term_ids.forEach((id) => p.append("person_term_endp_ids", id));
 
-        this.terms = allTerms;
-        this.groupTerms();
+          const res = await fetch(`${this.apiUrl}&${p.toString()}`);
+          const data = await res.json();
+          all.push(...data.items);
+          pages = data.pages;
+          page += 1;
+        } while (page <= pages);
 
-        this.selectedTerms = this.terms.filter(term =>
-            this.initialSelectedIds.includes(term._id_endp)
+        // met à jour le cache
+        all.forEach((t) => (this.termCache[t._id_endp] = t));
+
+        // remplace d’éventuels placeholders dans selectedTerms par les objets complets (sans émettre)
+        this.selectedTerms = this.selectedTerms.map(
+            (t) => this.termCache[t._id_endp] || t
         );
 
-        this.isLoading = false;
-      } catch (error) {
-        console.error("Erreur lors de la récupération des termes :", error);
-        this.isLoading = false;
-      }
-    },
-    groupTerms() {
-      this.filteredTermsGrouped = this.terms.reduce((acc, term) => {
-        const topic = term.topic || "Autre";
-        if (!acc[topic]) acc[topic] = [];
-        acc[topic].push(term);
-        return acc;
-      }, {});
-    },
-    filterTerms() {
-      const query = this.searchQuery.toLowerCase();
-      const filtered = this.terms.filter(
-          (term) =>
-              (term.term_fr && term.term_fr.toLowerCase().includes(query)) ||
-              (term.term_la && term.term_la.toLowerCase().includes(query))
-      );
+        // la liste dispo ne contient pas ce qui est déjà sélectionné
+        const selected = new Set(this.selectedIds);
+        this.terms = all.filter((t) => !selected.has(t._id_endp));
 
-      this.filteredTermsGrouped = filtered.reduce((acc, term) => {
-        const topic = term.topic || "Autre";
-        if (!acc[topic]) acc[topic] = [];
-        acc[topic].push(term);
+        this.groupTerms();
+      } catch (e) {
+        console.error("Erreur lors de la récupération des termes :", e);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
+    groupTerms() {
+      this.filteredTermsGrouped = this.terms.reduce((acc, t) => {
+        const topic = t.topic || "Autre";
+        (acc[topic] ||= []).push(t);
         return acc;
       }, {});
     },
-    handleTermSelection(term) {
-      this.addTerm(term);
-      this.searchQuery = "";
-      this.showDropdown = true;
+
+    filterTerms() {
+      const q = this.searchQuery.toLowerCase();
+      const filtered = this.terms.filter(
+          (t) =>
+              (t.term_fr && t.term_fr.toLowerCase().includes(q)) ||
+              (t.term_la && t.term_la.toLowerCase().includes(q))
+      );
+      this.filteredTermsGrouped = filtered.reduce((acc, t) => {
+        const topic = t.topic || "Autre";
+        (acc[topic] ||= []).push(t);
+        return acc;
+      }, {});
     },
-    addTerm(term) {
-      if (!this.selectedTerms.find((t) => t._id_endp === term._id_endp)) {
-        this.selectedTerms.push(term);
+
+    async handleTermSelection(term) {
+      if (!this.selectedIds.includes(term._id_endp)) {
+        this.termCache[term._id_endp] = term;
+        await nextTick();
+        this.selectedTerms = [...this.selectedTerms, term];
+        this.emitSelection(); // action utilisateur
+      }
+
+      // nettoyer l’UI et FERMER
+      this.searchQuery = "";
+      this.showDropdown = false;
+
+      // enlever le curseur / focus dans l’input
+      this.$refs.searchInput?.blur();
+    },
+
+    removeTerm(term) {
+      const next = this.selectedTerms.filter((t) => t._id_endp !== term._id_endp);
+      if (!arraysEqualAsSets(next.map(t => t._id_endp), this.selectedIds)) {
+        this.selectedTerms = next;
+        this.emitSelection(); // <-- idem : action utilisateur
       }
     },
-    removeTerm(term) {
-      this.selectedTerms = this.selectedTerms.filter((t) => t._id_endp !== term._id_endp);
+    async clearAll() {
+      if (!this.selectedTerms.length) return;
+      this.selectedTerms = [];
+      this.emitSelection();
+
+      // 3) -- optional
+      // await this.$nextTick();
+      // this.fetchTerms();
     },
   },
+
   mounted() {
     this.fetchTerms();
   },
@@ -385,6 +481,14 @@ input[type="text"]::placeholder {
 .index-link:hover {
   transition: 0.3s;
   color: var(--light-brown);
+
+}
+
+.counter-terms {
+  font-size: 20px;
+  color: #4D4D4D;
+  line-height: 1;
+  text-decoration: none;
 
 }
 </style>

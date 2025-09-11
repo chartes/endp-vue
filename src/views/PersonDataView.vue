@@ -116,6 +116,7 @@ export default {
       kb_urls: [],
       collecta_urls: [],
       startOpen: false,
+      formatLinkList: ["VIAF"],
       mapping_kb_icons: {
         "Wikidata": require("@/assets/icons_kb/wikidata-icon.svg.png"),
         "Biblissima": require("@/assets/icons_kb/biblissima-icon.png"),
@@ -173,12 +174,16 @@ export default {
       /^https?:\/\/viaf\.org\/(\d+)\/?$/,
       "https://viaf.org/viaf/$1"
     );
-  }
-
-      // Adjust URL scheme if missing
+    // Adjust URL scheme if missing
       if (!/^https?:\/\//i.test(clean)) {
         clean = "https://" + clean;
       }
+  }
+    if (!/^https?:\/\//i.test(clean)) {
+        clean = "http://" + clean;
+      }
+
+
 
       return clean;
     },
