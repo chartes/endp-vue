@@ -59,7 +59,15 @@
         <li>
           page ressources, mentions légales  et contacts&nbsp;: «&nbsp;Détail de la rosace ouest de la Cathédrale Notre-Dame de Paris&nbsp;», Cyril Preiss, <a href="https://www.culture.gouv.fr/Mentions-legales" target="_blank">conditions de réutilisation</a>.
         </li>
+        <li>
+          page lieu&nbsp;: «&nbsp;Détail Olivier Truschet, Germain Hoyau&nbsp;; Plan de Paris vers 1550&nbsp;», Domaine public, <a href="https://commons.wikimedia.org/wiki/File:Plan_de_Paris_vers_1550_color.jpg">Wikimedia Commons</a>.
+        </li>
       </ul>
+
+      <p>Le plan de Notre-Dame de Paris sur la page lieu :
+Huguet, Jean Charles (dit Huguet aîné), Notre Dame : plans et élévations / A, Paris, 1815, Musée Carnavalet est disponible sur le site <a href="https://www.parismuseescollections.paris.fr/fr/musee-carnavalet/oeuvres/plan-de-l-eglise-de-notre-dame-de-paris#infos-principales" target="_blank">Paris Musées</a>
+        et sous licence <a href="https://creativecommons.org/licenses/by/4.0/legalcode.fr" target="_blank">CC-0</a>.</p>
+
 
       <p>L'icône <a href="https://icon-icons.com/pack/Business-Solid---The-Capitalism-icon-set/2534" target="_blank">«&nbsp;Processing&nbsp;»</a> présente dans le schéma de la page ressources du site est partagé sous licence <a href="https://creativecommons.org/licenses/by/4.0/legalcode.fr" target="_blank">CC-BY 4.0</a>.</p>
 

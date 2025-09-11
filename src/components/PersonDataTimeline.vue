@@ -4,13 +4,18 @@
 
     <div class="timeline-legend">
       <span class="legend-item"><span class="dot neutral"></span> Cliquer pour afficher l'événement</span>
-      <!--<span class="legend-item"><span class="dot without-date"></span> Date de l'événement inconnue</span>-->
     </div>
     <button class="button btn-scroll btn-scroll-up" @mousedown="startScroll(-100)" @mouseup="stopScroll"
             :disabled="isAtTop"></button>
     <div class="timeline-scroll-container" ref="scrollContainer">
       <div class="timeline-container">
-        <div v-for="group in groupedEvents" :key="group.date" class="timeline-item" :class="{ 'dot-selected': selectedDate === group.date }">
+        <div
+            v-for="group in groupedEvents"
+            :key="group.date"
+            class="timeline-item"
+            :class="{ 'dot-selected': selectedDate === group.date }"
+            :ref="el => { if (el) timelineGroupRefs[group.date] = el }"
+        >
           <div @click="togglePopup($event, group.date)" class="timeline-dot"
                :class="{ 'without-date': group.date === 'date_inconnue' || group.date === 'Date inconnue' }"></div>
 
@@ -33,13 +38,45 @@
                     <div class="popup-description">
                   <span v-if="event.thesaurus_term_person" class="event-term"><u>{{
                       event.thesaurus_term_person.topic
-                    }} : </u>{{ spaceAroundCommas(event.thesaurus_term_person.term_fr) }} ({{ spaceAroundCommas(event.thesaurus_term_person.term_la) }})</span>
+                    }} : </u>{{
+                      spaceAroundCommas(event.thesaurus_term_person.term_fr)
+                    }} ({{ spaceAroundCommas(event.thesaurus_term_person.term_la) }})</span>
                       <br v-if="event.thesaurus_term_person">
-                      <span v-if="event.place_term" class="event-place"><u>Lieu</u> : {{
-                          event.place_term.term_fr
-                        }} ({{ event.place_term.term_la }})</span>
+                      <span v-if="event.place_term">
+  <u>Lieu</u> :&nbsp;
+  <router-link
+      class="event-place"
+      :to="{ name: 'place', params: { id: event.place_term._id_endp } }"
+  >
+    {{ event.place_term.term_fr }} ({{ event.place_term.term_la }})
+  </router-link>
+</span>
+                      <br v-if="event.place_term">
+                      <span v-if="event.comment">
+  <u>Note</u> :
+  <template v-if="!isExpanded(getEventId(event)) && isLong(event)">
+    {{ shortNote(event) }} […]
+    <button
+        class="btn-note-toggle"
+        @click.stop="toggleNote(getEventId(event))"
+        aria-label="Afficher toute la note"
+        title="Afficher toute la note"
+    >+</button>
+  </template>
+  <template v-else>
+    {{ strippedContent(event.comment) }}
+    <button
+        v-if="isLong(event)"
+        class="btn-note-toggle"
+        @click.stop="toggleNote(getEventId(event))"
+        aria-label="Masquer la suite"
+        title="Masquer la suite"
+    >−</button>
+  </template>
+</span>
                     </div>
-                    <router-link :to="`/facsimile/${formatImageIdentifiers(event.image_url)}`" target="_blank" v-if="event.image_url">
+                    <router-link :to="`/facsimile/${formatImageIdentifiers(event.image_url)}`" target="_blank"
+                                 v-if="event.image_url">
                       <span><i class="fas fa-book"></i> Aller au fac-similé</span>
                     </router-link>
                   </div>
@@ -71,10 +108,10 @@ import {spaceAroundCommas} from "@/modules/string_format";
 export default {
   name: "PersonDataTimeline",
   props: {
-    eventsResponse: {
-      required: true,
-      default: () => []
-    },
+    eventsResponse: {required: true, default: () => []},
+    initialDate: {type: String, default: null},
+    initialEventId: {type: String, default: null},
+    startOpen: {type: Boolean, default: false},
   },
   data() {
     return {
@@ -86,46 +123,13 @@ export default {
       hasNoScroll: false,
       activePopupIndex: {},
       selectedDate: null,
-      isTimelineCollapsed: true
+      isTimelineCollapsed: true,
+      timelineGroupRefs: {},
+      expandedNotes: {},
     };
   },
   computed: {
     ...mapState(['months', 'mappingSha1VolumesJSON']),
-    /*groupedEvents() {
-      //console.log('this.eventsResponse',this.eventsResponse);
-      const normalizeDate = (date) => {
-        return date.length === 4 ? `${date}-01-01` : date; // Normalisation des dates
-      };
-
-      let eventsWithDate = Object.values(this.eventsResponse)
-          .filter(e => e.date)
-          .map(e => ({...e, normalizedDate: normalizeDate(e.date)}))
-          .sort((a, b) => new Date(a.normalizedDate) - new Date(b.normalizedDate));
-
-      const eventsWithoutDate = Object.values(this.eventsResponse).filter(e => !e.date);
-
-      // Transformation en tableau pour garder l'ordre
-      const groupedArray = [];
-      eventsWithDate.forEach(event => {
-        const found = groupedArray.find(item => item.date === event.date);
-        if (!found) {
-          groupedArray.push({
-            date: event.date, // Clé pour l'affichage
-            events: [event]
-          });
-        } else {
-          found.events.push(event);
-        }
-      });
-
-      if (eventsWithoutDate.length > 0) {
-        groupedArray.push({date: 'Date inconnue', events: eventsWithoutDate});
-      }
-
-      //console.log('groupedArray',groupedArray);
-
-      return groupedArray;
-    },*/
     groupedEvents() {
       // Parse une date et retourne un objet avec année, mois, jour et un poids pour le tri.
       const parseDate = (date) => {
@@ -173,12 +177,67 @@ export default {
   mounted() {
     this.initScroll();
     document.body.addEventListener("click", this._deselectDate);
+    // Si on n’a aucun deep-link, ne tente pas d’ouvrir automatiquement
+    if (!this.startOpen && !this.initialDate && !this.initialEventId) {
+      return;
+    }
+    // --- Deep link vers une date/événement précis ---
+    if (this.startOpen || this.initialDate || this.initialEventId) {
+      this.isTimelineCollapsed = false;
+
+      // 1) Sélectionne le groupe de date
+      const dateKey = this.initialDate || (this.groupedEvents[0] && this.groupedEvents[0].date);
+      if (dateKey) {
+        this.clicked = dateKey;
+        this.selectedDate = dateKey;
+
+        // 2) Trouve l’index de l’événement dans ce groupe
+        const group = this.groupedEvents.find(g => g.date === dateKey);
+        if (group) {
+          let idx = 0;
+          if (this.initialEventId) {
+            idx = group.events.findIndex(ev =>
+                ev._id_endp === this.initialEventId || ev.id_endp === this.initialEventId
+            );
+            if (idx < 0) idx = 0; // fallback
+          }
+          this.activePopupIndex = {...this.activePopupIndex, [dateKey]: idx};
+        }
+
+        // 3) Scroll visuel vers le groupe et ajustements
+        this.$nextTick(() => {
+          const el = this.timelineGroupRefs[dateKey];
+          if (el && this.$refs.scrollContainer) {
+            // centre le groupe dans la zone scrollable
+            el.scrollIntoView({block: 'center', behavior: 'smooth'});
+          }
+          this.initScroll();
+          this.scrollIfPopUpOverflow();
+          this.handleScroll();
+        });
+      }
+    }
   },
   unmounted() {
     document.body.removeEventListener("click", this._deselectDate);
   },
   methods: {
     spaceAroundCommas,
+    strippedContent(content) {
+      return content.replace(/<[^>]+>/g, '');
+    },
+    // --- Helpers de synchro store ---
+    updateNavFocus(date, eventId) {
+      // Pas d’écriture si rien n’est ouvert
+      if (!date || !eventId) return;
+      this.$store.commit('nav/setFocus', {
+        focusDate: date,
+        focusEventId: eventId,
+      });
+    },
+    clearNavFocus() {
+      this.$store.commit('nav/clearFocus');
+    },
     /**
      * Navigate in the timeline's popup like a carousel
      * @param group
@@ -198,6 +257,11 @@ export default {
       }
       this.activePopupIndex[group.date] = newIndex;
       this.activePopupIndex = {...this.activePopupIndex};
+
+      // maj du store avec l'événement actuellement affiché
+      const ev = group.events[newIndex];
+      const eventId = ev?._id_endp || ev?.id_endp || null;
+      if (eventId) this.updateNavFocus(group.date, eventId);
 
       this.$nextTick(() => {
         this.initScroll();
@@ -234,7 +298,7 @@ export default {
     initScroll() {
       this.hasNoScroll = Math.abs(this.$refs.scrollContainer.scrollHeight - this.$refs.scrollContainer.clientHeight) < 1;
 
-      if (! this.hasNoScroll) this.$refs.scrollContainer.addEventListener('scroll', this.handleScroll)
+      if (!this.hasNoScroll) this.$refs.scrollContainer.addEventListener('scroll', this.handleScroll)
       else this.$refs.scrollContainer.removeEventListener('scroll', this.handleScroll)
 
       // this.$refs.scrollContainer.addEventListener('wheel', this.handleWheel, {passive: false});
@@ -255,13 +319,21 @@ export default {
      * Scroll if the popup is partially hidden at bottom
      */
     scrollIfPopUpOverflow() {
-      if (this.$refs.timelinePopup.length) {
-        const timelinePopupRect = this.$refs.timelinePopup[0].getBoundingClientRect()
-        const scrollContainerRect = this.$refs.scrollContainer.getBoundingClientRect();
-        const overflow = timelinePopupRect.bottom - scrollContainerRect.bottom;
-        if (overflow > 0) {
-          this.scroll(overflow + 100, 'instant');
-        }
+      // Récupère le ref, qu'il soit unique, array, ou absent
+      let popupRef = this.$refs.timelinePopup;
+      const popupEl = Array.isArray(popupRef) ? popupRef[0] : popupRef;
+
+      const container = this.$refs.scrollContainer;
+
+      // Si l'un des éléments n'est pas prêt, on sort proprement
+      if (!popupEl || !container) return;
+
+      const timelinePopupRect = popupEl.getBoundingClientRect();
+      const scrollContainerRect = container.getBoundingClientRect();
+      const overflow = timelinePopupRect.bottom - scrollContainerRect.bottom;
+
+      if (overflow > 0) {
+        this.scroll(overflow + 100, 'instant');
       }
     }
     ,
@@ -340,10 +412,18 @@ export default {
       if (this.clicked === date) {
         this.clicked = null; // Ferme le groupe si déjà ouvert
         this.selectedDate = null; // Désélectionne le dot
+        this.clearNavFocus(); // vider le focus (store)
       } else {
         this.clicked = date;
         this.selectedDate = date; // Sélectionne le nouveau dot
         this.activePopupIndex[date] = this.activePopupIndex[date] || 0;
+        // maj store avec l'événement actuellement visible
+        const group = this.groupedEvents.find(g => g.date === date);
+        const idx = this.activePopupIndex[date] || 0;
+        const ev = group?.events?.[idx];
+        const eventId = ev?._id_endp || ev?.id_endp || null;
+        if (date && eventId) this.updateNavFocus(date, eventId);
+        if (eventId) this.updateNavFocus(date, eventId);
       }
 
       this.$nextTick(() => {
@@ -360,7 +440,7 @@ export default {
      * @private
      */
     _collapseTimeline() {
-      this.isTimelineCollapsed = ! this.isTimelineCollapsed;
+      this.isTimelineCollapsed = !this.isTimelineCollapsed;
     },
 
     /**
@@ -371,10 +451,62 @@ export default {
     _deselectDate($event) {
       if (!$event.target.closest('.popup-group')) {
         this.selectedDate = null;
-        this.clicked = null
+        this.clicked = null;
+        this.clearNavFocus();
       }
     },
 
+    /**
+     * Get a unique identifier for the event
+     * @param ev
+     * @returns {string}
+     */
+    getEventId(ev) {
+      return ev?._id_endp || ev?.id_endp || `${ev?.type || 'evt'}-${ev?.date || 'na'}`;
+    },
+
+    /**
+     * Check if the note is long (more than 100 characters)
+     * @param ev
+     * @returns {boolean}
+     */
+    isLong(ev) {
+      const txt = this.strippedContent(ev?.comment || '');
+      return txt.length > 100;
+    },
+
+    /**
+     * Get a short version of the note (first 100 characters)
+     * @param ev
+     * @returns {string}
+     */
+    shortNote(ev) {
+      const txt = this.strippedContent(ev?.comment || '');
+      return txt.slice(0, 100);
+    },
+
+    /**
+     * Check if the note is expanded
+     * @param eventId
+     * @returns {boolean}
+     */
+    isExpanded(eventId) {
+      return !!this.expandedNotes[eventId];
+    },
+
+    /**
+     * Toggle the expanded state of a note
+     * @param eventId
+     */
+    toggleNote(eventId) {
+      this.expandedNotes = {
+        ...this.expandedNotes,
+        [eventId]: !this.expandedNotes[eventId]
+      };
+      this.$nextTick(() => {
+        this.scrollIfPopUpOverflow();
+      });
+    },
   }
 }
 ;
@@ -460,13 +592,14 @@ export default {
 
 .timeline-scroll-container {
   min-height: 86px;
-  max-height: min( 50rem, calc(100vh - 200px));
+  max-height: min(50rem, calc(100vh - 200px));
   overflow-y: auto;
   border-top: 1px solid #A7A7A7;
   border-bottom: 1px solid #A7A7A7;
 
   scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* IE 10+
+  -ms-overflow-style: none;
+  /* IE 10+
 }
 
 .timeline-scroll-container::-webkit-scrollbar {
@@ -545,7 +678,7 @@ export default {
 
 .timeline-popup {
   width: 100%;
-  background: rgba(255,255,255, 0.95);
+  background: rgba(255, 255, 255, 0.95);
   padding: 20px 20px 60px;
   box-shadow: 0px 0px 12px 0 #00000033;
   border-radius: 10px;
@@ -724,4 +857,24 @@ export default {
   }
 }
 
+.btn-note-toggle {
+  display: inline;
+  border: none;
+  background: transparent;
+  font-size: 1em;
+  line-height: 1;
+  cursor: pointer;
+  margin-left: 4px;
+  padding: 0 2px;
+  color: #A53605;
+}
+
+.btn-note-toggle:hover {
+  color: #BB062D;
+}
+
+.btn-note-toggle:hover {
+  transform: scale(1.1);
+  transition: transform 0.1s ease;
+}
 </style>

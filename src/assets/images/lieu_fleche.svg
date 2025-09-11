@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="27.2259259px" height="23.3735786px" viewBox="0 0 27.2259259 23.3735786" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>lieu_fleche</title>
+    <g id="*2025-LIEUX" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Lieux-Liste" transform="translate(-1506.925499, -624.851672)" stroke="#D74A52" stroke-width="1.3">
+            <g id="lieu_fleche" transform="translate(1507.076923, 625.000000)">
+                <line x1="25.4273504" y1="11.5384615" x2="0.498575499" y2="11.5384615" id="Line" stroke-linecap="square" transform="translate(12.962963, 11.538462) scale(-1, 1) translate(-12.962963, -11.538462) "></line>
+                <line x1="15.4558405" y1="11.5384615" x2="26.4245014" y2="0.501672241" id="Line-2" stroke-linecap="round" transform="translate(20.940171, 6.020067) scale(-1, 1) translate(-20.940171, -6.020067) "></line>
+                <line x1="15.4558405" y1="22.5752508" x2="26.4245014" y2="11.5384615" id="Line-2" stroke-linecap="round" transform="translate(20.940171, 17.056856) scale(-1, -1) translate(-20.940171, -17.056856) "></line>
+            </g>
+        </g>
+    </g>
+</svg>

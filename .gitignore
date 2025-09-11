@@ -5,6 +5,7 @@ node_modules
 
 # conf nginx
 endp
+componentToKeep
 
 deploiment-process.md
 

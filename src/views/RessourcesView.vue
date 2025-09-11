@@ -81,7 +81,10 @@
         <a href="https://zenodo.org/records/7575693" target="_blank">https://zenodo.org/records/7575693</a></p>
 
       <div class="citation-block">
-        <p>Bretthauer, Isabelle ; Brochard, Pierre ; Canteaut, Olivier ; Claustre, Julie ; Cottereau-Gabillet, Émilie ; Delivré, Fabrice ; Denglos, Mathilde ; Jolivet, Vincent ; Julerot, Véronique ; Kouamé, Thierry ; Lusset, Élisabeth ; Massoni, Anne ; Nadiras, Sébastien ; Perreaux, Nicolas ; Regazzi, Hugo ; Smith, Darwin ; Torres Aguilar, Sergio ; Treglia, Mathilde. <i>The e-ndp project : collaborative digital edition of the chapter registers of notre-dame of paris (1326-1504). ground-truth for handwriting text recognition (HTR) on late medieval manuscripts</i>, Zenodo, 2&nbsp;février 2023 -
+        <p>Claustre, Julie ; Smith, Darwin ; Torres Aguilar, Sergio ; Bretthauer, Isabelle ; Brochard, Pierre ; Canteaut, Olivier ; Cottereau, Emilie;
+          Delivré, Fabrice ; Denglos, Mathilde ; Jolivet, Vincent ; Julerot, Véronique ;
+          Kouamé, Thierry ; Lusset, Elisabeth ; Massoni, Anne ; Nadiras, Sebastien ; Perreaux, Nicolas ;
+          Regazzi, Hugo ; Treglia, Mathilde. <i>The e-ndp project : collaborative digital edition of the chapter registers of notre-dame of paris (1326-1504). ground-truth for handwriting text recognition (HTR) on late medieval manuscripts</i>, Zenodo, 2&nbsp;février 2023 -
           <a href="https://doi.org/10.5281/zenodo.7575693" target="_blank">https://doi.org/10.5281/zenodo.7575693</a>.</p>
       </div>
 
@@ -142,7 +145,23 @@
         <a href="https://iiif.chartes.psl.eu/endp/collection/top" target="_blank">https://iiif.chartes.psl.eu/endp/collection/top</a></p>
 
       <br>
-      <h2 class="subtitle">La base des personnes</h2>
+      <h2 class="subtitle">L'application e-NDP</h2>
+
+      <h3>Présentation</h3>
+
+      <div class="citation-block">
+        <p>Jolivet, Vincent ; Terriel, Lucas. A "Cathedral of Digital Data". An application for the Medieval Registers of Notre-Dame,
+          Digital Humanities 2025: Accessibility & Citizenship, ADHO; NOVA FCSH University, Lisbonne, Portugal, juillet
+          2025 -
+          <a href="https://hal.science/hal-05174330v1" target="_blank">https://hal.science/hal-05174330v1</a>.</p>
+      </div>
+
+      <div class="citation-block">
+        <p>Jolivet, Vincent ; Terriel, Lucas ; Canteau, Olivier. From Manuscript to Data: An Integrated Pipeline for Handwriting Recognition, Editing, and Indexing, <i>Journal of Data Mining & Digital Humanities</i>, 2025 [In press] -
+          <a href="https://hal.science/hal-05117289v1" target="_blank">https://hal.science/hal-05117289v1</a>.</p>
+      </div>
+
+      <h3>La base des personnes</h3>
 
       <p>☞&nbsp;<a href="https://endp.chartes.psl.eu/persons" target="_blank">https://endp.chartes.psl.eu/persons</a></p>
 
@@ -151,7 +170,7 @@
         retracer leur parcours. Chaque mention d’un événement est autant que possible liée à son attestation dans le
         fac-similé.</p>
 
-      <p>Ce travail collaboratif au long cours, initié par Darwin Smith est partagé. Toutes les informations sont accessibles par le biais d'une <a href="https://endp.chartes.psl.eu/endp-person/api/docs" target="_blank">API ouverte</a> documentée.</p>
+      <p>Ce travail collaboratif au long cours, initié par Darwin Smith, est toujours en construction. Toutes les informations sont accessibles par le biais d'une <a href="https://endp.chartes.psl.eu/endp-person/api/docs" target="_blank">API ouverte</a> documentée.</p>
 
       <br>
       <h2 class="subtitle">Autres ressources</h2>

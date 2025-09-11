@@ -31,6 +31,10 @@
           <b>Nom(s) - Cognomen :</b>
           {{ meta_person['surname_alt_labels'] }}
         </p>
+        <h4 class="section-subtitle">Date de décès</h4>
+        <p>
+          {{ meta_person['death_date'] ? formatDate(meta_person['death_date']) : "Non renseigné" }}
+        </p>
         <h4 class="section-subtitle">Mentions dans les registres</h4>
         <p>
           <b>Première mention :</b>
@@ -57,7 +61,9 @@
             <ul>
               <li v-for="link in kb_urls" :key="link">
                 <span><img class="logo__kb_icon" :src="mapping_kb_icons[link['type']]"></span>
-                <a :href="formatlinks(link['url'])" alt="{{link['type']}}" target="_blank">{{ formatlinks(link['url']) }}</a>
+                <a :href="formatlinks(link['url'])" alt="{{link['type']}}" target="_blank">{{
+                    formatlinks(link['url'])
+                  }}</a>
               </li>
             </ul>
           </div>
@@ -71,7 +77,14 @@
     <!-- Person events timeline -->
     <div class="column timeline-wrapper" v-if="!isEventsEmpty">
       <h3 class="section-title">Parcours</h3>
-      <PersonDataTimeline :events-response="event_relations['events']"/>
+      <!--<PersonDataTimeline :events-response="event_relations['events']"/>-->
+      <PersonDataTimeline
+          :events-response="event_relations['events']"
+          :initial-date="initialDate"
+          :initial-event-id="initialEventId"
+          :start-open="startOpen"
+          :key="reference_id + '-' + (initialDate || 'no-focus')"
+      />
     </div>
     <!-- end Person events timeline -->
 
@@ -83,7 +96,7 @@
 <script>
 import axios from 'axios';
 import {mapState} from "vuex";
-import {spaceAroundCommas} from "@/modules/string_format";
+import {spaceAroundCommas, formatDate} from "@/modules/string_format";
 
 import PersonDataTimeline from "@/components/PersonDataTimeline.vue";
 import PersonDataCarousel from "@/components/PersonDataCarousel.vue";
@@ -102,6 +115,8 @@ export default {
       event_relations: {},
       kb_urls: [],
       collecta_urls: [],
+      startOpen: false,
+      formatLinkList: ["VIAF"],
       mapping_kb_icons: {
         "Wikidata": require("@/assets/icons_kb/wikidata-icon.svg.png"),
         "Biblissima": require("@/assets/icons_kb/biblissima-icon.png"),
@@ -114,7 +129,6 @@ export default {
   },
   computed: {
     ...mapState(["personDbApi", "personDbAdminShow"]),
-
     isFamilyEmpty() {
       return !this.family_relations.relatives || this.family_relations.relatives.length === 0;
     },
@@ -128,19 +142,50 @@ export default {
   watch: {
     '$route.params.id': function (newId) {
       this.reference_id = newId;
+
+      // Si on arrive *depuis Lieux*, on récupère et on consomme le focus du store
+      const focus = this.$store.state.nav?.focus;
+      if (focus) {
+        this.initialDate = focus.focusDate || null;
+        this.initialEventId = focus.focusEventId || null;
+        this.startOpen = Boolean(this.initialDate || this.initialEventId);
+        this.$store.commit('nav/clearFocus');
+      }
       this.fetchPersonData();
       window.scrollTo(0, 0);
     }
   },
   methods: {
-    formatDate(date) {
-      if (!date) return 'Date non renseignée';
-      const [year, monthCode, day] = date.split('-');
-      const month = this.$store.state.months.find(m => m.iso_code === monthCode)?.name || '';
-      return `${day ? `${day} ` : ''}${month} ${year}`;
-    },
+    formatDate,
     formatlinks(link) {
-      return !link.startsWith('http') ? `https://${link}` : link;
+      if (!link) return "";
+
+      let clean = link.trim();
+
+      // Viaf rule
+    if (/^https?:\/\/viaf\.org\/fr\/(\d+)/.test(clean)) {
+    clean = clean.replace(
+      /^https?:\/\/viaf\.org\/fr\/(\d+)/,
+      "https://viaf.org/viaf/$1"
+    );
+  }
+    else if (/^https?:\/\/viaf\.org\/(\d+)\/?$/.test(clean)) {
+    clean = clean.replace(
+      /^https?:\/\/viaf\.org\/(\d+)\/?$/,
+      "https://viaf.org/viaf/$1"
+    );
+    // Adjust URL scheme if missing
+      if (!/^https?:\/\//i.test(clean)) {
+        clean = "https://" + clean;
+      }
+  }
+    if (!/^https?:\/\//i.test(clean)) {
+        clean = "http://" + clean;
+      }
+
+
+
+      return clean;
     },
     async fetchPersonData() {
       try {
@@ -165,6 +210,17 @@ export default {
     },
   },
   created() {
+    //this.fetchPersonData();
+    // 1) lire le focus depuis le store
+    const focus = this.$store.state.nav?.focus;
+    if (focus) {
+      this.initialDate = focus.focusDate || null;
+      this.initialEventId = focus.focusEventId || null;
+      this.startOpen = Boolean(this.initialDate || this.initialEventId);
+      // 2) nettoyer pour éviter un "replay" sur refresh/navigation
+      this.$store.commit('nav/clearFocus');
+    }
+    // 3) charger les données
     this.fetchPersonData();
   },
 }
@@ -228,7 +284,7 @@ export default {
   display: block;
   width: 46px;
   height: 8px;
-  margin: 16px 0;
+  margin: 10px 0 16px;
   border-top: solid var(--light-brown-alt) 8px;
 }
 

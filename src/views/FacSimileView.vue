@@ -9,13 +9,16 @@
 
   <!-- Mobile Title section -->
   <div class="mobile-header header">
-    <p class="facsimile-title" v-if="canvasId === 'top'">Collection des fac-similés de registres de conclusions capitulaires</p>
-    <p class="facsimile-title" v-if="canvasId !== 'top'">Fac-similé du registre de conclusions capitulaires {{ endpVolume }} de
-      Notre-Dame de Paris <span v-if="registerPageDate">- <span class="date-title">{{ registerPageDate }}</span></span></p>
+    <p class="facsimile-title" v-if="canvasId === 'top'">Collection des fac-similés de registres de conclusions
+      capitulaires</p>
+    <p class="facsimile-title" v-if="canvasId !== 'top'">Fac-similé du registre de conclusions capitulaires
+      {{ endpVolume }} de
+      Notre-Dame de Paris <span v-if="registerPageDate">- <span class="date-title">{{ registerPageDate }}</span></span>
+    </p>
   </div>
 
   <!-- Main grid  -->
-  <div class="columns facsimile-columns" :class="{ 'is-collapsed': isNavOpen }">
+  <div class="columns facsimile-columns" :class="{ 'is-collapsed': isNavOpen, 'is-prediction-aside': metadataCardsState.card3 }">
 
     <div class='column' v-if="isNavOpen">
       <!-- Metadata card section -->
@@ -23,18 +26,20 @@
         <div class="card-header" @click="toggleCard('card1')">
           <p class="card-header-title">
             Métadonnées
-            <button class="card-header-toggle" />
+            <button class="card-header-toggle"/>
           </p>
         </div>
         <div class="card-content" v-if="metadataCardsState.card1">
           <p>
-            <span class="card-content-label">Citer la <span v-if="registerPageDate">page du fac-similé</span><span v-if="!registerPageDate">la collection des registres</span> : </span>
+            <span class="card-content-label">Citer la <span v-if="registerPageDate">page du fac-similé</span><span
+                v-if="!registerPageDate">la collection des registres</span> : </span>
             <a :href="citationUrl">{{ citationUrl }}</a>
           </p>
           <br>
           <div class="columns nakala-metadata-wrapper is-vcentered">
             <p>
-              <span class="card-content-label">Citer <span v-if="registerPageDate">l'image</span><span v-if="!registerPageDate">la collection d'images</span> sur Nakala : </span>
+              <span class="card-content-label">Citer <span v-if="registerPageDate">l'image</span><span
+                  v-if="!registerPageDate">la collection d'images</span> sur Nakala : </span>
               <a target="_blank" :href="imageNakalaSrc">{{ imageNakalaSrc }}</a>
             </p>
           </div>
@@ -45,11 +50,12 @@
         <div class="card-header" @click="toggleCard('card2')">
           <p class="card-header-title">
             Avertissement
-            <button class="card-header-toggle" />
+            <button class="card-header-toggle"/>
           </p>
         </div>
         <div class="card-content" v-if="metadataCardsState.card2">
-          <p class="warning">Le texte du fac-similé a été généré automatiquement (HTR) et comporte des erreurs.<br> Le taux de reconnaissance moyen est de 94.1 %</p>
+          <p class="warning">Le texte du fac-similé a été généré automatiquement (HTR) et comporte des erreurs.<br> Le
+            taux de reconnaissance moyen est de 94.1 %</p>
         </div>
       </div>
       <FacSimileNavigation
@@ -61,14 +67,22 @@
     </div>
 
     <div class='column'>
-      <!-- Toggle left column button -->
-      <button @click="toggleNav" class="btn-expanded-nav"  />
+      <div class="is-flex is-justify-content-space-between is-align-items-center">
+        <!-- Toggle left column button -->
+        <button @click="toggleNav" class="btn-expanded-nav"/>
+        <!-- Toggle transcription button -->
+        <button @click="togglePredictionAside"  class="btn-toggle-prediction">Transcription</button>
+      </div>
 
       <!-- Desktop Title section -->
       <div class="header">
-        <p class="facsimile-title" v-if="canvasId === 'top'">Collection des fac-similés de registres de conclusions capitulaires</p>
-        <p class="facsimile-title" v-if="canvasId !== 'top'">Fac-similé du registre de conclusions capitulaires {{ endpVolume }} de
-          Notre-Dame de Paris <span v-if="registerPageDate">- <span class="date-title">{{ registerPageDate }}</span></span></p>
+        <p class="facsimile-title" v-if="canvasId === 'top'">Collection des fac-similés de registres de conclusions
+          capitulaires</p>
+        <p class="facsimile-title" v-if="canvasId !== 'top'">Fac-similé du registre de conclusions capitulaires
+          {{ endpVolume }} de
+          Notre-Dame de Paris <span v-if="registerPageDate">- <span class="date-title">{{
+              registerPageDate
+            }}</span></span></p>
       </div>
 
       <!-- Mirador viewer section -->
@@ -77,11 +91,11 @@
       </div>
       <!-- Raw predictions section -->
       <div class="header raw-prediction-card-parent">
-        <div class="card" v-if="endpVolume"  :class="{ 'is-opened': metadataCardsState.card3 }">
+        <div class="card" v-if="endpVolume" :class="{ 'is-opened': metadataCardsState.card3, 'is-visible': ! this.isNavOpen }">
           <div class="card-header" @click="toggleCard('card3')">
             <p class="card-header-title">
-              Accéder à la prédiction texte brut
-              <button class="card-header-toggle" />
+              Transcription automatique
+              <button class="card-header-toggle"/>
             </p>
           </div>
           <div class="card-content raw-prediction-text" v-if="metadataCardsState.card3">
@@ -91,7 +105,7 @@
               <p v-else>Impossible de copier le texte dans le presse-papiers ! Veuillez réessayer plus tard.</p>
             </div>
             <div class="header">
-              <button @click="copyToClipboard" class="button copy-button" />
+              <button @click="copyToClipboard" class="button copy-button"/>
               <p>
                 Note : L'ordre des lignes de texte peut ne pas correspondre à l'ordre des lignes du fac-similé.
               </p>
@@ -114,6 +128,7 @@ import {mapState} from 'vuex';
 
 import Mirador from 'mirador/dist/es/src/index';
 import textOverlayPlugin from 'mirador-textoverlay/es';
+import {miradorImageToolsPlugin} from 'mirador-image-tools';
 
 import FacSimileNavigation from "@/components/FacSimileNavigation.vue";
 
@@ -123,10 +138,10 @@ export default {
   data() {
     return {
       selectedNav: {
-      register: null,
-      year: null,
-      canvasID: null,
-    },
+        register: null,
+        year: null,
+        canvasID: null,
+      },
       metadataCardsState: {
         card1: false,
         card2: false,
@@ -259,7 +274,7 @@ export default {
     toggleCard(card) {
       // fetch alto only if the card is opened
       if (card === "card3" && !this.metadataCardsState[card]) {
-        this.fetchAndDisplayXML();
+          this.fetchAndDisplayXML();
       }
       this.metadataCardsState[card] = !this.metadataCardsState[card];
     },
@@ -279,11 +294,13 @@ export default {
             id: this.windowId,
             canvasIndex: this.canvasId,
             loadedManifest: this.endpVolumeManifest(),
+            imageToolsEnabled: true,
+            imageToolsOpen: false,
             document: {
               collectionDialogOn: false,
             }
           }]
-      }, [...textOverlayPlugin]);
+      }, [...textOverlayPlugin, ...miradorImageToolsPlugin]);
       this.viewer.store.subscribe(() => {
         this.storeState = this.viewer.store.getState();
 
@@ -322,10 +339,10 @@ export default {
         this.$store.commit('setCanvasId', canvasObject['canvas_index']);
         this.registerPageDate = canvasObject['date_full'];
         this.selectedNav = {
-        'register': this.endpVolume,
-        'canvas': this.canvasId,
-        'year': this.registerPageDate,
-      }
+          'register': this.endpVolume,
+          'canvas': this.canvasId,
+          'year': this.registerPageDate,
+        }
       });
     },
 
@@ -398,6 +415,23 @@ export default {
     },
 
     /**
+     * Toggle the prediction window (when nav is closed)
+     * @param event
+     */
+    togglePredictionAside(event) {
+      event.preventDefault();
+      if (this.isNavOpen) {
+        // Mirador not in full-width mode : enlarge Mirador and display prediction :
+        this.metadataCardsState.card3 = true;
+        this.fetchAndDisplayXML();
+      } else {
+        // Mirador already in full-width mode : toggle prediction right column
+        this.toggleCard("card3");
+      }
+      this.isNavOpen = false;
+    },
+
+    /**
      * Handle the mirador update
      * @param canvasID
      * @param register
@@ -423,7 +457,7 @@ export default {
     this.initMiradorViewer();
   },
   beforeUnmount() {
-      this.viewer.unmount();
+    this.viewer.unmount();
   },
 };
 
@@ -451,7 +485,7 @@ export default {
 
 .facsimile-columns > .column:last-child {
   background-color: var(--panel-bg-color);
-  padding: 0 0 var(--right-column-bottom-padding-desktop) 0;
+  padding: 0 0 80px 0;
 }
 
 .facsimile-columns > .column:last-child > div {
@@ -468,7 +502,7 @@ export default {
 }
 
 .facsimile-columns > .column:last-child > div.raw-prediction-card-parent {
-  padding: 26px 0  var(--right-column-bottom-padding-desktop);
+  padding: 26px 0 var(--right-column-bottom-padding-desktop);
 }
 
 :deep(.fac-simile__toc.has-warning > ul) {
@@ -500,6 +534,10 @@ export default {
   color: #7B0C12;
 }
 
+.facsimile-columns:not(.is-collapsed) .facsimile-title {
+  width: 60%;
+}
+
 .facsimile-title:after {
   content: "";
   display: block;
@@ -515,6 +553,15 @@ export default {
 
 .raw-prediction-card-parent > * {
   width: 100%;
+}
+
+.raw-prediction-card-parent > .card {
+  display: none;
+}
+
+.raw-prediction-card-parent > .card.is-visible.is-opened {
+  display: block;
+  border-bottom: #D6D6D6 solid 6px;
 }
 
 .card-header-title {
@@ -545,6 +592,10 @@ export default {
 .card.is-opened .card-header-toggle {
   background-size: 21px 21px;
   background-image: url('~@/assets/images/b_Close_liste.svg');
+}
+
+.card-header {
+  background-color: transparent;
 }
 
 .card-header:hover {
@@ -600,7 +651,7 @@ export default {
 }
 
 :deep(.raw-prediction-text p) {
-  font-size: 22px;
+  font-size: 18px;
   margin-bottom: 12px;
 }
 
@@ -611,14 +662,15 @@ export default {
 
 .raw-prediction-text .header button {
   position: absolute;
-  right: 27px;
-  top:27px;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 button.copy-button {
   display: inline-block;
-  width: 52px;
-  height: 52px;
+  width: 40px;
+  height: 40px;
   padding: 0;
   background: transparent url('~@/assets/images/b_Copier.svg') center / cover no-repeat;
   border: none;
@@ -654,19 +706,93 @@ tspan {
   display: inline-block;
   width: 25px;
   height: 25px;
-  margin: 26px 0 0 36px;
+  margin: 26px 0 0 20px;
   background: transparent url('~@/assets/images/b_closeW.svg') center / cover no-repeat;
   border: none;
 }
 
 .is-collapsed .btn-expanded-nav {
   background-image: url('~@/assets/images/b_openW.svg');
-  margin-left: 26px;
+  margin-left: 10px;
 }
 
 .btn-expanded-nav:hover {
   background-color: #f5f5f5;
   cursor: pointer;
+}
+
+.btn-toggle-prediction {
+  display: inline-block;
+  margin: 26px 0 0 0;
+  background: transparent;
+  border: #303030 solid 2px;
+  font-family: var(--font-secondary), sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #303030;
+  text-align: center;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.facsimile-columns:not(.is-collapsed).is-prediction-aside .btn-toggle-prediction {
+  border-color: var(--light-brown-alt);
+  color: var(--light-brown-alt);
+  /* margin-right: 20px; */
+}
+
+.facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+.facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child > * {
+  flex: 100% 0 0;
+}
+
+.facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child > .container-mirador {
+  flex: 60% 0 0;
+}
+
+.facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child > .raw-prediction-card-parent {
+  flex: 40% 0 0;
+  padding: 0 15px 0 35px !important;
+  background: var(--panel-bg-color);
+}
+
+.facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child > .raw-prediction-card-parent .card-content > div:last-child {
+  padding: 15px 0;
+  height: calc(100vh - 156px);
+  overflow-y: auto;
+}
+
+.facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child div.raw-prediction-card-parent .card .card-header {
+  padding-bottom: 36px;
+  background: var(--panel-bg-color);
+}
+
+.facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child .raw-prediction-text .header {
+  margin-bottom: 0;
+  padding: 12px 40px 12px  0;
+  border-top: #D6D6D6 solid 2px;
+  border-bottom: #D6D6D6 solid 6px;
+}
+
+.facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child .raw-prediction-text {
+  margin-bottom: 0;
+}
+
+.facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child .raw-prediction-text .header button {
+  right: 4px;
+}
+
+.facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child div.raw-prediction-card-parent .card .card-header-toggle {
+  display: none;
+}
+
+.facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child div.raw-prediction-card-parent .card-header-title {
+  padding: 0;
 }
 
 .notification {
@@ -675,7 +801,7 @@ tspan {
 }
 
 :deep(.notification p) {
-  font-family: var(--font-secondary);
+  font-family: var(--font-secondary), sans-serif;
   font-size: 20px !important;
   color: #000000;
   margin-bottom: 0;
@@ -726,7 +852,7 @@ tspan {
 }
 
 
-.raw-prediction-card-parent  {
+.raw-prediction-card-parent {
   background-color: #ffffff;
 }
 
@@ -735,11 +861,15 @@ tspan {
   background-color: #ffffff;
 }
 
-.facsimile-columns  .column:last-child  div.raw-prediction-card-parent {
+.facsimile-columns .column:last-child div.raw-prediction-card-parent {
   padding: 0 0 !important;
 }
 
 @media screen and (max-width: 1024px) {
+
+  .facsimile-title {
+    width: 100%;
+  }
 
   #banner-image::before {
     background-color: #000000CC;
@@ -748,13 +878,22 @@ tspan {
 
   .header.mobile-header {
     position: sticky;
-    top:102px;
+    top: 102px;
     z-index: 2;
 
     display: block;
     width: 100%;
     padding: 25px var(--mobile-side-padding);
     background-color: #FFF;
+  }
+
+  .btn-toggle-prediction {
+    display: none;
+  }
+
+  .is-prediction-aside .column:last-child > .container-mirador,
+  .is-prediction-aside .column:last-child > .raw-prediction-card-parent {
+    flex: 100% 0 0;
   }
 
   .facsimile-title::after {
@@ -786,13 +925,17 @@ tspan {
   }
 
   .facsimile-columns > .column:last-child {
-    padding: 0 0 var(--right-column-bottom-padding-desktop) 0;
   }
 
   .facsimile-columns > .column:last-child > div {
     padding: 30px 35px 30px 15px;
   }
 
+  .facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child {
+    display: block;
+  }
+
+  .facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child div.raw-prediction-card-parent .card-header-title,
   .card-header-title {
     padding: 20px;
     border-top: solid 1px #D0D0D0;
@@ -809,12 +952,27 @@ tspan {
     padding-bottom: 50px;
   }
 
+  .card-header-toggle {
+    display: inline-block !important;
+  }
+
+  .raw-prediction-text .header {
+    border-top: #D6D6D6 solid 2px;
+    border-bottom: #D6D6D6 solid 6px;
+  }
+
   .btn-expanded-nav {
     display: none;
   }
 
   .header.raw-prediction-card-parent {
     background: #ffffff;
+  }
+
+  .facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child > .raw-prediction-card-parent {
+    padding: 0 0 !important;
+    background: #FFF;
+    border-bottom: none;
   }
 
   .facsimile-title {
@@ -826,9 +984,38 @@ tspan {
     max-height: unset;
   }
 
+  .raw-prediction-card-parent > .card {
+    display: block !important;
+  }
+
   .raw-prediction-card-parent .card-header {
     background-color: #ffffff;
+    padding: 20px 0;
+  }
+
+  .raw-prediction-text .header,
+  .raw-prediction-card-parent .card-header p,
+  .raw-prediction-text div {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child div.raw-prediction-card-parent .card .card-header {
+    background: transparent;
+    padding-bottom: 0;
+  }
+
+  .facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child > .raw-prediction-card-parent .card-content > div:last-child {
+    height: auto;
+  }
+
+  .facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child > .raw-prediction-card-parent .card-content > div:last-child,
+  .facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child .raw-prediction-text .header {
     padding: 20px;
+  }
+
+  .facsimile-columns:not(.is-collapsed).is-prediction-aside .column:last-child .raw-prediction-text .header button {
+    right: 27px;
   }
 }
 
