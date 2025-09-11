@@ -218,7 +218,7 @@
             <path d="M 221 1484 L 221 1584" fill="none" stroke="#4c4949" stroke-width="3" stroke-miterlimit="10"
                   pointer-events="stroke"/>
           </g>
-          <a xlink:href="https://zenodo.org/records/7401833" target="_blank">
+          <a xlink:href="https://zenodo.org/records/10800223" target="_blank">
             <g style="filter: drop-shadow(rgba(0, 0, 0, 0.25) 2px 3px 2px);">
               <rect x="21" y="1324" width="400" height="160" fill-opacity="0.95" fill="rgb(255, 255, 255)" stroke="none"
                     pointer-events="all"/>
@@ -242,7 +242,7 @@
                             HTR</font></p>
                           <p style="line-height: 100%; margin-top: 0px;"><font style=""><font style="font-size: 14px;"
                                                                                               face="Barlow Semi Condensed"
-                                                                                              data-font-src="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed">https://zenodo.org/records/7401833</font><br/></font>
+                                                                                              data-font-src="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed">https://zenodo.org/records/10800223</font><br/></font>
                           </p></div>
                       </div>
                     </div>

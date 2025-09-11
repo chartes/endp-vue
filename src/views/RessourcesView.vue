@@ -145,7 +145,23 @@
         <a href="https://iiif.chartes.psl.eu/endp/collection/top" target="_blank">https://iiif.chartes.psl.eu/endp/collection/top</a></p>
 
       <br>
-      <h2 class="subtitle">La base des personnes</h2>
+      <h2 class="subtitle">L'application e-NDP</h2>
+
+      <h3>Présentation</h3>
+
+      <div class="citation-block">
+        <p>Jolivet, Vincent ; Terriel, Lucas. A "Cathedral of Digital Data". An application for the Medieval Registers of Notre-Dame,
+          Digital Humanities 2025: Accessibility & Citizenship, ADHO; NOVA FCSH University, Lisbonne, Portugal, juillet
+          2025 -
+          <a href="https://hal.science/hal-05174330v1" target="_blank">https://hal.science/hal-05174330v1</a>.</p>
+      </div>
+
+      <div class="citation-block">
+        <p>Jolivet, Vincent ; Terriel, Lucas ; Canteau, Olivier. From Manuscript to Data: An Integrated Pipeline for Handwriting Recognition, Editing, and Indexing, <i>Journal of Data Mining & Digital Humanities</i>, 2025 [In press] -
+          <a href="https://hal.science/hal-05117289v1" target="_blank">https://hal.science/hal-05117289v1</a>.</p>
+      </div>
+
+      <h3>La base des personnes</h3>
 
       <p>☞&nbsp;<a href="https://endp.chartes.psl.eu/persons" target="_blank">https://endp.chartes.psl.eu/persons</a></p>
 
@@ -154,7 +170,7 @@
         retracer leur parcours. Chaque mention d’un événement est autant que possible liée à son attestation dans le
         fac-similé.</p>
 
-      <p>Ce travail collaboratif au long cours, initié par Darwin Smith est partagé. Toutes les informations sont accessibles par le biais d'une <a href="https://endp.chartes.psl.eu/endp-person/api/docs" target="_blank">API ouverte</a> documentée.</p>
+      <p>Ce travail collaboratif au long cours, initié par Darwin Smith, est toujours en construction. Toutes les informations sont accessibles par le biais d'une <a href="https://endp.chartes.psl.eu/endp-person/api/docs" target="_blank">API ouverte</a> documentée.</p>
 
       <br>
       <h2 class="subtitle">Autres ressources</h2>

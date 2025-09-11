@@ -71,46 +71,49 @@
             </strong>
           </div>
           <div class="is-flex is-align-items-center is-justify-content-space-between" style="margin: 10px 0 16px;">
-
           </div>
-          <table class="place-events-list">
-            <thead>
-            <tr>
-              <th><span class="header-label">
-    <button class="btn-icon" @click="toggleSortOrder">
-      <i v-if="sortOrder === 'asc'" class="fas fa-arrow-up"></i>
-      <i v-else class="fas fa-arrow-down"></i>
-    </button>
-                Date
-  </span></th>
-              <th>Type</th>
-              <th>Personne</th>
-              <th>Commentaire</th>
-              <th>FacSimile</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="event in sortedEvents" v-bind:key="event.id_endp">
-              <td>{{ formatDate(event.date) }}</td>
-              <td class="place-events-type">{{ event.type }}</td>
-              <td class="place-events-person">
-                <a href
-                   class="link-person-db"
-                   @click.prevent="goToPerson(event)">
-                  {{ event.person.pref_label }}
-                </a>
-              </td>
-              <td class="place-events-comment">
-                <div v-html="event.comment"></div>
-                <button @click="toggleComment($event)">Lire la suite</button>
-              </td>
-              <td class="place-events-facsimile">
-                <a v-if="event.facsimile_url" :href="adaptUrl(event.facsimile_url)">Lien</a>
-                <span v-else>N/A</span>
-              </td>
-            </tr>
-            </tbody>
-          </table>
+          <div class="place-events-list-wrapper">
+            <table class="place-events-list">
+              <thead>
+              <tr>
+                <th>
+                <span class="header-label">
+                  <button class="btn-icon" @click="toggleSortOrder">
+                    <i v-if="sortOrder === 'asc'" class="fas fa-arrow-up"></i>
+                    <i v-else class="fas fa-arrow-down"></i>
+                  </button>
+                  Date
+                </span>
+                </th>
+                <th>Type</th>
+                <th>Personne</th>
+                <th>Commentaire</th>
+                <th>FacSimile</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr v-for="event in sortedEvents" v-bind:key="event.id_endp">
+                <td>{{ formatDate(event.date) }}</td>
+                <td class="place-events-type">{{ event.type }}</td>
+                <td class="place-events-person">
+                  <a href
+                     class="link-person-db"
+                     @click.prevent="goToPerson(event)">
+                    {{ event.person.pref_label }}
+                  </a>
+                </td>
+                <td class="place-events-comment">
+                  <div v-html="event.comment"></div>
+                  <button @click="toggleComment($event)">Lire la suite</button>
+                </td>
+                <td class="place-events-facsimile">
+                  <a v-if="event.facsimile_url" :href="adaptUrl(event.facsimile_url)">Lien</a>
+                  <span v-else>N/A</span>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -495,11 +498,46 @@ export default {
   font-weight: 400;
 }
 
+.place-events-list-wrapper {
+  max-height: 75vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #CC3E46 #EDEDED !important;
+}
+
+@supports selector(::-webkit-scrollbar) {
+
+  .place-events-list-wrapper {
+    scrollbar-width: auto;
+  }
+
+  .place-events-list-wrapper::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .place-events-list-wrapper::-webkit-scrollbar-track {
+    border-radius: 0;
+    background-color: #EDEDED;
+  }
+
+  .place-events-list-wrapper::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    background-color: #CC3E46;
+  }
+}
+
+
+
+
+table.place-events-list thead tr th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
 table.place-events-list {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 4px;
-  margin-left: -4px;
+  border-collapse: collapse;
   font-family: var(--font-secondary);
   font-size: 16px;
 }
@@ -511,6 +549,12 @@ table.place-events-list {
   color: #FFFFFF;
   text-transform: uppercase;
   text-align: center;
+}
+
+table.place-events-list thead tr th,
+.place-events-list td {
+  border: 5px solid #f7f7f7;
+  border-top: none;
 }
 
 .place-events-list td {
@@ -529,7 +573,7 @@ table.place-events-list {
 }
 
 /* Table size with map */
-.column-map + .columns table.place-events-list {
+.column-map + .columns .place-events-list-wrapper {
   margin-left: -50px;
   margin-right: -50px;
   width: calc(100% + 100px);
@@ -546,7 +590,7 @@ table.place-events-list {
   padding: 10px 60px 20px 15px;
 }
 
-.has-map .place-events-list td.place-events-comment {
+.place-events-list td.place-events-comment {
   padding-bottom: 60px;
 }
 
@@ -554,7 +598,7 @@ table.place-events-list {
   display: none;
 }
 
-.has-map .place-events-list td.place-events-comment > div {
+.place-events-list td.place-events-comment > div {
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -562,12 +606,12 @@ table.place-events-list {
   line-clamp: 2;
 }
 
-.has-map .place-events-list td.place-events-comment.is-opened > div {
+.place-events-list td.place-events-comment.is-opened > div {
   overflow: auto;
   display: block;
 }
 
-.has-map .place-events-list td.place-events-comment > button {
+.place-events-list td.place-events-comment > button {
   position: absolute;
   bottom: 10px;
   right: 10px;
@@ -580,7 +624,7 @@ table.place-events-list {
   cursor: pointer;
 }
 
-.has-map .place-events-list td.place-events-comment.is-opened > button {
+.place-events-list td.place-events-comment.is-opened > button {
   background-image: url("@/assets/images/b_Close_20x20.svg");
   filter: grayscale(100%);
 }
@@ -745,7 +789,7 @@ table.place-events-list {
     width: 100%;
   }
 
-  .column-map + .columns table.place-events-list,
+  .column-map + .columns .place-events-list-wrapper,
   .columns table.place-events-list {
     margin-left: 0;
     margin-right: 0;
@@ -773,6 +817,10 @@ table.place-events-list {
         display: flex;
         gap: 4px;
         margin-bottom: 4px;
+
+        th {
+          border: none;
+        }
 
         th:nth-child(1) {
           width: 110px;
@@ -810,6 +858,7 @@ table.place-events-list {
 
         td {
           padding-bottom: 5px;
+          border: none;
         }
 
         td:nth-child(1) {
@@ -879,6 +928,10 @@ table.place-events-list {
           gap: 4px;
           margin-bottom: 4px;
 
+          th {
+            border: none;
+          }
+
           th:nth-child(1) {
             width: 110px;
           }
@@ -915,6 +968,7 @@ table.place-events-list {
 
           td {
             padding-bottom: 5px;
+            border: none;
           }
 
           td:nth-child(1) {
