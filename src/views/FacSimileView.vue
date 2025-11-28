@@ -161,8 +161,11 @@ export default {
       //btnCollectionClicked: false,
       endpVolumeManifest() {
         return this.endpVolume === "collection" || this.canvasId === "top"
-            ? `${this.iiifEncService}collection/top`
-            : `${this.iiifEncService}${this.endpVolume}/manifest`;
+            // old server iiif chartes
+            //? `${this.iiifEncService}collection/top`
+            //: `${this.iiifEncService}${this.endpVolume}/manifest`;
+            ? `${this.iiifEncService}collection/endp_collection.json`
+            : `${this.iiifEncService}manifests/${this.endpVolume}.json`;
       },
 
     };
