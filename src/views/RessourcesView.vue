@@ -142,8 +142,8 @@
         exposées sur Nakala : collections des images, et de la couche texte (XML/ALTO) issue de l’HTR.</p>
       <p>Cette mise en relation prend la forme de <a href="https://iiif.io/api/presentation/3.0/#52-manifest" target="_blank">manifestes IIIF</a>
         disponibles en ligne, de manière à rendre possible les republications :
-        <a href="https://iiif.chartes.psl.eu/endp/collection/top" target="_blank">https://iiif.chartes.psl.eu/endp/collection/top</a></p>
-
+        <!--<a href="https://iiif.chartes.psl.eu/endp/collection/top" target="_blank">https://iiif.chartes.psl.eu/endp/collection/top</a></p>-->
+      <a href="https://endp-87e252.gitpages.huma-num.fr/collection/endp_collection.json" target="_blank">https://endp-87e252.gitpages.huma-num.fr/collection/endp_collection.json</a></p>
       <br>
       <h2 class="subtitle">L'application e-NDP</h2>
 

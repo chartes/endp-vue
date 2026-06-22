@@ -45,7 +45,7 @@
           </a>
 
           <a href="https://www.chartes.psl.eu/fr" target="_blank">
-            <img :src="require('@/assets/partners_logo/Logo_ENC_PSL.svg')" alt="Logo École nationale des chartes" class="logo logo-enc"/>
+            <img :src="require('@/assets/partners_logo/LOGO_ENDC_PSL_HORIZONTAL_GRAND_RVB_ROUGE.svg')" alt="Logo École nationale des chartes" class="logo logo-enc"/>
           </a>
 
           <a href="https://anr.fr/Projet-ANR-20-CE27-0012" target="_blank">
